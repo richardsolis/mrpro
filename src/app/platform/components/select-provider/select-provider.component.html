@@ -1,0 +1,126 @@
+<ptfm-header></ptfm-header>
+<div class="row row-start">
+  <div class="white col-md-3 min-h-window">
+    <section class="box-mh">
+      <form class="form row">
+        <div class="form-group w-100">
+          <h5 class="color-blue title-filter">Tipo de Servicio</h5>
+          <div class="select w-100">
+            <select class="w-100 color-blue" [(ngModel)]="serviceSearch.type" name="type">
+              <option value="programmed">Programado</option>
+              <option value="immediate">Inmediato</option>
+            </select>
+          </div>
+        </div>
+        <!-- <div class="form-group w-100">
+					<h5 class="color-blue">Distrito</h5>
+					<div class="select w-100">
+						<select class="w-100 color-blue" [(ngModel)]="serviceSearch.district" (change)="categoryChanged()" style="width: initial" name="district">
+							<option *ngFor="let district of districts" [value]="district.id">{{district.name}}</option>
+						</select>
+					</div>
+				</div> -->
+        <div *ngIf="serviceSearch.type == 'programmed'" class="form-group w-100">
+          <h5 class="color-blue title-filter">Fecha y hora del servicio</h5>
+          <div class="select row w-100">
+            <input class="color-blue" [(ngModel)]="serviceSearch.date" type="date" name="date" />
+            <select class="color-blue" [(ngModel)]="serviceSearch.hour" style="margin-left: 20px;width: 95px;" name="hour">
+              <option>08:00:00</option>
+              <option>09:00:00</option>
+              <option>10:00:00</option>
+              <option>11:00:00</option>
+              <option>12:00:00</option>
+              <option>13:00:00</option>
+              <option>14:00:00</option>
+              <option>15:00:00</option>
+              <option>16:00:00</option>
+              <option>17:00:00</option>
+              <option>18:00:00</option>
+              <option>19:00:00</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group w-100">
+          <h5 class="color-blue title-filter">Categoría</h5>
+          <div class="select w-100">
+            <select class="w-100 color-blue" [(ngModel)]="serviceSearch.category" (change)="categoryChanged()" style="width: initial" name="category">
+              <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group w-100">
+          <h5 class="color-blue title-filter">Sub Categoría</h5>
+          <div class="select w-100">
+            <select class="w-100 color-blue" [(ngModel)]="serviceSearch.subcategory" style="width: initial" name="subcategory">
+              <option *ngFor="let subcategory of subCategories" [value]="subcategory.id">{{ subcategory.name }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group w-100">
+          <button (click)="scheduleAll(myModal)" class="btn bprimary w-100">Cotizar seleccionados</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <div class="col-md-9 min-h-window graysoft">
+    <section class="box-mh">
+      <div class="box-mg-nano row row-justifycon">
+        {{ providers.length }} Profesional{{ providers.length == 1 ? "" : "es" }}
+        <a class="color-blue" (click)="selectAllProviders()"><i class="fa {{ selectedProviders == providers.length ? 'fa-check-circle-o' : 'fa-circle-o' }} font-s-middle"></i> Seleccionar todos</a>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mg-t-small" *ngFor="let provider of providers; let i = index">
+          <div class="card card-provider {{ provider.selected ? 'selected' : '' }}">
+            <i class="fa {{ provider.selected ? 'fa-check-circle-o' : 'fa-circle-o' }} absolute-rt font-s-middle"></i>
+            <div class="row no-gutters box-mg-nano" (click)="selectProvider(provider)">
+              <div class="col-4 image-provider">
+                <img src="{{ provider.user.image ? provider.user.image : './assets/images/provider.png' }}" class="card-img" alt="..." />
+              </div>
+              <div class="col-8">
+                <div class="card-body">
+                  <h5 class="">{{ provider.user.name }}</h5>
+                  <span>{{ provider.rating }} </span><rating [(ngModel)]="provider.rating" [readonly]="true"></rating>
+                  <p class="card-text">
+                    <small class="text-muted">{{ provider.success }} servicios realizados</small>
+                  </p>
+                  <p class="card-text">
+                    <small class="text-muted">{{ provider.experience }} años de experiencia</small>
+                  </p>
+                  <button (click)="showFile(myFile, provider)" class="btn color-blue">Ver ficha</button>
+                </div>
+              </div>
+            </div>
+            <div class="buttons-provider col-md-12 row row-justifycon">
+              <button [disabled]="selectedProviders > 0" (click)="schedule(myModal, provider)" style="width:100%;" class="btn bprimary">Cotizar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+<ptfm-footer></ptfm-footer>
+
+<modal #myModal>
+  <modal-content>
+    <div class="error text-center">
+      <div class="icon">
+        <i class="fa {{ messageT ? 'fa-check-circle' : 'fa-times-circle' }}" aria-hidden="true"></i>
+      </div>
+      <h4>{{ message }}</h4>
+    </div>
+  </modal-content>
+</modal>
+
+<modal #myFile>
+  <modal-content>
+    <div class="error text-center">
+      <h3>{{ tprovider.user.name + " " + tprovider.user.lastname }}</h3>
+      <br />
+      <h4>Certificado en:</h4>
+      <p *ngFor="let certificate of tprovider.certificate">{{ certificate.certificate.name }}</p>
+    </div>
+  </modal-content>
+</modal>

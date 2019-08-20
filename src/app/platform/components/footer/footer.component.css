@@ -1,0 +1,86 @@
+.links-footer{
+	background-color: #1e1d24;
+    transition: background 0.3s, border 0.3s, border-radius 0.3s, box-shadow 0.3s;
+    padding: 65px 0px 65px 0px;
+}
+.links-footer .row{
+	align-items: flex-start;
+}
+.links-footer .box-link h3{
+	font-family: "Montserrat", Sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    text-transform: uppercase;
+    line-height: 1.5em;
+    letter-spacing: 0.36px;
+    color: white;
+}
+.links-footer .box-link p{
+	color: #94929b;
+    font-family: "Montserrat", Sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.642em;
+}
+.box-link ul{
+	list-style: none;
+}
+.box-link ul li{
+	font-family: "Montserrat", Sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.8rem;
+    letter-spacing: 0px;
+}
+.box-link ul li a{
+	color: #94929b;
+}
+.box-link ul li a:hover{
+	color:white;
+	text-decoration: none;
+}
+.color-whitesdark{
+    float: left;
+}
+.color-whitesdark span{
+    color: white;
+}
+.box-link ul li a i{
+	color: #283372;
+	font-size: 16px;
+	margin-right: 5px;
+}
+.contact ul li a i{
+	color:white;
+}
+.box-mg-micro p{
+    font-weight: bold;
+}
+.darksoft {
+    background: #141419;
+    display: table;
+    width: 100%;
+}
+.redes-footer {
+    float: right;
+    padding-right: 4rem;
+
+}
+.redes-footer ul{
+    list-style: none;
+    list-style: none;
+    margin-bottom: 0;
+    position: relative;
+    top: 9px;
+}
+.redes-footer ul li{
+    display: inline-block;
+    display: inline-block;
+    margin: 0 .7rem;
+}
+.redes-footer ul li a{
+    color: #94929b;
+}
+.redes-footer ul li a:hover{
+    color: white;
+}

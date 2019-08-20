@@ -1,0 +1,41 @@
+<ptfm-header></ptfm-header>
+<div class="">
+	<section class="box-mh row row-center">
+		<div class="col-md-4 card mg-t-small card-sesion">
+			<div class="mg-t-small card-title">
+				<h5>Crea tu cuenta</h5>
+			</div>
+			<div class="divider"></div>
+			<p>Si aún no tienes una cuenta puedes crearla:</p>
+			<!-- <button (click)="socialSignIn('facebook')" class="btn bfacebook">Registrandote con Facebook</button> -->
+			<button (click)="login(myModal)" class="btn bfacebook" disabled>Registrandote con Facebook</button>
+				
+			<div class="text-center">o</div>
+
+			<!-- <button (click)="socialSignIn('google')" class="btn bgoogle">Registrandote con Google</button> -->
+			<button (click)="login(myModal)" class="btn bgoogle" disabled>Registrandote con Google</button>
+
+			<div class="text-center">o</div>
+
+			<button routerLink="/registro/mail" class="btn bprimary">Registrandote con tu correo</button>
+
+			<div class="divider"></div>
+			
+			<div class="row row-justifycon">
+				¿Ya tienes cuenta?
+				<button routerLink="/ingresar" class="btn btn-outprimary">Inicia sesión</button>
+			</div>
+		</div>
+	</section>
+</div>
+
+<modal #myModal>
+    <modal-content>
+    	<div class="error">
+    		<div class="icon">
+    			<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+    		</div>
+        	<h4>{{message}}</h4>
+    	</div>
+    </modal-content>        
+</modal>

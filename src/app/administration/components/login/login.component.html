@@ -1,0 +1,29 @@
+<div class="bg-login login">
+	<div class="shadow">
+		<div class="card-login">
+			<div class="all-center">
+				<img src="assets/images/logo.png">
+				<div class="inputForm">
+					<i class="fa fa-user" aria-hidden="true"></i>
+					<input id="user" type="" name="" [(ngModel)]="user.username" placeholder="Usuario">
+				</div>
+				<div class="inputForm">	
+					<i class="fa fa-key" aria-hidden="true"></i>
+					<input id="password" type="password" name="" [(ngModel)]="user.password" placeholder="Contraseña">
+				</div>
+				<div (click)="login(myModal)" class="btn-login blue pointer"><p>Acceder</p></div>
+			</div>
+		</div>	
+	</div>		
+</div>
+
+<modal #myModal>
+    <modal-content>
+    	<div class="error">
+    		<div class="icon">
+    			<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+    		</div>
+        	<h4>{{message}}</h4>
+    	</div>
+    </modal-content>        
+</modal>

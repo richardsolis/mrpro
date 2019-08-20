@@ -1,0 +1,37 @@
+<ptfm-header></ptfm-header>
+<div class="row row-start">
+  <div class="col-md-12 min-h-window graysoft">
+    <section class="box-mh">
+      <div class="box-mg-nano">{{ providers.length }} Profesional{{ providers.length == 1 ? "" : "es" }}</div>
+
+      <div class="row">
+        <div class="col-md-6 mg-t-small" *ngFor="let provider of providers">
+          <div class="card card-provider">
+            <div class="row no-gutters box-mg-nano">
+              <div class="col-4 image-provider">
+                <img src="./assets/images/{{ provider.image }}" class="card-img" alt="..." />
+              </div>
+              <div class="col-8">
+                <div class="card-body">
+                  <h5 class="">{{ provider.name }}</h5>
+                  <span>{{ provider.rating }} </span><rating [(ngModel)]="provider.rating" [readonly]="true"></rating>
+                  <p class="card-text">
+                    <small class="text-muted">{{ provider.success }} servicios realizados</small>
+                  </p>
+                  <p class="card-text">
+                    <small class="text-muted">{{ provider.experience }} años de experiencia</small>
+                  </p>
+                </div>
+              </div>
+              <div class="buttons-provider col-md-12 row row-justifycon">
+                <button class="btn color-blue">Ver ficha</button>
+                <button (click)="schedule()" class="btn btn-danger">Cancelar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+<ptfm-footer></ptfm-footer>

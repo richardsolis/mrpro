@@ -1,0 +1,212 @@
+<ptfm-header></ptfm-header>
+<div class="body">
+	<section class="banner wow fadeInUp">
+		<div class="box-mh box-pd-h-small">
+			<h1 class="pd-t-medium">WE WILL GLADLY FIX EVERYTHING THAT BROKE</h1>
+			<p class="pd-t-small">OUR MASTERS ARE READY TO LEAVE FOR YOU AT ANY TIME</p>
+			<button routerLink="/reserva" class="btn btn-primary mg-t-medium">Agenda un servicio</button>
+		</div>
+	</section>
+
+	<section class="box-out-center">
+		<div class="row box-mh row-end">
+			<div class="col-md-4 text-center box-hover white box-mg-small wow slideInRight">
+				<div class="circle circle-small blue mg-auto">
+					<i class="fa fa-user icon" aria-hidden="true"></i>
+				</div>
+				<h5 class="pd-t-small">QUALITY ASSURANCE</h5>
+				<p class="pd-t-small">We always stand for doing our job fast and at the highest level as understand people value their time and money.</p>
+			</div>
+			<div class="col-md-4 text-center box-hover box-middle white box-mg-medium wow slideInRight">
+				<div class="circle circle-small blue mg-auto">
+					<i class="fa fa-user icon" aria-hidden="true"></i>
+				</div>
+				<h5 class="pd-t-small">20 YEARS OF EXPERIENCE</h5>
+				<p class="pd-t-small">We are here to meet your every demand so you could have no worries about your home!</p>
+			</div>
+			<div class="col-md-4 text-center box-hover white box-mg-small wow slideInRight">
+				<div class="circle circle-small blue mg-auto">
+					<i class="fa fa-user icon" aria-hidden="true"></i>
+				</div>
+				<h5 class="pd-t-small">ECONOMICALLY</h5>
+				<p class="pd-t-small">We offer a huge number of services and works done by high-class experts using the latest technologies.</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="about wow fadeInLeft">
+		<div class="box-mh">
+			<h3 class="pd-t-large text-center mb-3">ABOUT</h3>
+			<div class="row">
+				<div class="col-md-4 text-center white box-mg-micro">
+					<div class="row row-center">
+						<div class="box-line mg-r-small">
+							<h2 class="absolute-miidle color-blue">M</h2>
+						</div>
+						<h3> OTIVATION</h3>
+					</div>
+					<p class="pd-t-small">Forget about all your small and big house problems! Our experts will fix everything for you!</p>
+				</div>
+				<div class="col-md-4 text-center white box-mg-micro">
+					<div class="row row-center">
+						<div class="box-line mg-r-small">
+							<h2 class="absolute-miidle color-blue">H</h2>
+						</div>
+						<h3> ISTORY</h3>
+					</div>
+					<p class="pd-t-small">Our company offers a flexible discount system and a lot of special offers being beneficial for our clients.</p>
+				</div>
+				<div class="col-md-4 text-center white box-mg-micro">
+					<div class="row row-center">
+						<div class="box-line mg-r-small">
+							<h2 class="absolute-miidle color-blue">C</h2>
+						</div>
+						<h3> ERTIFICATES</h3>
+					</div>
+					<p class="pd-t-small">We totally meet technical requirements, specifications and all kind of binding standards.</p>
+				</div>
+			</div>
+		</div>
+	</section>
+		
+	<section  class="what-we wow fadeInUp">
+		<div class="box-mh">
+			<h3 class="text-center">WHAT WE DO?</h3>
+			<div class="row">
+				<div class="col-md-4">
+					<div class="box-do">
+						<div class="header-box-do">
+							<div class="box-icon">
+								<a>
+									<i class="fa fa-bolt" aria-hidden="true"></i>
+								</a>
+							</div>
+							<div class="text-do">
+								<h3><a>PLUMBING WORK</a></h3>
+								<p>Plumbing is such a sphere in our houses that requires some professional skills and manpower. We can offer you to resolve problems as we know everything about it.</p>
+							</div>
+						</div>
+						<div class="footer-box-do">
+							<a >VIEW DETAILS</a>
+						</div>
+					</div>
+					
+				</div>
+				<div class="col-md-4">
+					<div class="box-do">
+						<div class="header-box-do">
+							<div class="box-icon">
+								<a>
+									<i class="fa fa-bolt" aria-hidden="true"></i>
+								</a>
+							</div>
+							<div class="text-do">
+								<h3><a>PLUMBING WORK</a></h3>
+								<p>Plumbing is such a sphere in our houses that requires some professional skills and manpower. We can offer you to resolve problems as we know everything about it.</p>
+							</div>
+						</div>
+						<div class="footer-box-do">
+							<a >VIEW DETAILS</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="box-do">
+						<div class="header-box-do">
+							<div class="box-icon">
+								<a>
+									<i class="fa fa-bolt" aria-hidden="true"></i>
+								</a>
+							</div>
+							<div class="text-do">
+								<h3><a>PLUMBING WORK</a></h3>
+								<p>Plumbing is such a sphere in our houses that requires some professional skills and manpower. We can offer you to resolve problems as we know everything about it.</p>
+							</div>
+						</div>
+						<div class="footer-box-do">
+							<a >VIEW DETAILS</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section  class="portafolio wow fadeInRight">
+		<div>
+			<h3 class="text-center mb-5">PORTAFOLIO</h3>
+			<div class="col-md-4 box-portafolio" *ngFor="let image of _albums; let i=index">
+			  <img [src]="image.thumb" (click)="open(i)"/>
+			</div>
+		</div>
+	</section>
+	<section class="graysoft">
+		<div class="box-mh box-mg-medium text-center">
+			<h3 class="pd-t-medium">IMPROVE YOUR ENVIRONMENT WITH US</h3>
+			<p class="pd-t-small">During our work we helped a huge number of people and have garnered a reputation as a stable company with a team of real skilled experts who don’t fear any difficulties.</p>
+			<button routerLink="/contacto" class="btn btn-primary mg-t-medium">Contáctanos</button>
+		</div>
+	</section>
+	<section class="testimonials wow fadeInUp">
+		<div class="box-mh">
+			<div class="row">
+				<div class="col-md-6 text-test">
+					<h3 class="mb-4">TESTIMONIALS</h3>
+					<ngx-slick-carousel class="carousel" 
+                        #slickModal="slick-carousel" 
+                        [config]="slideConfig" 
+                        (init)="slickInit($event)"
+                        (breakpoint)="breakpoint($event)"
+                        (afterChange)="afterChange($event)"
+                        (beforeChange)="beforeChange($event)">
+				        <div ngxSlickItem  class="slide">
+							<div class="box-slick">
+								<div class="header-test mb-3">
+									<div class="d-table">
+										<div class="box-image-test">
+											<img src="../../../../assets/images/testi-1.jpg">
+										</div>
+										<div class="box-name-test">
+											<h4>Emma Stoun</h4>
+											<p>Designer</p>
+										</div>
+									</div>
+								</div>
+								<div class="text-test">
+									<p>Flexor is indeed a team of experts! Their Customer Service representative helped to select the correct service and the team came so quick! They are great and I’m totally pleased with their work!</p>
+								</div>
+							</div>             
+				        </div>
+				        <div ngxSlickItem  class="slide">
+							<div class="box-slick">
+								<div class="header-test mb-3">
+									<div class="d-table">
+										<div class="box-image-test">
+											<img src="../../../../assets/images/testi-2.jpg">
+										</div>
+										<div class="box-name-test">
+											<h4>Emma Stoun</h4>
+											<p>Designer</p>
+										</div>
+									</div>
+								</div>
+								<div class="text-test">
+									<p>Flexor is indeed a team of experts! Their Customer Service representative helped to select the correct service and the team came so quick! They are great and I’m totally pleased with their work!</p>
+								</div>
+							</div>             
+				        </div>
+				    </ngx-slick-carousel>
+				</div>
+				<div class="col-md-6 why-us wow fadeInUp">
+					<h3 class="">WHY US?</h3>
+					<h4>Because We Are Very Flexible</h4>
+					<p class="mb-3">Mauris accumsan eros eget libero posuere vulputate.
+						Etiam elit elit, elementum sed varius at, adipiscing vitae est.
+						Sed nec felis pellentesque, lacinia dui sed, ultricies sapien.</p>
+					<p class="mb-3">Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum claram.</p>
+					<p class="mb-3">Etiam elit elit, elementum sed varius at, adipiscing vitae est. Sed nec felis pellentesque, lacinia dui sed, ultricies sapien.</p>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+<ptfm-footer></ptfm-footer>

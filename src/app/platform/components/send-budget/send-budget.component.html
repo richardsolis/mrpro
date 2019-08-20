@@ -1,0 +1,86 @@
+<ptfm-header></ptfm-header>
+<div class="">
+  <section class="box-mh row row-center" style="min-height: 100vh;">
+    <div class="col-md-7 card mg-t-small card-sesion">
+      <div class="mg-t-small card-title">
+        <h5>Solicitar cotización</h5>
+      </div>
+      <div class="divider"></div>
+
+      <form class="form">
+        <div class="form-group">
+          <p>Proveedores :</p>
+          <p>
+            <span *ngFor="let LocalProvider of LocalProvider" style="    background: #134293;margin-right: 10px;color: white;padding: 2px 10px;border-radius: 3px;">
+              {{ LocalProvider.user.name }}
+            </span>
+          </p>
+        </div>
+        <div class="form-group">
+          <p>Nombre del Contacto* :</p>
+          <input [(ngModel)]="ObjectServi.contact_name" type="text" name="contact_name" required="true" />
+        </div>
+        <div class="form-group">
+          <p>Numero de telefono* :</p>
+          <input [(ngModel)]="ObjectServi.phone_name" (keypress)="onlydigit($event)" type="text" name="phone_name" />
+        </div>
+        <div class="form-group">
+          <p>Distritos* :</p>
+          <div class="select">
+            <select class="" [(ngModel)]="ObjectServi.district_id" name="district">
+              <option *ngFor="let district of districts" [value]="district.id">{{ district.name }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <p>Direccion* :</p>
+          <input [(ngModel)]="ObjectServi.address" type="text" name="address" />
+        </div>
+        <div class="form-group">
+          <p>Descripción* :</p>
+          <!-- <input [(ngModel)]="ObjectServi.description" type="text" placeholder="Descripción del servicio" name="description"> -->
+          <textarea style="border: 1px solid #dfdfdf;resize: none;" [(ngModel)]="ObjectServi.description" type="text" name="description"></textarea>
+        </div>
+        <div class="form-group">
+          <p>Añadir fotos* :</p>
+          <input type="file" accept=".png, .jpg, .jpeg" (change)="onSelectImage($event)" class="form-control" />
+        </div>
+        <div>
+          <p>Fecha y Hora :</p>
+          <div style="display: flex;align-items: center;justify-content: space-between;width: 100%;">
+            <input class="col-md-6" [(ngModel)]="date" type="date" name="date" />
+            <select class="col-md-5" [(ngModel)]="hour" style="width: initial" name="hour">
+              <option>08:00:00</option>
+              <option>09:00:00</option>
+              <option>10:00:00</option>
+              <option>11:00:00</option>
+              <option>12:00:00</option>
+              <option>13:00:00</option>
+              <option>14:00:00</option>
+              <option>15:00:00</option>
+              <option>16:00:00</option>
+              <option>17:00:00</option>
+              <option>18:00:00</option>
+              <option>19:00:00</option>
+            </select>
+          </div>
+        </div>
+        <br />
+      </form>
+      <button (click)="sendBudget(myModal)" class="btn bprimary">Solicitar cotización</button>
+    </div>
+  </section>
+</div>
+
+<modal #myModal>
+  <modal-content>
+    <div class="error text-center">
+      <div class="icon">
+        <i class="fa {{ messageT ? 'fa-check-circle' : 'fa-times-circle' }}" aria-hidden="true"></i>
+      </div>
+      <h4>{{ message }}</h4>
+      <br *ngIf="sbutton" />
+      <button *ngIf="sbutton" (click)="goReserved()" class="btn bprimary">Ir a reservados</button>
+    </div>
+  </modal-content>
+</modal>

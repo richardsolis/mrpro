@@ -23,7 +23,7 @@
         <div *ngIf="serviceSearch.type == 'programmed'" class="form-group w-100">
           <h5 class="color-blue title-filter">Fecha y hora del servicio</h5>
           <div class="select row w-100">
-            <input class="color-blue" [(ngModel)]="serviceSearch.date" type="date" name="date" />
+            <input class="color-blue" [(ngModel)]="serviceSearch.date" type="date" name="date" style="width: 155px;" />
             <select class="color-blue" [(ngModel)]="serviceSearch.hour" style="margin-left: 20px;width: 95px;" name="hour">
               <option>08:00:00</option>
               <option>09:00:00</option>

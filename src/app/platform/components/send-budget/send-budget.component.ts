@@ -37,7 +37,7 @@ export class SendBudgetComponent implements OnInit {
   hour = null;
   ObjectServi = {
     address: "",
-    category_service_id: "",
+    category_service_id: this.session.getObject("budget").category,
     contact_name: "",
     date_service: "",
     description: "",
@@ -58,6 +58,7 @@ export class SendBudgetComponent implements OnInit {
     this.budget.category_service_id = budget.category;
     this.budget.date = budget.date;
     this.budget.hour = budget.hour;
+    console.log(budget, "dasdadasdasdasd");
     this.getDistricts();
   }
 
@@ -93,27 +94,18 @@ export class SendBudgetComponent implements OnInit {
 
     console.log(JSON.stringify(xd), "hoda");
     console.log(this.ObjectServi, "asdadsdsa", this.date, this.hour, this.LocalProvider);
-    let formData2: FormData = new FormData();
-    formData2.append("image_file", this.file);
-    this.userS
-      .sendBudget({
-        formdata: {
-          services: '[{"user_provider_id":"1","contact_name":"Raquel","phone_name":"Rosas","address":"Av juan 23","district_id":"3","category_service_id":"2","description":"Es una rotura pequeña help!!","date_service":"2019-08-05 13:00:00"},{"user_provider_id":"1","contact_name":"Raquel","phone_name":"Rosas","address":"Av juan 23","district_id":"3","category_service_id":"2","description":"Es una rotura pequeña help!!","date_service":"2019-08-05 13:00:00"}]',
-          image: { value: 'fs.createReadStream("/Users/jair/Desktop/Captura de Pantalla 2019-08-13 a la(s) 15.43.13.png")', options: { filename: "/Users/jair/Desktop/Captura de Pantalla 2019-08-13 a la(s) 15.43.13.png", contentType: null } },
-          image1: { value: 'fs.createReadStream("/Users/jair/Desktop/Captura de Pantalla 2019-08-13 a la(s) 14.48.07.png")', options: { filename: "/Users/jair/Desktop/Captura de Pantalla 2019-08-13 a la(s) 14.48.07.png", contentType: null } },
-          image2: { value: 'fs.createReadStream("/Users/jair/Desktop/Captura de Pantalla 2019-08-13 a la(s) 14.47.59.png")', options: { filename: "/Users/jair/Desktop/Captura de Pantalla 2019-08-13 a la(s) 14.47.59.png", contentType: null } }
-        }
-      })
-      .subscribe(
-        response => {
-          this.message = "Se agendó un servicio";
-          modal.open();
-          this.spinner.hide();
-        },
-        error => {
-          // this.generalS.relogin(this.sendBudget, error, this.spinner);
-        }
-      );
+    // let formData2: FormData = new FormData();
+    // formData2.append("image_file", this.file);
+    this.userS.sendBudget({ services: JSON.stringify(xd) }).subscribe(
+      response => {
+        this.message = "Se agendó un servicio";
+        modal.open();
+        this.spinner.hide();
+      },
+      error => {
+        // this.generalS.relogin(this.sendBudget, error, this.spinner);
+      }
+    );
 
     // this.budget.date_service = this.budget.date + ' ' + this.budget.hour;
     // if(!this.budget.contact_name || !this.budget.phone_name || !this.budget.address || !this.budget.description || !this.budget.date_service){

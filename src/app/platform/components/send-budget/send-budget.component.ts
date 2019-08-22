@@ -88,7 +88,7 @@ export class SendBudgetComponent implements OnInit {
     var xd = [];
     this.ObjectServi.date_service = this.date + " " + this.hour;
     for (let i = 0; i < this.LocalProvider.length; i++) {
-      this.ObjectServi.user_provider_id = this.LocalProvider[i].user_id;
+      this.ObjectServi.user_provider_id = this.LocalProvider[i].id;
       xd.push(this.ObjectServi);
     }
 

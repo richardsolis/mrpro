@@ -79,12 +79,27 @@ export class ProvidersComponent implements OnInit {
     }
   ];
 
-  providers: any = [];
+  providers;
+  providerData = [];
 
   constructor(private router: Router, private session: SessionService, private userS: UserService) {}
 
   ngOnInit() {
-    this.categoryChanged("Gasfitería");
+    var year = new Date();
+    this.userS.getBudget({ type: "client" }).subscribe(
+      response => {
+        this.providers = response;
+        for (let i = 0; i < this.providers.data.length; i++) {
+          this.providers.data[i].user_provider.experience = year.getFullYear() - parseInt(this.providers.data[i].user_provider.experience.split(" ")[0].substring(0, 4));
+          this.providerData.push(this.providers.data[i]);
+        }
+        console.log(this.providerData, "dasdasd");
+      },
+      error => {
+        // this.generalS.relogin(this.sendBudget, error, this.spinner);
+      }
+    );
+    // this.categoryChanged("Gasfitería");
   }
 
   categoryChanged(event) {

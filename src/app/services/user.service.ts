@@ -42,4 +42,8 @@ export class UserService {
     var header = this.generalS.getToken();
     return this.http.post(AppSettings.BASE_PATH + AppSettings.CLIENT_GET_BUDGET, body, header);
   }
+
+  getStatus() {
+    return this.http.get(AppSettings.BASE_PATH + AppSettings.GET_ESTATUS_BUDGET);
+  }
 }

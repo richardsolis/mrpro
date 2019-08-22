@@ -2,24 +2,24 @@
 <div class="row row-start">
   <div class="col-md-12 min-h-window graysoft">
     <section class="box-mh">
-      <div class="box-mg-nano">{{ providers.length }} Profesional{{ providers.length == 1 ? "" : "es" }}</div>
+      <div class="box-mg-nano">{{ providerData.length }} Profesional{{ providerData.length == 1 ? "" : "es" }}</div>
 
       <div class="row">
-        <div class="col-md-6 mg-t-small" *ngFor="let provider of providers">
+        <div class="col-md-6 mg-t-small" *ngFor="let provider of providerData">
           <div class="card card-provider">
             <div class="row no-gutters box-mg-nano">
               <div class="col-4 image-provider">
-                <img src="./assets/images/{{ provider.image }}" class="card-img" alt="..." />
+                <img src="./assets/images/{{ provider.image_url }}" class="card-img" alt="..." />
               </div>
               <div class="col-8">
                 <div class="card-body">
-                  <h5 class="">{{ provider.name }}</h5>
-                  <span>{{ provider.rating }} </span><rating [(ngModel)]="provider.rating" [readonly]="true"></rating>
+                  <h5 class="">{{ provider.user_provider.user.name }}</h5>
+                  <!-- <span>{{ provider.rating }} </span><rating [(ngModel)]="provider.rating" [readonly]="true"></rating> -->
                   <p class="card-text">
-                    <small class="text-muted">{{ provider.success }} servicios realizados</small>
+                    <!-- <small class="text-muted">{{ provider.success }} servicios realizados</small> -->
                   </p>
                   <p class="card-text">
-                    <small class="text-muted">{{ provider.experience }} años de experiencia</small>
+                    <small class="text-muted">{{ provider.user_provider.experience }} años de experiencia</small>
                   </p>
                 </div>
               </div>

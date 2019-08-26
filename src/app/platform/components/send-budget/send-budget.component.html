@@ -48,7 +48,7 @@
         <div>
           <p>Fecha y Hora :</p>
           <div style="display: flex;align-items: center;justify-content: space-between;width: 100%;">
-            <input class="col-md-6" [ngModel]="ObjectServi.date_service | date: 'yyyy-MM-dd'" min="{{ ObjectServi.date_service | date: 'yyyy-MM-dd' }}" (ngModelChange)="ObjectServi.date = $event" [value]="ObjectServi.date | date: 'yyyy-MM-dd'" type="date" name="date" />
+            <input class="col-md-6" [ngModel]="ObjectServi.date_service | date: 'yyyy-MM-dd'" min="{{ ObjectServi.date_service | date: 'yyyy-MM-dd' }}" type="date" name="date" />
             <select class="col-md-5" [(ngModel)]="hour" style="width: initial" name="hour">
               <option>08:00:00</option>
               <option>09:00:00</option>

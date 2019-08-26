@@ -1,48 +1,48 @@
 <ptfm-header></ptfm-header>
 <div class="">
-	<section class="box-mh row row-center">
-		<div class="col-md-4 card mg-t-small card-sesion">
-			<div class="mg-t-small card-title">
-				<h5>Iniciar Sesión</h5>
-			</div>
-			<div class="divider"></div>
+  <section class="box-mh row row-center">
+    <div class="col-md-4 card mg-t-small card-sesion">
+      <div class="mg-t-small card-title">
+        <h5>Iniciar Sesión</h5>
+      </div>
+      <div class="divider"></div>
 
-			<!-- <button class="btn bfacebook" (click)="socialSignIn('facebook')">Iniciar sesión con Facebook</button> -->
-			<button class="btn bfacebook" (click)="login(myModal, 'facebook')" disabled>Iniciar sesión con Facebook</button>
-				
-			<div class="text-center">o</div>
+      <!-- <button class="btn bfacebook" (click)="socialSignIn('facebook')">Iniciar sesión con Facebook</button> -->
+      <button class="btn bfacebook" (click)="login(myModal, 'facebook')" disabled>Iniciar sesión con Facebook</button>
 
-			<!-- <button class="btn bgoogle" (click)="socialSignIn('google')">Iniciar sesión con Google</button> -->
-			<button class="btn bgoogle" (click)="login(myModal, 'facebook')" disabled>Iniciar sesión con Google</button>
+      <div class="text-center">o</div>
 
-			<div class="text-center">o</div>
+      <!-- <button class="btn bgoogle" (click)="socialSignIn('google')">Iniciar sesión con Google</button> -->
+      <button class="btn bgoogle" (click)="login(myModal, 'facebook')" disabled>Iniciar sesión con Google</button>
 
-			<form class="form text-center">
-				<div class="form-group">
-					<input type="email" [(ngModel)]="user.username" placeholder="Correo electrónico" name="email" required="true">
-				</div>
-				<div class="form-group">
-					<input type="password" [(ngModel)]="user.password" placeholder="Contraseña" name="password">
-				</div>
-				<button (click)="login(myModal)" class="btn bprimary">INGRESAR</button>
-			</form>
-			<div class="divider"></div>
-			
-			<div class="row row-justifycon">
-				¿No tienes cuenta?
-				<button routerLink="/registro" class="btn btn-outprimary">Registrarte</button>
-			</div>
-		</div>
-	</section>
+      <div class="text-center">o</div>
+
+      <form class="form text-center">
+        <div class="form-group">
+          <input type="email" [(ngModel)]="user.username" placeholder="Correo electrónico" name="email" required="true" />
+        </div>
+        <div class="form-group">
+          <input type="password" [(ngModel)]="user.password" placeholder="Contraseña" name="password" />
+        </div>
+        <button (click)="login(myModal)" class="btn bprimary">INGRESAR</button>
+      </form>
+      <div class="divider"></div>
+
+      <div class="row row-justifycon">
+        ¿No tienes cuenta?
+        <button routerLink="/registro" class="btn btn-outprimary">Registrarte</button>
+      </div>
+    </div>
+  </section>
 </div>
 
 <modal #myModal>
-    <modal-content>
-    	<div class="error">
-    		<div class="icon">
-    			<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-    		</div>
-        	<h4>{{message}}</h4>
-    	</div>
-    </modal-content>        
+  <modal-content>
+    <div class="error">
+      <div class="icon">
+        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+      </div>
+      <h4>{{ message }}</h4>
+    </div>
+  </modal-content>
 </modal>

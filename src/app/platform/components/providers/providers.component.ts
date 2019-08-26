@@ -2,6 +2,13 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router, RouterModule, Routes } from "@angular/router";
 import { SessionService } from "../../../services/session.service";
 import { UserService } from "../../../services/user.service";
+import { NgxSpinnerService } from "ngx-spinner";
+import { FormBuilder, FormGroup } from "@angular/forms";
+
+import localeDe from "@angular/common/locales/de";
+
+declare var jquery: any;
+declare var $: any;
 
 @Component({
   selector: "app-providers",
@@ -82,9 +89,21 @@ export class ProvidersComponent implements OnInit {
   providers;
   providerData = [];
 
-  constructor(private router: Router, private session: SessionService, private userS: UserService) {}
+  tprovider: any = {
+    user_provider: {
+      user: {}
+    }
+  };
+
+  cancel: any = {
+    budget_id: "2",
+    status_id: "1"
+  };
+
+  constructor(private spinner: NgxSpinnerService, private router: Router, private session: SessionService, private userS: UserService) {}
 
   ngOnInit() {
+    this.spinner.show();
     var year = new Date();
     this.userS.getBudget({ type: "client" }).subscribe(
       response => {
@@ -93,6 +112,7 @@ export class ProvidersComponent implements OnInit {
           this.providers.data[i].user_provider.experience = year.getFullYear() - parseInt(this.providers.data[i].user_provider.experience.split(" ")[0].substring(0, 4));
           this.providerData.push(this.providers.data[i]);
         }
+        this.spinner.hide();
         console.log(this.providerData, "dasdasd");
       },
       error => {
@@ -107,7 +127,19 @@ export class ProvidersComponent implements OnInit {
     this.providers = this.allProviders.filter(item => item.category == event);
   }
 
-  schedule() {
-    // this.router.navigate(['/ingresar']);
+  ficha(modal, proveedor) {
+    this.tprovider = proveedor;
+    modal.open();
+  }
+
+  schedule(proveedor) {
+    console.log(proveedor);
+    this.cancel = {
+      budget_id: proveedor.id,
+      status_id: proveedor.status_service_id
+    };
+    this.userS.cancel(this.cancel).subscribe(response => {
+      console.log(response);
+    });
   }
 }

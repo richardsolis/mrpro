@@ -1068,7 +1068,7 @@ ul.menu a {
 ul.menu a:hover,
 ul.menu a.active-link {
   text-decoration: none;
-  background: white;
+  background: white !important;
   color: #393939;
 }
 
@@ -1381,4 +1381,25 @@ h5.color-blue.title-filter {
   font-size: 18px;
   font-weight: 400;
   margin-bottom: 11px;
+}
+
+.modal-dialog {
+  max-width: 700px !important;
+}
+
+.modal-body {
+  padding: 30px 60px;
+}
+
+.modal-header {
+  background: #1a4796;
+}
+
+.modal-header .close {
+  color: white;
+  opacity: 1;
+}
+
+.modal.fade {
+  z-index: 999999999999999;
 }

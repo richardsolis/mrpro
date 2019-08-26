@@ -6,10 +6,21 @@
         <div class="form-group w-100">
           <h5 class="color-blue title-filter">Tipo de Servicio</h5>
           <div class="select w-100">
-            <select class="w-100 color-blue" [(ngModel)]="serviceSearch.type" name="type">
+            <div>
+              <p style="cursor: pointer;">
+                <span (click)="buttonSelectType('programmed')" [ngStyle]="{ background: serviceSearch.type == 'programmed' ? '#134293' : 'white', color: serviceSearch.type == 'programmed' ? 'white' : '#134293' }" style="margin-right: 10px;padding: 2px 10px;border-radius: 3px; border: 1px solid #134293; ">
+                  Programado
+                </span>
+                <span style="margin-right: 10px;">O</span>
+                <span (click)="buttonSelectType('immediate')" [ngStyle]="{ background: serviceSearch.type == 'immediate' ? '#134293' : 'white', color: serviceSearch.type == 'immediate' ? 'white' : '#134293' }" style="border: 1px solid #134293; margin-right: 10px;color: white;padding: 2px 10px;border-radius: 3px;">
+                  Inmediato
+                </span>
+              </p>
+            </div>
+            <!-- <select class="w-100 color-blue" [(ngModel)]="serviceSearch.type" name="type">
               <option value="programmed">Programado</option>
               <option value="immediate">Inmediato</option>
-            </select>
+            </select> -->
           </div>
         </div>
         <!-- <div class="form-group w-100">
@@ -115,12 +126,78 @@
 </modal>
 
 <modal #myFile>
-  <modal-content>
+  <modal-content style="    width: 570px;">
     <div class="error text-center">
+      <div
+        class="content"
+        style="text-align: center;display: flex;align-items: center;
+      justify-content: space-around;"
+      >
+        <img src="./assets/images/provider.png" class="card-img" alt="..." style="width:200px;" />
+        <div>
+          <div style="margin-top: 10px; text-align: left !important;">
+            <h5 style="font-weight: 600;color: #134293;font-size: 17px;">
+              Nombre:
+            </h5>
+            <p>
+              {{ tprovider.user.name }}
+            </p>
+          </div>
+          <!-- <div style="margin-top: 20px; text-align: left !important;">
+            <h5 style="font-weight: 600;color: #134293;font-size: 17px;">
+              Tipo de Servicio:
+            </h5>
+            <p>
+              {{ tprovider.user.name }}
+            </p>
+          </div> -->
+          <!-- <div style="margin-top: 20px; text-align: left !important;">
+              <h5>
+                Servicio Realizados:
+              </h5>
+              <p>
+                {{ tprovider.user.name }}
+              </p>
+            </div> -->
+          <div style="margin-top: 20px; text-align: left !important;">
+            <h5 style="font-weight: 600;color: #134293;font-size: 17px;">
+              Años de Experiencia:
+            </h5>
+            <p>{{ tprovider.experience }} años</p>
+          </div>
+          <div style="margin-top: 20px; text-align: left !important;">
+            <h5 style="font-weight: 600;color: #134293;font-size: 17px;">
+              Certificaciones:
+            </h5>
+            <p>
+              <span *ngFor="let certificate of tprovider.certificate">{{ certificate.certificate.name }}, </span>
+              <!-- {{ tprovider.user.name }} -->
+            </p>
+          </div>
+          <div style="margin-top: 20px; text-align: left !important;">
+            <h5 style="font-weight: 600;color: #134293;font-size: 17px;">
+              Instituciones:
+            </h5>
+            <p>
+              {{ tprovider.user.name }}
+            </p>
+          </div>
+          <div style="margin-top: 20px; text-align: left !important;">
+            <h5 style="font-weight: 600;color: #134293;font-size: 17px;">
+              Calificacion (0 - 5):
+            </h5>
+            <p>
+              {{ tprovider.rating }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="error text-center">
       <h3>{{ tprovider.user.name + " " + tprovider.user.lastname }}</h3>
       <br />
       <h4>Certificado en:</h4>
       <p *ngFor="let certificate of tprovider.certificate">{{ certificate.certificate.name }}</p>
-    </div>
+    </div> -->
   </modal-content>
 </modal>

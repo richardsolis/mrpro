@@ -2,12 +2,13 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { AppSettings } from "../app.settings";
 import { GeneralService } from "./general.service";
+import { SessionService } from "./session.service";
 
 @Injectable({
   providedIn: "root"
 })
 export class UserService {
-  constructor(private http: HttpClient, private generalS: GeneralService) {}
+  constructor(private http: HttpClient, private generalS: GeneralService, private sessionS: SessionService) {}
 
   guestCreateUser(params) {
     const body = new HttpParams({
@@ -45,5 +46,23 @@ export class UserService {
 
   getStatus() {
     return this.http.get(AppSettings.BASE_PATH + AppSettings.GET_ESTATUS_BUDGET);
+  }
+
+  cancel(params) {
+    const body = new HttpParams({
+      fromObject: params
+    });
+    var header = this.generalS.getToken();
+
+    return this.http.post(AppSettings.BASE_PATH + AppSettings.CANCEL, body, header);
+  }
+
+  getToken(params = {}, contentType = "application/json") {
+    return {
+      headers: {
+        Authorization: this.sessionS.getObject("token").token_type + " " + this.sessionS.getObject("token").access_token
+      },
+      params: params
+    };
   }
 }

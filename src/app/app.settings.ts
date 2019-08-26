@@ -10,4 +10,5 @@ export class AppSettings {
   public static CLIENT_GET_BUDGET = "client/get/budget";
   public static CURRENT_USER = "oauth/current/user";
   public static GET_ESTATUS_BUDGET = "client/get/budget/status";
+  public static CANCEL = "client/set/budget/status";
 }

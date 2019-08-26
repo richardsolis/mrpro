@@ -6,6 +6,7 @@ import { CategoryService } from "../../../services/category.service";
 import { DistrictService } from "../../../services/district.service";
 import { ProviderService } from "../../../services/provider.service";
 import { NgxSpinnerService } from "ngx-spinner";
+// import { ConsoleReporter } from "jasmine";
 
 @Component({
   selector: "app-select-provider",
@@ -38,6 +39,7 @@ export class SelectProviderComponent implements OnInit {
   tprovider: any = {
     user: {}
   };
+  userProvider: any = {};
 
   provedores = [];
   constructor(private router: Router, private spinner: NgxSpinnerService, private session: SessionService, private userS: UserService, private categoryS: CategoryService, private districtS: DistrictService, private providerS: ProviderService) {}
@@ -62,6 +64,14 @@ export class SelectProviderComponent implements OnInit {
     });
   }
 
+  buttonSelectType(type) {
+    console.log(type);
+    this.serviceSearch.type = type;
+  }
+
+  userPor(person) {
+    this.userProvider = this.session.setObject("userProvider", person);
+  }
   getProviders() {
     this.spinner.show();
     this.providerS
@@ -85,6 +95,7 @@ export class SelectProviderComponent implements OnInit {
           this.providers[i].success = 0;
           this.providers[i].selected = false;
         }
+        console.log(this.providers);
         this.spinner.hide();
       });
   }
@@ -126,6 +137,8 @@ export class SelectProviderComponent implements OnInit {
   }
 
   showFile(modal, provider) {
+    this.session.setObject("userProvider", provider);
+    this.userProvider = provider;
     this.tprovider = provider;
     modal.open();
   }

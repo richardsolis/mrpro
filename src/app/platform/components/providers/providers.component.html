@@ -9,7 +9,7 @@
           <div class="card card-provider">
             <div class="row no-gutters box-mg-nano">
               <div class="col-4 image-provider">
-                <img src="./assets/images/{{ provider.image_url }}" class="card-img" alt="..." />
+                <img src="./assets/images/user.png" class="card-img" alt="..." />
               </div>
               <div class="col-8">
                 <div class="card-body">
@@ -21,11 +21,15 @@
                   <p class="card-text">
                     <small class="text-muted">{{ provider.user_provider.experience }} años de experiencia</small>
                   </p>
+                  <p class="card-text">
+                    <small class="text-muted">Fecha de Reserva: {{ provider.date_service }}</small>
+                  </p>
+                  <p>Información: {{ provider.description }}</p>
                 </div>
               </div>
               <div class="buttons-provider col-md-12 row row-justifycon">
-                <button class="btn color-blue">Ver ficha</button>
-                <button (click)="schedule()" class="btn btn-danger">Cancelar</button>
+                <button class="btn color-blue" (click)="ficha(myFile, provider)">Ver ficha</button>
+                <button (click)="schedule(provider)" class="btn btn-danger">Cancelar</button>
               </div>
             </div>
           </div>
@@ -34,4 +38,57 @@
     </section>
   </div>
 </div>
+
 <ptfm-footer></ptfm-footer>
+
+<modal #myFile>
+  <modal-content>
+    <div class="error text-center">
+      <div class="content" style="text-align: center;display: flex;align-items: center;justify-content: space-between">
+        <img src="./assets/images/user.png" class="card-img" alt="..." style="width: 200px;" />
+        <div>
+          <div style="margin-top: 10px; text-align: left !important;">
+            <h5 style="font-weight: 600;color: #134293;font-size: 17px;">
+              Nombre:
+            </h5>
+            <p>
+              {{ tprovider.user_provider.user.name }}
+            </p>
+          </div>
+          <div style="margin-top: 20px; text-align: left !important;">
+            <h5 style="font-weight: 600;color: #134293;font-size: 17px;">
+              Años de Experiencia:
+            </h5>
+            <p>{{ tprovider.user_provider.experience }} años</p>
+          </div>
+          <div style="margin-top: 20px; text-align: left !important;">
+            <h5 style="font-weight: 600;color: #134293;font-size: 17px;">
+              Certificaciones:
+            </h5>
+            <p>
+              <span *ngFor="let certificate of tprovider.user_provider.certificate">{{ certificate.certificate.name }}, </span>
+              <!-- {{ tprovider.user.name }} -->
+            </p>
+          </div>
+          <div style="margin-top: 20px; text-align: left !important;">
+            <h5 style="font-weight: 600;color: #134293;font-size: 17px;">
+              Instituciones:
+            </h5>
+            <p>
+              {{ tprovider.user_provider.user.name }}
+            </p>
+          </div>
+          <div style="margin-top: 20px; text-align: left !important;">
+            <h5 style="font-weight: 600;color: #134293;font-size: 17px;">
+              Calificacion (0 - 5):
+            </h5>
+            <p>
+              <!-- {{ tprovider.user_provider.rating }} -->
+              0
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </modal-content>
+</modal>

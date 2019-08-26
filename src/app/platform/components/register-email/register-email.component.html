@@ -18,27 +18,30 @@
 					<input [(ngModel)]="user.phone" (keypress)="onlydigit($event)" type="text" placeholder="Celular" name="phone">
 				</div>
 				<div class="form-group">
-					<input [(ngModel)]="user.email" type="email" placeholder="Correo electrónico" name="email">
+					<input [(ngModel)]="user.email" type="email" placeholder="Correo electrÛnico" name="email">
 				</div>
 				<div class="form-group">
-					<input [(ngModel)]="user.password" type="password" placeholder="Contraseña" name="password">
+					<input [(ngModel)]="user.password" type="password" placeholder="ContraseÒa" name="password">
 				</div>
 				<div class="form-group">
-					<input [(ngModel)]="user.password_confirmation" type="password" placeholder="Confirmar contraseña" name="password_confirmation">
+					<input [(ngModel)]="user.password_confirmation" type="password" placeholder="Confirmar contraseÒa" name="password_confirmation">
 				</div>
 				<div class="form-group">
-					<input [(ngModel)]="user.cpolicy" class="check" type="checkbox" placeholder="Contraseña" name="cpolicy"> Acepto <strong class="color-blue">Política de privacidad</strong>
+					<input (change)="selectFile($event.target.files[0])" type="file" name="image">
 				</div>
 				<div class="form-group">
-					<input [(ngModel)]="user.cconditions" class="check" type="checkbox" placeholder="Contraseña" name="cconditions"> Acepto <strong class="color-blue">Términos y condiciones</strong>
+					<input [(ngModel)]="user.cpolicy" class="check" type="checkbox" placeholder="ContraseÒa" name="cpolicy"> Acepto <strong class="color-blue">PolÌtica de privacidad</strong>
+				</div>
+				<div class="form-group">
+					<input [(ngModel)]="user.cconditions" class="check" type="checkbox" placeholder="ContraseÒa" name="cconditions"> Acepto <strong class="color-blue">TÈrminos y condiciones</strong>
 				</div>
 			</form>
 				<button (click)="login(myModal)" class="btn bprimary">Crear mi cuenta</button>
 			<div class="divider"></div>
 			
 			<div class="row row-justifycon">
-				¿Ya tienes cuenta?
-				<button routerLink="/ingresar" class="btn btn-outprimary">Inicia sesión</button>
+				øYa tienes cuenta?
+				<button routerLink="/ingresar" class="btn btn-outprimary">Inicia sesiÛn</button>
 			</div>
 		</div>
 	</section>

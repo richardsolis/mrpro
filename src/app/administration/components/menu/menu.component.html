@@ -1,16 +1,22 @@
 <div class="menu-nav">
 	<div class="menu-head">
-		<img *ngIf="user.role == 1" src="./assets/images/admin.png">
-		<img *ngIf="user.role == 2" src="./assets/images/user.png">
-        <h2>{{user.firstname}}</h2>
+		<!--*ngIf="user.role == 1"-->
+		<img src="./assets/images/admin.png">
+		<!--<img *ngIf="user.role == 2" src="./assets/images/user.png">-->
+		<h2>Administrador</h2>
+        <!--<h2>{{user.firstname}}</h2>-->
 	</div>
+	<hr class="line-divider">
 	<div class="menu-list">
 		<ul class="mb-0">
 			<li><a [routerLink]="['/admin/provider']" routerLinkActive="active-route"><i class="fa fa-home" aria-hidden="true"></i> Perfil </a></li>
-			<li *ngIf="user.role == 1"><a [routerLink]="['/admin/user']" routerLinkActive="active-route"><i class="fa fa-home" aria-hidden="true"></i> Usuarios </a></li>
-			<li *ngIf="user.role == 1"><a [routerLink]="['/admin/provider']" routerLinkActive="active-route"><i class="fa fa-home" aria-hidden="true"></i> Proveedores </a></li>
-			<li *ngIf="user.role == 2"><a [routerLink]="['/admin/provider/select']" routerLinkActive="active-route"><i class="fa fa-home" aria-hidden="true"></i> Proveedores </a></li>
-			<!-- <li><a [routerLink]="['/reports/principal/consolidado']" routerLinkActive="active-route"><i class="fa fa-home" aria-hidden="true"></i>  </a></li> -->
+			<li><a [routerLink]="['/admin/provider/select']" routerLinkActive="active-route"><i class="fa fa-home" aria-hidden="true"></i> Categorías </a></li>
+			<li><a [routerLink]="['/admin/provider/select']" routerLinkActive="active-route"><i class="fa fa-home" aria-hidden="true"></i> Comisión </a></li>
+			<li><a [routerLink]="['/admin/user']" routerLinkActive="active-route"><i class="fa fa-home" aria-hidden="true"></i> Clientes </a></li>
+			<li><a [routerLink]="['/admin/provider']" routerLinkActive="active-route"><i class="fa fa-home" aria-hidden="true"></i> Proveedores </a></li>	
+			<!-- *ngIf="user.role == 2"
+				*ngIf="user.role == 1"
+				<li><a [routerLink]="['/reports/principal/consolidado']" routerLinkActive="active-route"><i class="fa fa-home" aria-hidden="true"></i>  </a></li> -->
 		</ul>
 		<!-- <ul *ngIf="showMenu">
 			<li><a class="pl-4" [routerLink]="['/reports/course', idCourse,'descargables']" routerLinkActive="active-route"><i class="fa fa-download" aria-hidden="true"></i> Descargables</a></li>
@@ -22,7 +28,7 @@
 			<li><a class="pl-4" [routerLink]="['/reports/course', idCourse,'autoevaluation']" routerLinkActive="active-route"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Autoevaluación</a></li>
 			<li><a class="pl-4" [routerLink]="['/reports/course', idCourse,'exams']" routerLinkActive="active-route"><i class="fa fa-file-text-o" aria-hidden="true"></i> Exámenes</a></li>
 			<li><a class="pl-4" [routerLink]="['/reports/course', idCourse,'foros']" routerLinkActive="active-route"><i class="fa fa-comments-o" aria-hidden="true"></i> Foros de Consulta</a></li>
-		</ul> -->
+		</ul>-->
 		<ul>
 			<li><a (click)="logout()"><i class="fa fa-sign-out" aria-hidden="true"></i> Cerrar Sesión</a></li>
 		</ul>

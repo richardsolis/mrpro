@@ -525,9 +525,20 @@ footer.primary {
 main {
   padding-top: 1rem;
 }
+
+.height-bar {
+  height: 900px;
+  max-width: 100%;
+}
+
+.line-divider{
+ background-color: #ffffff;
+ width: 90%;
+}
+
 .sidebar {
   background: #135daa;
-  position: fixed;
+  /*position: fixed;*/
   height: 100%;
   z-index: 99;
   padding: 0 !important;

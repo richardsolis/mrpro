@@ -11,6 +11,10 @@ import { ProviderComponent } from './components/provider/provider.component';
 
 const routes: Routes = [
 	{
+		path: 'adminLogin',
+		component: LoginComponent
+	},
+	{
 		path: 'admin',
 		component: AdministrationComponent,
 		children: [

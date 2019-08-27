@@ -1,11 +1,12 @@
-<!--<adm-header></adm-header>-->
-<div class="row height-bar">
-	<div class="col-lg-2 col-md-2  sidebar">
-		<adm-menu></adm-menu>
-	</div>
-	<main role="main" class="col-lg-10 col-md-10">
-		<router-outlet></router-outlet>
-	</main>	
-</div>
 
-<!--<adm-footer></adm-footer>-->
+<div class="row row-start">
+		<div class="col-lg-2 col-md-2 sidebar">
+			<adm-menu></adm-menu>
+		</div>
+		<main role="main" class="col-lg-10 col-md-10">
+			<div class="row">
+				<router-outlet></router-outlet>
+			</div>
+		</main>	
+	</div>
+

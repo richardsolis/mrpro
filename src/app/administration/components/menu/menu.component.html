@@ -9,11 +9,11 @@
 	<hr class="line-divider">
 	<div class="menu-list">
 		<ul class="mb-0">
-			<li><a [routerLink]="['/admin/provider']" routerLinkActive="active-route"><i class="fa fa-home" aria-hidden="true"></i> Perfil </a></li>
-			<li><a [routerLink]="['/admin/provider/select']" routerLinkActive="active-route"><i class="fa fa-home" aria-hidden="true"></i> Categorías </a></li>
-			<li><a [routerLink]="['/admin/provider/select']" routerLinkActive="active-route"><i class="fa fa-home" aria-hidden="true"></i> Comisión </a></li>
-			<li><a [routerLink]="['/admin/user']" routerLinkActive="active-route"><i class="fa fa-home" aria-hidden="true"></i> Clientes </a></li>
-			<li><a [routerLink]="['/admin/provider']" routerLinkActive="active-route"><i class="fa fa-home" aria-hidden="true"></i> Proveedores </a></li>	
+			<li><a [routerLink]="['/admin/perfil']" routerLinkActive="active-route"><i class="fa fa-user" aria-hidden="true"></i> Perfil </a></li>
+			<li><a [routerLink]="['/admin/categoria']" routerLinkActive="active-route"><i class="fa fa-list" aria-hidden="true"></i> Categorías </a></li>
+			<li><a [routerLink]="['/admin/comision']" routerLinkActive="active-route"><i class="fa fa-money" aria-hidden="true"></i> Comisión </a></li>
+			<li><a [routerLink]="['/admin/cliente']" routerLinkActive="active-route"><i class="fa fa-users" aria-hidden="true"></i> Clientes </a></li>
+			<li><a [routerLink]="['/admin/proveedor']" routerLinkActive="active-route"><i class="fa fa-address-book" aria-hidden="true"></i> Proveedores </a></li>	
 			<!-- *ngIf="user.role == 2"
 				*ngIf="user.role == 1"
 				<li><a [routerLink]="['/reports/principal/consolidado']" routerLinkActive="active-route"><i class="fa fa-home" aria-hidden="true"></i>  </a></li> -->
@@ -29,6 +29,7 @@
 			<li><a class="pl-4" [routerLink]="['/reports/course', idCourse,'exams']" routerLinkActive="active-route"><i class="fa fa-file-text-o" aria-hidden="true"></i> Exámenes</a></li>
 			<li><a class="pl-4" [routerLink]="['/reports/course', idCourse,'foros']" routerLinkActive="active-route"><i class="fa fa-comments-o" aria-hidden="true"></i> Foros de Consulta</a></li>
 		</ul>-->
+		<hr class="line-divider">
 		<ul>
 			<li><a (click)="logout()"><i class="fa fa-sign-out" aria-hidden="true"></i> Cerrar Sesión</a></li>
 		</ul>

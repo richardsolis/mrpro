@@ -1,9 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
-import { HomeComponent } from './components/home/home.component';
 import { AdministrationComponent } from './administration.component';
-import { SelectProviderComponent } from './components/select-provider/select-provider.component';
+import { PerfilComponent } from './components/perfil/perfil.component';
+import { CategoryComponent } from './components/category/category.component';
+import { CommissionComponent } from './components/commission/commission.component';
+import { ClientComponent } from './components/client/client.component';
+import { ProviderComponent } from './components/provider/provider.component';
+
 
 const routes: Routes = [
 	{
@@ -13,16 +17,28 @@ const routes: Routes = [
 			{
 				path: '',
 				pathMatch: 'full', 
-				redirectTo: '/admin/home'
+				redirectTo: '/admin/perfil'
 			},
 			{
-				path: 'home',
-				component: HomeComponent
+				path: 'perfil',
+				component: PerfilComponent
 			},
 			{
-				path: 'select',
-				component: SelectProviderComponent
+				path: 'categoria',
+				component: CategoryComponent
 			},
+			{
+				path: 'comision',
+				component: CommissionComponent
+			},
+			{
+				path: 'cliente',
+				component: ClientComponent
+			},
+			{
+				path: 'proveedor',
+				component: ProviderComponent
+			}
 		]
 	}
 ];

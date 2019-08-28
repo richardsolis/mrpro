@@ -5,8 +5,27 @@
       <form class="form row">
         <div class="form-group w-100">
           <h5 class="color-blue title-filter">Tipo de Servicio</h5>
-          <div class="select w-100">
-            <div>
+          <div class="select w-100 color-blue">
+            <div class="form-check">
+              <input (click)="buttonSelectType('programmed')" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option1" checked>
+              <label class="form-check-label" for="exampleRadios2">
+                Cotizacion
+              </label>
+            </div>
+            <div class="form-check">
+              <input (click)="buttonSelectType('immediate')" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option2">
+              <label class="form-check-label" for="exampleRadios1">
+                Directo
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option3">
+              <label class="form-check-label" for="exampleRadios3">
+                Tarifado
+              </label>
+            </div>
+          </div>  
+            <!--<div>
               <p style="cursor: pointer;">
                 <span (click)="buttonSelectType('programmed')" [ngStyle]="{ background: serviceSearch.type == 'programmed' ? '#134293' : 'white', color: serviceSearch.type == 'programmed' ? 'white' : '#134293' }" style="margin-right: 10px;padding: 2px 10px;border-radius: 3px; border: 1px solid #134293; ">
                   Programado
@@ -17,11 +36,11 @@
                 </span>
               </p>
             </div>
-            <!-- <select class="w-100 color-blue" [(ngModel)]="serviceSearch.type" name="type">
+            <select class="w-100 color-blue" [(ngModel)]="serviceSearch.type" name="type">
               <option value="programmed">Programado</option>
               <option value="immediate">Inmediato</option>
-            </select> -->
-          </div>
+            </select>
+          </div> -->
         </div>
         <!-- <div class="form-group w-100">
 					<h5 class="color-blue">Distrito</h5>
@@ -54,7 +73,8 @@
         <div class="form-group w-100">
           <h5 class="color-blue title-filter">Categoría</h5>
           <div class="select w-100">
-            <select class="w-100 color-blue" [(ngModel)]="serviceSearch.category" (change)="categoryChanged()" style="width: initial" name="category">
+              <!--w-100 color-blue-->
+            <select class="custom-select color-blue" [(ngModel)]="serviceSearch.category" (change)="categoryChanged()" style="width: initial" name="category">
               <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
             </select>
           </div>
@@ -62,7 +82,8 @@
         <div class="form-group w-100">
           <h5 class="color-blue title-filter">Sub Categoría</h5>
           <div class="select w-100">
-            <select class="w-100 color-blue" [(ngModel)]="serviceSearch.subcategory" style="width: initial" name="subcategory">
+            <!--w-100 color-blue-->
+            <select class="custom-select color-blue" [(ngModel)]="serviceSearch.subcategory" style="width: initial" name="subcategory">
               <option *ngFor="let subcategory of subCategories" [value]="subcategory.id">{{ subcategory.name }}</option>
             </select>
           </div>

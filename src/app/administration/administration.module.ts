@@ -9,11 +9,11 @@ import { HeaderComponent } from './components/header/header.component';
 import { AdministrationComponent } from './administration.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { ModalModule } from "ngx-modal";
-import { PerfilComponent } from './components/perfil/perfil.component';
-import { ClientComponent } from './components/client/client.component';
+import { UserComponent } from './components/user/user.component';
+import { ServiceComponent } from './components/service/service.component';
 import { CategoryComponent } from './components/category/category.component';
 import { CommissionComponent } from './components/commission/commission.component';
-import { ProviderComponent } from './components/provider/provider.component';
+import { OrderComponent } from './components/order/order.component';
 
 @NgModule({
   imports: [
@@ -28,7 +28,7 @@ import { ProviderComponent } from './components/provider/provider.component';
   	HeaderComponent, 
   	AdministrationComponent,
   	MenuComponent, 
-  	PerfilComponent, ClientComponent, CategoryComponent, CommissionComponent, ProviderComponent
+  	UserComponent, ServiceComponent, CategoryComponent, CommissionComponent, OrderComponent
   ],
   providers: [
   	

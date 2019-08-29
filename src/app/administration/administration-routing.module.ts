@@ -2,11 +2,12 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
 import { AdministrationComponent } from './administration.component';
-import { PerfilComponent } from './components/perfil/perfil.component';
 import { CategoryComponent } from './components/category/category.component';
 import { CommissionComponent } from './components/commission/commission.component';
-import { ClientComponent } from './components/client/client.component';
-import { ProviderComponent } from './components/provider/provider.component';
+
+import { ServiceComponent } from './components/service/service.component';
+import { UserComponent } from './components/user/user.component';
+import { OrderComponent } from './components/order/order.component';
 
 
 const routes: Routes = [
@@ -21,11 +22,11 @@ const routes: Routes = [
 			{
 				path: '',
 				pathMatch: 'full', 
-				redirectTo: '/admin/perfil'
+				redirectTo: '/admin/pedido'
 			},
 			{
-				path: 'perfil',
-				component: PerfilComponent
+				path: 'servicio',
+				component: ServiceComponent
 			},
 			{
 				path: 'categoria',
@@ -36,12 +37,12 @@ const routes: Routes = [
 				component: CommissionComponent
 			},
 			{
-				path: 'cliente',
-				component: ClientComponent
+				path: 'usuario',
+				component: UserComponent
 			},
 			{
-				path: 'proveedor',
-				component: ProviderComponent
+				path: 'pedido',
+				component: OrderComponent
 			}
 		]
 	}

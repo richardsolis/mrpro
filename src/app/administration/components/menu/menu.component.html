@@ -9,26 +9,15 @@
 	<hr class="line-divider">
 	<div class="menu-list">
 		<ul class="mb-0">
-			<li><a [routerLink]="['/admin/perfil']" routerLinkActive="active-route"><i class="fa fa-user" aria-hidden="true"></i> Perfil </a></li>
 			<li><a [routerLink]="['/admin/categoria']" routerLinkActive="active-route"><i class="fa fa-list" aria-hidden="true"></i> Categorías </a></li>
+			<li><a [routerLink]="['/admin/servicio']" routerLinkActive="active-route"><i class="fa fa-tasks" aria-hidden="true"></i> Servicios </a></li>
 			<li><a [routerLink]="['/admin/comision']" routerLinkActive="active-route"><i class="fa fa-money" aria-hidden="true"></i> Comisión </a></li>
-			<li><a [routerLink]="['/admin/cliente']" routerLinkActive="active-route"><i class="fa fa-users" aria-hidden="true"></i> Clientes </a></li>
-			<li><a [routerLink]="['/admin/proveedor']" routerLinkActive="active-route"><i class="fa fa-address-book" aria-hidden="true"></i> Proveedores </a></li>	
+			<li><a [routerLink]="['/admin/usuario']" routerLinkActive="active-route"><i class="fa fa-users" aria-hidden="true"></i> usuarios </a></li>
+			<li><a [routerLink]="['/admin/pedido']" routerLinkActive="active-route"><i class="fa fa-address-book" aria-hidden="true"></i> Pedidos </a></li>	
 			<!-- *ngIf="user.role == 2"
 				*ngIf="user.role == 1"
 				<li><a [routerLink]="['/reports/principal/consolidado']" routerLinkActive="active-route"><i class="fa fa-home" aria-hidden="true"></i>  </a></li> -->
 		</ul>
-		<!-- <ul *ngIf="showMenu">
-			<li><a class="pl-4" [routerLink]="['/reports/course', idCourse,'descargables']" routerLinkActive="active-route"><i class="fa fa-download" aria-hidden="true"></i> Descargables</a></li>
-			<li><a class="pl-4" [routerLink]="['/reports/course', idCourse,'general']" routerLinkActive="active-route"><i class="fa fa-area-chart" aria-hidden="true"></i> Reporte General</a></li>
-			<li><a class="pl-4" [routerLink]="['/reports/course', idCourse,'enrolls']" routerLinkActive="active-route"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Matriculados</a></li>
-			<li><a class="pl-4" [routerLink]="['/reports/course', idCourse,'activities']" routerLinkActive="active-route"><i class="fa fa-calendar" aria-hidden="true"></i> Actividades</a></li>
-			<li><a class="pl-4" [routerLink]="['/reports/course', idCourse,'scorm']" routerLinkActive="active-route"><i class="fa fa-window-maximize" aria-hidden="true"></i> SCORM</a></li>
-			<li><a class="pl-4" [routerLink]="['/reports/course', idCourse,'resources']" routerLinkActive="active-route"><i class="fa fa-file" aria-hidden="true"></i> Recursos</a></li>
-			<li><a class="pl-4" [routerLink]="['/reports/course', idCourse,'autoevaluation']" routerLinkActive="active-route"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Autoevaluación</a></li>
-			<li><a class="pl-4" [routerLink]="['/reports/course', idCourse,'exams']" routerLinkActive="active-route"><i class="fa fa-file-text-o" aria-hidden="true"></i> Exámenes</a></li>
-			<li><a class="pl-4" [routerLink]="['/reports/course', idCourse,'foros']" routerLinkActive="active-route"><i class="fa fa-comments-o" aria-hidden="true"></i> Foros de Consulta</a></li>
-		</ul>-->
 		<hr class="line-divider">
 		<ul>
 			<li><a (click)="logout()"><i class="fa fa-sign-out" aria-hidden="true"></i> Cerrar Sesión</a></li>

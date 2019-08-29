@@ -314,6 +314,11 @@ footer.primary {
   height: 100%;
   width: 100%;
 }
+.dash-main { 
+  background-color: #f8f9fc;
+  min-height: 100vh;
+  max-height: 100%;
+}
 
 .row {
   margin: 0;
@@ -1023,6 +1028,10 @@ td {
 }
 .card-header {
   font-size: 13.5px;
+}
+
+.card-body-admin {
+  padding: 1.25rem;
 }
 
 .card-provider.selected {

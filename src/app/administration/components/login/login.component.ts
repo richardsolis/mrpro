@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
   		this.message = 'Campos incompletos';
   	}
   	else{
-		this.router.navigate(['/admin/perfil']);
+		this.router.navigate(['/admin/pedido']);
   		/*if(this.user.username == 'admin'){
   			this.userdata = {
 	  			firstname: 'Admin',

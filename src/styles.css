@@ -310,6 +310,8 @@ footer.primary {
   background: rgba(0, 0, 0, 0.1);
 }
 
+/**************INICIO ADMIN ***********/
+
 .dash-side {
   height: 100%;
   width: 100%;
@@ -324,6 +326,8 @@ footer.primary {
   color: black !important;
   background-color: white;
 }
+
+/************** FIN ADMIN ***********/
 .row {
   margin: 0;
   align-items: center;

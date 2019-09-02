@@ -19,7 +19,7 @@ export class SelectProviderComponent implements OnInit {
     category: 1,
     subcategory: 6,
     district: 1,
-    date: "2019-07-10",
+    date: new Date(),
     hour: "08:00:00",
     provider_name: "",
     provider: 0

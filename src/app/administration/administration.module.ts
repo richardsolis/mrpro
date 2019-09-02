@@ -14,6 +14,7 @@ import { ServiceComponent } from './components/service/service.component';
 import { CategoryComponent } from './components/category/category.component';
 import { CommissionComponent } from './components/commission/commission.component';
 import { OrderComponent } from './components/order/order.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   imports: [
@@ -21,7 +22,8 @@ import { OrderComponent } from './components/order/order.component';
     AdministrationRoutingModule,
     FormsModule,
     HttpModule,
-    ModalModule
+    ModalModule,
+    NgxSpinnerModule
   ],
   declarations: [ 
   	LoginComponent,  

@@ -4,7 +4,7 @@
       <nav class="navbar navbar-light bg-light">
           <a class="navbar-brand"><b>Usuario</b></a>
           <div class="navbar-nav mr-auto">
-              <a class="btn blue" href="#">Nuevo <i class="fa fa-plus-circle" aria-hidden="true"></i>
+              <a (click)="newUser(myModal, 'Nueva Administrador')" class="btn blue" href="javascript:void(0)">Nuevo <i class="fa fa-plus-circle" aria-hidden="true"></i>
               </a>
             </div>
           <form class="form-inline">
@@ -27,6 +27,7 @@
           <th scope="col">Nombre</th>
           <th scope="col">Apellido</th>
           <th scope="col">Correo</th>
+          <th scope="col">DNI</th>
           <th scope="col">Acciones</th>
         </tr>
       </thead>
@@ -36,8 +37,9 @@
           <td>Mark</td>
           <td>Otto</td>
           <td>@mdo</td>
+          <td>12345678</td>
           <td>
-            <button type="button" class="btn btn-warning">Editar</button>
+            <button (click)="newUser(myModal, 'Editar cliente')" type="button" class="btn btn-warning">Editar</button>
             <button type="button" class="btn btn-danger">Eliminar</button>
           </td>
         </tr>
@@ -46,8 +48,9 @@
           <td>Jacob</td>
           <td>Thornton</td>
           <td>@fat</td>
+          <td>12345678</td>
           <td>
-              <button type="button" class="btn btn-warning">Editar</button>
+              <button (click)="newUser(myModal, 'Editar administrador')" type="button" class="btn btn-warning">Editar</button>
               <button type="button" class="btn btn-danger">Eliminar</button>
             </td>
         </tr>
@@ -56,6 +59,7 @@
           <td>Larry</td>
           <td>the Bird</td>
           <td>@twitter</td>
+          <td>12345678</td>
           <td>
               <button type="button" class="btn btn-warning">Editar</button>
               <button type="button" class="btn btn-danger">Eliminar</button>
@@ -86,3 +90,42 @@
         </nav>
   </div>
 </div>
+
+<modal #myModal>
+    <modal-content>
+      <div class="row text-center">
+        <h4>{{title}}</h4>
+      </div>
+        <form> 
+          <div class="form-group row">
+              <label for="inputEmail3" class="col-sm-2 col-form-label">Nombre</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputEmail3" placeholder="Nombre">
+              </div>
+          </div>
+          <div class="form-group row">
+              <label for="inputEmail3" class="col-sm-2 col-form-label">Apellido</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputEmail3" placeholder="Apellido">
+              </div>
+          </div>
+          <div class="form-group row">
+              <label for="inputEmail3" class="col-sm-2 col-form-label">Correo</label>
+              <div class="col-sm-10">
+                <input type="email" class="form-control" id="inputEmail3" placeholder="Correo">
+              </div>
+          </div>
+          <div class="form-group row">
+              <label for="inputEmail3" class="col-sm-2 col-form-label">DNI</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputEmail3" placeholder="Documento de Identidad">
+              </div>
+          </div>
+          <div class="form-group row">
+              <div class="col-sm-10">
+                <button type="submit" (click)="saveUser(myModal)" class="btn bprimary">guardar</button>
+              </div>
+            </div>
+        </form>
+    </modal-content>
+  </modal>

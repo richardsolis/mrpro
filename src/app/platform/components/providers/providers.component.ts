@@ -88,7 +88,7 @@ export class ProvidersComponent implements OnInit {
 
   providers;
   providerData = [];
-
+  resultFilter = [];
   tprovider: any = {
     user_provider: {
       user: {}
@@ -114,6 +114,16 @@ export class ProvidersComponent implements OnInit {
         }
         this.spinner.hide();
         console.log(this.providerData, "dasdasd");
+        var groups2 = new Set(this.providerData.map(item2 => item2.unique));
+        var result = [];
+        groups2.forEach(g =>
+          this.resultFilter.push({
+            name: g,
+            acordeon: false,
+            values: this.providerData.filter(i => i.unique === g)
+          })
+        );
+        console.log(this.resultFilter);
       },
       error => {
         // this.generalS.relogin(this.sendBudget, error, this.spinner);
@@ -130,6 +140,20 @@ export class ProvidersComponent implements OnInit {
   ficha(modal, proveedor) {
     this.tprovider = proveedor;
     modal.open();
+  }
+
+  acordeon(data) {
+    for (let i = 0; i < this.resultFilter.length; i++) {
+      this.resultFilter[i].acordeon = false;
+    }
+    if (data.acordeon == true) {
+      data.acordeon = false;
+    } else {
+      data.acordeon = true;
+    }
+
+    // data.acordeon = true;
+    console.log(data);
   }
 
   schedule(proveedor) {

@@ -9,6 +9,7 @@ import { SessionService } from "../../../services/session.service";
 })
 export class HeaderComponent implements OnInit {
   user: any = {};
+  submenu = false;
 
   constructor(private session: SessionService, private router: Router) {}
 
@@ -16,7 +17,13 @@ export class HeaderComponent implements OnInit {
     console.log(this.user);
     this.user = this.session.getObject("user");
   }
-
+  menu() {
+    if (this.submenu == false) {
+      this.submenu = true;
+    } else {
+      this.submenu = false;
+    }
+  }
   logout() {
     this.session.destroy("user");
     this.user = {};

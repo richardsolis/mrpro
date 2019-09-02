@@ -4,7 +4,7 @@
     <section class="box-mh">
       <div class="box-mg-nano">{{ providerData.length }} Profesional{{ providerData.length == 1 ? "" : "es" }}</div>
 
-      <div class="row">
+      <!-- <div class="row">
         <div class="col-md-6 mg-t-small" *ngFor="let provider of providerData">
           <div class="card card-provider">
             <div class="row no-gutters box-mg-nano">
@@ -14,9 +14,7 @@
               <div class="col-8">
                 <div class="card-body">
                   <h5 class="">{{ provider.user_provider.user.name }}</h5>
-                  <!-- <span>{{ provider.rating }} </span><rating [(ngModel)]="provider.rating" [readonly]="true"></rating> -->
                   <p class="card-text">
-                    <!-- <small class="text-muted">{{ provider.success }} servicios realizados</small> -->
                   </p>
                   <p class="card-text">
                     <small class="text-muted">{{ provider.user_provider.experience }} años de experiencia</small>
@@ -30,6 +28,43 @@
               <div class="buttons-provider col-md-12 row row-justifycon">
                 <button class="btn color-blue" (click)="ficha(myFile, provider)">Ver ficha</button>
                 <button (click)="schedule(provider)" class="btn btn-danger">Cancelar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+
+      <div *ngFor="let resultFilters of resultFilter" [class.acordeon]="resultFilters.acordeon == false">
+        <h3 class="acordeon-button" (click)="acordeon(resultFilters)" class="h3-acordeon">
+          <span class="description-acordeon" style="    font-weight: 100;">{{ resultFilters.values[0].description }}</span> {{ resultFilters.values[0].date_service }} <span class="description-acordeon" style="text-align: right"><i class="fa fa-sort-down"></i></span>
+        </h3>
+
+        <div class="row" style="width: 95%;margin-left: 15px;margin: auto;background: white;padding: 20PX;MARGIN-BOTTOM: 20PX;box-shadow: rgba(41, 98, 182, 0.12) 0px 10px 10px;">
+          <div class="col-md-4 mg-t-small" *ngFor="let value of resultFilters.values">
+            <div class="card card-provider">
+              <div class="row no-gutters box-mg-nano" style="display: flex;flex-direction: column;text-align: center;">
+                <div class="col-4 image-provider">
+                  <img src="./assets/images/user.png" class="card-img" alt="..." />
+                </div>
+                <div class="col-8">
+                  <div class="card-body">
+                    <h5 class="">{{ value.user_provider.user.name }} {{ value.user_provider.user.lastname }}</h5>
+                    <!-- <span>{{ value.rating }} </span><rating [(ngModel)]="value.rating" [readonly]="true"></rating> -->
+                    <p class="card-text">
+                      <!-- <small class="text-muted">{{ value.success }} servicios realizados</small> -->
+                    </p>
+                    <p class="card-text">
+                      <small class="text-muted">{{ value.user_provider.experience }} años de experiencia</small>
+                    </p>
+                    <!-- <p class="card-text">
+                      <small class="text-muted">Fecha de Reserva: {{ value.date_service }}</small>
+                    </p> -->
+                  </div>
+                </div>
+                <div class="buttons-provider col-md-12 row row-justifycon">
+                  <button class="btn color-blue" (click)="ficha(myFile, value)">Ver ficha</button>
+                  <button (click)="schedule(provider)" class="btn btn-danger">Cancelar</button>
+                </div>
               </div>
             </div>
           </div>

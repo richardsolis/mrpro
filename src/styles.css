@@ -1244,7 +1244,7 @@ input {
 }
 
 div.image-provider {
-  padding-right: 20px !important;
+  /* padding-right: 20px !important; */
 }
 
 div.buttons-provider {
@@ -1402,4 +1402,38 @@ h5.color-blue.title-filter {
 
 .modal.fade {
   z-index: 999999999999999;
+}
+
+.ingresar:hover {
+  color: #134293 !important;
+}
+
+.acordeon {
+  height: 42px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.acordeon .fa-sort-down {
+  transform: rotate(270deg);
+}
+
+.acordeon-button {
+  cursor: pointer;
+}
+
+.h3-acordeon {
+  color: #ffffff;
+  font-weight: 500;
+  font-size: 20px;
+  background: #134293;
+  padding: 9px 23px;
+  border-radius: 30px;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.description-acordeon {
+  width: 220px;
 }

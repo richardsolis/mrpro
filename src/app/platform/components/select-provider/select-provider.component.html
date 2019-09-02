@@ -82,14 +82,14 @@
       </div>
 
       <div class="row">
-        <div class="col-md-6 mg-t-small" *ngFor="let provider of providers; let i = index">
+        <div class="col-md-3 mg-t-small" *ngFor="let provider of providers; let i = index">
           <div class="card card-provider {{ provider.selected ? 'selected' : '' }}">
             <i class="fa {{ provider.selected ? 'fa-check-circle-o' : 'fa-circle-o' }} absolute-rt font-s-middle"></i>
-            <div class="row no-gutters box-mg-nano" (click)="selectProvider(provider)">
-              <div class="col-4 image-provider">
+            <div class="no-gutters box-mg-nano" (click)="selectProvider(provider)">
+              <div class="col-4 image-provider" style="margin: auto;">
                 <img src="{{ provider.user.image ? provider.user.image : './assets/images/provider.png' }}" class="card-img" alt="..." />
               </div>
-              <div class="col-8">
+              <div class="col-8" style="margin: auto; text-align: center;">
                 <div class="card-body">
                   <h5 class="">{{ provider.user.name }}</h5>
                   <span>{{ provider.rating }} </span><rating [(ngModel)]="provider.rating" [readonly]="true"></rating>

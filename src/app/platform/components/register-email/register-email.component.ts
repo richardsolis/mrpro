@@ -22,12 +22,29 @@ export class RegisterEmailComponent implements OnInit {
 		cconditions: false,
 	};
 	message = '';
+
   constructor(private session:SessionService,
   	private spinner: NgxSpinnerService,
   	private router:Router,
   	private userService: UserService,) { }
 
   ngOnInit() {
+  }
+
+  selectFile(file){
+	console.log(file);
+
+    if (!file) {
+      this.user.image  = '';
+      return;
+	}
+
+    if(file.type.indexOf('image') < 0) {
+	  this.user.image  = '';
+      return;
+    }
+
+    this.user.image = file;
   }
 
   login(myModal){
@@ -45,27 +62,30 @@ export class RegisterEmailComponent implements OnInit {
   	}
 
   	if(this.user.password != this.user.password_confirmation){
-  		this.message = 'Contraseñas diferentes';
+  		this.message = 'ContraseÒas diferentes';
   		myModal.open();
   		return;
   	}
 
   	if(!this.user.cpolicy){
-  		this.message = 'Acepta las políticas de privacidad';
+  		this.message = 'Acepta las polÌticas de privacidad';
   		myModal.open();
   		return;
   	}
 
   	if(!this.user.cconditions){
-  		this.message = 'Acepta los términos y condiciones';
+  		this.message = 'Acepta los tÈrminos y condiciones';
   		myModal.open();
   		return;
   	}
 
   	if(!this.user.image){
-  		delete this.user.image;
+		this.message = 'Seleccione imagen';
+		myModal.open();
+		return;
   	}
-
+	
+	  console.log(this.user);
   	this.spinner.show();
   	this.userService.guestCreateUser(this.user)
   	.subscribe((response: any) => {
@@ -76,7 +96,7 @@ export class RegisterEmailComponent implements OnInit {
   	}, (error: any) => {
   		console.log(error);
   		if(error.error && error.error.data && error.error.data.email && error.error.data.email.length){
-  			this.message = 'El correo electrónico ya está registrado';
+  			this.message = 'El correo electrÛnico ya est· registrado';
 	  		myModal.open();
   			this.spinner.hide();
 	  		return;

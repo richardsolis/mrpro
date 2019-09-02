@@ -19,7 +19,7 @@ export class MenuComponent implements OnInit {
 
   logout(){
   	this.session.destroy('user');
-  	this.router.navigate(['/login']);
+  	this.router.navigate(['/adminLogin']);
   }
 
 }

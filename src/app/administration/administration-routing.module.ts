@@ -1,11 +1,20 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
-import { HomeComponent } from './components/home/home.component';
 import { AdministrationComponent } from './administration.component';
-import { SelectProviderComponent } from './components/select-provider/select-provider.component';
+import { CategoryComponent } from './components/category/category.component';
+import { CommissionComponent } from './components/commission/commission.component';
+
+import { ServiceComponent } from './components/service/service.component';
+import { UserComponent } from './components/user/user.component';
+import { OrderComponent } from './components/order/order.component';
+
 
 const routes: Routes = [
+	{
+		path: 'adminLogin',
+		component: LoginComponent
+	},
 	{
 		path: 'admin',
 		component: AdministrationComponent,
@@ -13,16 +22,28 @@ const routes: Routes = [
 			{
 				path: '',
 				pathMatch: 'full', 
-				redirectTo: '/admin/home'
+				redirectTo: '/admin/pedido'
 			},
 			{
-				path: 'home',
-				component: HomeComponent
+				path: 'servicio',
+				component: ServiceComponent
 			},
 			{
-				path: 'select',
-				component: SelectProviderComponent
+				path: 'categoria',
+				component: CategoryComponent
 			},
+			{
+				path: 'comision',
+				component: CommissionComponent
+			},
+			{
+				path: 'usuario',
+				component: UserComponent
+			},
+			{
+				path: 'pedido',
+				component: OrderComponent
+			}
 		]
 	}
 ];

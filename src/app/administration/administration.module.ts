@@ -4,19 +4,16 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule, Http, RequestOptions, XHRBackend } from '@angular/http';
 
 import { AdministrationRoutingModule } from './administration-routing.module';
-import { UserCreateComponent } from './components/user/user-create/user-create.component';
-import { UserListComponent } from './components/user/user-list/user-list.component';
-import { ProvideCreateComponent } from './components/provider/provide-create/provide-create.component';
-import { ProvideListComponent } from './components/provider/provide-list/provide-list.component';
 import { LoginComponent } from './components/login/login.component';
-import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
 import { AdministrationComponent } from './administration.component';
-import { HomeComponent } from './components/home/home.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { ModalModule } from "ngx-modal";
-import { SelectProviderComponent } from './components/select-provider/select-provider.component';
-import { PerfilComponent } from './components/perfil/perfil.component';
+import { UserComponent } from './components/user/user.component';
+import { ServiceComponent } from './components/service/service.component';
+import { CategoryComponent } from './components/category/category.component';
+import { CommissionComponent } from './components/commission/commission.component';
+import { OrderComponent } from './components/order/order.component';
 
 @NgModule({
   imports: [
@@ -26,19 +23,12 @@ import { PerfilComponent } from './components/perfil/perfil.component';
     HttpModule,
     ModalModule
   ],
-  declarations: [
-  	UserCreateComponent, 
-  	UserListComponent, 
-  	ProvideCreateComponent, 
-  	ProvideListComponent, 
-  	LoginComponent, 
-  	FooterComponent, 
+  declarations: [ 
+  	LoginComponent,  
   	HeaderComponent, 
-  	AdministrationComponent, 
-  	HomeComponent, 
+  	AdministrationComponent,
   	MenuComponent, 
-  	SelectProviderComponent, 
-  	PerfilComponent
+  	UserComponent, ServiceComponent, CategoryComponent, CommissionComponent, OrderComponent
   ],
   providers: [
   	

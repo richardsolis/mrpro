@@ -30,7 +30,8 @@ export class LoginComponent implements OnInit {
   		this.message = 'Campos incompletos';
   	}
   	else{
-  		if(this.user.username == 'admin'){
+		this.router.navigate(['/admin/pedido']);
+  		/*if(this.user.username == 'admin'){
   			this.userdata = {
 	  			firstname: 'Admin',
 	  			lastname: 'Mr Pro',
@@ -71,19 +72,19 @@ export class LoginComponent implements OnInit {
 	  	}
 
   		this.session.setObject('user', this.userdata);
-	}
+		}
 
-  	if(this.message){
-  		myModal.open();
-  		return;
-  	}
+		if(this.message){
+			myModal.open();
+			return;
+		}
 
-  	if(this.userdata['role'] == 1){
-  		this.router.navigate(['/admin']);
-  	}
-  	else if(this.userdata['role'] == 2){
-  		this.router.navigate(['/admin/select']);
+		if(this.userdata['role'] == 1){
+			this.router.navigate(['/admin']);
+		}
+		else if(this.userdata['role'] == 2){
+			this.router.navigate(['/admin/select']);
+		}*/
   	}
   }
-
 }

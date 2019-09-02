@@ -1,0 +1,88 @@
+<br>
+<div class="row">
+  <div class="col-lg-10 col-md-10 col-sm-12">
+      <nav class="navbar navbar-light bg-light">
+          <a class="navbar-brand"><b>Usuario</b></a>
+          <div class="navbar-nav mr-auto">
+              <a class="btn blue" href="#">Nuevo <i class="fa fa-plus-circle" aria-hidden="true"></i>
+              </a>
+            </div>
+          <form class="form-inline">
+              <label class="color-blue">Tipo:</label>
+              <select class="custom-select color-blue mr-sm-2" name="tipo">
+                <option>Administrador</option>
+                <option>Cliente</option>
+                <option>Proveedor</option>
+              </select>
+            <input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search">
+            <button class="btn btn-success my-2 my-sm-0" type="submit">Buscar</button>
+          </form>
+        </nav>
+  </div>
+  <div class="col-lg-10 col-md-10 col-sm-12">
+    <table class="table table-bordered table-hover" style="background-color: white">
+    <thead>
+        <tr>
+          <th scope="col"># ID</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Apellido</th>
+          <th scope="col">Correo</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">1</th>
+          <td>Mark</td>
+          <td>Otto</td>
+          <td>@mdo</td>
+          <td>
+            <button type="button" class="btn btn-warning">Editar</button>
+            <button type="button" class="btn btn-danger">Eliminar</button>
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">2</th>
+          <td>Jacob</td>
+          <td>Thornton</td>
+          <td>@fat</td>
+          <td>
+              <button type="button" class="btn btn-warning">Editar</button>
+              <button type="button" class="btn btn-danger">Eliminar</button>
+            </td>
+        </tr>
+        <tr>
+          <th scope="row">3</th>
+          <td>Larry</td>
+          <td>the Bird</td>
+          <td>@twitter</td>
+          <td>
+              <button type="button" class="btn btn-warning">Editar</button>
+              <button type="button" class="btn btn-danger">Eliminar</button>
+            </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-lg-10 col-md-10 col-sm-12">
+      <nav aria-label="Page navigation example">
+        <label class="color-blue">N° Filas:</label>
+            <select class="custom-select color-blue col-lg-1" name="hour">
+              <option>10</option>
+              <option>20</option>
+              <option>50</option>
+            </select>
+          <ul class="pagination justify-content-end">
+            <li class="page-item disabled">
+              <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Atras</a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+              <a class="page-link" href="#">Siguiente</a>
+            </li>
+          </ul>
+        </nav>
+  </div>
+</div>

@@ -2,17 +2,16 @@
 <div class="row">
   <div class="col-lg-10 col-md-10 col-sm-12">
       <nav class="navbar navbar-light bg-light">
-          <a class="navbar-brand"><b>Usuario</b></a>
+          <a class="navbar-brand"><b>Proveedor</b></a>
           <div class="navbar-nav mr-auto">
-              <a (click)="newUser(myModal, 'Nueva Administrador')" class="btn blue" href="javascript:void(0)">Nuevo <i class="fa fa-plus-circle" aria-hidden="true"></i>
-              </a>
-            </div>
+            <a (click)="newProvider(myModal, 'Nueva Proveedor')" class="btn blue" href="javascript:void(0)">Nuevo <i class="fa fa-plus-circle" aria-hidden="true"></i>
+            </a>
+          </div>
+          <div class="navbar-nav mr-auto">
+            <a class="btn btn-success" href="javascript:void(0)">Importar <i class="fa fa-plus-circle" aria-hidden="true"></i>
+            </a>
+          </div>
           <form class="form-inline">
-              <label class="color-blue">Tipo:</label>
-              <select class="custom-select color-blue mr-sm-2" name="tipo">
-                <option>Administrador</option>
-                <option>Cliente</option>
-              </select>
             <input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search">
             <button class="btn btn-success my-2 my-sm-0" type="submit">Buscar</button>
           </form>
@@ -38,7 +37,7 @@
           <td>@mdo</td>
           <td>12345678</td>
           <td>
-            <button (click)="newUser(myModal, 'Editar cliente')" type="button" class="btn btn-warning">Editar</button>
+            <button (click)="newProvider(myModal, 'Editar Proveedor')" type="button" class="btn btn-warning">Editar</button>
             <button type="button" class="btn btn-danger">Eliminar</button>
           </td>
         </tr>
@@ -49,7 +48,7 @@
           <td>@fat</td>
           <td>12345678</td>
           <td>
-              <button (click)="newUser(myModal, 'Editar administrador')" type="button" class="btn btn-warning">Editar</button>
+              <button (click)="newProvider(myModal, 'Editar Proveedor')" type="button" class="btn btn-warning">Editar</button>
               <button type="button" class="btn btn-danger">Eliminar</button>
             </td>
         </tr>
@@ -134,7 +133,7 @@
           </div>
           <div class="form-group row">
             <div class="col-sm-10">
-              <button type="submit" (click)="saveUser(myModal)" class="btn bprimary">guardar</button>
+              <button type="submit" (click)="saveProvider(myModal)" class="btn bprimary">guardar</button>
             </div>
           </div>
         </form>

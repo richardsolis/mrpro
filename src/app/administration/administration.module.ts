@@ -15,6 +15,7 @@ import { CategoryComponent } from './components/category/category.component';
 import { CommissionComponent } from './components/commission/commission.component';
 import { OrderComponent } from './components/order/order.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { ProviderComponent } from './components/provider/provider.component';
 
 @NgModule({
   imports: [
@@ -30,7 +31,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
   	HeaderComponent, 
   	AdministrationComponent,
   	MenuComponent, 
-  	UserComponent, ServiceComponent, CategoryComponent, CommissionComponent, OrderComponent
+  	UserComponent, ServiceComponent, CategoryComponent, CommissionComponent, OrderComponent, ProviderComponent
   ],
   providers: [
   	

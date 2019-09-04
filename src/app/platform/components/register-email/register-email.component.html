@@ -27,7 +27,7 @@
 					<input [(ngModel)]="user.password_confirmation" type="password" placeholder="Confirmar contraseÒa" name="password_confirmation">
 				</div>
 				<div class="form-group">
-					<input (change)="selectFile($event.target.files[0])" type="file" name="image">
+					<input (change)="selectFile($event)" type="file" name="image">
 				</div>
 				<div class="form-group">
 					<input [(ngModel)]="user.cpolicy" class="check" type="checkbox" placeholder="ContraseÒa" name="cpolicy"> Acepto <strong class="color-blue">PolÌtica de privacidad</strong>

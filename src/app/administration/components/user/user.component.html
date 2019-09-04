@@ -13,13 +13,11 @@
                 <option>Administrador</option>
                 <option>Cliente</option>
               </select>
-            <input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search">
-            <button class="btn btn-success my-2 my-sm-0" type="submit">Buscar</button>
           </form>
         </nav>
   </div>
   <div class="col-lg-10 col-md-10 col-sm-12">
-    <table class="table table-bordered table-hover" style="background-color: white">
+    <table class="table-responsive-sm table-bordered table-hover" style="background-color: white">
     <thead>
         <tr>
           <th scope="col"># ID</th>
@@ -31,6 +29,16 @@
         </tr>
       </thead>
       <tbody>
+          <tr>
+            <th scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></th>
+            <td scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></td>
+            <td scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></td>
+            <td scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></td>
+            <td scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></td>
+            <td>
+                <button class="btn btn-success my-2 my-sm-0" type="submit">Buscar</button>
+            </td>
+          </tr>
         <tr>
           <th scope="row">1</th>
           <td>Mark</td>
@@ -39,7 +47,7 @@
           <td>12345678</td>
           <td>
             <button (click)="newUser(myModal, 'Editar cliente')" type="button" class="btn btn-warning">Editar</button>
-            <button type="button" class="btn btn-danger">Eliminar</button>
+            <button type="button" class="btn btn-danger">Dar Baja</button>
           </td>
         </tr>
         <tr>
@@ -50,7 +58,7 @@
           <td>12345678</td>
           <td>
               <button (click)="newUser(myModal, 'Editar administrador')" type="button" class="btn btn-warning">Editar</button>
-              <button type="button" class="btn btn-danger">Eliminar</button>
+              <button type="button" class="btn btn-danger">Dar Baja</button>
             </td>
         </tr>
         <tr>
@@ -61,7 +69,7 @@
           <td>12345678</td>
           <td>
               <button type="button" class="btn btn-warning">Editar</button>
-              <button type="button" class="btn btn-danger">Eliminar</button>
+              <button type="button" class="btn btn-danger">Dar Baja</button>
             </td>
         </tr>
       </tbody>

@@ -22,6 +22,7 @@ export class RegisterEmailComponent implements OnInit {
 		cconditions: false,
 	};
 	message = '';
+	image:any;
 
   constructor(private session:SessionService,
   	private spinner: NgxSpinnerService,
@@ -31,20 +32,20 @@ export class RegisterEmailComponent implements OnInit {
   ngOnInit() {
   }
 
-  selectFile(file){
-	console.log(file);
+  selectFile(event){
+	console.log(event);
 
-    if (!file) {
+    if (!event) {
       this.user.image  = '';
       return;
 	}
 
-    if(file.type.indexOf('image') < 0) {
+    if(event.target.files[0].type.indexOf('image') < 0) {
 	  this.user.image  = '';
       return;
     }
 
-    this.user.image = file;
+    this.image = event.target.files[0];
   }
 
   login(myModal){
@@ -79,13 +80,22 @@ export class RegisterEmailComponent implements OnInit {
   		return;
   	}
 
-  	if(!this.user.image){
+  	if(!this.image){
 		this.message = 'Seleccione imagen';
 		myModal.open();
 		return;
   	}
 	
-	  console.log(this.user);
+	/*console.log(this.image);
+	this.spinner.show();
+	this.userService.postSaveImageUser(this.image)
+  	.subscribe((response: any) => {
+  		console.log(response);
+  		this.spinner.hide();
+  	}, (error: any) => {
+  		console.log(error);
+	})*/
+	  
   	this.spinner.show();
   	this.userService.guestCreateUser(this.user)
   	.subscribe((response: any) => {

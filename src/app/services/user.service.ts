@@ -22,6 +22,16 @@ export class UserService {
     return this.http.post(AppSettings.BASE_PATH + AppSettings.GUEST_CREATE_USER, body, options);
   }
 
+  postSaveImageUser(image){
+    const formData = new FormData();
+
+    const headers = new HttpHeaders({
+    });
+
+    const options = { headers: headers };
+    return this.http.post("http://admin-mrpro.mrpro.pe/api/guest/update/image", formData, options);
+  }
+
   getCurrentUser(params = {}) {
     const body = JSON.stringify(params);
     var header = this.generalS.getToken();

@@ -35,6 +35,7 @@ export class SendBudgetComponent implements OnInit {
   districts = [];
   date = new Date();
   hour = null;
+  typeServices = this.session.getObject("budget");
 
   ObjectServi = {
     address: "",

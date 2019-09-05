@@ -316,13 +316,13 @@ footer.primary {
   height: 100%;
   width: 100%;
 }
-.dash-main { 
+.dash-main {
   background-color: #f5f6f6;
   min-height: 100vh;
   max-height: 100%;
   padding: 0px;
 }
-.header-admin{
+.header-admin {
   color: black !important;
   background-color: white;
 }
@@ -550,9 +550,9 @@ main {
   padding-top: 1rem;
 }
 
-.line-divider{
- background-color: #ffffff;
- width: 90%;
+.line-divider {
+  background-color: #ffffff;
+  width: 90%;
 }
 
 .sidebar {
@@ -593,8 +593,8 @@ main {
   color: white;
   font-size: 13.5px;
 }
-@media(max-width: 440px){
-  .line-divider{
+@media (max-width: 440px) {
+  .line-divider {
     background-color: #ffffff;
     width: 100%;
   }
@@ -1480,14 +1480,14 @@ h5.color-blue.title-filter {
   color: #ffffff;
   font-weight: 500;
   font-size: 20px;
-  background: #134293;
+  background: #125daa;
   padding: 9px 23px;
-  border-radius: 30px;
+  border-radius: 5px;
   display: flex;
   justify-content: space-between;
   cursor: pointer;
 }
 
 .description-acordeon {
-  width: 220px;
+  /* width: 220px; */
 }

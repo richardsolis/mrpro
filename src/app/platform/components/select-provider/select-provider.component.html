@@ -61,7 +61,7 @@
           <input class="form-control color-blue col-lg-10 col-md-10 col-sm-12" type="number" min="1" max="24" id="example-number-input" />
         </div>
         <div class="form-group">
-          <button (click)="scheduleAll(myModal)" class="btn bprimary">Cotizar seleccionados</button>
+          <button (click)="scheduleAll(myModal)" class="btn bprimary"><span *ngIf="serviceSearch.type == 'programmed'">Cotizar seleccionados</span><span *ngIf="serviceSearch.type == 'immediate'">Procesar Inmediato</span><span *ngIf="serviceSearch.type == 'priced'">Precesar Tarifado</span></button>
         </div>
       </div>
     </form>

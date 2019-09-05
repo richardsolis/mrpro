@@ -3,7 +3,7 @@
   <section class="box-mh row row-center" style="min-height: 100vh;">
     <div class="col-md-7 card mg-t-small card-sesion">
       <div class="mg-t-small card-title">
-        <h5>Solicitar cotización</h5>
+        <h5><span *ngIf="typeServices.type == 'programmed'">Solicitar cotización</span><span *ngIf="typeServices.type == 'immediate'">Procesar Inmediato</span><span *ngIf="typeServices.type == 'priced'">Precesar Tarifado</span></h5>
       </div>
       <div class="divider"></div>
 
@@ -45,7 +45,7 @@
           <p>Añadir fotos* :</p>
           <input type="file" accept=".png, .jpg, .jpeg" (change)="onSelectImage($event)" class="form-control" />
         </div> -->
-        <div>
+        <div *ngIf="typeServices.type != 'immediate'">
           <p>Fecha y Hora :</p>
           <div style="display: flex;align-items: center;justify-content: space-between;width: 100%;">
             <input class="col-md-6" [ngModel]="ObjectServi.date_service | date: 'yyyy-MM-dd'" min="{{ ObjectServi.date_service | date: 'yyyy-MM-dd' }}" type="date" name="date" />
@@ -67,7 +67,7 @@
         </div>
         <br />
       </form>
-      <button (click)="sendBudget(myModal)" class="btn bprimary">Solicitar cotización</button>
+      <button (click)="sendBudget(myModal)" class="btn bprimary"><span *ngIf="typeServices.type == 'programmed'">Solicitar cotización</span><span *ngIf="typeServices.type == 'immediate'">Procesar Inmediato</span><span *ngIf="typeServices.type == 'priced'">Precesar Tarifado</span></button>
     </div>
   </section>
 </div>

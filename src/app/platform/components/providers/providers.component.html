@@ -36,9 +36,18 @@
 
       <div *ngFor="let resultFilters of resultFilter" [class.acordeon]="resultFilters.acordeon == false">
         <h3 class="acordeon-button" (click)="acordeon(resultFilters)" class="h3-acordeon">
-          <span class="description-acordeon" style="    font-weight: 100;">{{ resultFilters.values[0].description }}</span> {{ resultFilters.values[0].date_service }} <span class="description-acordeon" style="text-align: right"><i class="fa fa-sort-down"></i></span>
+          <div>
+            {{ resultFilters.values[0].date_service }} |
+            <span class="description-acordeon" style="font-weight: 100;" *ngIf="resultFilters.values[0].category_service_id == 1">Gasfitero</span>
+            <span class="description-acordeon" style="font-weight: 100;" *ngIf="resultFilters.values[0].category_service_id == 2">Electricista</span>
+            <span class="description-acordeon" style="font-weight: 100;" *ngIf="resultFilters.values[0].category_service_id == 3">Técnico en Electrodomésticos</span>
+          </div>
+          <span class="description-acordeon" style="text-align: right"><i class="fa fa-sort-down"></i></span>
         </h3>
-
+        <div style="width: 95%;margin-left: 15px;margin: auto;background: white;padding: 20PX;MARGIN-BOTTOM: 20PX;">
+          <h4>Descripción:</h4>
+          <p>{{ resultFilters.values[0].description }}</p>
+        </div>
         <div class="row" style="width: 95%;margin-left: 15px;margin: auto;background: white;padding: 20PX;MARGIN-BOTTOM: 20PX;box-shadow: rgba(41, 98, 182, 0.12) 0px 10px 10px;">
           <div class="col-md-4 mg-t-small" *ngFor="let value of resultFilters.values">
             <div class="card card-provider">

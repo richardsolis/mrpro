@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { environment } from '../../environments/environment';
 
 import { PlatformRoutingModule } from './platform-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -8,11 +9,15 @@ import { ModalModule } from "ngx-modal";
 import { SocialLoginModule, AuthServiceConfig, GoogleLoginProvider, FacebookLoginProvider, LinkedinLoginProvider } from "angular-6-social-login";
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { LightboxModule } from 'ngx-lightbox';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 
 import { UserService } from '../services/user.service';
 import { ProviderService } from '../services/provider.service';
 import { CategoryService } from '../services/category.service';
 import { GeneralService } from '../services/general.service';
+import { ChatService } from '../services/chat.service';
 
 import { HomeComponent } from './components/home/home.component';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
@@ -26,6 +31,8 @@ import { RegisterEmailComponent } from './components/register-email/register-ema
 import { ContactComponent } from './components/contact/contact.component';
 import { ProvidersComponent } from './components/providers/providers.component';
 import { SendBudgetComponent } from './components/send-budget/send-budget.component';
+import { HomeProviderComponent } from './provider/home/home-provider.component';
+import { ChatComponent } from './provider/components/chat/chat.component';
 
 export function getAuthServiceConfigs() {
   let config = new AuthServiceConfig(
@@ -57,7 +64,10 @@ export function getAuthServiceConfigs() {
     SocialLoginModule,
     ModalModule,
     SlickCarouselModule,
-    LightboxModule
+    LightboxModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule, // imports firebase/firestore, only needed for database features
+    AngularFireAuthModule  // imports firebase/auth, only needed for auth features,
   ],
   providers: [
     {
@@ -68,6 +78,7 @@ export function getAuthServiceConfigs() {
     ProviderService,
     CategoryService,
     GeneralService,
+    ChatService
   ],
   declarations: [
   	HomeComponent, 
@@ -79,7 +90,9 @@ export function getAuthServiceConfigs() {
     LoginComponent, 
     RegistroComponent, 
     RegisterEmailComponent, 
-    ContactComponent, ProvidersComponent, SendBudgetComponent
+    ContactComponent, ProvidersComponent, SendBudgetComponent,
+    HomeProviderComponent,
+    ChatComponent
   ]
 })
 export class PlatformModule { }

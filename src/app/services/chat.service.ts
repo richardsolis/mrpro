@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import {  Mensaje } from '../platform/provider/interface/mensaje.interface';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Chat } from '../platform/provider/interface/chat.interface';
+import { Observable, of } from 'rxjs';
+import { map, switchMap, mergeMap } from 'rxjs/operators';
 import { SessionService } from './session.service';
 import { firestore } from 'firebase';
 
@@ -11,10 +12,11 @@ import { firestore } from 'firebase';
 })
 export class ChatService {
 
-  private itemsCollection: AngularFirestoreCollection<any>;
+  private itemsCollection: AngularFirestoreCollection<Chat>;
   private chatPrivado: AngularFirestoreDocument<any>;
 
-  public chats: any[];
+  public mensajes: Mensaje[];
+  public currentChat: Chat;
   public currentUser: any = {};
 
   constructor(private afs: AngularFirestore, private sessionService: SessionService) {
@@ -22,7 +24,79 @@ export class ChatService {
     console.log(this.currentUser);
   }
 
-  cargarMensajes() {
+  //crear el chat 1vs1 cuando se acepta el pedido
+  crearChat(title: string){
+    this.itemsCollection = this.afs.collection<Chat>('chats');
+    const id = this.afs.createId();
+    let newchat: Chat = {
+      id,
+      titulo: title,
+      fecha: new Date().getTime(),
+      mensajes: []
+    }
+
+    return this.itemsCollection.doc(id).set( newchat )
+                                        .then( ()=>{
+                                          this.currentChat = newchat; 
+                                          console.log("crearChat",this.currentChat);
+                                        })
+                                        .catch( (err)=>console.error('Error al enviar',  err ) );
+  
+  }
+
+  //Trae el chat creado 1vs1 a traves del id del chat
+  cargarChat(chatId: string){
+    this.itemsCollection = this.afs.collection<Chat>('chats', ref => ref.where('id', '==', chatId));
+
+    return this.itemsCollection.valueChanges().pipe(
+                                                map((chat: Chat[])=>{
+                                                  this.currentChat = chat[0];
+                                                  console.log("cargarChat", this.currentChat);
+                                                  return this.currentChat;
+                                                })
+    );
+
+  }
+
+  //Trae los mensajes de un chat especifico
+  cargarMensajes(chatId: string){
+    this.itemsCollection = this.itemsCollection = this.afs.collection<Chat>('chats', ref => ref.where('id', '==', chatId));
+    console.log(this.chatPrivado);
+    return this.itemsCollection.valueChanges().pipe(
+                            map((chat: Chat[])=> {
+                              let temp: Mensaje[] = chat[0].mensajes;
+                              if(temp){
+                                console.log(temp.sort((a,b)=> b.fecha-a.fecha ));
+                                temp = temp.sort((a,b)=> b.fecha-a.fecha );
+                                this.mensajes = [];
+                                for ( let mensaje of temp ){
+                                  this.mensajes.unshift( mensaje );
+                                }
+                              }
+                              return this.mensajes;
+
+                            })
+    );
+  }
+
+  //agrega un mensaje a un chat especifico
+  agregarMensajePrivado( texto: string ){
+
+    let mensajeTemp: Mensaje = {
+      nombre:  this.currentUser.name,
+      mensaje: texto,
+      fecha: new Date().getTime(),
+      uid: this.currentUser.id
+    }
+    console.log("currentchat",this.currentChat);
+    const ref = this.afs.collection<any>('chats').doc<any>('5WPu25gN0THfn3k7v66l');
+    return ref.update({
+      mensajes: firestore.FieldValue.arrayUnion(mensajeTemp)
+    });
+
+  }
+
+    /*cargarMensajes() {
     this.itemsCollection = this.afs.collection<any>('chats', ref => ref.orderBy('fecha','desc')
                                                                             .limit(6));
     return this.itemsCollection.valueChanges().pipe(
@@ -38,42 +112,9 @@ export class ChatService {
                                   return this.chats;
                                 })
     );
+  }*/
 
-  }
-
-  cargarMensajesPrivado(chatId: string){
-    this.chatPrivado = this.afs.collection<any>('chats').doc<any>(chatId);
-    return this.chatPrivado.valueChanges().pipe(
-                            map((doc)=> {
-                              let temp: any[] = doc.mensaje;
-                              console.log(temp.sort((a,b)=> b.fecha-a.fecha ));
-                              temp = temp.sort((a,b)=> b.fecha-a.fecha );
-                              this.chats = [];
-                              for ( let mensaje of temp ){
-                                this.chats.unshift( mensaje );
-                              }
-                              return this.chats;
-                            })
-    );
-  }
-  agregarMensajePrivado( texto: string ){
-
-    // TODO falta el UID del usuario
-    let mensajeTemp: Mensaje = {
-      nombre:  this.currentUser.name,
-      mensaje: texto,
-      fecha: new Date().getTime(),
-      uid: this.currentUser.id
-    }
-
-    const ref = this.afs.collection<any>('chats').doc<any>('SGBFlRdRfvFpaESOsWV5');
-    return ref.update({
-      mensaje: firestore.FieldValue.arrayUnion(mensajeTemp)
-    });
-
-  }
-
-  agregarMensaje( texto: string ){
+  /*agregarMensaje( texto: string ){
 
     // TODO falta el UID del usuario
     let mensaje: Mensaje = {
@@ -85,16 +126,6 @@ export class ChatService {
 
     return this.itemsCollection.add( mensaje );
 
-  }
-
-  crearChat(title: string){
-    let chat: any = {
-      titulo: title,
-      fecha: new Date().getTime(),
-      mensaje: []
-    }
-
-    return this.itemsCollection.add( chat );
-  }
+  }*/
 
 }

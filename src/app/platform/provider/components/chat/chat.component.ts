@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ChatService } from '../../../../services/chat.service';
+import { Chat } from '../../interface/chat.interface';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-chat',
@@ -10,24 +12,20 @@ export class ChatComponent implements OnInit {
 
   mensaje: string = "";
   elemento:any;
+  currentChat: string;
 
-  constructor(public _cs: ChatService) {
-    /*this._cs.cargarMensajes()
-            .subscribe( ()=>{
-
-              setTimeout( ()=>{
-                //this.elemento.scrollTop = this.elemento.scrollHeight;
-              },20);
-    });*/
-    this._cs.cargarMensajesPrivado('SGBFlRdRfvFpaESOsWV5')
+  constructor(public _cs: ChatService, private _route:ActivatedRoute) {
+    this._route.params.subscribe(res => {
+      const chatId = res.id;
+      if (chatId) {
+        this._cs.cargarMensajes(chatId)
             .subscribe(()=>{
               setTimeout( ()=>{
                 this.elemento.scrollTop = this.elemento.scrollHeight;
               },20);
             });
-    /*this._cs.cargarMensajesPrivado('xbKAaQIk2LW3Nut35zsn')
-            .subscribe();*/
-
+      }
+    });
   }
 
   ngOnInit() {
@@ -41,18 +39,15 @@ export class ChatComponent implements OnInit {
       return;
     }
 
-    /*this._cs.agregarMensaje( this.mensaje )
-            .then( ()=> this.mensaje=""  )
-            .catch( (err)=>console.error('Error al enviar',  err ) );*/
     this._cs.agregarMensajePrivado( this.mensaje )
               .then( ()=> this.mensaje=""  )
               .catch( (err)=>console.error('Error al enviar',  err ) );
   }
 
-  startChat(title:string){
-      this._cs.crearChat(title)
-              .then( (data)=> console.log("se creo chat", data.id)  )
-              .catch( (err)=>console.error('Error al enviar',  err ) );
+  startChat(chatId: string){
+    this.currentChat = chatId;
+    //this._cs.crearChat(title);
+    //this._cs.cargarChat(chatId).subscribe();
   }
 
 }

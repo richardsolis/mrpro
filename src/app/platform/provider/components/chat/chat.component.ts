@@ -12,14 +12,21 @@ export class ChatComponent implements OnInit {
   elemento:any;
 
   constructor(public _cs: ChatService) {
-    this._cs.cargarMensajes()
+    /*this._cs.cargarMensajes()
             .subscribe( ()=>{
 
               setTimeout( ()=>{
+                //this.elemento.scrollTop = this.elemento.scrollHeight;
+              },20);
+    });*/
+    this._cs.cargarMensajesPrivado('SGBFlRdRfvFpaESOsWV5')
+            .subscribe(()=>{
+              setTimeout( ()=>{
                 this.elemento.scrollTop = this.elemento.scrollHeight;
               },20);
-
-    });
+            });
+    /*this._cs.cargarMensajesPrivado('xbKAaQIk2LW3Nut35zsn')
+            .subscribe();*/
 
   }
 
@@ -34,15 +41,17 @@ export class ChatComponent implements OnInit {
       return;
     }
 
-    this._cs.agregarMensaje( this.mensaje )
+    /*this._cs.agregarMensaje( this.mensaje )
             .then( ()=> this.mensaje=""  )
-            .catch( (err)=>console.error('Error al enviar',  err ) );
-
+            .catch( (err)=>console.error('Error al enviar',  err ) );*/
+    this._cs.agregarMensajePrivado( this.mensaje )
+              .then( ()=> this.mensaje=""  )
+              .catch( (err)=>console.error('Error al enviar',  err ) );
   }
 
   startChat(title:string){
       this._cs.crearChat(title)
-              .then( (data)=> console.log("se creo chat", data)  )
+              .then( (data)=> console.log("se creo chat", data.id)  )
               .catch( (err)=>console.error('Error al enviar',  err ) );
   }
 

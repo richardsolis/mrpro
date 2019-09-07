@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import {  Mensaje } from '../platform/provider/interface/mensaje.interface';
 import { Chat } from '../platform/provider/interface/chat.interface';
-import { Observable, of } from 'rxjs';
-import { map, switchMap, mergeMap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { SessionService } from './session.service';
 import { firestore } from 'firebase';
 
@@ -13,8 +12,6 @@ import { firestore } from 'firebase';
 export class ChatService {
 
   private itemsCollection: AngularFirestoreCollection<Chat>;
-  private chatPrivado: AngularFirestoreDocument<any>;
-
   public mensajes: Mensaje[];
   public currentChat: Chat;
   public currentUser: any = {};
@@ -45,8 +42,8 @@ export class ChatService {
   }
 
   //Trae el chat creado 1vs1 a traves del id del chat
-  cargarChat(chatId: string){
-    this.itemsCollection = this.afs.collection<Chat>('chats', ref => ref.where('id', '==', chatId));
+  cargarChat(chatID: string){
+    this.itemsCollection = this.afs.collection<Chat>('chats', ref => ref.where('id', '==', chatID));
 
     return this.itemsCollection.valueChanges().pipe(
                                                 map((chat: Chat[])=>{
@@ -59,9 +56,9 @@ export class ChatService {
   }
 
   //Trae los mensajes de un chat especifico
-  cargarMensajes(chatId: string){
-    this.itemsCollection = this.itemsCollection = this.afs.collection<Chat>('chats', ref => ref.where('id', '==', chatId));
-    console.log(this.chatPrivado);
+  cargarMensajes(chatID: string){
+    this.itemsCollection = this.itemsCollection = this.afs.collection<Chat>('chats', ref => ref.where('id', '==', chatID));
+    
     return this.itemsCollection.valueChanges().pipe(
                             map((chat: Chat[])=> {
                               let temp: Mensaje[] = chat[0].mensajes;
@@ -80,7 +77,7 @@ export class ChatService {
   }
 
   //agrega un mensaje a un chat especifico
-  agregarMensajePrivado( texto: string ){
+  agregarMensajePrivado( texto: string, chatID: string ){
 
     let mensajeTemp: Mensaje = {
       nombre:  this.currentUser.name,
@@ -89,43 +86,11 @@ export class ChatService {
       uid: this.currentUser.id
     }
     console.log("currentchat",this.currentChat);
-    const ref = this.afs.collection<any>('chats').doc<any>('5WPu25gN0THfn3k7v66l');
+    const ref = this.afs.collection<any>('chats').doc<any>(chatID);
     return ref.update({
       mensajes: firestore.FieldValue.arrayUnion(mensajeTemp)
     });
 
   }
-
-    /*cargarMensajes() {
-    this.itemsCollection = this.afs.collection<any>('chats', ref => ref.orderBy('fecha','desc')
-                                                                            .limit(6));
-    return this.itemsCollection.valueChanges().pipe(
-                                map( (mensajes: any[]) =>{
-                                  console.log( mensajes );
-
-                                  this.chats = [];
-
-                                  for ( let mensaje of mensajes ){
-                                    this.chats.unshift( mensaje );
-                                  }
-
-                                  return this.chats;
-                                })
-    );
-  }*/
-
-  /*agregarMensaje( texto: string ){
-
-    // TODO falta el UID del usuario
-    let mensaje: Mensaje = {
-      nombre:  this.currentUser.name,
-      mensaje: texto,
-      fecha: new Date().getTime(),
-      uid: this.currentUser.id
-    }
-
-    return this.itemsCollection.add( mensaje );
-
-  }*/
 
 }

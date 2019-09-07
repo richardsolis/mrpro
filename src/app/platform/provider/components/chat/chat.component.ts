@@ -18,6 +18,7 @@ export class ChatComponent implements OnInit {
     this._route.params.subscribe(res => {
       const chatId = res.id;
       if (chatId) {
+        this.currentChat = chatId;
         this._cs.cargarMensajes(chatId)
             .subscribe(()=>{
               setTimeout( ()=>{
@@ -39,7 +40,7 @@ export class ChatComponent implements OnInit {
       return;
     }
 
-    this._cs.agregarMensajePrivado( this.mensaje )
+    this._cs.agregarMensajePrivado( this.mensaje, this.currentChat )
               .then( ()=> this.mensaje=""  )
               .catch( (err)=>console.error('Error al enviar',  err ) );
   }

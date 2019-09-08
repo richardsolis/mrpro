@@ -228,7 +228,7 @@ footer.primary {
 }
 
 .box-mg-nano {
-  padding: 10px 20px;
+  padding: 10px 0px;
 }
 
 .box-mg-micro {
@@ -1115,6 +1115,13 @@ ul.menu a {
   font-size: 12px;
   padding: 22px 15px;
   transition: all 0.4s ease;
+}
+
+ul.menu .itemList:hover,
+ul.menu .itemList.active-link {
+  background: #134293 !important;
+  color: white;
+  box-shadow: inset rgba(0, 0, 0, 0.32) 0px 2px 11px;
 }
 
 ul.menu a:hover,

@@ -29,4 +29,11 @@ export class HeaderComponent implements OnInit {
     this.user = {};
     this.router.navigate(["/home"]);
   }
+  ingresarClear() {
+    this.session.destroy("providers");
+    this.session.destroy("userProvider");
+    this.session.destroy("provider");
+    this.session.destroy("budget");
+    this.session.destroy("token");
+  }
 }

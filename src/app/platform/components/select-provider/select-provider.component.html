@@ -86,11 +86,11 @@
                 <div class="card-body">
                   <h5 class="">{{ provider.user.name }}</h5>
                   <span>{{ provider.rating }} </span><rating [(ngModel)]="provider.rating" [readonly]="true"></rating>
-                  <p class="card-text">
-                    <small class="text-muted">{{ provider.success }} servicios realizados</small>
+                  <p class="card-text" style="font-size: 14px;">
+                    <small class="text-muted" style="font-weight: 600;">{{ provider.success }} servicios realizados</small>
                   </p>
-                  <p class="card-text">
-                    <small class="text-muted">{{ provider.experience }} años de experiencia</small>
+                  <p class="card-text" style="font-size: 14px;">
+                    <small class="text-muted" style="font-weight: 600;">{{ provider.experience }} años de experiencia</small>
                   </p>
                   <button (click)="showFile(myFile, provider)" class="btn color-blue">Ver ficha</button>
                 </div>

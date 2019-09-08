@@ -27,7 +27,7 @@ export class SendBudgetComponent implements OnInit {
   };
   providers = [];
   services = [];
-  LocalProvider = this.session.getObject("providers");
+  LocalProvider = this.session.getObject("provider");
 
   message = "";
   messageT = true;
@@ -99,14 +99,29 @@ export class SendBudgetComponent implements OnInit {
     var dataSend = [];
     // this.ObjectServi.date_service = this.d + "-" + this.m + "-" + this.y + " " + this.hour;
     for (let i = 0; i < this.LocalProvider.length; i++) {
-      this.ObjectServi.user_provider_id = this.LocalProvider[i].id;
-      dataSend.push(this.ObjectServi);
+      // this.ObjectServi.user_provider_id = this.LocalProvider[i].user_id;
+      // console.log(this.ObjectServi, "HOLISTAS");
+      // console.log(this.LocalProvider[i], "HOLISTAS222");
+      // dataSend.push(this.ObjectServi);
+      dataSend.push({
+        address: this.ObjectServi.address,
+        category_service_id: this.session.getObject("budget").category,
+        contact_name: this.session.getObject("user").name + " " + this.session.getObject("user").lastname,
+        date_service: this.ObjectServi.date_service,
+        description: this.ObjectServi.description,
+        district_id: this.ObjectServi.district_id,
+        phone_name: this.session.getObject("user").phone,
+        user_provider_id: this.LocalProvider[i].user_id
+      });
+      console.log(dataSend);
     }
+    console.log(dataSend, "enviar");
 
     console.log(JSON.stringify(dataSend), "hoda");
     console.log(this.ObjectServi, "asdadsdsa", this.d + "/" + this.m + "/" + this.y + this.hour, this.hour, this.LocalProvider);
     // let formData2: FormData = new FormData();
     // formData2.append("image_file", this.file);
+
     this.userS.sendBudget({ services: JSON.stringify(dataSend) }).subscribe(
       response => {
         this.message = "Se agendó un servicio";
@@ -134,5 +149,9 @@ export class SendBudgetComponent implements OnInit {
 
   goReserved() {
     this.router.navigate(["/reservado"]);
+  }
+
+  goback() {
+    this.router.navigate(["/reserva"]);
   }
 }

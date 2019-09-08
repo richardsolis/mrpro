@@ -1,9 +1,128 @@
+<header>
+    <section class="box-mh">
+      <div class="principal row row-justifycon">
+        <img src="assets/images/logo.png" />
+        <div>
+          <div class="clock mr-4">
+            <div class="d-table">
+              <div class="logo-phone">
+                <i class="fa fa-clock-o" aria-hidden="true"></i>
+              </div>
+              <div class="box-phone">
+                <p>Mon – Fri: 10AM – 7PM</p>
+                <p>Sat – Sun: 10AM – 3PM</p>
+              </div>
+            </div>
+          </div>
+          <div class="cell">
+            <div class="d-table">
+              <div class="logo-phone">
+                <i class="fa fa-phone" aria-hidden="true"></i>
+              </div>
+              <div class="box-phone">
+                <p>Llámanos:</p>
+                <h5><a href="tel:7194452808">(+51) 9999999</a></h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="blue">
+      <div class="row box-mh" style="display: flex;justify-content: space-between;">
+        <div class="col-md-8">
+          <ul class="menu row">
+            <li><a routerLink="/reserva" routerLinkActive="active-link">SERVICIOS</a></li>
+            <li><a routerLink="/contacto" routerLinkActive="active-link">PERFIL PROVEEDOR</a></li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <div *ngIf="user && user.name" class="box-user row">
+            <img src="{{ user.image ? user.image : './assets/images/user.png' }}" class="card-img" alt="..." />
+            <p>{{ user.name }} |</p>
+            <a class="color-white" (click)="logout()">Cerrar Sesión</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </header>
+  
 <div class="container main-container">
-  <h1>Firechat</h1>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand"><b>Servicios</b></a>
+                <form class="form-inline">
+                    <label class="color-blue">Estado:</label>
+                    <select class="custom-select color-blue mr-sm-2" name="tipo">
+                      <option>Aceptados</option>
+                      <option>Rechazados</option>
+                      <option>En espera</option>
+                    </select>
+                </form>
+              </nav>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12">
+          <table class="table-responsive-sm table-bordered table-hover">
+          <thead>
+              <tr>
+                <th scope="col"># ID</th>
+                <th scope="col">Categoria</th>
+                <th scope="col">Subcategoria</th>
+                <th scope="col">Distrito</th>
+                <th scope="col">Fec.Pedido</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr>
+                  <th scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></th>
+                  <td scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></td>
+                  <td scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></td>
+                  <td scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></td>
+                  <td scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></td>
+                  <td>
+                      <button class="btn btn-success my-2 my-sm-0" type="submit">Buscar</button>
+                  </td>
+                </tr>
+              <tr>
+                <th scope="row">001</th>
+                <td>Gasfiteria</td>
+                <td>Instalacion/Reparacion de baño</td>
+                <td>San Borja</td>
+                <td>02/04/2019</td>
+                <td>
+                    <button type="button" class="btn btn-warning"  (click)="startChat('5WPu25gN0THfn3k7v66l')">Chat</button>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">002</th>
+                <td>Electricista</td>
+                <td>Instalacion/Reparacion de baño</td>
+                <td>San Isidro</td>
+                <td>03/04/2019</td>
+                <td>
+                    <button type="button" class="btn btn-warning" (click)="startChat('hXG95YRFxYaNzU6AW8MR')">Chat</button>
+                  </td>
+              </tr>
+              <tr>
+                <th scope="row">003</th>
+                <td>Gasfiteria</td>
+                <td>Instalacion/Reparacion de cocina</td>
+                <td>Miraflores</td>
+                <td>03/04/209</td>
+                <td>
+                    <button type="button" class="btn btn-warning" (click)="startChat('w5wkAjPDV445dBHU6B5A')">Chat</button>
+                  </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+  <!--<h1>Firechat</h1>
   <div class="btn-group" role="group" aria-label="Basic example">
     <button (click)="startChat('5WPu25gN0THfn3k7v66l')" type="button" class="btn btn-secondary">Chat 1</button>
     <button (click)="startChat('hXG95YRFxYaNzU6AW8MR')" type="button" class="btn btn-secondary">Chat 2</button>
     <button (click)="startChat('w5wkAjPDV445dBHU6B5A')" type="button" class="btn btn-secondary">Chat 3</button>
-  </div>
+  </div>-->
 </div>
 

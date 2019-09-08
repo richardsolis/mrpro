@@ -85,7 +85,7 @@ export class ChatService {
       fecha: new Date().getTime(),
       uid: this.currentUser.id
     }
-    console.log("currentchat",this.currentChat);
+    console.log("currentchat", chatID);
     const ref = this.afs.collection<any>('chats').doc<any>(chatID);
     return ref.update({
       mensajes: firestore.FieldValue.arrayUnion(mensajeTemp)

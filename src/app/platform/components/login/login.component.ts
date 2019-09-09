@@ -17,7 +17,8 @@ export class LoginComponent implements OnInit {
     password: "",
     grant_type: "password",
     client_id: 2,
-    client_secret: "3S8VKQ2bdsK9bp0PQfWvtLvBrdRGWSxm3YENFslg"
+    client_secret: "0K6ftoiq9tGIe6ioWrDVwmfQWa8UXKZyuzxMGwFj"
+    //"3S8VKQ2bdsK9bp0PQfWvtLvBrdRGWSxm3YENFslg"
   };
   message = "";
   data: any = {};
@@ -74,11 +75,18 @@ export class LoginComponent implements OnInit {
         this.session.setObject("token", response);
         this.userS.getCurrentUser().subscribe((response: any) => {
           console.log(response);
-          this.session.setObject("user", response.data.client.user);
-          if (this.session.getObject("providers")) {
-            this.router.navigate(["/pedir-propuesta"]);
-          } else {
-            this.router.navigate(["/home"]);
+          if(response.data.client){
+            this.session.setObject("user", { ...response.data.client.user, type: response.data.type[0] });
+
+            if (this.session.getObject("providers")) {
+              this.router.navigate(["/pedir-propuesta"]);
+            } else {
+              this.router.navigate(["/home"]);
+            }
+
+          }else {
+            this.session.setObject("user", { ...response.data.provider.user, type: response.data.type[0] });
+            this.router.navigate(["/proveedor/home"]);
           }
           this.spinner.hide();
         });

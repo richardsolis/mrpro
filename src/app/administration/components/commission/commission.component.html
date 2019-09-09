@@ -2,7 +2,7 @@
   <a class="navbar-brand header-admin" href="#"><b>Comisión</b></a>
   <div class="navbar-collapse" id="basicExampleNav"> 
     <ul class="navbar-nav ml-auto">
-        <a class="btn blue" href="#">Nuevo <i class="fa fa-plus-circle" aria-hidden="true"></i>
+        <a  (click)="newComission(myModal, 'Nueva Comision')" class="btn blue" href="javascript:void(0)">Nuevo <i class="fa fa-plus-circle" aria-hidden="true"></i>
         </a>
     </ul>
     <!--<form class="form-inline">
@@ -24,8 +24,8 @@
         <label>Porcentaje:</label><p class="card-text">30%</p>
       </div>
       <div class="card-footer">
-          <a href="#" class="btn btn-success">Editar</a>
-          <a href="#" class="btn btn-danger">Eliminar</a>
+          <a (click)="newComission(myModal, 'Comision A')" href="javascript:void(0)" class="btn btn-success">Editar</a>
+          <a href="javascript:void(0)" class="btn btn-danger">Eliminar</a>
         </div>
     </div>
   </div>
@@ -78,3 +78,36 @@
     </div>
   </div>
 </div>
+
+<modal #myModal>
+    <modal-content>
+      <div class="row text-center">
+        <h4>{{title}}</h4>
+      </div>
+        <form> 
+          <div class="form-group row">
+              <label for="inputEmail3" class="col-sm-2 col-form-label">Rango Inicial (S/.)</label>
+              <div class="col-sm-10">
+                <input type="number" class="form-control" id="inputEmail3" placeholder="Monetario en soles">
+              </div>
+          </div>
+          <div class="form-group row">
+              <label for="inputEmail3" class="col-sm-2 col-form-label">Rango Final (S/.)</label>
+              <div class="col-sm-10">
+                <input type="number" class="form-control" id="inputEmail3" placeholder="Monetario en soles">
+              </div>
+          </div>
+          <div class="form-group row">
+              <label for="inputEmail3" class="col-sm-2 col-form-label">Porcentaje</label>
+              <div class="col-sm-10">
+                <input type="number" class="form-control" id="inputEmail3" placeholder="Porcentaje de comision">
+              </div>
+          </div>
+          <div class="form-group row">
+              <div class="col-sm-10">
+                <button type="submit" (click)="saveComision(myModal)" class="btn bprimary">guardar</button>
+              </div>
+            </div>
+        </form>
+    </modal-content>
+  </modal>

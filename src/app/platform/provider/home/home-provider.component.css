@@ -1,0 +1,39 @@
+
+.clock {
+    display: inline-block;
+}
+.clock p{
+	font-family: "Montserrat", Sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.428em;
+    letter-spacing: 0px;
+}
+.cell {
+    display: inline-block;
+}
+.cell p{
+	font-family: "Montserrat", Sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.428em;
+    letter-spacing: 0px;
+}
+.cell h5{
+	color: #1e1d24;
+	font-size: 1.285em;
+}
+.cell h5 a{
+	text-decoration: none;
+	transition: all .4s ease;
+}
+.cell h5 a:hover{
+	color: #283372;
+}
+.logo-phone {
+	color: #283372;
+    display: table-cell;
+    vertical-align: top;
+    padding-right: .7rem;
+    font-size: 1.5rem;
+}

@@ -2,20 +2,20 @@ import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
-  selector: 'app-user',
-  templateUrl: './user.component.html',
-  styleUrls: ['./user.component.css']
+  selector: 'app-provider',
+  templateUrl: './provider.component.html',
+  styleUrls: ['./provider.component.css']
 })
-export class UserComponent implements OnInit {
+export class ProviderComponent implements OnInit {
 
   title:string = "";
 
-  constructor(private spinner: NgxSpinnerService) {}
+  constructor(private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
   }
 
-  newUser(modal, tempTittle:string) {
+  newProvider(modal, tempTittle:string) {
     console.log("OpenModal Usuario - ", tempTittle);
     this.title = tempTittle;
     this.spinner.show();
@@ -24,7 +24,7 @@ export class UserComponent implements OnInit {
 
   }
 
-  saveUser(modal){
+  saveProvider(modal){
     console.log("CloseModal Usuario");
     this.spinner.show();
     modal.close();

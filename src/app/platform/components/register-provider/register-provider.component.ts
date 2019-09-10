@@ -13,6 +13,7 @@ export class RegisterProviderComponent implements OnInit {
 
   registerForm: FormGroup;
   submitted = false;
+  message = '';
   tipoForm:boolean;
   imageLogo:any;
   imageFoto:any;
@@ -51,12 +52,13 @@ export class RegisterProviderComponent implements OnInit {
       policiales:  [''],
       penales:  [''],
       judiciales:  [''],
+      experiencia:  [''],
       contrasena:  ['', Validators.required],
       contrasena2:  ['', Validators.required],
       eBancaria:  [''],
       nCuenta:  [''],
       interbancaria:  ['']
-  });
+    });
   }
 
   addControls(){
@@ -163,7 +165,7 @@ export class RegisterProviderComponent implements OnInit {
 	  })
   }
 
-  onSubmit() {
+  onSubmit(myModal) {
     // stop here if form is invalid
     if (this.registerForm.invalid) {
         return;
@@ -173,7 +175,9 @@ export class RegisterProviderComponent implements OnInit {
     this.spinner.show();
   	this.userService.createProvider(this.registerForm.value)
   	.subscribe((response: any) => {
-  		console.log(response);
+      console.log(response);
+      this.message = 'Registro con éxito, inicie sesión.';
+	  	myModal.open();
   		this.spinner.hide();
   		this.router.navigate(['/ingresar']);
   	}, (error: any) => {

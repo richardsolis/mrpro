@@ -11,6 +11,7 @@ import { SendBudgetComponent } from './components/send-budget/send-budget.compon
 import { HomeProviderComponent } from './provider/home/home-provider.component';
 import { ChatComponent } from './provider/components/chat/chat.component';
 import { RegisterProviderComponent } from './components/register-provider/register-provider.component';
+import { ProfileProviderComponent } from './provider/components/profile-provider/profile-provider.component';
 
 
 const routes: Routes = [
@@ -57,6 +58,10 @@ const routes: Routes = [
 	{
 		path: 'proveedor/chat/:id',
 		component: ChatComponent
+	},
+	{
+		path: 'proveedor/perfil',
+		component: ProfileProviderComponent
 	}
 ];
 

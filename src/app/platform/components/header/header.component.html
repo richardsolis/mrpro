@@ -43,8 +43,8 @@
           <li><a routerLink="/reservado" routerLinkActive="active-link">RESERVADO</a></li>
         </ul>
         <ul *ngIf="user && user.type=='provider'" class="menu row">
-          <li><a routerLink="/reserva" routerLinkActive="active-link">SERVICIOS</a></li>
-          <li><a routerLink="/contacto" routerLinkActive="active-link">PERFIL</a></li>
+          <li><a routerLink="/proveedor/home" routerLinkActive="active-link">SERVICIOS</a></li>
+          <li><a routerLink="/proveedor/perfil" routerLinkActive="active-link">PERFIL</a></li>
         </ul>
       </div>
       <div class="col-md-3" *ngIf="!user">

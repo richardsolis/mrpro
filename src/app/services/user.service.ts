@@ -34,7 +34,7 @@ export class UserService {
       address: params.direccion,
       emergency: '',
       ruc: params.ruc,
-      experience: '',
+      experience: params.experiencia,
       type_provider: params.tipo,
       logo: params.logo,
       r_social: params.rSocial,

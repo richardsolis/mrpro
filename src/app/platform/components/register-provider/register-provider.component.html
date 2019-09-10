@@ -22,7 +22,7 @@
               </div>
             </div>
         </div>
-        <form  [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="col-lg-12"> 
+        <form  [formGroup]="registerForm" (ngSubmit)="onSubmit(myModal)" class="col-lg-12"> 
           <div class="form-group row" *ngIf="tipoForm">
             <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label"><strong>Datos de la Empresa:</strong></label>
             <div class="col-lg-8 col-md-6">
@@ -111,7 +111,7 @@
             <div class="col-lg-8 col-md-6">
               <input type="text" formControlName="ptelefono" class="form-control" id="ptelefono" placeholder="Ingrese Teléfono">
             </div>
-          </div>s
+          </div>
           <div class="form-group row">
             <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Dirección:</label>
             <div class="col-lg-8 col-md-6">
@@ -154,6 +154,12 @@
                 <input (change)="selectDoc($event)" type="file" name="judiciales">
             </div>
           </div>
+          <div class="form-group row">
+              <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Inicio de Experiencia:</label>
+              <div class="col-lg-8 col-md-6">
+                <input type="date" formControlName="experiencia" class="form-control" name="date" />
+              </div>
+            </div>
           <div class="form-group row">
             <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Contraseña:</label>
             <div class="col-lg-8 col-md-6">
@@ -205,3 +211,12 @@
         </form>
       </div> 
 </div>
+
+<modal #myModal>
+    <modal-content>
+        <div class="row text-center">
+            <h3><i class="fa fa-check-circle-o text-success" aria-hidden="true"></i></h3>
+            <h4>{{ message }}</h4>
+        </div>
+    </modal-content>        
+</modal>

@@ -22,9 +22,48 @@ export class UserService {
     return this.http.post(AppSettings.BASE_PATH + AppSettings.GUEST_CREATE_USER, body, options);
   }
 
+  createProvider(params){
+    const obj = {
+      name: params.nombre,
+      lastname: params.apellidos,
+      email: params.correo,
+      password: params.contrasena,
+      password_confirmation: params.contrasena2,
+      phone: params.telefono,
+      image: params.foto,
+      address: params.direccion,
+      emergency: '',
+      ruc: params.ruc,
+      experience: '',
+      type_provider: params.tipo,
+      logo: params.logo,
+      r_social: params.rSocial,
+      a_fiscal: params.dfiscal,
+      a_comercial: params.dComercial,
+      a_taller: params.dTaller,
+      url: params.sWeb,
+      a_police: params.policales,
+      a_penal: params.penales,
+      a_judicial: params.judiciales,
+      bank_id: params.eBancaria,
+      bank_c: params.nCuenta,
+      bank_ci: params.interbancaria
+    };
+    console.log(obj);
+    const body = new HttpParams({
+      fromObject: obj
+    });
+    const headers = new HttpHeaders({
+      "Content-Type": "application/x-www-form-urlencoded"
+    });
+    const options = { headers: headers };
+
+    return this.http.post("http://admin-mrpro.mrpro.pe/api/provider/create", body, options);
+  }
+
   postSaveImageUser(image){
     const formData = new FormData();
-
+    formData.append("image",image);
     const headers = new HttpHeaders({
     });
 

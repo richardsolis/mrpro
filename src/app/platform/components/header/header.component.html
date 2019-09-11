@@ -31,11 +31,20 @@
   <section class="blue">
     <div class="row box-mh" style="display: flex;justify-content: space-between;">
       <div class="col-md-8">
-        <ul class="menu row">
+        <ul  *ngIf="visible" class="menu row">
           <li><a routerLink="/home" routerLinkActive="active-link">INICIO</a></li>
           <li><a routerLink="/reserva" routerLinkActive="active-link">SERVICIOS</a></li>
           <li><a routerLink="/contacto" routerLinkActive="active-link">CONTACTO</a></li>
-          <li *ngIf="user && user.name"><a routerLink="/reservado" routerLinkActive="active-link">RESERVADO</a></li>
+        </ul>
+        <ul  *ngIf="user && user.type=='client'" class="menu row">
+          <li><a routerLink="/home" routerLinkActive="active-link">INICIO</a></li>
+          <li><a routerLink="/reserva" routerLinkActive="active-link">SERVICIOS</a></li>
+          <li><a routerLink="/contacto" routerLinkActive="active-link">CONTACTO</a></li>
+          <li><a routerLink="/reservado" routerLinkActive="active-link">RESERVADO</a></li>
+        </ul>
+        <ul *ngIf="user && user.type=='provider'" class="menu row">
+          <li><a routerLink="/proveedor/home" routerLinkActive="active-link">SERVICIOS</a></li>
+          <li><a routerLink="/proveedor/perfil" routerLinkActive="active-link">PERFIL</a></li>
         </ul>
       </div>
       <div class="col-md-3" *ngIf="!user">
@@ -50,7 +59,7 @@
                 <a class="itemList" routerLink="/ingresar" routerLinkActive="active-link" style="background: #134293;color: white;">Registrar como Cliente</a>
               </li>
               <li>
-                <a class="itemList" href="#" style="background: #134293;color: white;">Registrar como Proveedor</a>
+                <a class="itemList" routerLink="/registro/proveedor" style="background: #134293;color: white;">Registrar como Proveedor</a>
               </li>
             </ul>
           </li>
@@ -59,7 +68,7 @@
       <div class="col-md-4">
         <div *ngIf="user && user.name" class="box-user row">
           <img src="{{ user.image ? user.image : './assets/images/user.png' }}" class="card-img" alt="..." />
-          <p>Richard |</p>
+          <p>{{ user.name }} |</p>
           <a class="color-white" (click)="logout()">Cerrar Sesión</a>
         </div>
       </div>

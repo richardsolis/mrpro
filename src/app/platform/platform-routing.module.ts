@@ -10,6 +10,8 @@ import { ProvidersComponent } from './components/providers/providers.component';
 import { SendBudgetComponent } from './components/send-budget/send-budget.component';
 import { HomeProviderComponent } from './provider/home/home-provider.component';
 import { ChatComponent } from './provider/components/chat/chat.component';
+import { RegisterProviderComponent } from './components/register-provider/register-provider.component';
+import { ProfileProviderComponent } from './provider/components/profile-provider/profile-provider.component';
 
 
 const routes: Routes = [
@@ -42,6 +44,10 @@ const routes: Routes = [
 		component: RegisterEmailComponent
 	},
 	{
+		path: 'registro/proveedor',
+		component: RegisterProviderComponent
+	},
+	{
 		path: 'contacto',
 		component: ContactComponent
 	},
@@ -52,6 +58,10 @@ const routes: Routes = [
 	{
 		path: 'proveedor/chat/:id',
 		component: ChatComponent
+	},
+	{
+		path: 'proveedor/perfil',
+		component: ProfileProviderComponent
 	}
 ];
 

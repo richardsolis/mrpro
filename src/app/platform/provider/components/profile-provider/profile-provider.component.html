@@ -1,0 +1,255 @@
+<ptfm-header></ptfm-header>
+<div class="container">
+    <div class="row card-sesion">
+      <div class=" col-lg-12 mg-t-small card-title">
+          <h5>Perfil Proveedor</h5>
+          <hr>
+          <div class="row">
+            <label class="col-lg-4 col-md-6 col-form-label">Tipo:</label>
+            <div class="col-lg-4 col-md-6">
+              <div class="form-check">
+                <input (click)="tipo('Empresa')" class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="0" checked>
+                <label class="form-check-label" for="gridRadios1">
+                  <strong class="color-blue">Empresa</strong>
+                </label>
+              </div>
+              <div class="form-check">
+                <input (click)="tipo('Particular')" class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="1">
+                <label class="form-check-label" for="gridRadios2">
+                  <strong class="color-blue">Particular</strong>
+                </label>
+              </div>
+            </div>
+          </div>
+      </div>
+      <form  [formGroup]="registerForm" (ngSubmit)="onSubmit(myModal)" class="col-lg-12"> 
+        <div class="form-group row" *ngIf="tipoForm">
+          <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label"><strong>Datos de la Empresa:</strong></label>
+          <div class="col-lg-8 col-md-6">
+          </div>
+        </div>
+        <div class="form-group row" *ngIf="tipoForm">
+          <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">RUC:</label>
+          <div class="col-lg-8 col-md-6">
+            <input type="text" formControlName="ruc" class="form-control" id="RUC" placeholder="Ingrese RUC">
+            <div *ngIf="submitted && registerForm.controls.ruc.errors.required">
+                <p class="text-warning"><strong>RUC requerido.</strong></p>
+              </div>
+          </div>
+        </div>
+        <div class="form-group row" *ngIf="tipoForm">
+          <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Razón social:</label>
+          <div class="col-lg-8 col-md-6">
+            <input type="text" formControlName="rSocial" class="form-control" id="rSocial" placeholder="Ingrese Razón social">
+            <div *ngIf="submitted && registerForm.controls.rSocial.errors.required">
+                <p class="text-warning"><strong>Razón Social requerido.</strong></p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row" *ngIf="tipoForm">
+          <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Dirección fiscal:</label>
+          <div class="col-lg-8 col-md-6">
+            <input type="text" formControlName="dfiscal" class="form-control" id="dfiscal" placeholder="Ingrese Dirección fiscal">
+            <div *ngIf="submitted && registerForm.controls.dfiscal.errors.required">
+                <p class="text-warning"><strong>Dirección Fiscal requerido.</strong></p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row" *ngIf="tipoForm">
+          <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Dirección comercial:</label>
+          <div class="col-lg-8 col-md-6">
+            <input type="text" formControlName="dComercial" class="form-control" id="dComercial" placeholder="Ingrese Dirección comercial">
+          </div>
+        </div>
+        <div class="form-group row" *ngIf="tipoForm">
+          <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Dirección del taller:</label>
+          <div class="col-lg-8 col-md-6">
+            <input type="text" formControlName="dTaller" class="form-control" id="dTaller" placeholder="Ingrese Dirección del taller">
+          </div>
+        </div>
+        <div class="form-group row" *ngIf="tipoForm">
+          <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Telefono:</label>
+          <div class="col-lg-8 col-md-6">
+            <input type="text" formControlName="telefono" class="form-control" id="telefono" placeholder="Ingrese Telefono">
+            <div *ngIf="submitted && registerForm.controls.telefono.errors.required">
+                <p class="text-warning"><strong>Telefono requerido.</strong></p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row" *ngIf="tipoForm">
+          <label for="inputEmail3" class="col-lg-4 col-md-4 col-form-label">Logo:</label>
+          <div class="col-lg-4 col-md-4">
+              <input (change)="selectFile($event)" type="file" name="logo">
+          </div>
+          <div class="col-lg-4 col-md-4">
+              <img src="assets/images/logo.png" alt="..." class="img-thumbnail">
+          </div>
+        </div>
+        <div class="form-group row" *ngIf="tipoForm">
+          <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">SitioWeb/FanPage</label>
+          <div class="col-lg-8 col-md-6">
+            <input type="text" formControlName="sWeb" class="form-control" id="sWeb" placeholder="Ingrese SitioWeb/FanPage">
+          </div>
+        </div>
+        <div class="form-group row" *ngIf="tipoForm">
+          <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">C. Electrónico:</label>
+          <div class="col-lg-8 col-md-6">
+            <input type="email"  formControlName="correo" class="form-control" id="correo" placeholder="Ingrese Correo">
+            <div *ngIf="submitted && registerForm.controls.correo.errors.required">
+                <p class="text-warning"><strong>Correo requerido.</strong></p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label"><strong>Datos del Contacto:</strong></label>
+          <div class="col-lg-8 col-md-6">
+
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">DNI:</label>
+          <div class="col-lg-8 col-md-6">
+            <input type="text" formControlName="dni" class="form-control" id="dni" placeholder="Ingrese DNI">
+            <div *ngIf="submitted && registerForm.controls.dni.errors.required">
+                <p class="text-warning"><strong>DNI requerido.</strong></p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Nombre:</label>
+          <div class="col-lg-8 col-md-6">
+            <input type="text" formControlName="nombre" class="form-control" id="nombre" placeholder="Ingrese Nombre">
+            <div *ngIf="submitted && registerForm.controls.nombre.errors.required">
+                <p class="text-warning"><strong>Nombre requerido.</strong></p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Apellidos:</label>
+          <div class="col-lg-8 col-md-6">
+            <input type="text" formControlName="apellidos" class="form-control" id="apellidos" placeholder="Ingrese Apellidos">
+            <div *ngIf="submitted && registerForm.controls.apellidos.errors.required">
+                <p class="text-warning"><strong>Apellidos requerido.</strong></p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Teléfono:</label>
+          <div class="col-lg-8 col-md-6">
+            <input type="text" formControlName="ptelefono" class="form-control" id="ptelefono" placeholder="Ingrese Teléfono">
+            <div *ngIf="submitted && registerForm.controls.ptelefono.errors.required">
+                <p class="text-warning"><strong>Teléfono requerido.</strong></p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Dirección:</label>
+          <div class="col-lg-8 col-md-6">
+            <input type="text" formControlName="direccion" class="form-control" id="direccion" placeholder="Ingrese Dirección">
+            <div *ngIf="submitted && registerForm.controls.direccion.errors.required">
+                <p class="text-warning"><strong>Dirección requerido.</strong></p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputEmail3" class="col-lg-4 col-md-4 col-form-label">Foto:</label>
+          <div class="col-lg-4 col-md-4">
+              <input (change)="selectFile($event)" type="file" name="foto">
+          </div>
+          <div class="col-lg-4 col-md-4">
+              <img src="assets/images/logo.png" alt="..." class="img-thumbnail">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">SitioWeb/FanPage</label>
+          <div class="col-lg-8 col-md-6">
+            <input type="text" formControlName="psWeb" class="form-control" id="psWeb" placeholder="Ingrese SitioWeb/FanPage">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">C. Electrónico:</label>
+          <div class="col-lg-8 col-md-6">
+            <input type="email" formControlName="pcorreo" class="form-control" id="pcorreo" placeholder="Ingrese Correo">
+            <div *ngIf="submitted && registerForm.controls.pcorreo.errors.required">
+                <p class="text-warning"><strong>Correo requerido.</strong></p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Antecedentes Policiales</label>
+          <div class="col-lg-8 col-md-6">
+              <input (change)="selectDoc($event)" type="file" name="policiales">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Antecedentes Penales</label>
+          <div class="col-lg-8 col-md-6">
+              <input (change)="selectDoc($event)" type="file" name="penales">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Antecedentes Judiciales</label>
+          <div class="col-lg-8 col-md-6">
+              <input (change)="selectDoc($event)" type="file" name="judiciales">
+          </div>
+        </div>
+        <div class="form-group row">
+            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Inicio de Experiencia:</label>
+            <div class="col-lg-8 col-md-6">
+              <input type="date" formControlName="experiencia" class="form-control" name="date" />
+            </div>
+          </div>
+        <div class="form-group row">
+          <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Contraseña:</label>
+          <div class="col-lg-8 col-md-6">
+            <input type="password" formControlName="contrasena" class="form-control" id="contrasena" placeholder="Ingrese Contraseña">
+            <div *ngIf="submitted && registerForm.controls.contrasena.errors.required">
+                <p class="text-warning"><strong>Contraseña requerido.</strong></p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Confirmar Contraseña:</label>
+          <div class="col-lg-8 col-md-6">
+            <input type="password" formControlName="contrasena2" class="form-control" id="contrasena2" placeholder="Ingrese Contraseña de nuevo">
+            <div *ngIf="submitted && registerForm.controls.contrasena2.errors.required">
+                <p class="text-warning"><strong>Confirmar Contraseña requerido.</strong></p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label text-danger"><strong>¿En que banco depositamos sus ingresos?</strong></label>
+            <div class="col-lg-8 col-md-6">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Entidad Bancaria:</label>
+            <div class="col-lg-8 col-md-6">
+              <select formControlName="eBancaria" class="form-control"  id="eBancaria">
+                <option value="1">BCP</option>
+                <option value="2">Interbank</option>
+                <option value="3">BBVA</option>
+                <option value="4">Scotiabank</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Número de Cuenta Soles:</label>
+            <div class="col-lg-8 col-md-6">
+              <input type="text" formControlName="nCuenta" class="form-control" id="nCuenta" placeholder="Ingrese Nro. Cuenta Soles">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Número de Cuenta Soles Interbancaria:</label>
+            <div class="col-lg-8 col-md-6">
+              <input type="text" formControlName="interbancaria" class="form-control" id="interbancaria" placeholder="Ingrese Nro. Cuenta Soles Interbancaria">
+            </div>
+          </div>
+        <div class="form-group row">
+          <div class="col-lg-6 col-md-6">
+            <button type="submit" class="btn btn-warning">Guardar cambios.</button>
+          </div>
+        </div>
+      </form>
+    </div> 
+</div>

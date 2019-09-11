@@ -1,0 +1,41 @@
+<div class="container main-container">
+  <div class="col-md-12 text-right">
+    <button type="button" class="btn btn-danger" (click)="goback()">Cerrar Chat</button>
+    <button type="button" class="btn blue" (click)="goback()">Regresar</button>
+  </div>
+  <br/>
+  <div class="chat-window">
+    <h1>Chat | Categoria - subcategoria</h1>
+    <hr>
+    <div class="col-lg-10 col-md-10 col-sm-12 mx-auto">
+      <table class="table-responsive-sm table-bordered part-coti">
+        <tbody>
+            <tr>
+              <td><label><b>Precio</b></label><input class="form-control mr-sm-4" type="text" placeholder="S/." aria-label="Search"></td>
+              <td><label><b>Fecha</b></label><input class="form-control mr-sm-4" type="date" placeholder="dd/mm/yyyy" aria-label="Search"></td>
+              <td><label><b>Hora</b></label><input class="form-control mr-sm-4" type="text" placeholder="hh:mm" aria-label="Search"></td>
+              <td>
+                  <button class="btn btn-success" type="submit">Enviar</button>
+              </td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="app-mensajes" id="app-mensajes">
+      <div *ngFor="let chat of _cs.mensajes" [ngClass]="{ 'text-right': _cs.currentUser.id == chat.uid  }">
+        <span class="badge"
+              [ngClass]="{ 'badge-primary': _cs.currentUser.id == chat.uid,
+                          'badge-success': _cs.currentUser.id != chat.uid }">
+              {{ chat.nombre }}</span>
+        <p>
+          {{ chat.mensaje }}
+        </p>
+      </div>
+    </div>
+    <div class="form-inline">
+        <input type="text" name="mensaje"  [disabled]="isDisabled" [(ngModel)]="mensaje" class="form-control col-sm-10" (keyup.enter)="enviar_mensaje()" placeholder="Enviar mensaje ...">
+        <button class="btn blue-btn" type="button"><i class="fa fa-camera" aria-hidden="true"></i></button>
+        <button class="btn blue-btn" type="button"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+    </div>
+  </div>
+</div>

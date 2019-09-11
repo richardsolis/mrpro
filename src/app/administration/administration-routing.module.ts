@@ -8,6 +8,7 @@ import { CommissionComponent } from './components/commission/commission.componen
 import { ServiceComponent } from './components/service/service.component';
 import { UserComponent } from './components/user/user.component';
 import { OrderComponent } from './components/order/order.component';
+import { ProviderComponent } from './components/provider/provider.component';
 
 
 const routes: Routes = [
@@ -39,6 +40,10 @@ const routes: Routes = [
 			{
 				path: 'usuario',
 				component: UserComponent
+			},
+			{
+				path: 'proveedor',
+				component: ProviderComponent
 			},
 			{
 				path: 'pedido',

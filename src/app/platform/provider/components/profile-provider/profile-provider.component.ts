@@ -167,6 +167,7 @@ export class ProfileProviderComponent implements OnInit {
   onSubmit(myModal) {
     // stop here if form is invalid
     if (this.registerForm.invalid) {
+      this.submitted = true;
         return;
     }
     console.log('SUCCESS!! :-)',this.registerForm.value);
@@ -179,6 +180,7 @@ export class ProfileProviderComponent implements OnInit {
 	  	myModal.open();
   		this.spinner.hide();
   	}, (error: any) => {
+      this.submitted = false;
   		console.log(error);
 	  		return;
   	})

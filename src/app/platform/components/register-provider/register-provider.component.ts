@@ -165,9 +165,12 @@ export class RegisterProviderComponent implements OnInit {
 	  })
   }
 
+
   onSubmit(myModal) {
     // stop here if form is invalid
     if (this.registerForm.invalid) {
+        //console.log(this.registerForm.controls.ruc.errors.required);
+        this.submitted = true;
         return;
     }
     console.log('SUCCESS!! :-)',this.registerForm.value);
@@ -176,11 +179,13 @@ export class RegisterProviderComponent implements OnInit {
   	this.userService.createProvider(this.registerForm.value)
   	.subscribe((response: any) => {
       console.log(response);
+      this.submitted = false;
       this.message = 'Registro con éxito, inicie sesión.';
 	  	myModal.open();
   		this.spinner.hide();
   		this.router.navigate(['/ingresar']);
   	}, (error: any) => {
+      this.submitted = false;
   		console.log(error);
 	  		return;
   	})

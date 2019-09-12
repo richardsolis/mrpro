@@ -26,7 +26,7 @@ export class UserService {
     const obj = {
       name: params.nombre,
       lastname: params.apellidos,
-      email: params.pcorreo,
+      email: (params.correo == undefined)? params.pcorreo : params.correo,
       password: params.contrasena,
       password_confirmation: params.contrasena2,
       phone: params.ptelefono,
@@ -36,7 +36,7 @@ export class UserService {
       ruc: (params.ruc == undefined)? "" : params.ruc,
       experience: params.experiencia,
       type_provider: params.tipo,
-      logo: (params.logo == undefined)? "" : params.logo,
+      logo: (params.logo == undefined)? (params.foto == undefined)? "" : params.foto  : params.logo,
       r_social: params.rSocial,
       a_fiscal: (params.dfiscal == undefined)? "" : params.dfiscal,
       a_comercial: (params.dComercial == undefined)? "" : params.dComercial,
@@ -47,7 +47,9 @@ export class UserService {
       a_judicial: params.judiciales,
       bank_id: params.eBancaria,
       bank_c: params.nCuenta,
-      bank_ci: params.interbancaria
+      bank_ci: params.interbancaria,
+      categories: params.categories,
+      districts: params.districts
     };
     console.log(obj);
     const body = new HttpParams({

@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { UserService } from '../../../services/user.service';
+import { DistrictService } from 'src/app/services/district.service';
+import { CategoryService } from 'src/app/services/category.service';
 
 @Component({
   selector: 'app-register-provider',
@@ -21,12 +23,27 @@ export class RegisterProviderComponent implements OnInit {
   pdfPenales:any;
   pdfJudiciales:any;
 
-
+  districts: any[];
+  categories: any[];
 
   constructor(private formBuilder: FormBuilder, private router: Router,	
-              private spinner: NgxSpinnerService,private userService: UserService) {
+              private spinner: NgxSpinnerService,private userService: UserService,
+              private districtService: DistrictService, private categoryService: CategoryService) {
     this.tipoForm = true;
     //this.images = [];
+    this.districtService.guestGetDistricts()
+      .subscribe((response: any) => {
+        this.districts = response.data;
+      }, (error: any) => {
+        console.log(error);
+      });
+
+    this.categoryService.guestGetCategories()
+      .subscribe((response: any) => {
+        this.categories = response.data;
+      }, (error: any) => {
+        console.log(error);
+      });
    }
 
   ngOnInit() {
@@ -57,7 +74,9 @@ export class RegisterProviderComponent implements OnInit {
       contrasena2:  ['', Validators.required],
       eBancaria:  [''],
       nCuenta:  [''],
-      interbancaria:  ['']
+      interbancaria:  [''],
+      categories:  [[], Validators.required],
+      districts:  [[], Validators.required],
     });
   }
 
@@ -167,9 +186,8 @@ export class RegisterProviderComponent implements OnInit {
 
 
   onSubmit(myModal) {
-    // stop here if form is invalid
+ 
     if (this.registerForm.invalid) {
-        //console.log(this.registerForm.controls.ruc.errors.required);
         this.submitted = true;
         return;
     }

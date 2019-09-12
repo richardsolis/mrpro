@@ -32,12 +32,12 @@ export class UserService {
       phone: params.ptelefono,
       image: params.foto,
       address: params.direccion,
-      emergency: '',
+      emergency: '1',
       ruc: (params.ruc == undefined)? "" : params.ruc,
       experience: params.experiencia,
       type_provider: params.tipo,
       logo: (params.logo == undefined)? (params.foto == undefined)? "" : params.foto  : params.logo,
-      r_social: params.rSocial,
+      r_social: (params.rSocial == undefined)? "" : params.rSocial,
       a_fiscal: (params.dfiscal == undefined)? "" : params.dfiscal,
       a_comercial: (params.dComercial == undefined)? "" : params.dComercial,
       a_taller: (params.dTaller == undefined)? "" : params.dTaller,
@@ -48,8 +48,8 @@ export class UserService {
       bank_id: params.eBancaria,
       bank_c: params.nCuenta,
       bank_ci: params.interbancaria,
-      categories: params.categories,
-      districts: params.districts
+      categories: JSON.stringify(params.categories),
+      districts: JSON.stringify(params.districts)
     };
     console.log(obj);
     const body = new HttpParams({

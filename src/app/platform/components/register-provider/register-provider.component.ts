@@ -204,6 +204,7 @@ export class RegisterProviderComponent implements OnInit {
   		this.router.navigate(['/ingresar']);
   	}, (error: any) => {
       this.submitted = false;
+      this.spinner.hide();
   		console.log(error);
 	  		return;
   	})

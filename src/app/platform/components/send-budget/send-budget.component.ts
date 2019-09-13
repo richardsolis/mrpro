@@ -35,6 +35,7 @@ export class SendBudgetComponent implements OnInit {
   districts = [];
   date = new Date();
   hour = null;
+  addMetod = false;
   typeServices = this.session.getObject("budget");
 
   ObjectServi = {
@@ -77,6 +78,11 @@ export class SendBudgetComponent implements OnInit {
       this.districts = response.data;
       this.spinner.hide();
     });
+  }
+
+  addMetodButon() {
+    console.log("hola");
+    this.addMetod = true;
   }
 
   onSelectImage(event) {

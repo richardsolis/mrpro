@@ -4,8 +4,8 @@
     <form>
       <div class="form-row">
         <div style="display: flex;width: 100%;justify-content: space-between;width: 85%;margin: auto;">
-          <div style="display: flex;width: 950px;">
-            <div class="form-group" style="display: flex;align-items: center;">
+          <div style="display: flex;width: 950px; justify-content: space-between;">
+            <div class="form-group" style="display: flex;align-items: center;margin: 26px 0px;margin-left: 10px;">
               <h5 class="color-blue title-filter" style="margin-bottom: 0px;font-size: 14px;margin-top: 4px;">Tipo de Servicio:</h5>
               <div class="form-group color-blue" style="display: flex;margin: 0px 15px;">
                 <div class="form-check" style="margin-right: 10px;">
@@ -28,10 +28,11 @@
                 </div>
               </div>
             </div>
-            <div *ngIf="serviceSearch.type == 'programmed'" class="form-group" style="display: flex;align-items: center;">
-              <h5 class="color-blue title-filter" style="font-size: 14px;margin-right: 14px;margin-bottom: 0;">Fecha y hora del servicio</h5>
-              <input class="form-control color-blue " style="width: 160px;margin-right: 15px;height: 32px;" [ngModel]="serviceSearch.date | date: 'yyyy-MM-dd'" min="{{ serviceSearch.date | date: 'yyyy-MM-dd' }}" type="date" name="date" />
-              <select class="custom-select color-blue " style="width: 160px;margin-right: 15px;height: 32px;" [(ngModel)]="serviceSearch.hour" name="hour">
+            <div *ngIf="serviceSearch.type == 'programmed'" class="form-group" style="display: flex;align-items: center;width: 525px;margin: 0;">
+              <h5 class="color-blue title-filter" style="font-size: 14px;margin-right: 14px;margin-bottom: 0;margin-left: 10px;">Fecha:</h5>
+              <input class="form-control color-blue " style="width: 200px;margin-right: 15px;height: 32px;" [ngModel]="serviceSearch.date | date: 'yyyy-MM-dd'" min="{{ serviceSearch.date | date: 'yyyy-MM-dd' }}" type="date" name="date" />
+              <h5 class="color-blue title-filter" style="font-size: 14px;margin-right: 14px;margin-bottom: 0;">Hora:</h5>
+              <select class="custom-select color-blue " style="width: 160px;height: 32px;" [(ngModel)]="serviceSearch.hour" name="hour">
                 <option>08:00:00</option>
                 <option>09:00:00</option>
                 <option>10:00:00</option>
@@ -49,17 +50,19 @@
           </div>
         </div>
         <div style="display: flex;width: 100%;justify-content: space-between;width: 85%;margin: auto;">
-          <div class="form-group" style="display: flex;align-items: center;margin-top: 0;">
-            <h5 class="color-blue title-filter" style="font-size: 14px;margin-right: 14px;margin-bottom: 0;">Categoría:</h5>
-            <select class="custom-select color-blue" [(ngModel)]="serviceSearch.category" (change)="categoryChanged()" style="width: initial" name="category">
-              <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
-            </select>
-          </div>
-          <div class="form-group" style="display: flex;align-items: center;margin-top: 0;">
-            <h5 class="color-blue title-filter" style="font-size: 14px;margin-right: 14px;margin-bottom: 0;">Sub Categoría:</h5>
-            <select class="custom-select color-blue" [(ngModel)]="serviceSearch.subcategory" style="width: initial" name="subcategory">
-              <option *ngFor="let subcategory of subCategories" [value]="subcategory.id">{{ subcategory.name }}</option>
-            </select>
+          <div style="display: flex;width: 934px; justify-content: space-between;">
+            <div class="form-group" style="display: flex;align-items: center;margin-top: 0;">
+              <h5 class="color-blue title-filter" style="font-size: 14px;margin-right: 14px;margin-bottom: 0;">Categoría:</h5>
+              <select class="custom-select color-blue" [(ngModel)]="serviceSearch.category" (change)="categoryChanged()" style="width: 280px;" name="category">
+                <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
+              </select>
+            </div>
+            <div class="form-group" style="display: flex;align-items: center;margin-top: 0;">
+              <h5 class="color-blue title-filter" style="font-size: 14px;margin-right: 14px;margin-bottom: 0;">Sub Categoría:</h5>
+              <select class="custom-select color-blue" [(ngModel)]="serviceSearch.subcategory" style="width: 370px;" name="subcategory">
+                <option *ngFor="let subcategory of subCategories" [value]="subcategory.id">{{ subcategory.name }}</option>
+              </select>
+            </div>
           </div>
           <div *ngIf="serviceSearch.type == 'priced'" class="form-group">
             <h5 class="color-blue title-filter" style="font-size: 14px;margin-right: 14px;margin-bottom: 0;">Cantidad:</h5>
@@ -76,8 +79,8 @@
 
   <div class="col-md-12 min-h-window graysoft">
     <section class="box-mh">
-      <div class="box-mg-nano row row-justifycon">
-        {{ providers.length }} Profesional{{ providers.length == 1 ? "" : "es" }}
+      <div class="box-mg-nano row row-justifycon" style="margin-top: 25px;">
+        Se encontraron {{ providers.length }} Profesional{{ providers.length == 1 ? "" : "es" }}
         <a class="color-blue" (click)="selectAllProviders()"><i class="fa {{ selectedProviders == providers.length ? 'fa-check-circle-o' : 'fa-circle-o' }} font-s-middle"></i> Seleccionar todos</a>
       </div>
 
@@ -103,9 +106,9 @@
                 </div>
               </div>
             </div>
-            <div class="buttons-provider col-md-12 row row-justifycon">
+            <!-- <div class="buttons-provider col-md-12 row row-justifycon">
               <button [disabled]="selectedProviders > 0" (click)="schedule(myModal, provider)" style="width:100%;" class="btn bprimary">Cotizar</button>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>

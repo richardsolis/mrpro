@@ -528,17 +528,16 @@ footer.primary {
 }
 
 /*START CHAT*/
-.main-container{
+.main-container {
   margin-top: 40px;
   margin-bottom: 150px;
 }
 
-.puntero{
+.puntero {
   cursor: pointer;
 }
 
-
-.chat-window{
+.chat-window {
   padding: 10px;
   /*width: 300px;
   height: 400px;*/
@@ -547,9 +546,9 @@ footer.primary {
   border-radius: 20px;
 }
 
-.app-mensajes{
-  overflow-y:scroll;
-  height:270px;
+.app-mensajes {
+  overflow-y: scroll;
+  height: 270px;
   /*background:gray;*/
   padding: 5px;
   border: 1px solid #ced4da;
@@ -557,7 +556,7 @@ footer.primary {
   margin-bottom: 4px;
 }
 
-.part-coti{
+.part-coti {
   margin-bottom: 4px;
   background-color: #cdcdcd;
 }
@@ -1569,4 +1568,21 @@ h5.color-blue.title-filter {
 
 .description-acordeon {
   /* width: 220px; */
+}
+
+.popUp-card {
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.46);
+  z-index: 9999999;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.form-add-metod .col {
+  margin-bottom: 20px;
 }

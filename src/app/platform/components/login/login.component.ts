@@ -17,8 +17,7 @@ export class LoginComponent implements OnInit {
     password: "",
     grant_type: "password",
     client_id: 2,
-    client_secret: "rtyWPXLRvqDOOLOz1aZbpnHUpskHn4YdYlPjjhbW"
-    //"3S8VKQ2bdsK9bp0PQfWvtLvBrdRGWSxm3YENFslg"
+    client_secret: "nW2sO1rq0p4mkPswgx9F4BFxduafPAofVVWsJSxX"
   };
   message = "";
   data: any = {};

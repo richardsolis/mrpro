@@ -1,9 +1,10 @@
 export class AppSettings {
   public static BASE_PATH = "http://admin-mrpro.mrpro.pe/api/";
-  public static BASE_IMAGE = "http://admin-mrpro.mrpro.pe/img/";
+  public static BASE_IMAGE = "http://admin-mrpro.mrpro.pe/api/guest/update/image";
   // public static BASE_PATH = 'http://localhost:4028/';
   public static GUEST_CREATE_USER = "guest/user/client";
   public static CREATE_PROVIDER = "provider/create";
+  public static UPDATE_PROVIDER = "provider/update";
   public static GUEST_GET_PROVIDERS = "guest/providers";
   public static GUEST_GET_DISTRICTS = "guest/districts";
   public static GUEST_GET_CATEGORIES = "guest/categories";

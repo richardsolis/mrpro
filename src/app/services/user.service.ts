@@ -60,7 +60,7 @@ export class UserService {
     });
     const options = { headers: headers };
 
-    return this.http.post("http://admin-mrpro.mrpro.pe/api/provider/create", body, options);
+    return this.http.post(AppSettings.BASE_PATH + AppSettings.CREATE_PROVIDER, body, options);
   }
 
   postSaveImageUser(image){
@@ -70,7 +70,7 @@ export class UserService {
     });
 
     const options = { headers: headers };
-    return this.http.post("http://admin-mrpro.mrpro.pe/api/guest/update/image", formData, options);
+    return this.http.post(AppSettings.BASE_IMAGE, formData, options);
   }
 
   getCurrentUser(params = {}) {

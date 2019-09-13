@@ -33,6 +33,8 @@ import { ProvidersComponent } from './components/providers/providers.component';
 import { SendBudgetComponent } from './components/send-budget/send-budget.component';
 import { HomeProviderComponent } from './provider/home/home-provider.component';
 import { ChatComponent } from './provider/components/chat/chat.component';
+import { RegisterProviderComponent } from './components/register-provider/register-provider.component';
+import { ProfileProviderComponent } from '../platform/provider/components/profile-provider/profile-provider.component';
 
 export function getAuthServiceConfigs() {
   let config = new AuthServiceConfig(
@@ -92,7 +94,9 @@ export function getAuthServiceConfigs() {
     RegisterEmailComponent, 
     ContactComponent, ProvidersComponent, SendBudgetComponent,
     HomeProviderComponent,
-    ChatComponent
+    ChatComponent,
+    RegisterProviderComponent,
+    ProfileProviderComponent
   ]
 })
 export class PlatformModule { }

@@ -10,12 +10,16 @@ import { SessionService } from "../../../services/session.service";
 export class HeaderComponent implements OnInit {
   user: any = {};
   submenu = false;
+  visible = true;
 
   constructor(private session: SessionService, private router: Router) {}
 
   ngOnInit() {
-    console.log(this.user);
     this.user = this.session.getObject("user");
+    console.log(this.user);
+    if(this.user){
+      this.visible = false;
+    }
   }
   menu() {
     if (this.submenu == false) {
@@ -27,6 +31,7 @@ export class HeaderComponent implements OnInit {
   logout() {
     this.session.destroy("user");
     this.user = {};
+    this.visible = true;
     this.router.navigate(["/home"]);
   }
   ingresarClear() {

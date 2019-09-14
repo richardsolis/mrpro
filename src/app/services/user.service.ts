@@ -24,15 +24,17 @@ export class UserService {
 
   createProvider(params){
     const obj = {
+      doc_number: params.dni,
       name: params.nombre,
       lastname: params.apellidos,
       email: (params.correo == undefined)? params.pcorreo : params.correo,
       password: params.contrasena,
       password_confirmation: params.contrasena2,
       phone: params.ptelefono,
+      website: params.psWeb,
       image: params.foto,
       address: params.direccion,
-      emergency: '1',
+      //emergency: '1',
       ruc: (params.ruc == undefined)? "" : params.ruc,
       experience: params.experiencia,
       type_provider: params.tipo,
@@ -42,14 +44,16 @@ export class UserService {
       a_comercial: (params.dComercial == undefined)? "" : params.dComercial,
       a_taller: (params.dTaller == undefined)? "" : params.dTaller,
       url: (params.sWeb == undefined)? "" : params.sWeb,
-      a_police: (params.policales == undefined)? "" : params.policales,
+      a_police: (params.policales == undefined)? "" : params.policiales,
       a_penal: params.penales,
       a_judicial: params.judiciales,
       bank_id: params.eBancaria,
       bank_c: params.nCuenta,
       bank_ci: params.interbancaria,
       categories: JSON.stringify(params.categories),
-      districts: JSON.stringify(params.districts)
+      districts: JSON.stringify(params.districts),
+      company_phone: params.telefono,
+      company_email: params.correo
     };
     console.log(obj);
     const body = new HttpParams({

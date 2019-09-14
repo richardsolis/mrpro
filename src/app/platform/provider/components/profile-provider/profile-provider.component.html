@@ -28,7 +28,7 @@
           <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">RUC:</label>
           <div class="col-lg-8 col-md-6">
             <input type="text" formControlName="ruc" class="form-control" id="RUC" placeholder="Ingrese RUC">
-            <div *ngIf="submitted && registerForm.controls.ruc.errors.required">
+            <div *ngIf="submitted && registerForm.controls.ruc.errors?.required">
                 <p class="text-warning"><strong>RUC requerido.</strong></p>
               </div>
           </div>
@@ -37,7 +37,7 @@
           <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Razón social:</label>
           <div class="col-lg-8 col-md-6">
             <input type="text" formControlName="rSocial" class="form-control" id="rSocial" placeholder="Ingrese Razón social">
-            <div *ngIf="submitted && registerForm.controls.rSocial.errors.required">
+            <div *ngIf="submitted && registerForm.controls.rSocial.errors?.required">
                 <p class="text-warning"><strong>Razón Social requerido.</strong></p>
             </div>
           </div>
@@ -46,7 +46,7 @@
           <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Dirección fiscal:</label>
           <div class="col-lg-8 col-md-6">
             <input type="text" formControlName="dfiscal" class="form-control" id="dfiscal" placeholder="Ingrese Dirección fiscal">
-            <div *ngIf="submitted && registerForm.controls.dfiscal.errors.required">
+            <div *ngIf="submitted && registerForm.controls.dfiscal.errors?.required">
                 <p class="text-warning"><strong>Dirección Fiscal requerido.</strong></p>
             </div>
           </div>
@@ -67,7 +67,7 @@
           <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Telefono:</label>
           <div class="col-lg-8 col-md-6">
             <input type="text" formControlName="telefono" class="form-control" id="telefono" placeholder="Ingrese Telefono">
-            <div *ngIf="submitted && registerForm.controls.telefono.errors.required">
+            <div *ngIf="submitted && registerForm.controls.telefono.errors?.required">
                 <p class="text-warning"><strong>Telefono requerido.</strong></p>
             </div>
           </div>
@@ -78,7 +78,7 @@
               <input (change)="selectFile($event)" type="file" name="logo">
           </div>
           <div class="col-lg-4 col-md-4">
-              <img src="assets/images/logo.png" alt="..." class="img-thumbnail">
+              <img [src]="providerUser.logo_url" alt="..." class="img-thumbnail">
           </div>
         </div>
         <div class="form-group row" *ngIf="tipoForm">
@@ -91,7 +91,7 @@
           <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">C. Electrónico:</label>
           <div class="col-lg-8 col-md-6">
             <input type="email"  formControlName="correo" class="form-control" id="correo" placeholder="Ingrese Correo">
-            <div *ngIf="submitted && registerForm.controls.correo.errors.required">
+            <div *ngIf="submitted && registerForm.controls.correo.errors?.required">
                 <p class="text-warning"><strong>Correo requerido.</strong></p>
             </div>
           </div>
@@ -106,7 +106,7 @@
           <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">DNI:</label>
           <div class="col-lg-8 col-md-6">
             <input type="text" formControlName="dni" class="form-control" id="dni" placeholder="Ingrese DNI">
-            <div *ngIf="submitted && registerForm.controls.dni.errors.required">
+            <div *ngIf="submitted && registerForm.controls.dni.errors?.required">
                 <p class="text-warning"><strong>DNI requerido.</strong></p>
             </div>
           </div>
@@ -115,7 +115,7 @@
           <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Nombre:</label>
           <div class="col-lg-8 col-md-6">
             <input type="text" formControlName="nombre" class="form-control" id="nombre" placeholder="Ingrese Nombre">
-            <div *ngIf="submitted && registerForm.controls.nombre.errors.required">
+            <div *ngIf="submitted && registerForm.controls.nombre.errors?.required">
                 <p class="text-warning"><strong>Nombre requerido.</strong></p>
             </div>
           </div>
@@ -124,7 +124,7 @@
           <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Apellidos:</label>
           <div class="col-lg-8 col-md-6">
             <input type="text" formControlName="apellidos" class="form-control" id="apellidos" placeholder="Ingrese Apellidos">
-            <div *ngIf="submitted && registerForm.controls.apellidos.errors.required">
+            <div *ngIf="submitted && registerForm.controls.apellidos.errors?.required">
                 <p class="text-warning"><strong>Apellidos requerido.</strong></p>
             </div>
           </div>
@@ -133,7 +133,7 @@
           <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Teléfono:</label>
           <div class="col-lg-8 col-md-6">
             <input type="text" formControlName="ptelefono" class="form-control" id="ptelefono" placeholder="Ingrese Teléfono">
-            <div *ngIf="submitted && registerForm.controls.ptelefono.errors.required">
+            <div *ngIf="submitted && registerForm.controls.ptelefono.errors?.required">
                 <p class="text-warning"><strong>Teléfono requerido.</strong></p>
             </div>
           </div>
@@ -142,7 +142,7 @@
           <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Dirección:</label>
           <div class="col-lg-8 col-md-6">
             <input type="text" formControlName="direccion" class="form-control" id="direccion" placeholder="Ingrese Dirección">
-            <div *ngIf="submitted && registerForm.controls.direccion.errors.required">
+            <div *ngIf="submitted && registerForm.controls.direccion.errors?.required">
                 <p class="text-warning"><strong>Dirección requerido.</strong></p>
             </div>
           </div>
@@ -153,7 +153,7 @@
               <input (change)="selectFile($event)" type="file" name="foto">
           </div>
           <div class="col-lg-4 col-md-4">
-              <img [src]="providerUser.logo_url" alt="..." class="img-thumbnail">
+              <img *ngIf="providerUser.user" [src]="providerUser.user.image_url" alt="..." class="img-thumbnail">
           </div>
         </div>
         <div class="form-group row">
@@ -166,7 +166,7 @@
           <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">C. Electrónico:</label>
           <div class="col-lg-8 col-md-6">
             <input type="email" formControlName="pcorreo" class="form-control" id="pcorreo" placeholder="Ingrese Correo">
-            <div *ngIf="submitted && registerForm.controls.pcorreo.errors.required">
+            <div *ngIf="submitted && registerForm.controls.pcorreo.errors?.required">
                 <p class="text-warning"><strong>Correo requerido.</strong></p>
             </div>
           </div>
@@ -198,8 +198,7 @@
         <div class="form-group row">
           <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Distrito(s) de Alcance:</label>
           <div class="col-lg-8 col-md-6">
-            <!--formControlName="categories"-->
-            <select multiple  class="form-control"  id="categories">
+            <select multiple formControlName="categories" class="form-control"  id="categories">
               <option *ngFor="let district of districts" [value]="district.id">{{ district.name }}</option>
             </select>
           </div>
@@ -207,8 +206,7 @@
         <div class="form-group row">
           <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Categoría(s):</label>
           <div class="col-lg-8 col-md-6">
-            <!--formControlName="districts"-->
-            <select multiple  class="form-control"  id="districts">
+            <select multiple formControlName="districts" class="form-control"  id="districts">
               <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
             </select>
           </div>
@@ -217,18 +215,12 @@
           <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Contraseña:</label>
           <div class="col-lg-8 col-md-6">
             <input type="password" formControlName="contrasena" class="form-control" id="contrasena" placeholder="Ingrese Contraseña">
-            <div *ngIf="submitted && registerForm.controls.contrasena.errors.required">
-                <p class="text-warning"><strong>Contraseña requerido.</strong></p>
-            </div>
           </div>
         </div>
         <div class="form-group row">
           <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Confirmar Contraseña:</label>
           <div class="col-lg-8 col-md-6">
             <input type="password" formControlName="contrasena2" class="form-control" id="contrasena2" placeholder="Ingrese Contraseña de nuevo">
-            <div *ngIf="submitted && registerForm.controls.contrasena2.errors.required">
-                <p class="text-warning"><strong>Confirmar Contraseña requerido.</strong></p>
-            </div>
           </div>
         </div>
         <div class="form-group row">

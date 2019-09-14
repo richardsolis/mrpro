@@ -79,13 +79,13 @@ export class ProfileProviderComponent implements OnInit {
       penales:  [''],
       judiciales:  [''],
       experiencia:  [''],
-      contrasena:  ['', Validators.required],
-      contrasena2:  ['', Validators.required],
+      contrasena:  [''],
+      contrasena2:  [''],
       eBancaria:  [''],
       nCuenta:  [''],
-      interbancaria:  ['']/*,
+      interbancaria:  [''],
       categories:  [[], Validators.required],
-      districts:  [[], Validators.required]*/
+      districts:  [[], Validators.required]
     });
   }
 
@@ -106,61 +106,64 @@ export class ProfileProviderComponent implements OnInit {
     if(option == '0'){
       this.tipoForm = true;
       this.registerForm.setValue({
-        nombre: this.providerUser.name,
-        apellidos: this.providerUser.lastname,
-        pcorreo: this.providerUser.email,
-        contrasena: '',
-        contrasena2: '',
-        ptelefono: this.providerUser.phone,
-        foto: this.providerUser.image,
-        direccion: this.providerUser.address,
-        //this.providerUser.emergency: '1',
+        tipo: this.providerUser.type_provider,
         ruc: this.providerUser.ruc,
-        experiencia: this.providerUser.experience,
-        //this.providerUser.type_provider: params.tipo,
-        logo: this.providerUser.logo,
         rSocial: this.providerUser.r_social,
         dfiscal: this.providerUser.a_fiscal,
         dComercial: this.providerUser.a_comercial,
         dTaller: this.providerUser.a_taller,
+        telefono: this.providerUser.company_phone,
+        logo: this.providerUser.logo,
         sWeb: this.providerUser.url,
-        policales: this.providerUser.a_police,
+        correo: this.providerUser.company_email,
+        dni: this.providerUser.user.doc_number,
+        nombre: this.providerUser.user.name,
+        apellidos: this.providerUser.user.lastname,
+        ptelefono: this.providerUser.user.phone,
+        foto: this.providerUser.user.image,
+        direccion: this.providerUser.user.address,
+        psWeb: this.providerUser.user.website,
+        pcorreo: this.providerUser.user.email,
+        policiales: this.providerUser.a_police,
         penales: this.providerUser.a_penal,
         judiciales: this.providerUser.a_judicial,
+        experiencia: this.providerUser.experience.split(" ")[0],
+        districts: this.providerUser.districts.map(item => item.district_id),
+        categories: this.providerUser.categories.map(item => item.category_service_id),
+        contrasena: '',
+        contrasena2: '',
         eBancaria: this.providerUser.bank_id,
         nCuenta: this.providerUser.bank_c,
-        interbancaria: this.providerUser.bank_ci/*,
-        categories: JSON.parse( this.providerUser.categories),
-        districts: JSON.parse( this.providerUser.districts)*/
+        interbancaria: this.providerUser.bank_ci
         });
+        this.spinner.hide();
     }else if(option == '1'){
       this.tipoForm = false;
       this.removeControls();
       this.registerForm.setValue({
+        tipo: this.providerUser.type_provider,
+        dni: this.providerUser.user.doc_number,
         nombre: this.providerUser.user.name,
         apellidos: this.providerUser.user.lastname,
-        pcorreo: this.providerUser.user.email,
         ptelefono: this.providerUser.user.phone,
         foto: this.providerUser.user.image,
         direccion: this.providerUser.user.address,
-        dni: '71330830',
-        psWeb: 'www.thor.com',
-        //this.providerUser.emergency: '1',
-        experiencia: this.providerUser.experience.split(" ")[0],
-        contrasena: '',
-        contrasena2: '',
-        tipo: this.providerUser.type_provider,
+        psWeb: this.providerUser.user.website,
+        pcorreo: this.providerUser.user.email,
         policiales: this.providerUser.a_police,
         penales: this.providerUser.a_penal,
         judiciales: this.providerUser.a_judicial,
+        experiencia: this.providerUser.experience.split(" ")[0],
+        districts: this.providerUser.districts.map(item => item.district_id),
+        categories: this.providerUser.categories.map(item => item.category_service_id),
+        contrasena: '',
+        contrasena2: '',
         eBancaria: this.providerUser.bank_id,
         nCuenta: this.providerUser.bank_c,
-        interbancaria: this.providerUser.bank_ci/*,
-        categories: JSON.stringify(params.categories),
-        districts: JSON.stringify(params.districts)*/
+        interbancaria: this.providerUser.bank_ci
       });
+      this.spinner.hide();
     }
-    this.spinner.hide();
   }
 
   selectFile(event){
@@ -229,7 +232,7 @@ export class ProfileProviderComponent implements OnInit {
 	  })
   }
 
-  onSubmit() {
+  public onSubmit() {
     // stop here if form is invalid
     if (this.registerForm.invalid) {
       this.submitted = true;

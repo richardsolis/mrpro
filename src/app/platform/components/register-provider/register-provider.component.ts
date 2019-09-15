@@ -197,11 +197,11 @@ export class RegisterProviderComponent implements OnInit {
   	this.userService.createProvider(this.registerForm.value)
   	.subscribe((response: any) => {
       console.log(response);
-      this.submitted = false;
       this.message = 'Registro con éxito, inicie sesión.';
 	  	myModal.open();
+      this.submitted = false;
   		this.spinner.hide();
-  		this.router.navigate(['/ingresar']);
+  		//this.router.navigate(['/ingresar']);
   	}, (error: any) => {
       this.submitted = false;
       this.spinner.hide();

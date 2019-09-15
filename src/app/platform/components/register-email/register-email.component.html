@@ -9,6 +9,9 @@
 
       <form class="form">
         <div class="form-group">
+          <input [(ngModel)]="user.doc_number" (keypress)="onlydigit($event)" type="text" placeholder="DNI" name="dni" required="true" />
+        </div>
+        <div class="form-group">
           <input [(ngModel)]="user.name" type="text" placeholder="Nombre" name="firstname" required="true" />
         </div>
         <div class="form-group">

@@ -73,7 +73,10 @@
           </div>
         </div>
         <div class="form-group row" *ngIf="tipoForm">
-          <label for="inputEmail3" class="col-lg-4 col-md-4 col-form-label">Logo:</label>
+          <label for="inputEmail3" class="col-lg-4 col-md-4 col-form-label">Logo:
+            <i *ngIf="providerUser.logo" class="fa fa-check-circle-o text-success" aria-hidden="true"></i>
+            <i *ngIf="!providerUser.logo" class="fa fa-times-circle-o text-danger" aria-hidden="true"></i>
+          </label>
           <div class="col-lg-4 col-md-4">
               <input (change)="selectFile($event)" type="file" name="logo">
           </div>
@@ -148,12 +151,15 @@
           </div>
         </div>
         <div class="form-group row">
-          <label for="inputEmail3" class="col-lg-4 col-md-4 col-form-label">Foto:</label>
+          <label for="inputEmail3" class="col-lg-4 col-md-4 col-form-label">Foto: 
+            <i *ngIf="providerUser.user && providerUser.user.image" class="fa fa-check-circle-o text-success" aria-hidden="true"></i>
+            <i *ngIf="providerUser.user && !providerUser.user.image" class="fa fa-times-circle-o text-danger" aria-hidden="true"></i>
+          </label>
           <div class="col-lg-4 col-md-4">
               <input (change)="selectFile($event)" type="file" name="foto">
           </div>
           <div class="col-lg-4 col-md-4">
-              <img *ngIf="providerUser.user" [src]="providerUser.user.image_url" alt="..." class="img-thumbnail">
+              <img *ngIf="providerUser.user" src="{{ providerUser.user.image_url ? providerUser.user.image_url : './assets/images/user.png' }}" alt="..." class="img-thumbnail">
           </div>
         </div>
         <div class="form-group row">
@@ -172,19 +178,28 @@
           </div>
         </div>
         <div class="form-group row">
-          <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Antecedentes Policiales</label>
+          <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Antecedentes Policiales
+            <i *ngIf="providerUser.a_police" class="fa fa-check-circle-o text-success" aria-hidden="true"></i>
+            <i *ngIf="!providerUser.a_police" class="fa fa-times-circle-o text-danger" aria-hidden="true"></i>
+          </label>
           <div class="col-lg-8 col-md-6">
               <input (change)="selectDoc($event)" type="file" name="policiales">
           </div>
         </div>
         <div class="form-group row">
-          <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Antecedentes Penales</label>
+          <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Antecedentes Penales
+            <i *ngIf="providerUser.a_penal" class="fa fa-check-circle-o text-success" aria-hidden="true"></i>
+            <i *ngIf="!providerUser.a_penal" class="fa fa-times-circle-o text-danger" aria-hidden="true"></i>
+          </label>
           <div class="col-lg-8 col-md-6">
               <input (change)="selectDoc($event)" type="file" name="penales">
           </div>
         </div>
         <div class="form-group row">
-          <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Antecedentes Judiciales</label>
+          <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Antecedentes Judiciales
+              <i *ngIf="providerUser.a_judicial" class="fa fa-check-circle-o text-success" aria-hidden="true"></i>
+              <i *ngIf="!providerUser.a_judicial" class="fa fa-times-circle-o text-danger" aria-hidden="true"></i>
+          </label>
           <div class="col-lg-8 col-md-6">
               <input (change)="selectDoc($event)" type="file" name="judiciales">
           </div>

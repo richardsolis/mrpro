@@ -20,7 +20,7 @@ export class RegisterEmailComponent implements OnInit {
     image: "",
     cpolicy: false,
     cconditions: false,
-    doc_number: "77503546"
+    doc_number: ""
   };
   message = "";
   image: any;

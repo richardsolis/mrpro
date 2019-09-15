@@ -7,9 +7,11 @@
                 <form class="form-inline">
                     <label class="color-blue">Estado:</label>
                     <select class="custom-select color-blue mr-sm-2" name="tipo">
-                      <option>Aceptados</option>
-                      <option>Rechazados</option>
-                      <option>En espera</option>
+                      <option>Pendiente</option>
+                      <option>Atendido</option>
+                      <option>Rechazado</option>
+                      <option>Aceptado</option>
+                      <option>Finalizado</option>
                     </select>
                 </form>
               </nav>
@@ -20,9 +22,11 @@
               <tr>
                 <th scope="col"># ID</th>
                 <th scope="col">Categoria</th>
-                <th scope="col">Subcategoria</th>
+                <th scope="col">Descripción</th>
                 <th scope="col">Distrito</th>
+                <th scope="col">Dirección</th>
                 <th scope="col">Fec.Pedido</th>
+                <th scope="col">Cliente</th>
                 <th scope="col">Acciones</th>
               </tr>
             </thead>
@@ -33,21 +37,25 @@
                   <td scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></td>
                   <td scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></td>
                   <td scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></td>
+                  <td scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></td>
+                  <td scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></td>
                   <td>
                       <button class="btn btn-success my-2 my-sm-0" type="submit">Buscar</button>
                   </td>
                 </tr>
-              <tr>
-                <th scope="row">001</th>
-                <td>Gasfiteria</td>
-                <td>Instalacion/Reparacion de baño</td>
-                <td>San Borja</td>
-                <td>02/04/2019</td>
+              <tr *ngFor="let budget of budgetsList">
+                <td scope="row">{{ budget.id }}</td>
+                <td>{{ getName(categories, budget.category_service_id) }}</td>
+                <td>{{ budget.description }}</td>
+                <td>{{ getName(districts, budget.district_id)}}</td>
+                <td>{{ budget.address}}</td>
+                <td>{{ budget.date_service | date: 'dd/MM/yyyy' }}</td>
+                <td>{{ budget.user_client.user.name }}</td>
                 <td>
-                    <button type="button" class="btn btn-warning"  (click)="startChat('5WPu25gN0THfn3k7v66l')">Chat</button>
+                    <button type="button" class="btn btn-warning">Chat</button>
                 </td>
               </tr>
-              <tr>
+              <!--<tr>
                 <th scope="row">002</th>
                 <td>Electricista</td>
                 <td>Instalacion/Reparacion de baño</td>
@@ -66,7 +74,7 @@
                 <td>
                     <button type="button" class="btn btn-warning" (click)="startChat('w5wkAjPDV445dBHU6B5A')">Chat</button>
                   </td>
-              </tr>
+              </tr>-->
             </tbody>
           </table>
         </div>

@@ -1,59 +1,55 @@
 <ptfm-header></ptfm-header>
 <div class="">
-	<section class="box-mh row row-center">
-		<div class="col-md-4 card mg-t-small card-sesion">
-			<div class="mg-t-small card-title">
-				<h5>Crear una cuenta</h5>
-			</div>
-			<div class="divider"></div>
+  <section class="box-mh row row-center">
+    <div class="col-md-4 card mg-t-small card-sesion">
+      <div class="mg-t-small card-title">
+        <h5>Crear una cuenta</h5>
+      </div>
+      <div class="divider"></div>
 
-			<form class="form">
-				<div class="form-group">
-					<input [(ngModel)]="user.name" type="text" placeholder="Nombre" name="firstname" required="true">
-				</div>
-				<div class="form-group">
-					<input [(ngModel)]="user.lastname" type="text" placeholder="Apellido" name="lastname" required="true">
-				</div>
-				<div class="form-group">
-					<input [(ngModel)]="user.phone" (keypress)="onlydigit($event)" type="text" placeholder="Celular" name="phone">
-				</div>
-				<div class="form-group">
-					<input [(ngModel)]="user.email" type="email" placeholder="Correo electrÛnico" name="email">
-				</div>
-				<div class="form-group">
-					<input [(ngModel)]="user.password" type="password" placeholder="ContraseÒa" name="password">
-				</div>
-				<div class="form-group">
-					<input [(ngModel)]="user.password_confirmation" type="password" placeholder="Confirmar contraseÒa" name="password_confirmation">
-				</div>
-				<div class="form-group">
-					<input (change)="selectFile($event)" type="file" name="image">
-				</div>
-				<div class="form-group">
-					<input [(ngModel)]="user.cpolicy" class="check" type="checkbox" placeholder="ContraseÒa" name="cpolicy"> Acepto <strong class="color-blue">PolÌtica de privacidad</strong>
-				</div>
-				<div class="form-group">
-					<input [(ngModel)]="user.cconditions" class="check" type="checkbox" placeholder="ContraseÒa" name="cconditions"> Acepto <strong class="color-blue">TÈrminos y condiciones</strong>
-				</div>
-			</form>
-				<button (click)="login(myModal)" class="btn bprimary">Crear mi cuenta</button>
-			<div class="divider"></div>
-			
-			<div class="row row-justifycon">
-				øYa tienes cuenta?
-				<button routerLink="/ingresar" class="btn btn-outprimary">Inicia sesiÛn</button>
-			</div>
-		</div>
-	</section>
+      <form class="form">
+        <div class="form-group">
+          <input [(ngModel)]="user.name" type="text" placeholder="Nombre" name="firstname" required="true" />
+        </div>
+        <div class="form-group">
+          <input [(ngModel)]="user.lastname" type="text" placeholder="Apellido" name="lastname" required="true" />
+        </div>
+        <div class="form-group">
+          <input [(ngModel)]="user.phone" (keypress)="onlydigit($event)" type="text" placeholder="Celular" name="phone" />
+        </div>
+        <div class="form-group">
+          <input [(ngModel)]="user.email" type="email" placeholder="Correo electrÛnico" name="email" />
+        </div>
+        <div class="form-group">
+          <input [(ngModel)]="user.password" type="password" placeholder="ContraseÒa" name="password" />
+        </div>
+        <div class="form-group">
+          <input [(ngModel)]="user.password_confirmation" type="password" placeholder="Confirmar contraseÒa" name="password_confirmation" />
+        </div>
+        <div class="form-group">
+          <input (change)="selectFile($event)" type="file" name="image" />
+        </div>
+        <div class="form-group"><input [(ngModel)]="user.cpolicy" class="check" type="checkbox" placeholder="ContraseÒa" name="cpolicy" /> Acepto <strong class="color-blue">PolÌtica de privacidad</strong></div>
+        <div class="form-group"><input [(ngModel)]="user.cconditions" class="check" type="checkbox" placeholder="ContraseÒa" name="cconditions" /> Acepto <strong class="color-blue">TÈrminos y condiciones</strong></div>
+      </form>
+      <button (click)="login(myModal)" class="btn bprimary">Crear mi cuenta</button>
+      <div class="divider"></div>
+
+      <div class="row row-justifycon">
+        øYa tienes cuenta?
+        <button routerLink="/ingresar" class="btn btn-outprimary">Inicia sesiÛn</button>
+      </div>
+    </div>
+  </section>
 </div>
 
 <modal #myModal>
-    <modal-content>
-    	<div class="error">
-    		<div class="icon">
-    			<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-    		</div>
-        	<h4>{{message}}</h4>
-    	</div>
-    </modal-content>        
+  <modal-content>
+    <div class="error">
+      <div class="icon">
+        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+      </div>
+      <h4>{{ message }}</h4>
+    </div>
+  </modal-content>
 </modal>

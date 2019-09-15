@@ -6,12 +6,19 @@ import { DistrictService } from "../../../services/district.service";
 import { GeneralService } from "../../../services/general.service";
 import { NgxSpinnerService } from "ngx-spinner";
 import localeDe from "@angular/common/locales/de";
+
 @Component({
   selector: "app-send-budget",
   templateUrl: "./send-budget.component.html",
   styleUrls: ["./send-budget.component.css"]
 })
 export class SendBudgetComponent implements OnInit {
+  cardCreit = {
+    number: null,
+    date: "",
+    cvv: null
+  };
+
   budget: any = {
     provider: "",
     user_provider_id: 0,
@@ -37,6 +44,9 @@ export class SendBudgetComponent implements OnInit {
   hour = null;
   addMetod = false;
   typeServices = this.session.getObject("budget");
+  image1 = "";
+  image2 = "";
+  image3 = "";
 
   ObjectServi = {
     address: "",
@@ -54,9 +64,10 @@ export class SendBudgetComponent implements OnInit {
   //Día
   d = this.ObjectServi.date_service.getDate();
   selectedImage;
-
+  pago = false;
   file: File;
   imgaa: FileList;
+  listCard;
   constructor(private router: Router, private session: SessionService, private districtS: DistrictService, private userS: UserService, private generalS: GeneralService, private spinner: NgxSpinnerService) {}
 
   ngOnInit() {
@@ -70,6 +81,7 @@ export class SendBudgetComponent implements OnInit {
     this.budget.hour = budget.hour;
     console.log(budget, "dasdadasdasdasd");
     this.getDistricts();
+    this.allCard();
   }
 
   getDistricts() {
@@ -80,24 +92,72 @@ export class SendBudgetComponent implements OnInit {
     });
   }
 
+  allCard() {
+    this.userS.getCardBank().subscribe((response: any) => {
+      this.listCard = response.data;
+      console.log(this.listCard);
+    });
+  }
+
   addMetodButon() {
     console.log("hola");
     this.addMetod = true;
   }
 
-  onSelectImage(event) {
-    this.imgaa = event.target.files;
-    console.log(this.imgaa);
-    // if (fileList.length > 0) {
-    this.file = this.imgaa[0];
-    // let formData2: FormData = new FormData();
-    // formData2.append("uploadFile", file, file.name);
-    console.log(this.file);
-    // }
+  onSelectImage(event, number) {
+    if (number === 1) {
+      this.image1 = event.target.files[0];
+      this.userS.postSaveImageUser(event.target.files[0]).subscribe((response: any) => {
+        this.image1 = response.data;
+        console.log(response);
+      });
+    }
+    if (number === 2) {
+      this.image2 = event.target.files[0];
+      this.userS.postSaveImageUser(event.target.files[0]).subscribe((response: any) => {
+        this.image2 = response.data;
+        console.log(response);
+      });
+    }
+    if (number === 3) {
+      this.userS.postSaveImageUser(event.target.files[0]).subscribe((response: any) => {
+        this.image3 = response.data;
+      });
+    }
   }
 
-  sendBudget(modal) {
-    console.log(this.ObjectServi.date_service);
+  saveCard() {
+    this.userS.createCardBank(this.cardCreit).subscribe((response: any) => {
+      console.log(response);
+      this.allCard();
+      this.addMetod = false;
+    });
+  }
+
+  editCard(list) {
+    this.addMetod = true;
+    this.cardCreit = {
+      number: null,
+      date: list.date,
+      cvv: list.cvv
+    };
+    console.log(list);
+  }
+
+  cancelCard() {
+    this.addMetod = false;
+  }
+
+  cancelSend() {
+    this.pago = false;
+  }
+
+  sendBudget() {
+    // this.sendBudget(true);
+    this.pago = true;
+  }
+
+  sendData(modal) {
     this.spinner.show();
     this.sbutton = true;
     this.messageT = true;
@@ -105,29 +165,19 @@ export class SendBudgetComponent implements OnInit {
     var dataSend = [];
     // this.ObjectServi.date_service = this.d + "-" + this.m + "-" + this.y + " " + this.hour;
     for (let i = 0; i < this.LocalProvider.length; i++) {
-      // this.ObjectServi.user_provider_id = this.LocalProvider[i].user_id;
-      // console.log(this.ObjectServi, "HOLISTAS");
-      // console.log(this.LocalProvider[i], "HOLISTAS222");
-      // dataSend.push(this.ObjectServi);
       dataSend.push({
         address: this.ObjectServi.address,
         category_service_id: this.session.getObject("budget").category,
+        parent_category_service: 4,
         contact_name: this.session.getObject("user").name + " " + this.session.getObject("user").lastname,
         date_service: this.ObjectServi.date_service,
         description: this.ObjectServi.description,
         district_id: this.ObjectServi.district_id,
         phone_name: this.session.getObject("user").phone,
-        user_provider_id: this.LocalProvider[i].user_id
+        user_provider_id: this.LocalProvider[i].user_id,
+        image: [this.image1, this.image2, this.image3]
       });
-      console.log(dataSend);
     }
-    console.log(dataSend, "enviar");
-
-    console.log(JSON.stringify(dataSend), "hoda");
-    console.log(this.ObjectServi, "asdadsdsa", this.d + "/" + this.m + "/" + this.y + this.hour, this.hour, this.LocalProvider);
-    // let formData2: FormData = new FormData();
-    // formData2.append("image_file", this.file);
-
     this.userS.sendBudget({ services: JSON.stringify(dataSend) }).subscribe(
       response => {
         this.message = "Se agendó un servicio";

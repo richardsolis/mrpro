@@ -3,7 +3,7 @@
   <div class="white">
     <form>
       <div class="form-row">
-        <div style="display: flex;width: 100%;justify-content: space-between;width: 85%;margin: auto;">
+        <div style="display: flex;width: 100%;justify-content: space-between;width: 85%;margin: auto;max-width: 1180px;">
           <div style="display: flex;width: 950px; justify-content: space-between;">
             <div class="form-group" style="display: flex;align-items: center;margin: 26px 0px;margin-left: 10px;">
               <h5 class="color-blue title-filter" style="margin-bottom: 0px;font-size: 14px;margin-top: 4px;">Tipo de Servicio:</h5>
@@ -49,7 +49,7 @@
             </div>
           </div>
         </div>
-        <div style="display: flex;width: 100%;justify-content: space-between;width: 85%;margin: auto;">
+        <div style="display: flex;width: 100%;justify-content: space-between;width: 85%;margin: auto;max-width: 1180px;">
           <div style="display: flex;width: 934px; justify-content: space-between;">
             <div class="form-group" style="display: flex;align-items: center;margin-top: 0;">
               <h5 class="color-blue title-filter" style="font-size: 14px;margin-right: 14px;margin-bottom: 0;">Categoría:</h5>
@@ -90,7 +90,7 @@
             <i class="fa {{ provider.selected ? 'fa-check-circle-o' : 'fa-circle-o' }} absolute-rt font-s-middle"></i>
             <div class="no-gutters box-mg-nano" (click)="selectProvider(provider)">
               <div class="col-4 image-provider" style="margin: auto;">
-                <img src="{{ provider.user.image ? provider.user.image : './assets/images/provider.png' }}" class="card-img" alt="..." />
+                <img src="{{ provider.user.image ? 'http://admin-mrpro.mrpro.pe/img/' + provider.user.image : './assets/images/provider.png' }}" class="card-img" alt="..." />
               </div>
               <div class="col-8" style="margin: auto; text-align: center;">
                 <div class="card-body">

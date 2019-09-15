@@ -17,40 +17,24 @@
             <span *ngFor="let LocalProvider of LocalProvider" style="    background: #134293;margin-right: 10px;color: white;padding: 2px 10px;border-radius: 3px;"> {{ LocalProvider.user.name }} {{ LocalProvider.user.lastname }} </span>
           </p>
         </div>
-        <div class="form-group">
-          <p>Nombre del Contacto* :</p>
-          <input [(ngModel)]="ObjectServi.contact_name" type="text" name="contact_name" required="true" />
-        </div>
-        <div class="form-group">
-          <p>Numero de telefono* :</p>
-          <input [(ngModel)]="ObjectServi.phone_name" (keypress)="onlydigit($event)" type="text" name="phone_name" />
-        </div>
-        <div class="form-group">
-          <p>Distritos* :</p>
-          <div class="select">
-            <select class="" [(ngModel)]="ObjectServi.district_id" name="district">
-              <option *ngFor="let district of districts" [value]="district.id">{{ district.name }}</option>
-            </select>
+        <div style="display: flex;justify-content: space-between;">
+          <div class="form-group" style="width: 49%;margin-top:0px;margin-bottom:0px;">
+            <p>Nombre del Contacto* :</p>
+            <input [(ngModel)]="ObjectServi.contact_name" type="text" name="contact_name" required="true" />
+          </div>
+          <div class="form-group" style="width: 49%;margin-top:0px;margin-bottom:0px;">
+            <p>Numero de telefono* :</p>
+            <input [(ngModel)]="ObjectServi.phone_name" (keypress)="onlydigit($event)" type="text" name="phone_name" />
           </div>
         </div>
-        <div class="form-group">
-          <p>Direccion* :</p>
-          <input [(ngModel)]="ObjectServi.address" type="text" name="address" />
-        </div>
-        <div class="form-group">
-          <p>Descripción* :</p>
-          <!-- <input [(ngModel)]="ObjectServi.description" type="text" placeholder="Descripción del servicio" name="description"> -->
-          <textarea style="border: 1px solid #dfdfdf;resize: none;" [(ngModel)]="ObjectServi.description" type="text" name="description"></textarea>
-        </div>
-        <!-- <div class="form-group">
-          <p>Añadir fotos* :</p>
-          <input type="file" accept=".png, .jpg, .jpeg" (change)="onSelectImage($event)" class="form-control" />
-        </div> -->
-        <div *ngIf="typeServices.type != 'immediate'">
-          <p>Fecha y Hora :</p>
-          <div style="display: flex;align-items: center;justify-content: space-between;width: 100%;">
-            <input class="col-md-6" [ngModel]="ObjectServi.date_service | date: 'yyyy-MM-dd'" min="{{ ObjectServi.date_service | date: 'yyyy-MM-dd' }}" type="date" name="date" />
-            <select class="col-md-5" [(ngModel)]="hour" style="width: initial" name="hour">
+        <div *ngIf="typeServices.type != 'immediate'" style="display: flex;justify-content: space-between;margin-top: 10px;">
+          <div class="form-group" style="width: 49%;margin-top:0px;margin-bottom:0px;">
+            <label>Fecha de Servicio:</label>
+            <input [ngModel]="ObjectServi.date_service | date: 'yyyy-MM-dd'" min="{{ ObjectServi.date_service | date: 'yyyy-MM-dd' }}" type="date" name="date" />
+          </div>
+          <div class="form-group" style="width: 49%;margin-top:0px;margin-bottom:0px;">
+            <label>Hora de Servicio: </label>
+            <select [(ngModel)]="hour" name="hour" style="height: 36px;">
               <option>08:00:00</option>
               <option>09:00:00</option>
               <option>10:00:00</option>
@@ -66,13 +50,38 @@
             </select>
           </div>
         </div>
+        <div style="display: flex;justify-content: space-between;">
+          <div class="form-group" style="width: 49%;margin-bottom:0px;">
+            <p>Distritos* :</p>
+            <div class="select">
+              <select class="" [(ngModel)]="ObjectServi.district_id" name="district" style="height: 36px;">
+                <option *ngFor="let district of districts" [value]="district.id">{{ district.name }}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group" style="width: 49%;margin-bottom:0px;">
+            <p>Direccion* :</p>
+            <input [(ngModel)]="ObjectServi.address" type="text" name="address" />
+          </div>
+        </div>
+        <div class="form-group">
+          <p>Descripción* :</p>
+          <!-- <input [(ngModel)]="ObjectServi.description" type="text" placeholder="Descripción del servicio" name="description"> -->
+          <textarea style="border: 1px solid #dfdfdf;resize: none;" [(ngModel)]="ObjectServi.description" type="text" name="description"></textarea>
+        </div>
+        <div class="form-group">
+          <p>Añadir fotos* :</p>
+          <input type="file" accept=".png, .jpg, .jpeg" (change)="onSelectImage($event, 1)" class="form-control" style="margin-bottom: 15px" />
+          <input type="file" accept=".png, .jpg, .jpeg" (change)="onSelectImage($event, 2)" class="form-control" style="margin-bottom: 15px" />
+          <input type="file" accept=".png, .jpg, .jpeg" (change)="onSelectImage($event, 3)" class="form-control" style="margin-bottom: 15px" />
+        </div>
         <br />
       </form>
       <button (click)="sendBudget(myModal)" class="btn bprimary"><span *ngIf="typeServices.type == 'programmed'">Solicitar cotización</span><span *ngIf="typeServices.type == 'immediate'">Procesar Inmediato</span><span *ngIf="typeServices.type == 'priced'">Precesar Tarifado</span></button>
     </div>
   </section>
 </div>
-<div class="popUp-card">
+<div class="popUp-card" *ngIf="pago">
   <div>
     <div style="width:100%;display:flex;justify-content:flex-end;">
       <button (click)="addMetodButon()" style="margin-bottom: 19px;padding: 5px 20px;border: none;border-radius: 7px;background: #373738;color: white;">
@@ -83,22 +92,26 @@
     <div class="card" style="border:none;" *ngIf="!addMetod">
       <h5 class="card-header" style="color:white;background: #135daa;">Seleccione su metodo de pago</h5>
       <div class="card-body" style="padding: 20px;">
-        <div style="display: flex;align-items: center;">
+        <div style="display: flex;align-items: center; margin-top: 10px;" *ngFor="let list of listCard">
           <div class="form-check" style="width: 400px;margin-right: 40px;display: flex;justify-content: space-between;">
             <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked />
             <label class="form-check-label" for="exampleRadios1">
-              Tarjeta de débito o credito
+              {{ list.number_card }}
             </label>
             <div class="radio-icon radio-icon-spreedly" style="width: 62px;background: url(https://assets-fix-me.cabify.com/97882ae02375c44ffb589354e157601d.svg) 50% no-repeat;height: 22px;"></div>
           </div>
-          <button type="button" class="btn btn-info" style="width: 101px;height: 36px;padding: 0px;margin-right: 17px;">Editar</button>
+          <!-- <button type="button" class="btn btn-info" style="width: 101px;height: 36px;padding: 0px;margin-right: 17px;" (click)="editCard(list)">Editar</button> -->
           <button type="button" class="btn btn-danger" style="width: 101px;height: 36px;padding: 0px;margin-right: 17px;">Eliminar</button>
         </div>
-        <div class="form-check">
+        <div class="form-check" style="margin-top: 10px;">
           <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2" />
           <label class="form-check-label" for="exampleRadios2">
             Efectivo
           </label>
+        </div>
+        <div style="width: 300px;margin: auto;">
+          <button type="submit" class="btn btn-info" (click)="sendData()" style="width: 150px;height: 36px;padding: 0px;margin-right: 17px;">Enviar Solicitud</button>
+          <button type="button" class="btn btn-danger" (click)="cancelSend()" style="width: 101px;height: 36px;padding: 0px;margin-right: 17px;">Cancelar</button>
         </div>
       </div>
     </div>
@@ -108,28 +121,28 @@
         <form class="form-add-metod">
           <div class="row">
             <div class="col">
-              <input type="text" class="form-control" placeholder="First name" />
+              <input type="text" class="form-control" placeholder="First name" [(ngModel)]="cardCreit.name" name="name" />
             </div>
             <div class="col">
-              <input type="text" class="form-control" placeholder="Last name" />
+              <input type="text" class="form-control" placeholder="Last name" [(ngModel)]="cardCreit.lastname" name="lastname" />
             </div>
           </div>
           <div class="row">
             <div class="col">
-              <input type="text" class="form-control" placeholder="numero de tarjeta" />
+              <input type="text" class="form-control" placeholder="Numero de tarjeta" [(ngModel)]="cardCreit.number" name="number" />
             </div>
           </div>
           <div class="row">
             <div class="col">
-              <input type="text" class="form-control" placeholder="Fecha de Expiración" />
+              <input type="text" class="form-control" placeholder="Expiración - 00/00" [(ngModel)]="cardCreit.date" name="date" />
             </div>
             <div class="col">
-              <input type="text" class="form-control" placeholder="CVV" />
+              <input type="text" class="form-control" placeholder="CVV " [(ngModel)]="cardCreit.cvv" name="cvv" />
             </div>
           </div>
-          <div>
-            <button type="submit" class="btn btn-info" style="width: 101px;height: 36px;padding: 0px;margin-right: 17px;">Guardar</button>
-            <button type="button" class="btn btn-danger" style="width: 101px;height: 36px;padding: 0px;margin-right: 17px;">Cancelar</button>
+          <div style="width: 240px;margin: auto;">
+            <button type="submit" class="btn btn-info" (click)="saveCard()" style="width: 101px;height: 36px;padding: 0px;margin-right: 17px;">Guardar</button>
+            <button type="button" class="btn btn-danger" (click)="cancelCard()" style="width: 101px;height: 36px;padding: 0px;margin-right: 17px;">Cancelar</button>
           </div>
         </form>
       </div>

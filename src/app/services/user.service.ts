@@ -22,7 +22,7 @@ export class UserService {
     return this.http.post(AppSettings.BASE_PATH + AppSettings.GUEST_CREATE_USER, body, options);
   }
 
-  createProvider(params){
+  createProvider(params) {
     const obj = {
       name: params.nombre,
       lastname: params.apellidos,
@@ -32,7 +32,7 @@ export class UserService {
       phone: params.telefono,
       image: params.foto,
       address: params.direccion,
-      emergency: '',
+      emergency: "",
       ruc: params.ruc,
       experience: params.experiencia,
       type_provider: params.tipo,
@@ -61,11 +61,10 @@ export class UserService {
     return this.http.post("http://admin-mrpro.mrpro.pe/api/provider/create", body, options);
   }
 
-  postSaveImageUser(image){
+  postSaveImageUser(image) {
     const formData = new FormData();
-    formData.append("image",image);
-    const headers = new HttpHeaders({
-    });
+    formData.append("image", image);
+    const headers = new HttpHeaders({});
 
     const options = { headers: headers };
     return this.http.post("http://admin-mrpro.mrpro.pe/api/guest/update/image", formData, options);
@@ -91,6 +90,22 @@ export class UserService {
     });
     var header = this.generalS.getToken();
     return this.http.post(AppSettings.BASE_PATH + AppSettings.CLIENT_GET_BUDGET, body, header);
+  }
+
+  createCardBank(params) {
+    const body = new HttpParams({
+      fromObject: params
+    });
+    var header = this.generalS.getToken({}, "application/json");
+    return this.http.post(AppSettings.BASE_PATH + AppSettings.CREATE_CARD_BANK, body, header);
+  }
+
+  getCardBank() {
+    // const body = new HttpParams({
+    //   fromObject: params
+    // });
+    var header = this.generalS.getToken({}, "application/json");
+    return this.http.post(AppSettings.BASE_PATH + AppSettings.LIST_ALL_CARD, null, header);
   }
 
   getStatus() {

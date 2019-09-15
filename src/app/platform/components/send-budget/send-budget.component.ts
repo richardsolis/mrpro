@@ -175,7 +175,7 @@ export class SendBudgetComponent implements OnInit {
         description: this.ObjectServi.description,
         district_id: this.ObjectServi.district_id,
         phone_name: this.session.getObject("user").phone,
-        user_provider_id: this.LocalProvider[i].user_id
+        user_provider_id: this.LocalProvider[i].id
       });
     }
     this.userS.sendBudget({ services: JSON.stringify(dataSend), image: [this.image1, this.image2, this.image3] }).subscribe(

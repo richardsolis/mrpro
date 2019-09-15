@@ -14,7 +14,7 @@ import { AppSettings } from 'src/app/app.settings';
 export class ChatComponent implements OnInit {
 
   mensaje: string = "";
-  public pathImage: string = AppSettings.BASE_IMAGE;
+  public pathImage: string = AppSettings.BASE_PATH_IMAGE;
   imageChat:any;
   elemento:any;
   currentChat: string;

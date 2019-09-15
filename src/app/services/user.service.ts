@@ -44,7 +44,7 @@ export class UserService {
       a_comercial: (params.dComercial == undefined)? "" : params.dComercial,
       a_taller: (params.dTaller == undefined)? "" : params.dTaller,
       url: (params.sWeb == undefined)? "" : params.sWeb,
-      a_police: (params.policales == undefined)? "" : params.policiales,
+      a_police: (params.policiales == undefined)? "" : params.policiales,
       a_penal: params.penales,
       a_judicial: params.judiciales,
       bank_id: params.eBancaria,
@@ -65,6 +65,19 @@ export class UserService {
     const options = { headers: headers };
 
     return this.http.post(AppSettings.BASE_PATH + AppSettings.CREATE_PROVIDER, body, options);
+  }
+
+  resetPassword(params) {
+    const obj = {email: params.email}
+    const body = new HttpParams({
+      fromObject: obj
+    });
+    const headers = new HttpHeaders({
+      "Content-Type": "application/x-www-form-urlencoded"
+    }); 
+    const options = { headers: headers };
+    
+  	return this.http.post(AppSettings.BASE_PATH + AppSettings.GUEST_RESET_PASSWORD, body, options);
   }
 
   postSaveImageUser(image){

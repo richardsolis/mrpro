@@ -57,6 +57,7 @@ export class ProfileProviderComponent implements OnInit {
 
    ngOnInit() {
     this.registerForm = this.formBuilder.group({
+      id: [''],
       tipo: ['0', Validators.required],
       ruc: ['', Validators.required],
       rSocial: ['', Validators.required],
@@ -106,6 +107,7 @@ export class ProfileProviderComponent implements OnInit {
     if(option == '0'){
       this.tipoForm = true;
       this.registerForm.setValue({
+        id: this.providerUser.id,
         tipo: this.providerUser.type_provider,
         ruc: this.providerUser.ruc,
         rSocial: this.providerUser.r_social,
@@ -141,6 +143,7 @@ export class ProfileProviderComponent implements OnInit {
       this.tipoForm = false;
       this.removeControls();
       this.registerForm.setValue({
+        id: this.providerUser.id,
         tipo: this.providerUser.type_provider,
         dni: this.providerUser.user.doc_number,
         nombre: this.providerUser.user.name,
@@ -244,9 +247,11 @@ export class ProfileProviderComponent implements OnInit {
   	this.providerService.postUpdateProviders(this.registerForm.value)
   	.subscribe((response: any) => {
       console.log(response);
+      this.submitted = false;
   		this.spinner.hide();
   	}, (error: any) => {
       this.submitted = false;
+      this.spinner.hide();
   		console.log(error);
 	  		return;
   	})

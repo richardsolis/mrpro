@@ -35,6 +35,7 @@ import { HomeProviderComponent } from './provider/home/home-provider.component';
 import { ChatComponent } from './provider/components/chat/chat.component';
 import { RegisterProviderComponent } from './components/register-provider/register-provider.component';
 import { ProfileProviderComponent } from '../platform/provider/components/profile-provider/profile-provider.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 export function getAuthServiceConfigs() {
   let config = new AuthServiceConfig(
@@ -96,7 +97,8 @@ export function getAuthServiceConfigs() {
     HomeProviderComponent,
     ChatComponent,
     RegisterProviderComponent,
-    ProfileProviderComponent
+    ProfileProviderComponent,
+    ResetPasswordComponent
   ]
 })
 export class PlatformModule { }

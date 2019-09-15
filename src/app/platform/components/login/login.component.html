@@ -24,7 +24,10 @@
         <div class="form-group">
           <input type="password" [(ngModel)]="user.password" placeholder="Contraseña" name="password" />
         </div>
-        <button (click)="login(myModal)" class="btn bprimary">INGRESAR</button>
+        <div>
+          <a class="btn text-primary" routerLink="/olvidar-contrasena" routerLinkActive="active-link">¿Olvidaste la contraseña?</a>
+          <button (click)="login(myModal)" class="btn bprimary">INGRESAR</button>
+        </div>
       </form>
       <div class="divider"></div>
 

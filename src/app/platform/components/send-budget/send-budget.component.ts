@@ -158,6 +158,7 @@ export class SendBudgetComponent implements OnInit {
   }
 
   sendData(modal) {
+    this.pago = false;
     this.spinner.show();
     this.sbutton = true;
     this.messageT = true;
@@ -174,11 +175,10 @@ export class SendBudgetComponent implements OnInit {
         description: this.ObjectServi.description,
         district_id: this.ObjectServi.district_id,
         phone_name: this.session.getObject("user").phone,
-        user_provider_id: this.LocalProvider[i].user_id,
-        image: [this.image1, this.image2, this.image3]
+        user_provider_id: this.LocalProvider[i].user_id
       });
     }
-    this.userS.sendBudget({ services: JSON.stringify(dataSend) }).subscribe(
+    this.userS.sendBudget({ services: JSON.stringify(dataSend), image: [this.image1, this.image2, this.image3] }).subscribe(
       response => {
         this.message = "Se agendó un servicio";
         modal.open();

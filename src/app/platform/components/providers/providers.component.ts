@@ -100,6 +100,8 @@ export class ProvidersComponent implements OnInit {
     status_id: "1"
   };
 
+  estado = "pendiente";
+
   constructor(private spinner: NgxSpinnerService, private router: Router, private session: SessionService, private userS: UserService) {}
 
   ngOnInit() {

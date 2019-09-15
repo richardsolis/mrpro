@@ -49,7 +49,32 @@
             </div>
           </div>
         </div>
-        <div style="display: flex;width: 100%;justify-content: space-between;width: 85%;margin: auto;max-width: 1180px;">
+        <div style="display: flex;width: 100%;justify-content: space-between;width: 85%;margin: auto;max-width: 1180px;" *ngIf="serviceSearch.type == 'priced'">
+          <div style="display: flex;width: 934px; justify-content: space-between;">
+            <div class="form-group" style="display: flex;align-items: center;margin-top: 0;">
+              <h5 class="color-blue title-filter" style="font-size: 14px;margin-right: 14px;margin-bottom: 0;">Categoría:</h5>
+              <select class="custom-select color-blue" [(ngModel)]="serviceSearch.category" (change)="categoryChanged()" style="width: 150px;" name="category">
+                <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
+              </select>
+            </div>
+            <div class="form-group" style="display: flex;align-items: center;margin-top: 0;">
+              <h5 class="color-blue title-filter" style="font-size: 14px;margin-right: 14px;margin-bottom: 0;">Sub Categoría:</h5>
+              <select class="custom-select color-blue" [(ngModel)]="serviceSearch.subcategory" style="width: 322px;" name="subcategory">
+                <option *ngFor="let subcategory of subCategories" [value]="subcategory.id">{{ subcategory.name }}</option>
+              </select>
+            </div>
+            <div *ngIf="serviceSearch.type == 'priced'" class="form-group" style="width: 170px;display: flex;align-items: center;margin-top: 0;">
+              <h5 class="color-blue title-filter" style="font-size: 14px;margin-right: 14px;margin-bottom: 0;">Cantidad:</h5>
+              <input class="form-control color-blue" type="number" min="1" max="24" id="example-number-input" placeholder="Horas" />
+            </div>
+          </div>
+
+          <div class="form-group" style="display: flex;align-items: center;margin-top: 0;">
+            <!-- <button (click)="scheduleAll(myModal)" class="btn bprimary"><span *ngIf="serviceSearch.type == 'programmed'">Cotizar seleccionados</span><span *ngIf="serviceSearch.type == 'immediate'">Procesar Inmediato</span><span *ngIf="serviceSearch.type == 'priced'">Precesar Tarifado</span></button> -->
+            <button (click)="scheduleAll(myModal)" class="btn bprimary" style="height: 35px;padding: 0;width: 99px;">Solicitar</button>
+          </div>
+        </div>
+        <div style="display: flex;width: 100%;justify-content: space-between;width: 85%;margin: auto;max-width: 1180px;" *ngIf="serviceSearch.type != 'priced'">
           <div style="display: flex;width: 934px; justify-content: space-between;">
             <div class="form-group" style="display: flex;align-items: center;margin-top: 0;">
               <h5 class="color-blue title-filter" style="font-size: 14px;margin-right: 14px;margin-bottom: 0;">Categoría:</h5>

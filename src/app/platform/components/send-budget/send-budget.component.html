@@ -6,7 +6,7 @@
         <button (click)="goback()" style="padding: 5px 11px;background: #125daa;border: none;color: white;border-radius: 10px;outline: none;height: 31px;margin-right: 15px;">
           <i class="fa fa-chevron-left"></i>
         </button>
-        <h5><span *ngIf="typeServices.type == 'programmed'">Solicitar cotización</span><span *ngIf="typeServices.type == 'immediate'">Procesar Inmediato</span><span *ngIf="typeServices.type == 'priced'">Precesar Tarifado</span></h5>
+        <h5><span *ngIf="typeServices.type == 'programmed'">Solicitar cotización</span><span *ngIf="typeServices.type == 'immediate'">Procesar Inmediato</span><span *ngIf="typeServices.type == 'priced'">Solicitar Servicio Tarifado</span></h5>
       </div>
       <div class="divider"></div>
 
@@ -77,7 +77,7 @@
         </div>
         <br />
       </form>
-      <button (click)="sendBudget(myModal)" class="btn bprimary"><span *ngIf="typeServices.type == 'programmed'">Solicitar cotización</span><span *ngIf="typeServices.type == 'immediate'">Procesar Inmediato</span><span *ngIf="typeServices.type == 'priced'">Precesar Tarifado</span></button>
+      <button (click)="sendBudget(myModal)" class="btn bprimary"><span *ngIf="typeServices.type == 'programmed'">Solicitar cotización</span><span *ngIf="typeServices.type == 'immediate'">Procesar Inmediato</span><span *ngIf="typeServices.type == 'priced'">Solicitar servicio Tarifado</span></button>
     </div>
   </section>
 </div>

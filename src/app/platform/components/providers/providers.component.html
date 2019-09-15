@@ -1,8 +1,15 @@
 <ptfm-header></ptfm-header>
 <div class="row row-start">
   <div class="col-md-12 min-h-window graysoft">
+    <div style="max-width: 1180px;margin: auto;margin-top: 20px;display: flex;">
+      <p>Estado:</p>
+      <select name="" id="" [(ngModel)]="estado" style="margin-left: 20px;">
+        <option value="pendiente">Pendiente</option>
+        <option value="aceptado">Aceptado</option>
+      </select>
+    </div>
     <section class="box-mh">
-      <div class="box-mg-nano">Se han solicitado {{ providerData.length }} servicio{{ providerData.length == 1 ? "" : "s" }}</div>
+      <div class="box-mg-nano" *ngIf="estado == 'pendiente'">Se han solicitado {{ resultFilter.length }} servicio{{ resultFilter.length == 1 ? "" : "s" }}</div>
 
       <!-- <div class="row">
         <div class="col-md-6 mg-t-small" *ngFor="let provider of providerData">
@@ -33,8 +40,28 @@
           </div>
         </div>
       </div> -->
+      <div class="content-lista-reservados" *ngIf="estado == 'aceptado'">
+        <div class="card card-provider">
+          <div class="row no-gutters box-mg-nano" style="display: flex;flex-direction: row;text-align: left;flex-wrap: nowrap;padding: 15px 20px;">
+            <div class="col-1 image-provider">
+              <img src="./assets/images/user.png" class="card-img" alt="..." />
+            </div>
+            <div style="padding: 20px 0px 20px 20px;width: 100%;">
+              <div class="" style="display: flex;justify-content: space-between;width: 100%;">
+                <div class="card-body" style="padding:0;">
+                  <h5 class="" style="font-size: 14px;font-weight: 600;margin-bottom: 15px;">Proveedor: <span style="font-weight: 300">Richard Solis</span></h5>
+                  <h5 class="" style="font-size: 14px;font-weight: 600;margin-bottom: 15px;">Servicio de: <span style="font-weight: 300">Gasfiteria | Instalación/Reparación de baño</span></h5>
+                </div>
+                <div class="buttons-provider row row-justifycon" style="display: flex;flex-wrap: nowrap;padding: 0;">
+                  <button class="btn color-blue" style="width:105px;background: #ff9800;color: white !important;margin-right: 10px;">Ir al Chat</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-      <div class="content-lista-reservados" style="display: flex;flex-direction: column-reverse;">
+      <div class="content-lista-reservados" style="display: flex;flex-direction: column-reverse;" *ngIf="estado == 'pendiente'">
         <div *ngFor="let resultFilters of resultFilter" [class.acordeon]="resultFilters.acordeon == false">
           <h3 class="acordeon-button" (click)="acordeon(resultFilters)" class="h3-acordeon">
             <div>
@@ -45,35 +72,28 @@
             </div>
             <span class="description-acordeon" style="text-align: right"><i class="fa fa-sort-down"></i></span>
           </h3>
-          <div style="width: 95%;margin-left: 15px;margin: auto;background: white;padding: 20PX;MARGIN-BOTTOM: 20PX;">
-            <h4>Descripción:</h4>
+          <div style="width: 95%;margin-left: 15px;margin: auto;background: white;padding: 20PX;padding: 20PX 10px 0px 20px;">
+            <h4 style="font-size: 17px;">Descripción:</h4>
             <p>{{ resultFilters.values[0].description }}</p>
           </div>
-          <div class="row" style="width: 95%;margin-left: 15px;margin: auto;background: white;padding: 20PX;MARGIN-BOTTOM: 20PX;box-shadow: rgba(41, 98, 182, 0.12) 0px 10px 10px;">
+          <div class="row" style="width: 95%;margin-left: 15px;margin: auto;background: white;MARGIN-BOTTOM: 20PX;box-shadow: rgba(41, 98, 182, 0.12) 0px 10px 10px;">
             <div class="col-md-4 mg-t-small" *ngFor="let value of resultFilters.values">
               <div class="card card-provider">
-                <div class="row no-gutters box-mg-nano" style="display: flex;flex-direction: column;text-align: center;">
-                  <div class="col-4 image-provider">
+                <div class="row no-gutters box-mg-nano" style="display: flex;flex-direction: row;text-align: left;flex-wrap: nowrap;padding: 0px 20px;">
+                  <div class="col-3 image-provider">
                     <img src="./assets/images/user.png" class="card-img" alt="..." />
                   </div>
-                  <div class="col-8">
-                    <div class="card-body">
-                      <h5 class="">{{ value.user_provider.user.name }} {{ value.user_provider.user.lastname }}</h5>
-                      <!-- <span>{{ value.rating }} </span><rating [(ngModel)]="value.rating" [readonly]="true"></rating> -->
-                      <p class="card-text">
-                        <!-- <small class="text-muted">{{ value.success }} servicios realizados</small> -->
-                      </p>
-                      <p class="card-text">
-                        <small class="text-muted">{{ value.user_provider.experience }} años de experiencia</small>
-                      </p>
-                      <!-- <p class="card-text">
-                            <small class="text-muted">Fecha de Reserva: {{ value.date_service }}</small>
-                          </p> -->
+                  <div style="padding: 20px 0px 20px 20px;">
+                    <div class="">
+                      <div class="card-body" style="padding:0;">
+                        <h5 class="" style="font-size: 14px;font-weight: 600;margin-bottom: 15px;">{{ value.user_provider.user.name }} {{ value.user_provider.user.lastname }}</h5>
+                        <p class="card-text"></p>
+                      </div>
                     </div>
-                  </div>
-                  <div class="buttons-provider col-md-12 row row-justifycon">
-                    <button class="btn color-blue" (click)="ficha(myFile, value)">Ver ficha</button>
-                    <button (click)="schedule(provider)" class="btn btn-danger">Cancelar</button>
+                    <div class="buttons-provider col-md-12 row row-justifycon" style="display: flex;flex-wrap: nowrap;padding: 0;">
+                      <button class="btn color-blue" (click)="ficha(myFile, value)" style="width:92px;background: #2196F3;color: white !important;margin-right: 10px;">Ver ficha</button>
+                      <button (click)="schedule(provider)" class="btn btn-danger">Cancelar</button>
+                    </div>
                   </div>
                 </div>
               </div>

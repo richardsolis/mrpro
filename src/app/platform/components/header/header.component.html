@@ -67,7 +67,7 @@
       </div>
       <div class="col-md-4">
         <div *ngIf="user && user.name" class="box-user row">
-          <img src="{{ user.image ? user.image : './assets/images/user.png' }}" class="card-img" alt="..." />
+          <img src="{{ user.image_url ? user.image_url : './assets/images/user.png' }}" class="card-img" width="35" height="45" alt="..." />
           <p>{{ user.name }} |</p>
           <a class="color-white" (click)="logout()">Cerrar Sesión</a>
         </div>

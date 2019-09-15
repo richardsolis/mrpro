@@ -12,6 +12,7 @@ import { HomeProviderComponent } from './provider/home/home-provider.component';
 import { ChatComponent } from './provider/components/chat/chat.component';
 import { RegisterProviderComponent } from './components/register-provider/register-provider.component';
 import { ProfileProviderComponent } from './provider/components/profile-provider/profile-provider.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 
 const routes: Routes = [
@@ -34,6 +35,10 @@ const routes: Routes = [
 	{
 		path: 'ingresar',
 		component: LoginComponent
+	},
+	{
+		path: 'olvidar-contrasena',
+		component: ResetPasswordComponent
 	},
 	{
 		path: 'registro',

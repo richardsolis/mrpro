@@ -24,30 +24,36 @@ export class UserService {
 
   createProvider(params) {
     const obj = {
+      doc_number: params.dni,
       name: params.nombre,
       lastname: params.apellidos,
-      email: params.correo,
+      email: (params.correo == undefined)? params.pcorreo : params.correo,
       password: params.contrasena,
       password_confirmation: params.contrasena2,
-      phone: params.telefono,
+      phone: params.ptelefono,
+      website: params.psWeb,
       image: params.foto,
       address: params.direccion,
-      emergency: "",
-      ruc: params.ruc,
+      //emergency: '1',
+      ruc: (params.ruc == undefined)? "" : params.ruc,
       experience: params.experiencia,
       type_provider: params.tipo,
-      logo: params.logo,
-      r_social: params.rSocial,
-      a_fiscal: params.dfiscal,
-      a_comercial: params.dComercial,
-      a_taller: params.dTaller,
-      url: params.sWeb,
-      a_police: params.policales,
+      logo: (params.logo == undefined)? (params.foto == undefined)? "" : params.foto  : params.logo,
+      r_social: (params.rSocial == undefined)? "" : params.rSocial,
+      a_fiscal: (params.dfiscal == undefined)? "" : params.dfiscal,
+      a_comercial: (params.dComercial == undefined)? "" : params.dComercial,
+      a_taller: (params.dTaller == undefined)? "" : params.dTaller,
+      url: (params.sWeb == undefined)? "" : params.sWeb,
+      a_police: (params.policiales == undefined)? "" : params.policiales,
       a_penal: params.penales,
       a_judicial: params.judiciales,
       bank_id: params.eBancaria,
       bank_c: params.nCuenta,
-      bank_ci: params.interbancaria
+      bank_ci: params.interbancaria,
+      categories: JSON.stringify(params.categories),
+      districts: JSON.stringify(params.districts),
+      company_phone: params.telefono,
+      company_email: params.correo
     };
     console.log(obj);
     const body = new HttpParams({
@@ -58,7 +64,20 @@ export class UserService {
     });
     const options = { headers: headers };
 
-    return this.http.post("http://admin-mrpro.mrpro.pe/api/provider/create", body, options);
+    return this.http.post(AppSettings.BASE_PATH + AppSettings.CREATE_PROVIDER, body, options);
+  }
+
+  resetPassword(params) {
+    const obj = {email: params.email}
+    const body = new HttpParams({
+      fromObject: obj
+    });
+    const headers = new HttpHeaders({
+      "Content-Type": "application/x-www-form-urlencoded"
+    }); 
+    const options = { headers: headers };
+    
+  	return this.http.post(AppSettings.BASE_PATH + AppSettings.GUEST_RESET_PASSWORD, body, options);
   }
 
   postSaveImageUser(image) {
@@ -67,7 +86,7 @@ export class UserService {
     const headers = new HttpHeaders({});
 
     const options = { headers: headers };
-    return this.http.post("http://admin-mrpro.mrpro.pe/api/guest/update/image", formData, options);
+    return this.http.post(AppSettings.BASE_IMAGE, formData, options);
   }
 
   getCurrentUser(params = {}) {

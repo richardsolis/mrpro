@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { UserService } from '../../../../services/user.service';
+import { DistrictService } from 'src/app/services/district.service';
+import { CategoryService } from 'src/app/services/category.service';
+import { ProviderService } from 'src/app/services/provider.service';
 
 @Component({
   selector: 'app-profile-provider',
@@ -19,17 +22,44 @@ export class ProfileProviderComponent implements OnInit {
   pdfpoliciales:any;
   pdfPenales:any;
   pdfJudiciales:any;
+  districts: any[];
+  categories: any[];
 
+  providerUser: any = {};
 
-
-  constructor(private formBuilder: FormBuilder,	
-              private spinner: NgxSpinnerService,private userService: UserService) {
+  constructor(private formBuilder: FormBuilder,	private spinner: NgxSpinnerService,
+              private userService: UserService, private districtService: DistrictService,
+              private categoryService: CategoryService, private providerService: ProviderService) {
     this.tipoForm = true;
-    //this.images = [];
+    this.spinner.show();
+    this.userService.getCurrentUser()
+        .subscribe((res: any) => {
+          this.providerUser = {...res.data.provider};
+          console.log(this.providerUser);
+          this.tipo(this.providerUser.type_provider);
+          this.spinner.hide();
+        }, (error: any) => {
+          console.log(error);
+        });
+    
+    this.districtService.guestGetDistricts()
+      .subscribe((response: any) => {
+        this.districts = response.data;
+      }, (error: any) => {
+        console.log(error);
+      });
+
+    this.categoryService.guestGetCategories()
+      .subscribe((response: any) => {
+        this.categories = response.data;
+      }, (error: any) => {
+        console.log(error);
+      });
    }
 
    ngOnInit() {
     this.registerForm = this.formBuilder.group({
+      id: [''],
       tipo: ['0', Validators.required],
       ruc: ['', Validators.required],
       rSocial: ['', Validators.required],
@@ -52,24 +82,14 @@ export class ProfileProviderComponent implements OnInit {
       penales:  [''],
       judiciales:  [''],
       experiencia:  [''],
-      contrasena:  ['', Validators.required],
-      contrasena2:  ['', Validators.required],
+      contrasena:  [''],
+      contrasena2:  [''],
       eBancaria:  [''],
       nCuenta:  [''],
-      interbancaria:  ['']
+      interbancaria:  [''],
+      categories:  [[], Validators.required],
+      districts:  [[], Validators.required]
     });
-  }
-
-  addControls(){
-    this.registerForm.addControl('ruc', new FormControl('', Validators.required));
-    this.registerForm.addControl('rSocial', new FormControl('', Validators.required));
-    this.registerForm.addControl('dfiscal', new FormControl('', Validators.required));
-    this.registerForm.addControl('dComercial', new FormControl(''));
-    this.registerForm.addControl('dTaller', new FormControl(''));
-    this.registerForm.addControl('telefono', new FormControl('', Validators.required));
-    this.registerForm.addControl('logo', new FormControl(''));
-    this.registerForm.addControl('sWeb', new FormControl(''));
-    this.registerForm.addControl('correo', new FormControl('', Validators.required));
   }
 
   removeControls(){
@@ -85,17 +105,67 @@ export class ProfileProviderComponent implements OnInit {
   }
 
   tipo(option:string){
-    //console.log("Antes",this.registerForm.value);
-    if(option === 'Empresa' && this.tipoForm === false){
+    if(option == '0'){
       this.tipoForm = true;
-      this.registerForm.get('tipo').setValue('0');
-      this.addControls();
-    }else if(option === 'Particular'){
+      this.registerForm.setValue({
+        id: this.providerUser.id,
+        tipo: this.providerUser.type_provider,
+        ruc: this.providerUser.ruc,
+        rSocial: this.providerUser.r_social,
+        dfiscal: this.providerUser.a_fiscal,
+        dComercial: this.providerUser.a_comercial,
+        dTaller: this.providerUser.a_taller,
+        telefono: this.providerUser.company_phone,
+        logo: this.providerUser.logo,
+        sWeb: this.providerUser.url,
+        correo: this.providerUser.company_email,
+        dni: this.providerUser.user.doc_number,
+        nombre: this.providerUser.user.name,
+        apellidos: this.providerUser.user.lastname,
+        ptelefono: this.providerUser.user.phone,
+        foto: this.providerUser.user.image,
+        direccion: this.providerUser.user.address,
+        psWeb: this.providerUser.user.website,
+        pcorreo: this.providerUser.user.email,
+        policiales: this.providerUser.a_police,
+        penales: this.providerUser.a_penal,
+        judiciales: this.providerUser.a_judicial,
+        experiencia: this.providerUser.experience.split(" ")[0],
+        districts: this.providerUser.districts.map(item => item.district_id),
+        categories: this.providerUser.categories.map(item => item.category_service_id),
+        contrasena: '',
+        contrasena2: '',
+        eBancaria: this.providerUser.bank_id,
+        nCuenta: this.providerUser.bank_c,
+        interbancaria: this.providerUser.bank_ci
+        });
+    }else if(option == '1'){
       this.tipoForm = false;
-      this.registerForm.get('tipo').setValue('1');
       this.removeControls();
+      this.registerForm.setValue({
+        id: this.providerUser.id,
+        tipo: this.providerUser.type_provider,
+        dni: this.providerUser.user.doc_number,
+        nombre: this.providerUser.user.name,
+        apellidos: this.providerUser.user.lastname,
+        ptelefono: this.providerUser.user.phone,
+        foto: this.providerUser.user.image,
+        direccion: this.providerUser.user.address,
+        psWeb: this.providerUser.user.website,
+        pcorreo: this.providerUser.user.email,
+        policiales: this.providerUser.a_police,
+        penales: this.providerUser.a_penal,
+        judiciales: this.providerUser.a_judicial,
+        experiencia: this.providerUser.experience.split(" ")[0],
+        districts: this.providerUser.districts.map(item => item.district_id),
+        categories: this.providerUser.categories.map(item => item.category_service_id),
+        contrasena: '',
+        contrasena2: '',
+        eBancaria: this.providerUser.bank_id,
+        nCuenta: this.providerUser.bank_c,
+        interbancaria: this.providerUser.bank_ci
+      });
     }
-    //console.log("despues",this.registerForm.value);
   }
 
   selectFile(event){
@@ -164,7 +234,7 @@ export class ProfileProviderComponent implements OnInit {
 	  })
   }
 
-  onSubmit() {
+  public onSubmit() {
     // stop here if form is invalid
     if (this.registerForm.invalid) {
       this.submitted = true;
@@ -173,12 +243,14 @@ export class ProfileProviderComponent implements OnInit {
     console.log('SUCCESS!! :-)',this.registerForm.value);
  
     this.spinner.show();
-  	this.userService.createProvider(this.registerForm.value)
+  	this.providerService.postUpdateProviders(this.registerForm.value)
   	.subscribe((response: any) => {
       console.log(response);
+      this.submitted = false;
   		this.spinner.hide();
   	}, (error: any) => {
       this.submitted = false;
+      this.spinner.hide();
   		console.log(error);
 	  		return;
   	})

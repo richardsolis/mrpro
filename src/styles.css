@@ -566,6 +566,34 @@ footer.primary {
   color: white;
   border-radius: 100px;
   margin: 0px 6px;
+  font-size: 22px;
+}
+.style-photo{
+  display: inline-block;
+  width: 60px;
+  height: 50.8px;
+  position: relative;
+}
+
+.style-photo:hover{
+  cursor: pointer !important;
+}
+
+#fotoChat {
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  position: absolute;
+  width: inherit;
+  opacity: 0;
+}
+
+.img-chat-style {
+  border: 1px solid #cdcdcd;
+  padding: 1px;
+  background-color: #cdcdcd;
 }
 
 /* Animaciones */

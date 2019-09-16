@@ -47,12 +47,12 @@
                 <td scope="row">{{ budget.id }}</td>
                 <td>{{ getName(categories, budget.category_service_id) }}</td>
                 <td>{{ budget.description }}</td>
-                <td>{{ getName(districts, budget.district_id)}}</td>
-                <td>{{ budget.address}}</td>
+                <td>{{ getName(districts, budget.district_id) }}</td>
+                <td>{{ budget.address }}</td>
                 <td>{{ budget.date_service | date: 'dd/MM/yyyy' }}</td>
                 <td>{{ budget.user_client.user.name }}</td>
                 <td>
-                    <button type="button" class="btn btn-warning">Chat</button>
+                  <button type="button" class="btn btn-warning">Chat</button>
                 </td>
               </tr>
               <!--<tr>

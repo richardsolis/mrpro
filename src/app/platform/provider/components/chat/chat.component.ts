@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { UserService } from 'src/app/services/user.service';
 import { AppSettings } from 'src/app/app.settings';
+import { CategoryService } from 'src/app/services/category.service';
 
 
 @Component({
@@ -18,31 +19,72 @@ export class ChatComponent implements OnInit {
   imageChat:any;
   elemento:any;
   currentChat: string;
+  currentBudgetID: string;
   isDisabled: boolean;
+  currentBudget: any = {};
+  categories: any[];
 
   constructor(public _cs: ChatService, private _route:ActivatedRoute, 
               private spinner: NgxSpinnerService, private _router:Router,
-              private userService: UserService) {
+              private userService: UserService, private categoryService: CategoryService) {
 
     this._route.params.subscribe(res => {
       
       if (res.id) {
         this.currentChat = res.id;
+        this.currentBudgetID = res.BudgetId;
         this.spinner.show();
+
         this._cs.cargarMensajes( this.currentChat)
             .subscribe(()=>{
               setTimeout( ()=>{
                 this.elemento.scrollTop = this.elemento.scrollHeight;
                 this.spinner.hide();
               },20);
-
             });
+
+        this.userService.getOneBudget(this.currentBudgetID)
+          .subscribe((res: any)=>{
+            console.log("budget info: ", res);
+            res.data.date_service = res.data.date_service.split(" ")[0];
+            this.currentBudget = res.data;
+          });
+        
+        this.categoryService.guestGetCategories()
+          .subscribe((response: any) => {
+            this.categories = response.data;
+          }, (error: any) => {
+            console.log(error);
+          });
       }
     });
   }
 
   ngOnInit() {
     this.elemento = document.getElementById('app-mensajes');
+  }
+
+  getName(array: any[], value){
+    let temp = "";
+    for (var i = 0; i < array.length; i++) {
+      if(array[i].id == value){
+        temp = array[i].name;
+        break;
+      }
+    }
+    return temp;
+  }
+
+  updateInfo(){
+    this.spinner.show();
+    this.userService.updateBudgetInfo(this.currentBudget)
+  	.subscribe((response: any) => {
+      console.log("updateInfo",response);
+  		this.spinner.hide();
+  	}, (error: any) => {
+      console.log(error);
+      this.spinner.hide();
+	  })
   }
 
   selectFile(event){

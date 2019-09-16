@@ -21,11 +21,20 @@ export class HomeProviderComponent implements OnInit {
   public budgetsList: any[] = [];
   districts: any[];
   categories: any[];
+  statusList: any[];
 
-  constructor(db: AngularFirestore, public _cs: ChatService, private _router:Router, private userService: UserService,
-              private spinner: NgxSpinnerService,private categoryService: CategoryService, private districtService: DistrictService) {
+  constructor(db: AngularFirestore, public _cs: ChatService, private _router:Router, 
+              private userService: UserService, private spinner: NgxSpinnerService,
+              private categoryService: CategoryService, private districtService: DistrictService) {
     this.items = db.collection('chats').valueChanges();
     this.chatID = "";
+
+    this.userService.getStatus()
+      .subscribe((response: any) => {
+        this.statusList = response.data;
+      }, (error: any) => {
+        console.log(error);
+      });
 
     this.districtService.guestGetDistricts()
       .subscribe((response: any) => {
@@ -68,11 +77,46 @@ export class HomeProviderComponent implements OnInit {
     return temp;
   }
 
-  startChat(chatId: string){
+  changeStatus(option: string, budgetID: string){
+    const chatTitle = `Chat-${budgetID}`;
+    this.spinner.show();
+    if(option == 'A'){
+      this.userService.updateStatus('4', budgetID)
+        .subscribe((res: any) => {
+          console.log("ActualizaEstado",res);
+          const chat = this._cs.crearChat(chatTitle);
+          console.log("ChatCreado",chat.id);
+          this.userService.updateBudgetChat(chat.id, budgetID)
+          .subscribe((res: any) => {
+            console.log("ActualizaChatBudget",res);
+            this.spinner.hide();
+            location.reload();
+          },(error: any) => {
+            console.log(error);
+            this.spinner.hide();
+          });
+        }, (error: any) => {
+          console.log(error);
+          this.spinner.hide();
+        });
+    }else if(option == 'R'){
+      this.userService.updateStatus('3',budgetID)
+        .subscribe((res: any) => {
+          console.log(res);
+          this.spinner.hide();
+          location.reload();
+        }, (error: any) => {
+          console.log(error);
+        });
+    }
+
+  }
+
+  startChat(chatId: string, BudgetID: string){
     //this._cs.crearChat(chatId);
     this.chatID = chatId;
     //this._cs.cargarChat(chatId).subscribe();
-    this._router.navigate(['/proveedor/chat',chatId]);
+    this._router.navigate(['/proveedor/chat',chatId, BudgetID]);
     
   }
 

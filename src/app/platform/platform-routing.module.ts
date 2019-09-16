@@ -61,7 +61,7 @@ const routes: Routes = [
 		component: HomeProviderComponent
 	},
 	{
-		path: 'proveedor/chat/:id',
+		path: 'proveedor/chat/:id/:BudgetId',
 		component: ChatComponent
 	},
 	{

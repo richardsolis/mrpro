@@ -8,21 +8,20 @@
     <nav class="navbar navbar-light bg-light">
       <div class="form-inline">
           <img src="assets/images/logo.png" width="60" height="50" class="d-inline-block align-top" alt="">
-          <h1 v class="navbar">Chat | Instalación - Reparación baño</h1>
+          <!--<h1 class="navbar">Chat | Instalación - Reparación baño</h1>-->
+          <h1 class="navbar" *ngIf="categories">{{ getName(categories, currentBudget.category_service_id) }} - Subcategoría</h1>
       </div>
     </nav>
-    <!--<p>prueba</p>
-    <h1>Chat | Instalación - Reparación baño</h1>-->
     <hr>
     <div class="col-lg-10 col-md-10 col-sm-12 mx-auto">
       <table class="table-responsive-sm table-bordered part-coti">
         <tbody>
             <tr>
-              <td><label><b>Precio</b></label><input class="form-control mr-sm-4" type="text" placeholder="S/."></td>
-              <td><label><b>Fecha</b></label><input class="form-control mr-sm-4" type="date" placeholder="dd/mm/yyyy"></td>
+              <td><label><b>Precio</b></label><input [(ngModel)]="currentBudget.price" class="form-control mr-sm-4" type="text" placeholder="S/."></td>
+              <td><label><b>Fecha</b></label><input [(ngModel)]="currentBudget.date_service" class="form-control mr-sm-4" type="date" placeholder="dd/mm/yyyy"></td>
               <td><label><b>Hora</b></label><input class="form-control mr-sm-4" type="time" placeholder="hh:mm"></td>
               <td>
-                  <button class="btn btn-success" type="submit">Enviar</button>
+                  <button (click)="updateInfo()" class="btn btn-success" type="button">Actualizar</button>
               </td>
             </tr>
         </tbody>

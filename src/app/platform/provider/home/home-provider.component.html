@@ -7,11 +7,7 @@
                 <form class="form-inline">
                     <label class="color-blue">Estado:</label>
                     <select class="custom-select color-blue mr-sm-2" name="tipo">
-                      <option>Pendiente</option>
-                      <option>Atendido</option>
-                      <option>Rechazado</option>
-                      <option>Aceptado</option>
-                      <option>Finalizado</option>
+                      <option *ngFor="let status of statusList" [value]="status.id">{{ status.name }}</option>
                     </select>
                 </form>
               </nav>
@@ -50,9 +46,13 @@
                 <td>{{ getName(districts, budget.district_id) }}</td>
                 <td>{{ budget.address }}</td>
                 <td>{{ budget.date_service | date: 'dd/MM/yyyy' }}</td>
-                <td>{{ budget.user_client.user.name }}</td>
+                <td>{{ budget.contact_name }}</td>
                 <td>
-                  <button type="button" class="btn btn-warning">Chat</button>
+                  <div [ngSwitch]="budget.status_service_id">
+                    <button *ngSwitchCase="'1'" (click)="changeStatus('A', budget.id)" type="button" class="btn btn-primary">Atender</button>
+                    <button *ngSwitchCase="'1'" (click)="changeStatus('R', budget.id)" type="button" class="btn btn-danger">Rechazar</button>
+                    <button *ngSwitchCase="'4'" (click)="startChat(budget.firebase_id, budget.id)" type="button" class="btn btn-warning">Chat</button>
+                  </div>
                 </td>
               </tr>
               <!--<tr>

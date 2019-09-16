@@ -111,6 +111,50 @@ export class UserService {
     return this.http.post(AppSettings.BASE_PATH + AppSettings.CLIENT_GET_BUDGET, body, header);
   }
 
+  getOneBudget(budgetID: string){
+    var form = new FormData();
+    form.append("id", budgetID);
+
+    var header = this.generalS.getToken({}, "application/x-www-form-urlencoded");
+    return this.http.post(AppSettings.BASE_PATH + AppSettings.PROVIDER_GET_BUDGET, form, header);
+  }
+
+  updateBudgetChat(chatID: string, budgetID: string){
+    var form = new FormData();
+      form.append("id", budgetID);
+      form.append("firebase_id", chatID);
+
+    var header = this.generalS.getToken({}, "application/x-www-form-urlencoded");
+    return this.http.post(AppSettings.BASE_PATH + AppSettings.UPDATE_PROVIDER_BUDGET, form, header);
+  }
+
+  updateBudgetInfo(params: any){
+    const obj = {
+        id: params.id,
+        price: parseFloat(params.price),
+        date_service:  params.date_service
+      };
+
+    /*const body = new HttpParams({
+      fromObject: obj
+    });*/
+    var header = this.generalS.getToken({}, "application/x-www-form-urlencoded");
+    return this.http.post(AppSettings.BASE_PATH + AppSettings.UPDATE_PROVIDER_BUDGET, obj, header);
+  }
+
+  updateStatus(option: string, budgetID: string) {
+    let obj = {
+        budget_id: budgetID,
+        status_id: option
+      };
+
+    const body = new HttpParams({
+      fromObject: obj
+    });
+    var header = this.generalS.getToken({}, "application/x-www-form-urlencoded");
+    return this.http.post(AppSettings.BASE_PATH + AppSettings.UPDATE_ESTATUS_BUDGET, body, header);
+  }
+
   createCardBank(params) {
     const body = new HttpParams({
       fromObject: params

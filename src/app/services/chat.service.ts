@@ -32,13 +32,14 @@ export class ChatService {
       mensajes: []
     }
 
-    return this.itemsCollection.doc(id).set( newchat )
+    this.itemsCollection.doc(id).set( newchat )
                                         .then( ()=>{
                                           this.currentChat = newchat; 
                                           console.log("crearChat",this.currentChat);
                                         })
                                         .catch( (err)=>console.error('Error al enviar',  err ) );
-  
+    return newchat;                                    
+                                        
   }
 
   //Trae el chat creado 1vs1 a traves del id del chat

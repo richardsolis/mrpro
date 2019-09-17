@@ -1,7 +1,8 @@
 <div class="container main-container">
   <div class="col-md-12 text-right">
     <button type="button" class="btn btn-danger" (click)="goback()">Cerrar Chat</button>
-    <button type="button" class="btn blue" (click)="goback()">Regresar</button>
+    <button *ngIf="user.type == 'client'" type="button" class="btn blue" (click)="goback('/reservado')">Regresar</button>
+    <button *ngIf="user.type == 'provider'" type="button" class="btn blue" (click)="goback('/proveedor/home')">Regresar</button>
   </div>
   <br/>
   <div class="chat-window">
@@ -16,10 +17,18 @@
     <div class="col-lg-10 col-md-10 col-sm-12 mx-auto">
       <table class="table-responsive-sm table-bordered part-coti">
         <tbody>
-            <tr>
-              <td><label><b>Precio</b></label><input [(ngModel)]="currentBudget.price" class="form-control mr-sm-4" type="text" placeholder="S/."></td>
+            <tr *ngIf="user.type == 'provider'">
+              <td><label><b>Precio</b></label><input [(ngModel)]="currentBudget.price" value="currentBudget.price" class="form-control mr-sm-4" type="text" placeholder="S/."></td>
               <td><label><b>Fecha</b></label><input [(ngModel)]="currentBudget.date_service" class="form-control mr-sm-4" type="date" placeholder="dd/mm/yyyy"></td>
-              <td><label><b>Hora</b></label><input class="form-control mr-sm-4" type="time" placeholder="hh:mm"></td>
+              <td><label><b>Hora</b></label><input  [(ngModel)]="hour" class="form-control mr-sm-4" type="time" placeholder="hh:mm"></td>
+              <td>
+                  <button (click)="updateInfo()" class="btn btn-success" type="button">Enviar</button>
+              </td>
+            </tr>
+            <tr *ngIf="user.type == 'client'">
+              <td><label><b>Precio</b></label><label class="form-control mr-sm-4">{{currentBudget.price}}</label></td>
+              <td><label><b>Fecha</b></label><label class="form-control mr-sm-4">{{currentBudget.date_service}}</label></td>
+              <td><label><b>Hora</b></label><label class="form-control mr-sm-4">{{hour}}</label></td>
               <td>
                   <button (click)="updateInfo()" class="btn btn-success" type="button">Actualizar</button>
               </td>
@@ -28,10 +37,10 @@
       </table>
     </div>
     <div class="app-mensajes" id="app-mensajes">
-      <div *ngFor="let chat of _cs.mensajes" [ngClass]="{ 'text-right': _cs.currentUser.id == chat.uid  }">
+      <div *ngFor="let chat of _cs.mensajes" [ngClass]="{ 'text-right': user.id == chat.uid  }">
         <span class="badge"
-              [ngClass]="{ 'badge-primary': _cs.currentUser.id == chat.uid,
-                          'badge-success': _cs.currentUser.id != chat.uid }">
+              [ngClass]="{ 'badge-primary': user.id == chat.uid,
+                          'badge-success': user.id != chat.uid }">
               {{ chat.nombre }}</span>
         <p *ngIf="chat.tipo == '1'">
           {{ chat.mensaje }}
@@ -48,7 +57,7 @@
           <i class="fa fa-camera" aria-hidden="true"></i>
           <input class="btn blue-btn" (change)="selectFile($event)" type="file" name="foto" id="fotoChat">
         </div>
-        <button (click)="enviar_mensaje('1')" class="btn blue-btn" type="button"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+        <button (click)="enviar_mensaje('1')" class="btn blue-btn style-photo" type="button"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
     </div>
   </div>
 </div>

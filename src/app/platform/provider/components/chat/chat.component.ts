@@ -5,6 +5,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { UserService } from 'src/app/services/user.service';
 import { AppSettings } from 'src/app/app.settings';
 import { CategoryService } from 'src/app/services/category.service';
+import { SessionService } from 'src/app/services/session.service';
 
 
 @Component({
@@ -22,14 +23,18 @@ export class ChatComponent implements OnInit {
   currentBudgetID: string;
   isDisabled: boolean;
   currentBudget: any = {};
+  hour: string;
   categories: any[];
+  user: any = {};
 
   constructor(public _cs: ChatService, private _route:ActivatedRoute, 
               private spinner: NgxSpinnerService, private _router:Router,
-              private userService: UserService, private categoryService: CategoryService) {
+              private userService: UserService, private categoryService: CategoryService,
+              private session: SessionService) {
 
     this._route.params.subscribe(res => {
-      
+      this.user = this.session.getObject("user");
+      console.log("user",this.user);
       if (res.id) {
         this.currentChat = res.id;
         this.currentBudgetID = res.BudgetId;
@@ -46,6 +51,7 @@ export class ChatComponent implements OnInit {
         this.userService.getOneBudget(this.currentBudgetID)
           .subscribe((res: any)=>{
             console.log("budget info: ", res);
+            this.hour = res.data.date_service.split(" ")[1];
             res.data.date_service = res.data.date_service.split(" ")[0];
             this.currentBudget = res.data;
           });
@@ -76,8 +82,9 @@ export class ChatComponent implements OnInit {
   }
 
   updateInfo(){
+    const specificDate = `${this.currentBudget.date_service} ${this.hour}`;
     this.spinner.show();
-    this.userService.updateBudgetInfo(this.currentBudget)
+    this.userService.updateBudgetInfo(this.currentBudget, specificDate)
   	.subscribe((response: any) => {
       console.log("updateInfo",response);
   		this.spinner.hide();
@@ -110,7 +117,7 @@ export class ChatComponent implements OnInit {
   	.subscribe((response: any) => {
       this.isDisabled = true;
       console.log(response); 
-      this._cs.agregarMensajePrivado(response.data, '2', this.currentChat )
+      this._cs.agregarMensajePrivado(response.data, '2', this.currentChat, this.user.id, this.user.name )
               .then( ()=>{
                 this.isDisabled = false;
               })
@@ -130,7 +137,7 @@ export class ChatComponent implements OnInit {
     if( this.mensaje.length === 0 ){
       return;
     }
-    this._cs.agregarMensajePrivado( this.mensaje, tipo, this.currentChat )
+    this._cs.agregarMensajePrivado( this.mensaje, tipo, this.currentChat, this.user.id, this.user.name )
               .then( ()=>{
                 this.mensaje="";
                 this.isDisabled = false;
@@ -147,8 +154,8 @@ export class ChatComponent implements OnInit {
     //this._cs.cargarChat(chatId).subscribe();
   }
 
-  goback(){
-    this._router.navigate(['/proveedor/home']);
+  goback(path: string){
+    this._router.navigate([path]);
   }
 
 }

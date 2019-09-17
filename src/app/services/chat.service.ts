@@ -78,14 +78,14 @@ export class ChatService {
   }
 
   //agrega un mensaje a un chat especifico
-  agregarMensajePrivado( texto: string, tipoMensaje: string, chatID: string ){
+  agregarMensajePrivado( texto: string, tipoMensaje: string, chatID: string, userID: number, userName: string ){
 
     let mensajeTemp: Mensaje = {
-      nombre:  this.currentUser.name,
+      nombre:  userName,
       mensaje: texto,
       tipo: tipoMensaje,
       fecha: new Date().getTime(),
-      uid: this.currentUser.id
+      uid: userID
     }
     console.log("currentchat", chatID);
     const ref = this.afs.collection<any>('chats').doc<any>(chatID);

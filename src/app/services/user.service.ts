@@ -128,11 +128,11 @@ export class UserService {
     return this.http.post(AppSettings.BASE_PATH + AppSettings.UPDATE_PROVIDER_BUDGET, form, header);
   }
 
-  updateBudgetInfo(params: any){
+  updateBudgetInfo(params: any,  specificDate: string){
     const obj = {
         id: params.id,
-        price: parseFloat(params.price),
-        date_service:  params.date_service
+        price: params.price,
+        date_service: specificDate
       };
 
     /*const body = new HttpParams({

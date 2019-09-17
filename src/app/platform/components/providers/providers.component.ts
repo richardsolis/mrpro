@@ -168,4 +168,10 @@ export class ProvidersComponent implements OnInit {
       console.log(response);
     });
   }
+
+  goChat(chatId: string, BudgetID: string){
+    
+    this.router.navigate(['/proveedor/chat',chatId, BudgetID]);
+    
+  }
 }

@@ -94,6 +94,33 @@ export class ChatComponent implements OnInit {
 	  })
   }
 
+  getInfo(){
+    this.spinner.show();
+    this.userService.getOneBudget(this.currentBudgetID)
+          .subscribe((res: any)=>{
+            console.log("budget info: ", res);
+            this.hour = res.data.date_service.split(" ")[1];
+            this.currentBudget.price= res.data.price;
+            this.currentBudget.date_service = res.data.date_service.split(" ")[0];
+            this.spinner.hide();
+          });
+  }
+
+  closeChat(path:string){
+    this.spinner.show();
+    
+      this.userService.updateStatus('3',this.currentBudgetID)
+        .subscribe((res: any) => {
+          console.log(res);
+          this.spinner.hide();
+          this.goback(path);
+        }, (error: any) => {
+          console.log(error);
+        });
+    
+
+  }
+
   selectFile(event){
     console.log(event.target.name);
   
@@ -156,6 +183,21 @@ export class ChatComponent implements OnInit {
 
   goback(path: string){
     this._router.navigate([path]);
+  }
+
+  newBudget(modal) {
+    console.log("OpenModal newBudget - ", this.currentBudget);
+    
+    this.spinner.show();
+    modal.open();
+    this.spinner.hide();
+  }
+
+  executeBudget(modal){
+    console.log("CloseModal executeBudget");
+    this.spinner.show();
+    modal.close();
+    this.spinner.hide();
   }
 
 }

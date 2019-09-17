@@ -14,11 +14,9 @@ export class ChatService {
   private itemsCollection: AngularFirestoreCollection<Chat>;
   public mensajes: Mensaje[];
   public currentChat: Chat;
-  public currentUser: any = {};
 
-  constructor(private afs: AngularFirestore, private sessionService: SessionService) {
-    this.currentUser = JSON.parse(this.sessionService.getItem('user'));
-    console.log("currentUser",this.currentUser);
+  constructor(private afs: AngularFirestore) {
+  
   }
 
   //crear el chat 1vs1 cuando se acepta el pedido

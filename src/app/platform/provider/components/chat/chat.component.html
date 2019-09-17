@@ -1,6 +1,7 @@
 <div class="container main-container">
   <div class="col-md-12 text-right">
-    <button type="button" class="btn btn-danger" (click)="goback()">Cerrar Chat</button>
+    <button *ngIf="user.type == 'client'" type="button" class="btn btn-danger" (click)="closeChat('/reservado')">Cancelar Chat</button>
+    <button *ngIf="user.type == 'provider'" type="button" class="btn btn-danger" (click)="closeChat('/proveedor/home')">Cancelar Chat</button>
     <button *ngIf="user.type == 'client'" type="button" class="btn blue" (click)="goback('/reservado')">Regresar</button>
     <button *ngIf="user.type == 'provider'" type="button" class="btn blue" (click)="goback('/proveedor/home')">Regresar</button>
   </div>
@@ -30,7 +31,8 @@
               <td><label><b>Fecha</b></label><label class="form-control mr-sm-4">{{currentBudget.date_service}}</label></td>
               <td><label><b>Hora</b></label><label class="form-control mr-sm-4">{{hour}}</label></td>
               <td>
-                  <button (click)="updateInfo()" class="btn btn-success" type="button">Actualizar</button>
+                  <button (click)="getInfo()" class="btn btn-warning" type="button">Actualizar</button>
+                  <button (click)="newBudget(myModal)" class="btn btn-success" type="button">Aceptar</button>
               </td>
             </tr>
         </tbody>
@@ -47,7 +49,10 @@
         </p>
         <div *ngIf="chat.tipo == '2'">
           <!--<br>-->
-          <img [src]="pathImage + chat.mensaje" width="70" height="60" class="img-chat-style">
+          <img [src]="pathImage + chat.mensaje" width="100" height="110" class="img-chat-style">
+          <a target="_blank" [href]="pathImage + chat.mensaje" class="donwload-style" download>
+            <p><b>Descargar</b></p>
+          </a>
         </div>
       </div>
     </div>
@@ -61,3 +66,56 @@
     </div>
   </div>
 </div>
+
+<modal #myModal>
+    <modal-content>
+      <div class="row text-center">
+          <div class="form-inline">
+              <img src="assets/images/logo.png" width="60" height="50" class="d-inline-block align-top" alt="">
+              <h1 class="navbar">Propuesta - {{ currentBudget.id }}</h1>
+          </div>
+      </div>
+      <hr>
+      <form> 
+        <div class="row">
+          <label for="inputEmail3" class="col-lg-2 col-form-label"><b>Proveedor:</b></label>
+          <label class="col-lg-10 col-form-label">{{ user.name + ' ' + user.lastname }}</label>
+        </div>
+        <hr>
+        <div class="row">
+          <label for="inputEmail3" class="col-lg-12 col-form-label"><b>Datos del Servicio:</b></label>
+        </div>
+        <div class="row">
+            <label for="inputEmail3" class="col-lg-3 col-form-label"><b>Fecha:</b></label>
+            <label class="col-lg-3 col-form-label">{{ currentBudget.date_service }}</label>
+            <label for="inputEmail3" class="col-lg-3 col-form-label"><b>Hora:</b></label>
+            <label class="col-ñg-3 col-form-label">{{ hour }}</label>
+        </div>
+        <div class="row">
+            <label for="inputEmail3" class="col-lg-6 col-form-label"><b>Nombre contacto:</b></label>
+            <label class="col-lg-6 col-form-label">{{ currentBudget.contact_name }}</label>
+        </div>
+        <div class="row">
+            <label for="inputEmail3" class="col-lg-6 col-form-label"><b>Telefono contacto:</b></label>
+            <label class="col-lg-6 col-form-label">{{ currentBudget.phone_name }}</label>
+        </div>
+        <div class="row">
+            <label for="inputEmail3" class="col-lg-6 col-form-label"><b>Direccion:</b></label>
+            <label class="col-lg-6 col-form-label">{{ currentBudget.address }}</label>
+        </div>
+        <div class="row">
+            <label for="inputEmail3" class="col-lg-6 col-form-label"><b>Servicio de:</b></label>
+            <label class="col-lg-6 col-form-label">{{ currentBudget.category_service_id }}</label>
+        </div>
+        <div class="row">
+            <label for="inputEmail3" class="col-lg-6 col-form-label"><b>Decripcion:</b></label>
+            <label class="col-lg-6 col-form-label">{{ currentBudget.description }}</label>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-10">
+            <button type="submit" (click)="executeBudget(myModal)" class="btn bprimary">guardar</button>
+          </div>
+        </div>
+      </form>
+    </modal-content>
+  </modal>

@@ -119,6 +119,14 @@ export class UserService {
     return this.http.post(AppSettings.BASE_PATH + AppSettings.PROVIDER_GET_BUDGET, form, header);
   }
 
+  executeBudget(budgetID: string){
+    var form = new FormData();
+    form.append("id", budgetID);
+
+    var header = this.generalS.getToken({}, "application/x-www-form-urlencoded");
+    return this.http.post(AppSettings.BASE_PATH + AppSettings.CLIENT_EXECUTE_BUDGET, form, header);
+  }
+
   updateBudgetChat(chatID: string, budgetID: string){
     var form = new FormData();
       form.append("id", budgetID);

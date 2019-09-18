@@ -26,6 +26,7 @@ export class ChatComponent implements OnInit {
   hour: string;
   categories: any[];
   user: any = {};
+  execute: boolean = false;
 
   constructor(public _cs: ChatService, private _route:ActivatedRoute, 
               private spinner: NgxSpinnerService, private _router:Router,
@@ -45,7 +46,7 @@ export class ChatComponent implements OnInit {
               setTimeout( ()=>{
                 this.elemento.scrollTop = this.elemento.scrollHeight;
                 this.spinner.hide();
-              },20);
+              },100);
             });
 
         this.userService.getOneBudget(this.currentBudgetID)
@@ -87,7 +88,9 @@ export class ChatComponent implements OnInit {
     this.userService.updateBudgetInfo(this.currentBudget, specificDate)
   	.subscribe((response: any) => {
       console.log("updateInfo",response);
-  		this.spinner.hide();
+      this.spinner.hide();
+      this.mensaje = "Por favor hacer clic en el boton Actualizar.";
+      this.enviar_mensaje('3');
   	}, (error: any) => {
       console.log(error);
       this.spinner.hide();
@@ -194,10 +197,19 @@ export class ChatComponent implements OnInit {
   }
 
   executeBudget(modal){
-    console.log("CloseModal executeBudget");
+    this.execute = false;
     this.spinner.show();
-    modal.close();
-    this.spinner.hide();
+    this.userService.executeBudget(this.currentBudgetID)
+        .subscribe((res: any)=>{
+          console.log("budget execute: ", res);
+          //modal.close();
+          this.spinner.hide();
+          this.execute = true;
+        },
+        (error)=>{
+          console.log(error);
+          this.spinner.hide();
+        });
   }
 
 }

@@ -54,6 +54,9 @@
             <p><b>Descargar</b></p>
           </a>
         </div>
+        <p *ngIf="chat.tipo == '3'" class="text-warning">
+            <i><b>{{ chat.mensaje }}</b></i>
+          </p>
       </div>
     </div>
     <div class="form-inline">
@@ -86,36 +89,45 @@
           <label for="inputEmail3" class="col-lg-12 col-form-label"><b>Datos del Servicio:</b></label>
         </div>
         <div class="row">
-            <label for="inputEmail3" class="col-lg-3 col-form-label"><b>Fecha:</b></label>
+            <label for="inputEmail3" class="col-lg-2 col-form-label"><b>Fecha:</b></label>
             <label class="col-lg-3 col-form-label">{{ currentBudget.date_service }}</label>
-            <label for="inputEmail3" class="col-lg-3 col-form-label"><b>Hora:</b></label>
-            <label class="col-ñg-3 col-form-label">{{ hour }}</label>
+            <label for="inputEmail3" class="col-lg-2 col-form-label"><b>Hora:</b></label>
+            <label class="col-lg-2 col-form-label">{{ hour }}</label>
         </div>
         <div class="row">
-            <label for="inputEmail3" class="col-lg-6 col-form-label"><b>Nombre contacto:</b></label>
+            <label for="inputEmail3" class="col-lg-4 col-form-label"><b>Nombre contacto:</b></label>
             <label class="col-lg-6 col-form-label">{{ currentBudget.contact_name }}</label>
         </div>
         <div class="row">
-            <label for="inputEmail3" class="col-lg-6 col-form-label"><b>Telefono contacto:</b></label>
+            <label for="inputEmail3" class="col-lg-4 col-form-label"><b>Telefono contacto:</b></label>
             <label class="col-lg-6 col-form-label">{{ currentBudget.phone_name }}</label>
         </div>
         <div class="row">
-            <label for="inputEmail3" class="col-lg-6 col-form-label"><b>Direccion:</b></label>
+            <label for="inputEmail3" class="col-lg-4 col-form-label"><b>Direccion:</b></label>
             <label class="col-lg-6 col-form-label">{{ currentBudget.address }}</label>
         </div>
         <div class="row">
-            <label for="inputEmail3" class="col-lg-6 col-form-label"><b>Servicio de:</b></label>
-            <label class="col-lg-6 col-form-label">{{ currentBudget.category_service_id }}</label>
+            <label for="inputEmail3" class="col-lg-4 col-form-label"><b>Servicio de:</b></label>
+            <label *ngIf="categories" class="col-lg-6 col-form-label">{{  getName(categories, currentBudget.category_service_id) }}</label>
         </div>
         <div class="row">
-            <label for="inputEmail3" class="col-lg-6 col-form-label"><b>Decripcion:</b></label>
-            <label class="col-lg-6 col-form-label">{{ currentBudget.description }}</label>
+            <label for="inputEmail3" class="col-lg-4 col-form-label"><b>Decripcion:</b></label>
+            <label class="col-lg-6 form-control">{{ currentBudget.description }}</label>
         </div>
-        <div class="form-group row">
-          <div class="col-sm-10">
-            <button type="submit" (click)="executeBudget(myModal)" class="btn bprimary">guardar</button>
+        <hr>
+        <div class="row">
+            <label for="inputEmail3" class="col-lg-3 col-form-label"><b>Monto total:</b></label>
+            <label class="col-lg-3 form-control">{{ currentBudget.price }}</label>
+          <div class="col-lg-6">
+            <button type="submit" (click)="executeBudget(myModal)" class="btn btn-success">Ejecutar el servicio</button>
           </div>
         </div>
       </form>
+      <br>
+      <div *ngIf="execute" class="row">
+          <p class="p-2 mb-1 bg-primary text-white" style="margin-left: auto; margin-right: auto">
+            <b>El presupuesto fue envio por correo.</b>
+          </p>
+      </div>
     </modal-content>
   </modal>

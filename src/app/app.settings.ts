@@ -13,6 +13,7 @@ export class AppSettings {
   public static LOGIN_USER_EMAIL = "oauth/token";
   public static CLIENT_SEND_BUDGET = "client/send/budget";
   public static CLIENT_GET_BUDGET = "client/get/budget";
+  public static CLIENT_EXECUTE_BUDGET = "client/exe/budget";
   public static PROVIDER_GET_BUDGET = "client/get/one/budget";
   public static CURRENT_USER = "oauth/current/user";
   public static GET_ESTATUS_BUDGET = "client/get/budget/status";

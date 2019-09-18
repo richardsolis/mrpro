@@ -212,4 +212,10 @@ export class ChatComponent implements OnInit {
         });
   }
 
+  convertImgToDataURL(imageURL: string){
+    let canvas = document.createElement('canvas');
+    let dataURL = canvas.toDataURL('image/jpeg',imageURL);
+    return dataURL;
+  }
+
 }

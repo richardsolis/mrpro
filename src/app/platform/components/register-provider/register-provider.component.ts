@@ -184,6 +184,18 @@ export class RegisterProviderComponent implements OnInit {
 	  })
   }
 
+  onlydigit(e) {
+    var tecla;
+    var patron;
+    var tecla_final;
+    tecla = document.all ? e.keyCode : e.which;
+    if (tecla == 8) {
+      return true;
+    }
+    patron = /[0-9.]/;
+    tecla_final = String.fromCharCode(tecla);
+    return patron.test(tecla_final);
+  }
 
   onSubmit(myModal) {
  

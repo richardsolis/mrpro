@@ -22,7 +22,7 @@
               </div>
             </div>
         </div>
-        <form  [formGroup]="registerForm" (ngSubmit)="onSubmit(myModal)" class="col-lg-12"> 
+        <form  [formGroup]="registerForm" (ngSubmit)="onSubmit(myModal)" class="col-lg-12 col-md-12"> 
           <div class="form-group row" *ngIf="tipoForm">
             <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label"><strong>Datos de la Empresa:</strong></label>
             <div class="col-lg-8 col-md-6">
@@ -31,7 +31,7 @@
           <div class="form-group row" *ngIf="tipoForm">
             <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">RUC:</label>
             <div class="col-lg-8 col-md-6">
-              <input type="text" formControlName="ruc" class="form-control" id="RUC" placeholder="Ingrese RUC">
+              <input type="text" (keypress)="onlydigit($event)" formControlName="ruc" class="form-control" id="RUC" placeholder="Ingrese RUC">
               <div *ngIf="submitted && registerForm.controls.ruc.errors?.required">
                 <p class="text-warning"><strong>RUC requerido.</strong></p>
               </div>
@@ -70,7 +70,7 @@
           <div class="form-group row" *ngIf="tipoForm">
             <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Telefono:</label>
             <div class="col-lg-8 col-md-6">
-              <input type="text" formControlName="telefono" class="form-control" id="telefono" placeholder="Ingrese Telefono">
+              <input type="text" (keypress)="onlydigit($event)" formControlName="telefono" class="form-control" id="telefono" placeholder="Ingrese Telefono">
               <div *ngIf="submitted && registerForm.controls.telefono.errors?.required">
                   <p class="text-warning"><strong>Telefono requerido.</strong></p>
               </div>
@@ -104,9 +104,9 @@
             </div>
           </div>
           <div class="form-group row">
-            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">DNI:</label>
+            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">DNI/Cédula de Identidad:</label>
             <div class="col-lg-8 col-md-6">
-              <input type="text" formControlName="dni" class="form-control" id="dni" placeholder="Ingrese DNI">
+              <input type="text" (keypress)="onlydigit($event)" formControlName="dni" class="form-control" id="dni" placeholder="Ingrese DNI">
               <div *ngIf="submitted && registerForm.controls.dni.errors?.required">
                   <p class="text-warning"><strong>DNI requerido.</strong></p>
               </div>
@@ -133,7 +133,7 @@
           <div class="form-group row">
             <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Teléfono:</label>
             <div class="col-lg-8 col-md-6">
-              <input type="text" formControlName="ptelefono" class="form-control" id="ptelefono" placeholder="Ingrese Teléfono">
+              <input type="text" (keypress)="onlydigit($event)" formControlName="ptelefono" class="form-control" id="ptelefono" placeholder="Ingrese Teléfono">
               <div *ngIf="submitted && registerForm.controls.ptelefono.errors?.required">
                   <p class="text-warning"><strong>Teléfono requerido.</strong></p>
               </div>
@@ -260,7 +260,7 @@
                   <button type="button" (click)="goBack()" class="btn btn-danger">Cancelar</button>
                 </div>
             <div class="col-lg-6 col-md-6">
-              <button type="submit" class="btn bprimary">Solicitar Aprobación</button>
+              <button type="submit" class="btn bprimary">Registro de Proveedor</button>
             </div>
           </div>
         </form>
@@ -274,7 +274,7 @@
             <h4>{{ message }}</h4>
         </div>
         <div class="row text-center">
-            <a class="btn text-primary" routerLink="/ingresar" routerLinkActive="active-link"><b>iniciar sesión</b></a>
+            <a class="btn text-primary" routerLink="/ingresar" routerLinkActive="active-link"><b>Iniciar Sesión</b></a>
         </div>
     </modal-content>        
 </modal>

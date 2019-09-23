@@ -101,7 +101,7 @@
             <div class="radio-icon radio-icon-spreedly" style="width: 62px;background: url(https://assets-fix-me.cabify.com/97882ae02375c44ffb589354e157601d.svg) 50% no-repeat;height: 22px;"></div>
           </div>
           <!-- <button type="button" class="btn btn-info" style="width: 101px;height: 36px;padding: 0px;margin-right: 17px;" (click)="editCard(list)">Editar</button> -->
-          <button type="button" class="btn btn-danger" style="width: 101px;height: 36px;padding: 0px;margin-right: 17px;">Eliminar</button>
+          <button type="button" (click)="deleteCard(list.id)" class="btn btn-danger" style="width: 101px;height: 36px;padding: 0px;margin-right: 17px;">Eliminar</button>
         </div>
         <div class="form-check" style="margin-top: 10px;">
           <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2" />
@@ -121,23 +121,18 @@
         <form class="form-add-metod">
           <div class="row">
             <div class="col">
-              <input type="text" class="form-control" placeholder="First name" [(ngModel)]="cardCreit.name" name="name" />
-            </div>
-            <div class="col">
-              <input type="text" class="form-control" placeholder="Last name" [(ngModel)]="cardCreit.lastname" name="lastname" />
+              <input type="text" (keypress)="onlydigit($event)" class="form-control" placeholder="Numero de tarjeta" [(ngModel)]="cardCreit.number" name="number" maxlength="16" />
+              <label *ngIf="nFlag" class="text-danger">debe ser 16 digitos</label>
             </div>
           </div>
           <div class="row">
             <div class="col">
-              <input type="text" class="form-control" placeholder="Numero de tarjeta" [(ngModel)]="cardCreit.number" name="number" />
-            </div>
-          </div>
-          <div class="row">
-            <div class="col">
-              <input type="text" class="form-control" placeholder="Expiración - 00/00" [(ngModel)]="cardCreit.date" name="date" />
+              <input type="text" class="form-control" placeholder="Expiración - 00/00" [(ngModel)]="cardCreit.date" name="date"  maxlength="5"/>
+              <label *ngIf="dFlag" class="text-danger">debe ser mm/yy</label>
             </div>
             <div class="col">
-              <input type="text" class="form-control" placeholder="CVV " [(ngModel)]="cardCreit.cvv" name="cvv" />
+              <input type="text" class="form-control" placeholder="CVV " [(ngModel)]="cardCreit.cvv" name="cvv" maxlength="3" />
+              <label *ngIf="cvvFlag" class="text-danger">debe ser 3 digitos</label>
             </div>
           </div>
           <div style="width: 240px;margin: auto;">

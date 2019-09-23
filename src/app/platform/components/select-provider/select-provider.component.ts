@@ -14,6 +14,8 @@ import { NgxSpinnerService } from "ngx-spinner";
   styleUrls: ["./select-provider.component.css"]
 })
 export class SelectProviderComponent implements OnInit {
+  tomorrow = new Date();
+  
   serviceSearch: any = {
     type: "programmed",
     category: 1,
@@ -45,6 +47,8 @@ export class SelectProviderComponent implements OnInit {
   constructor(private router: Router, private spinner: NgxSpinnerService, private session: SessionService, private userS: UserService, private categoryS: CategoryService, private districtS: DistrictService, private providerS: ProviderService) {}
 
   ngOnInit() {
+    this.tomorrow.setDate(this.tomorrow.getDate() + 1);
+    this.serviceSearch.date = this.tomorrow;
     this.provedores = [];
     this.spinner.show();
     this.user = this.session.getObject("user");
@@ -139,6 +143,7 @@ export class SelectProviderComponent implements OnInit {
   showFile(modal, provider) {
     this.session.setObject("userProvider", provider);
     this.userProvider = provider;
+    console.log(provider);
     this.tprovider = provider;
     modal.open();
   }

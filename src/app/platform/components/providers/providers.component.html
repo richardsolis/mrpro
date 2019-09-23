@@ -93,7 +93,9 @@
                     </div>
                     <div class="buttons-provider col-md-12 row row-justifycon" style="display: flex;flex-wrap: nowrap;padding: 0;">
                       <button *ngIf="value.status_service_id == '4'" class="btn btn-warning" (click)="goChat(value.firebase_id, value.id)" style="width:92px;margin-right: 10px;">Chat</button>
-                      <button class="btn color-blue" (click)="ficha(myFile, value)" style="width:92px;background: #2196F3;color: white !important;margin-right: 10px;">Ver ficha</button>
+                      <!--<button class="btn color-blue" (click)="ficha(myFile, value)" 
+                        style="width:92px;background: #2196F3;color: white !important;margin-right: 10px;">Ver ficha</button>
+                      -->
                       <button (click)="schedule(provider)" class="btn btn-danger">Cancelar</button>
                     </div>
                   </div>

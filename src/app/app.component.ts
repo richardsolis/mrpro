@@ -15,7 +15,7 @@ export class AppComponent implements OnInit{
     this.wow = new WOW();
     this.wow.init();
   	$(window).scroll(function() {
-      if ($(this).scrollTop() > 50 ) {
+      if ($(this).scrollTop() > 140 ) {
           $('.scrolltop:hidden').stop(true, true).fadeIn();
           $('header .blue').addClass('menu-fixed');
       } else {

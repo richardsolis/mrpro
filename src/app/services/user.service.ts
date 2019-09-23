@@ -171,6 +171,17 @@ export class UserService {
     return this.http.post(AppSettings.BASE_PATH + AppSettings.CREATE_CARD_BANK, body, header);
   }
 
+  deleteCardBank(cardID: string){
+    var form = new FormData();
+    form.append("id", cardID);
+
+    /*const body = new HttpParams({
+      fromObject: obj
+    });*/
+    var header = this.generalS.getToken({}, "application/x-www-form-urlencoded");
+    return this.http.post(AppSettings.BASE_PATH + AppSettings.DELETE_CARD_BANK, form, header);
+  }
+
   getCardBank() {
     // const body = new HttpParams({
     //   fromObject: params

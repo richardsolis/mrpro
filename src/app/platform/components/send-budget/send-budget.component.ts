@@ -14,11 +14,14 @@ import localeDe from "@angular/common/locales/de";
 })
 export class SendBudgetComponent implements OnInit {
   cardCreit = {
-    number: null,
+    number: "",
     date: "",
-    cvv: null
+    cvv: ""
   };
-
+  nFlag: boolean = false;
+  dFlag: boolean = false;
+  cvvFlag: boolean = false;
+  tomorrow = new Date();
   budget: any = {
     provider: "",
     user_provider_id: 0,
@@ -72,6 +75,8 @@ export class SendBudgetComponent implements OnInit {
 
   ngOnInit() {
     // [{ user_provider_id: "1", contact_name: "Raquel", phone_name: "Rosas", address: "Av juan 23", district_id: "3", category_service_id: "2", description: "Es una rotura pequeña help!!", date_service: "2019-08-05 13:00:00" }, { user_provider_id: "1", contact_name: "Raquel", phone_name: "Rosas", address: "Av juan 23", district_id: "3", category_service_id: "2", description: "Es una rotura pequeña help!!", date_service: "2019-08-05 13:00:00" }];
+    this.tomorrow.setDate(this.tomorrow.getDate() + 1);
+    this.ObjectServi.date_service = this.tomorrow;
     let budget = this.session.getObject("budget");
     this.providers = this.session.getObject("providers");
     this.budget.provider = "Proveedor: " + budget.provider_name;
@@ -127,11 +132,51 @@ export class SendBudgetComponent implements OnInit {
   }
 
   saveCard() {
+    if(this.cardCreit.number.length != 16){
+      this.nFlag = true;
+      return;
+    }else{
+      this.nFlag = false;
+    }
+
+    if(!this.dateExpiration(this.cardCreit.date)){
+      this.dFlag = true;
+      return;
+    }else{
+      this.dFlag = false;
+    }
+
+    if(this.cardCreit.cvv.length != 3){
+      this.cvvFlag = true;
+      return;
+    }else{
+      this.cvvFlag = false;
+    }
+
     this.userS.createCardBank(this.cardCreit).subscribe((response: any) => {
       console.log(response);
       this.allCard();
       this.addMetod = false;
+      this.cardCreit = {
+        number: "",
+        date: "",
+        cvv: ""
+      };
     });
+  }
+
+  deleteCard(cardID: string){
+      this.userS.deleteCardBank(cardID).subscribe((response: any) => {
+        console.log(response);
+        this.listCard = [];
+        this.allCard();
+      });
+
+  }
+
+  dateExpiration(reg){
+    const regExp    = new RegExp(/^\d{1,2}\/\d{1,2}$/);
+    return regExp.test( reg );
   }
 
   editCard(list) {

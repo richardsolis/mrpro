@@ -21,5 +21,6 @@ export class AppSettings {
   public static UPDATE_ESTATUS_BUDGET = "client/set/budget/status";
   public static CANCEL = "client/set/budget/status";
   public static CREATE_CARD_BANK = "card/create";
+  public static DELETE_CARD_BANK = "card/delete";
   public static LIST_ALL_CARD = "card/get";
 }

@@ -67,20 +67,26 @@ export class RegisterEmailComponent implements OnInit {
       return;
     }
 
+    if (this.user.password.length < 8) {
+      this.message = "Contraseña minimo de 8 caracteres";
+      myModal.open();
+      return;
+    }
+
     if (this.user.password != this.user.password_confirmation) {
-      this.message = "ContraseÒas diferentes";
+      this.message = "Contraseñas diferentes";
       myModal.open();
       return;
     }
 
     if (!this.user.cpolicy) {
-      this.message = "Acepta las polÌticas de privacidad";
+      this.message = "Acepta las politicas de privacidad";
       myModal.open();
       return;
     }
 
     if (!this.user.cconditions) {
-      this.message = "Acepta los tÈrminos y condiciones";
+      this.message = "Acepta los terminos y condiciones";
       myModal.open();
       return;
     }
@@ -107,7 +113,7 @@ export class RegisterEmailComponent implements OnInit {
           (error: any) => {
             console.log(error);
             if (error.error && error.error.data && error.error.data.email && error.error.data.email.length) {
-              this.message = "El correo electrÛnico ya est· registrado";
+              this.message = "El correo electronico ya esta registrado";
               myModal.open();
               this.spinner.hide();
               return;

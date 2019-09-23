@@ -51,11 +51,13 @@ export class SendBudgetComponent implements OnInit {
   image2 = "";
   image3 = "";
 
+  currentday = this.session.getObject("budget").date.split('T')[0];
   ObjectServi = {
     address: "",
     category_service_id: this.session.getObject("budget").category,
     contact_name: this.session.getObject("user").name + " " + this.session.getObject("user").lastname,
     date_service: new Date(),
+    hour: this.session.getObject("budget").hour,
     description: "",
     district_id: "1",
     phone_name: this.session.getObject("user").phone,
@@ -71,7 +73,11 @@ export class SendBudgetComponent implements OnInit {
   file: File;
   imgaa: FileList;
   listCard;
-  constructor(private router: Router, private session: SessionService, private districtS: DistrictService, private userS: UserService, private generalS: GeneralService, private spinner: NgxSpinnerService) {}
+  constructor(private router: Router, private session: SessionService, private districtS: DistrictService, private userS: UserService, private generalS: GeneralService, private spinner: NgxSpinnerService) 
+  {
+    let array = this.currentday.split('-');
+    this.ObjectServi.date_service = new Date(array[0],array[1],array[2]);
+  }
 
   ngOnInit() {
     // [{ user_provider_id: "1", contact_name: "Raquel", phone_name: "Rosas", address: "Av juan 23", district_id: "3", category_service_id: "2", description: "Es una rotura pequeña help!!", date_service: "2019-08-05 13:00:00" }, { user_provider_id: "1", contact_name: "Raquel", phone_name: "Rosas", address: "Av juan 23", district_id: "3", category_service_id: "2", description: "Es una rotura pequeña help!!", date_service: "2019-08-05 13:00:00" }];

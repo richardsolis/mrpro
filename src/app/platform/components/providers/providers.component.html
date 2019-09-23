@@ -42,7 +42,7 @@
       </div> -->
       <div class="content-lista-reservados" *ngIf="estado == 'aceptado'" style="margin-top: 20px;">
         <div class="card card-provider">
-          <div class="row no-gutters box-mg-nano" style="display: flex;flex-direction: row;text-align: left;flex-wrap: nowrap;padding: 15px 20px;">
+          <!--<div class="row no-gutters box-mg-nano" style="display: flex;flex-direction: row;text-align: left;flex-wrap: nowrap;padding: 15px 20px;">
             <div class="col-1 image-provider">
               <img src="./assets/images/user.png" class="card-img" alt="..." />
             </div>
@@ -58,50 +58,54 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div>-->
         </div>
       </div>
 
       <div class="content-lista-reservados" style="display: flex;flex-direction: column-reverse;" *ngIf="estado == 'pendiente'">
-        <div *ngFor="let resultFilters of resultFilter" [class.acordeon]="resultFilters.acordeon == false">
-          <h3 class="acordeon-button" (click)="acordeon(resultFilters)" class="h3-acordeon">
-            <div>
-              {{ resultFilters.values[0].date_service }} |
-              <span class="description-acordeon" style="font-weight: 100;" *ngIf="resultFilters.values[0].category_service_id == 1">Gasfitero</span>
-              <span class="description-acordeon" style="font-weight: 100;" *ngIf="resultFilters.values[0].category_service_id == 2">Electricista</span>
-              <span class="description-acordeon" style="font-weight: 100;" *ngIf="resultFilters.values[0].category_service_id == 3">Técnico en Electrodomésticos</span>
-            </div>
-            <span class="description-acordeon" style="text-align: right"><i class="fa fa-sort-down"></i></span>
-          </h3>
-          <div style="width: 95%;margin-left: 15px;margin: auto;background: white;padding: 20PX;padding: 20PX 10px 0px 20px;">
-            <h4 style="font-size: 17px;">Descripción:</h4>
-            <p>{{ resultFilters.values[0].description }}</p>
-          </div>
-          <div class="row" style="width: 95%;margin-left: 15px;margin: auto;background: white;MARGIN-BOTTOM: 20PX;box-shadow: rgba(41, 98, 182, 0.12) 0px 10px 10px;">
-            <div class="col-md-4 mg-t-small" *ngFor="let value of resultFilters.values">
-              <div class="card card-provider">
-                <div class="row no-gutters box-mg-nano" style="display: flex;flex-direction: row;text-align: left;flex-wrap: nowrap;padding: 0px 20px;">
-                  <div class="col-3 image-provider">
-                    <img src="./assets/images/user.png" class="card-img" alt="..." />
-                  </div>
-                  <div style="padding: 20px 0px 20px 20px;">
-                    <div class="">
-                      <div class="card-body" style="padding:0;">
-                        <h5 class="" style="font-size: 14px;font-weight: 600;margin-bottom: 15px;">{{ value.user_provider.user.name }} {{ value.user_provider.user.lastname }}</h5>
-                        <p class="card-text"></p>
-                      </div>
-                    </div>
-                    <div class="buttons-provider col-md-12 row row-justifycon" style="display: flex;flex-wrap: nowrap;padding: 0;">
-                      <button *ngIf="value.status_service_id == '4'" class="btn btn-warning" (click)="goChat(value.firebase_id, value.id)" style="width:92px;margin-right: 10px;">Chat</button>
-                      <!--<button class="btn color-blue" (click)="ficha(myFile, value)" 
-                        style="width:92px;background: #2196F3;color: white !important;margin-right: 10px;">Ver ficha</button>
-                      -->
-                      <button (click)="schedule(provider)" class="btn btn-danger">Cancelar</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12">
+            <table class="table table-responsive table-bordered table-hover" style="background-color: white">
+            <thead>
+                <tr>
+                  <th scope="col"># ID</th>
+                  <th scope="col">Categoria</th>
+                  <th scope="col">Subcategoria</th>
+                  <!--<th scope="col">Distrito</th>-->
+                  <th scope="col">Dirección</th>
+                  <th scope="col">Fec.Pedido</th>
+                  <th scope="col">Proovedor</th>
+                  <th scope="col">Acciones</th>
+                </tr>
+              </thead>
+              <tbody *ngIf="resultFilter.length > 0">
+                 <!--<tr>
+                  <th scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></th>
+                  <td scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></td>
+                  <td scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></td>
+                  <td scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></td>
+                  <td scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></td>
+                  <td scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></td>
+                  <td scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></td>
+                  <td>
+                      <button class="btn btn-success my-2 my-sm-0" type="submit">Buscar</button>
+                  </td>
+                </tr>-->
+                <tr *ngFor="let result of resultFilter[0].values">
+                  <td scope="row">{{ result.id }}</td>
+                  <td scope="row">{{ result.category_service.name }}</td>
+                  <td scope="row">{{ result.parent_category.name }}</td>
+                  <!--<td scope="row">{{ result.district_id }}</td>-->
+                  <td scope="row">{{ result.address }}</td>
+                  <td scope="row">{{ result.date_service | date: 'dd/MM/yyyy' }}</td>
+                  <td scope="row">{{ result.user_provider.user.name }} {{ result.user_provider.user.lastname }}</td>
+                  <td scope="row">
+                    <button *ngIf="result.status_service_id == '4'" class="btn btn-warning" (click)="goChat(result.firebase_id, result.id)" style="width:92px;margin-right: 10px;">Chat</button>
+                    <button (click)="schedule(result.id)" class="btn btn-danger">Cancelar</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

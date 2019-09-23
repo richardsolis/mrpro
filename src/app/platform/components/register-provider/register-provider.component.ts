@@ -26,6 +26,9 @@ export class RegisterProviderComponent implements OnInit {
   districts: any[];
   categories: any[];
 
+  flagSize: boolean = false;
+  flagImg: boolean = false;
+
   constructor(private formBuilder: FormBuilder, private router: Router,	
               private spinner: NgxSpinnerService,private userService: UserService,
               private districtService: DistrictService, private categoryService: CategoryService) {
@@ -70,8 +73,8 @@ export class RegisterProviderComponent implements OnInit {
       penales:  [''],
       judiciales:  [''],
       experiencia:  [''],
-      contrasena:  ['', Validators.required],
-      contrasena2:  ['', Validators.required],
+      contrasena:  ['', Validators.required, Validators.minLength(8)],
+      contrasena2:  ['', Validators.required, Validators.minLength(8)],
       eBancaria:  [''],
       nCuenta:  [''],
       interbancaria:  [''],
@@ -135,9 +138,21 @@ export class RegisterProviderComponent implements OnInit {
 
     //this.images.push(event.target.files[0]);
     if(event.target.name === 'logo'){
+      if (event.target.files[0].size > 2500000) {
+        this.flagSize = true;
+        this.imageLogo = null;
+        return;
+      }
+      this.flagSize = false;
       this.imageLogo = event.target.files[0];
       this.uploadFile(this.imageLogo, 'logo');
     }else if(event.target.name === 'foto'){
+      if (event.target.files[0].size > 2500000) {
+        this.flagImg = true;
+        this.imageLogo = null;
+        return;
+      }
+      this.flagImg = false;
       this.imageFoto = event.target.files[0];
       this.uploadFile(this.imageFoto, 'foto');
     }

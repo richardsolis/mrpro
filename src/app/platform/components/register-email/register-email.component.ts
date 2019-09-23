@@ -3,6 +3,7 @@ import { Router, NavigationExtras } from "@angular/router";
 import { SessionService } from "../../../services/session.service";
 import { UserService } from "../../../services/user.service";
 import { NgxSpinnerService } from "ngx-spinner";
+import { BlockingProxy } from "blocking-proxy";
 
 @Component({
   selector: "app-register-email",
@@ -24,6 +25,7 @@ export class RegisterEmailComponent implements OnInit {
   };
   message = "";
   image: any;
+  flagSize: boolean = false;
 
   constructor(private session: SessionService, private spinner: NgxSpinnerService, private router: Router, private userService: UserService) {}
 
@@ -42,15 +44,21 @@ export class RegisterEmailComponent implements OnInit {
       return;
     }
 
-	this.image = event.target.files[0];
-	this.spinner.show();
-	this.userService.postSaveImageUser(this.image)
-  	.subscribe((response: any) => {
-  		console.log(response);
-  		this.spinner.hide();
-  	}, (error: any) => {
-  		console.log(error);
-	})
+    if (event.target.files[0].size > 2500000) {
+      this.flagSize = true;
+      this.user.image = "";
+      return;
+    }
+    this.flagSize = false;
+    this.image = event.target.files[0];
+    this.spinner.show();
+    this.userService.postSaveImageUser(this.image)
+      .subscribe((response: any) => {
+        console.log(response);
+        this.spinner.hide();
+      }, (error: any) => {
+        console.log(error);
+    })
   }
 
   login(myModal) {

@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
     } else if (socialPlatform == "linkedin") {
       socialPlatformProvider = LinkedinLoginProvider.PROVIDER_ID;
     }
-
+    console.log(socialPlatformProvider);
     this.socialAuthService.signIn(socialPlatformProvider).then(userData => {
       console.log(socialPlatform + " sign in data : ", userData);
       // Now sign-in with userData

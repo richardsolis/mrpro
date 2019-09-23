@@ -158,14 +158,15 @@ export class ProvidersComponent implements OnInit {
     console.log(data);
   }
 
-  schedule(proveedor) {
-    console.log(proveedor);
+  schedule(BudgetID) {
+    console.log(BudgetID);
     this.cancel = {
-      budget_id: proveedor.id,
-      status_id: proveedor.status_service_id
+      budget_id: BudgetID,
+      status_id: '2'
     };
     this.userS.cancel(this.cancel).subscribe(response => {
       console.log(response);
+      location.reload();
     });
   }
 

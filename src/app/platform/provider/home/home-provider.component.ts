@@ -108,6 +108,15 @@ export class HomeProviderComponent implements OnInit {
         }, (error: any) => {
           console.log(error);
         });
+    }else if(option == 'F'){
+      this.userService.updateStatus('6',budgetID)
+        .subscribe((res: any) => {
+          console.log(res);
+          this.spinner.hide();
+          location.reload();
+        }, (error: any) => {
+          console.log(error);
+        });
     }
 
   }

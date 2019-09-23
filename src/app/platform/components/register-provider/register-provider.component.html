@@ -68,16 +68,16 @@
             </div>
           </div>
           <div class="form-group row" *ngIf="tipoForm">
-            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Telefono:</label>
+            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Celular:</label>
             <div class="col-lg-8 col-md-6">
-              <input type="text" (keypress)="onlydigit($event)" formControlName="telefono" class="form-control" id="telefono" placeholder="Ingrese Telefono">
+              <input type="text" (keypress)="onlydigit($event)" formControlName="telefono" class="form-control" id="telefono" placeholder="Ingrese Celular" maxlength="9">
               <div *ngIf="submitted && registerForm.controls.telefono.errors?.required">
-                  <p class="text-warning"><strong>Telefono requerido.</strong></p>
+                  <p class="text-warning"><strong>Celular requerido.</strong></p>
               </div>
             </div>
           </div>
           <div class="form-group row" *ngIf="tipoForm">
-            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Logo:</label>
+            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Logo:<b *ngIf="flagSize" class="text-danger">Maximo 2.5MB</b></label>
             <div class="col-lg-8 col-md-6">
                 <input (change)="selectFile($event)" type="file" name="logo">
             </div>
@@ -131,11 +131,11 @@
             </div>
           </div>
           <div class="form-group row">
-            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Teléfono:</label>
+            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Celular:</label>
             <div class="col-lg-8 col-md-6">
-              <input type="text" (keypress)="onlydigit($event)" formControlName="ptelefono" class="form-control" id="ptelefono" placeholder="Ingrese Teléfono">
+              <input type="text" (keypress)="onlydigit($event)" formControlName="ptelefono" class="form-control" id="ptelefono" placeholder="Ingrese Celular" maxlength="9">
               <div *ngIf="submitted && registerForm.controls.ptelefono.errors?.required">
-                  <p class="text-warning"><strong>Teléfono requerido.</strong></p>
+                  <p class="text-warning"><strong>Celular requerido.</strong></p>
               </div>
             </div>
           </div>
@@ -149,7 +149,7 @@
             </div>
           </div>
           <div class="form-group row">
-            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Foto:</label>
+            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Foto:<b *ngIf="flagImg" class="text-danger">Maximo 2.5MB</b></label>
             <div class="col-lg-8 col-md-6">
                 <input (change)="selectFile($event)" type="file" name="foto">
             </div>
@@ -214,7 +214,7 @@
             <div class="col-lg-8 col-md-6">
               <input type="password" formControlName="contrasena" class="form-control" id="contrasena" placeholder="Ingrese Contraseña">
               <div *ngIf="submitted && registerForm.controls.contrasena.errors?.required">
-                  <p class="text-warning"><strong>Contraseña requerido.</strong></p>
+                  <p class="text-warning"><strong>Contraseña requerido y minimo 8 caracteres.</strong></p>
               </div>
             </div>
           </div>
@@ -223,7 +223,7 @@
             <div class="col-lg-8 col-md-6">
               <input type="password" formControlName="contrasena2" class="form-control" id="contrasena2" placeholder="Ingrese Contraseña de nuevo">
               <div *ngIf="submitted && registerForm.controls.contrasena2.errors?.required">
-                  <p class="text-warning"><strong>Confirmar Contraseña requerido.</strong></p>
+                  <p class="text-warning"><strong>Confirmar Contraseña requerido y minimo 8 caracteres.</strong></p>
               </div>
             </div>
           </div>

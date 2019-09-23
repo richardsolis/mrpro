@@ -167,15 +167,26 @@ export class ChatComponent implements OnInit {
     if( this.mensaje.length === 0 ){
       return;
     }
-    this._cs.agregarMensajePrivado( this.mensaje, tipo, this.currentChat, this.user.id, this.user.name )
-              .then( ()=>{
-                this.mensaje="";
-                this.isDisabled = false;
-              })
-              .catch( (err)=> {
-                this.isDisabled = false;
-                console.error('Error al enviar',  err );
-              });
+
+    this.userService.getOneBudget(this.currentBudgetID)
+          .subscribe((res: any)=>{
+            if(res.data.status_service_id == 4){
+              this._cs.agregarMensajePrivado( this.mensaje, tipo, this.currentChat, this.user.id, this.user.name )
+                      .then( ()=>{
+                        this.mensaje="";
+                        this.isDisabled = false;
+                      })
+                      .catch( (err)=> {
+                        this.isDisabled = false;
+                        console.error('Error al enviar',  err );
+                      });
+            }else{
+              this.mensaje="";
+              this.isDisabled = false;
+              alert("Este chat fue cerrado por el proveedor, regresar a solicitudes.");
+            }
+          });
+    /**/
   }
 
   startChat(chatId: string){

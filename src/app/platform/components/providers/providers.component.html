@@ -91,7 +91,7 @@
                       <button class="btn btn-success my-2 my-sm-0" type="submit">Buscar</button>
                   </td>
                 </tr>-->
-                <tr *ngFor="let result of resultFilter[0].values">
+                <tr *ngFor="let result of providerData">
                   <td scope="row">{{ result.id }}</td>
                   <td scope="row">{{ result.category_service.name }}</td>
                   <td scope="row">{{ result.parent_category.name }}</td>

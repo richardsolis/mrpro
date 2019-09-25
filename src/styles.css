@@ -1262,6 +1262,10 @@ input {
   margin: 22px 15px;
 }
 
+.fix-fg {
+  margin: 0px;
+}
+
 .graph-bar {
   display: -webkit-box;
   display: -ms-flexbox;

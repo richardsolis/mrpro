@@ -4,8 +4,9 @@
     <div style="max-width: 1180px;margin: auto;margin-top: 20px;display: flex;">
       <p>Estado:</p>
       <select name="" id="" [(ngModel)]="estado" style="margin-left: 20px;">
-        <option value="pendiente">Pendiente</option>
-        <option value="aceptado">Aceptado</option>
+        <option value="pendiente">Pendientes</option>
+        <option value="aceptado">Aceptados</option>
+        <option value="cancelados">Cancelados</option>
       </select>
     </div>
     <section class="box-mh">
@@ -101,7 +102,7 @@
                   <td scope="row">{{ result.user_provider.user.name }} {{ result.user_provider.user.lastname }}</td>
                   <td scope="row">
                     <button *ngIf="result.status_service_id == '4'" class="btn btn-warning" (click)="goChat(result.firebase_id, result.id)" style="width:92px;margin-right: 10px;">Chat</button>
-                    <button (click)="schedule(result.id)" class="btn btn-danger">Cancelar</button>
+                    <button (click)="confirm(myFile,result.id)" class="btn btn-danger">Cancelar</button>
                   </td>
                 </tr>
               </tbody>
@@ -115,6 +116,25 @@
 
 <ptfm-footer></ptfm-footer>
 
+<modal #myFile>
+  <modal-content>
+    <div class="form text-center">
+      <div class="form-group row">
+        <label class="col-lg-12 col-md-12 col-form-label" style="color: #135daa">
+          <b>¿Está seguro que desea cancelar este servicio?</b></label>     
+      </div>
+      <div class="form-group row">
+        <div class="col">
+          <button (click)="schedule()" class="btn bprimary">Aceptar</button>
+        </div>
+        <div class="col">
+          <button (click)="myFile.close()" class="btn btn-danger">Rechazar</button>
+        </div>
+      </div>
+    </div>
+  </modal-content>
+</modal>
+<!--
 <modal #myFile>
   <modal-content>
     <div class="error text-center">
@@ -139,23 +159,23 @@
             </h5>
             <p>
               <span *ngFor="let certificate of tprovider.user_provider.certificate">{{ certificate.certificate.name }}, </span>
-              <!-- {{ tprovider.user.name }} -->
+              {{ tprovider.user.name }}
             </p>
           </div>
-          <!-- <div style="margin-top: 20px; text-align: left !important;">
+            <div style="margin-top: 20px; text-align: left !important;">
             <h5 style="font-weight: 600;color: #134293;font-size: 17px;">
               Instituciones:
             </h5>
             <p>
               {{ tprovider.user_provider.user.name }}
             </p>
-          </div> -->
+          </div>
           <div style="margin-top: 20px; text-align: left !important;">
             <h5 style="font-weight: 600;color: #134293;font-size: 17px;">
               Calificacion (0 - 5):
             </h5>
             <p>
-              <!-- {{ tprovider.user_provider.rating }} -->
+              {{ tprovider.user_provider.rating }}
               0
             </p>
           </div>
@@ -164,3 +184,4 @@
     </div>
   </modal-content>
 </modal>
+-->

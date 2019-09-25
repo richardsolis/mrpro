@@ -101,6 +101,7 @@ export class ProvidersComponent implements OnInit {
   };
 
   estado = "pendiente";
+  BudgetID = "";
 
   constructor(private spinner: NgxSpinnerService, private router: Router, private session: SessionService, private userS: UserService) {}
 
@@ -158,16 +159,22 @@ export class ProvidersComponent implements OnInit {
     console.log(data);
   }
 
-  schedule(BudgetID) {
-    console.log(BudgetID);
-    this.cancel = {
-      budget_id: BudgetID,
-      status_id: '2'
-    };
-    this.userS.cancel(this.cancel).subscribe(response => {
-      console.log(response);
-      location.reload();
-    });
+  confirm(modal, BudgetID){
+    this.BudgetID = BudgetID;
+    modal.open();
+  }
+
+  schedule() {
+    console.log(this.BudgetID);
+      this.cancel = {
+        budget_id: this.BudgetID,
+        status_id: '2'
+      };
+      this.userS.cancel(this.cancel).subscribe(response => {
+        console.log(response);
+        location.reload();
+      });
+    
   }
 
   goChat(chatId: string, BudgetID: string){

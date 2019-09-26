@@ -1,89 +1,63 @@
 <ptfm-header></ptfm-header>
 <div class="main-container-provider">
-    <div class="row">
-        <div class="col-lg-12 col-md-12 col-sm-12">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <a class="navbar-brand"><b>Propuestas</b></a>
-                <form class="form-inline">
-                    <label class="color-blue">Estado:</label>
-                    <select class="custom-select color-blue mr-sm-2" name="tipo">
-                      <option *ngFor="let status of statusList" [value]="status.id">{{ status.name }}</option>
-                    </select>
-                </form>
-              </nav>
-        </div>
-        <div class="col-lg-12 col-md-12 col-sm-12">
-          <table class="table table-responsive table-bordered table-hover">
-          <thead>
-              <tr>
-                <th scope="col"># ID</th>
-                <th scope="col">Categoria</th>
-                <th scope="col">Descripción</th>
-                <th scope="col">Distrito</th>
-                <th scope="col">Dirección</th>
-                <th scope="col">Fec.Pedido</th>
-                <th scope="col">Cliente</th>
-                <th scope="col">Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-                <tr>
-                  <th scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></th>
-                  <td scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></td>
-                  <td scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></td>
-                  <td scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></td>
-                  <td scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></td>
-                  <td scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></td>
-                  <td scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></td>
-                  <td>
-                      <button class="btn btn-success my-2 my-sm-0" type="submit">Buscar</button>
-                  </td>
-                </tr>
-              <tr *ngFor="let budget of budgetsList">
-                <td scope="row">{{ budget.id }}</td>
-                <td scope="row">{{ getName(categories, budget.category_service_id) }}</td>
-                <td scope="row">{{ budget.description }}</td>
-                <td scope="row">{{ getName(districts, budget.district_id) }}</td>
-                <td scope="row">{{ budget.address }}</td>
-                <td scope="row">{{ budget.date_service | date: 'dd/MM/yyyy' }}</td>
-                <td scope="row">{{ budget.contact_name }}</td>
-                <td scope="row">
-                  <div [ngSwitch]="budget.status_service_id">
-                    <button *ngSwitchCase="'1'" (click)="changeStatus('A', budget.id)" type="button" class="btn btn-primary">Atender</button>
-                    <button *ngSwitchCase="'1'" (click)="changeStatus('R', budget.id)" type="button" class="btn btn-danger">Rechazar</button>
-                    <button *ngSwitchCase="'4'" (click)="startChat(budget.firebase_id, budget.id)" type="button" class="btn btn-warning">Chat</button>
-                    <button *ngSwitchCase="'4'" (click)="changeStatus('F', budget.id)" type="button" class="btn btn-secondary">Finalizar</button>
-                  </div>
-                </td>
-              </tr>
-              <!--<tr>
-                <th scope="row">002</th>
-                <td>Electricista</td>
-                <td>Instalacion/Reparacion de baño</td>
-                <td>San Isidro</td>
-                <td>03/04/2019</td>
-                <td>
-                    <button type="button" class="btn btn-warning" (click)="startChat('hXG95YRFxYaNzU6AW8MR')">Chat</button>
-                  </td>
-              </tr>
-              <tr>
-                <th scope="row">003</th>
-                <td>Gasfiteria</td>
-                <td>Instalacion/Reparacion de cocina</td>
-                <td>Miraflores</td>
-                <td>03/04/209</td>
-                <td>
-                    <button type="button" class="btn btn-warning" (click)="startChat('w5wkAjPDV445dBHU6B5A')">Chat</button>
-                  </td>
-              </tr>-->
-            </tbody>
-          </table>
-        </div>
-  <!--<h1>Firechat</h1>
-  <div class="btn-group" role="group" aria-label="Basic example">
-    <button (click)="startChat('5WPu25gN0THfn3k7v66l')" type="button" class="btn btn-secondary">Chat 1</button>
-    <button (click)="startChat('hXG95YRFxYaNzU6AW8MR')" type="button" class="btn btn-secondary">Chat 2</button>
-    <button (click)="startChat('w5wkAjPDV445dBHU6B5A')" type="button" class="btn btn-secondary">Chat 3</button>
-  </div>-->
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <a class="navbar-brand"><b>Propuestas</b></a>
+          <form class="form-inline">
+              <label class="color-blue">Estado:</label>
+              <select class="custom-select color-blue mr-sm-2" name="tipo">
+                <option *ngFor="let status of statusList" [value]="status.id">{{ status.name }}</option>
+              </select>
+          </form>
+        </nav>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12">
+      <table class="table table-responsive table-bordered table-hover">
+      <thead>
+          <tr>
+            <th scope="col"># ID</th>
+            <th scope="col">Categoria</th>
+            <th scope="col">Descripción</th>
+            <th scope="col">Distrito</th>
+            <th scope="col">Dirección</th>
+            <th scope="col">Fec.Pedido</th>
+            <th scope="col">Cliente</th>
+            <th scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+            <!--<tr>
+              <th scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></th>
+              <td scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></td>
+              <td scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></td>
+              <td scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></td>
+              <td scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></td>
+              <td scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></td>
+              <td scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></td>
+              <td>
+                  <button class="btn btn-success my-2 my-sm-0" type="submit">Buscar</button>
+              </td>
+            </tr>-->
+          <tr *ngFor="let budget of budgetsList">
+            <td scope="row">{{ budget.id }}</td>
+            <td scope="row">{{ getName(categories, budget.category_service_id) }}</td>
+            <td scope="row">{{ budget.description }}</td>
+            <td scope="row">{{ getName(districts, budget.district_id) }}</td>
+            <td scope="row">{{ budget.address }}</td>
+            <td scope="row">{{ budget.date_service | date: 'dd/MM/yyyy' }}</td>
+            <td scope="row">{{ budget.contact_name }}</td>
+            <td scope="row">
+              <div [ngSwitch]="budget.status_service_id">
+                <button *ngSwitchCase="'1'" (click)="changeStatus('A', budget.id)" type="button" class="btn btn-primary">Atender</button>
+                <button *ngSwitchCase="'1'" (click)="changeStatus('R', budget.id)" type="button" class="btn btn-danger">Rechazar</button>
+                <button *ngSwitchCase="'4'" (click)="startChat(budget.firebase_id, budget.id)" type="button" class="btn btn-warning">Chat</button>
+                <button *ngSwitchCase="'4'" (click)="changeStatus('F', budget.id)" type="button" class="btn btn-secondary">Finalizar</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
-

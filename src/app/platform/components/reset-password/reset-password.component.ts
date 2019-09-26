@@ -13,14 +13,12 @@ export class ResetPasswordComponent implements OnInit {
   registerForm: FormGroup;
   submitted = false;
   message = '';
+  flagRes = false;
 
   constructor(private formBuilder: FormBuilder,	
               private spinner: NgxSpinnerService,private userService: UserService) { }
 
   ngOnInit() {
-    /*this.registerForm = this.formBuilder.group({
-      email: ['', Validators.required]
-    });*/
     this.registerForm = new FormGroup({
       'email': new FormControl('', Validators.required)
     });
@@ -39,7 +37,8 @@ export class ResetPasswordComponent implements OnInit {
   	.subscribe((response: any) => {
       console.log(response);
       this.submitted = false;
-      this.message = 'Se le asignó una nueva contraseña, por favor revise su bandeja de correo.';
+      this.flagRes = true;
+      this.message = 'Se le asignó una nueva contraseña, por favor revise su bandeja del correo.';
       myModal.open();
       this.registerForm.setValue({
         email: ''
@@ -47,8 +46,10 @@ export class ResetPasswordComponent implements OnInit {
   		this.spinner.hide();
   	}, (error: any) => {
       this.submitted = false;
+      this.flagRes = false;
+      this.message = 'El correo electronico no se encuentra registrado, ingrese uno valido.';
+      myModal.open();
       this.spinner.hide();
-  		console.log(error);
 	  		return;
   	})
   }

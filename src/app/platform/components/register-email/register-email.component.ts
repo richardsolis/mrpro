@@ -126,6 +126,12 @@ export class RegisterEmailComponent implements OnInit {
               this.spinner.hide();
               return;
             }
+            if (error.error && error.error.data && error.error.data.doc_number) {
+              this.message = "El DNI ya esta registrado";
+              myModal.open();
+              this.spinner.hide();
+              return;
+            }
           }
         );
         this.spinner.hide();

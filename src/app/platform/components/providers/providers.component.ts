@@ -110,13 +110,12 @@ export class ProvidersComponent implements OnInit {
     var year = new Date();
     this.userS.getBudget({ type: "client" }).subscribe(
       response => {
-        this.providers = response;
+        this.providers = response; console.log(response);
         for (let i = 0; i < this.providers.data.length; i++) {
           this.providers.data[i].user_provider.experience = year.getFullYear() - parseInt(this.providers.data[i].user_provider.experience.split(" ")[0].substring(0, 4));
           this.providerData.push(this.providers.data[i]);
         }
         this.spinner.hide();
-        console.log(this.providerData, "dasdasd");
         var groups2 = new Set(this.providerData.map(item2 => item2.unique));
         var result = [];
         groups2.forEach(g =>
@@ -132,7 +131,6 @@ export class ProvidersComponent implements OnInit {
         // this.generalS.relogin(this.sendBudget, error, this.spinner);
       }
     );
-    // this.categoryChanged("Gasfitería");
   }
 
   categoryChanged(event) {
@@ -143,20 +141,6 @@ export class ProvidersComponent implements OnInit {
   ficha(modal, proveedor) {
     this.tprovider = proveedor;
     modal.open();
-  }
-
-  acordeon(data) {
-    for (let i = 0; i < this.resultFilter.length; i++) {
-      this.resultFilter[i].acordeon = false;
-    }
-    if (data.acordeon == true) {
-      data.acordeon = false;
-    } else {
-      data.acordeon = true;
-    }
-
-    // data.acordeon = true;
-    console.log(data);
   }
 
   confirm(modal, BudgetID){

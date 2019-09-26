@@ -73,7 +73,6 @@ export class LoginComponent implements OnInit {
       response => {
         this.session.setObject("token", response);
         this.userS.getCurrentUser().subscribe((response: any) => {
-          console.log(response);
           if (response.data.client) {
             this.session.setObject("user", { ...response.data.client.user, type: response.data.type[0] });
 

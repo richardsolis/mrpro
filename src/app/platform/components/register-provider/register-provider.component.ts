@@ -15,6 +15,7 @@ export class RegisterProviderComponent implements OnInit {
 
   registerForm: FormGroup;
   submitted = false;
+  flagRes = false;
   message = '';
   tipoForm:boolean;
   imageLogo:any;
@@ -73,8 +74,8 @@ export class RegisterProviderComponent implements OnInit {
       penales:  [''],
       judiciales:  [''],
       experiencia:  [''],
-      contrasena:  ['', Validators.required, Validators.minLength(8)],
-      contrasena2:  ['', Validators.required, Validators.minLength(8)],
+      contrasena:  ['', [Validators.required, Validators.minLength(8)]],
+      contrasena2:  ['', [Validators.required, Validators.minLength(8)]],
       eBancaria:  [''],
       nCuenta:  [''],
       interbancaria:  [''],
@@ -218,22 +219,25 @@ export class RegisterProviderComponent implements OnInit {
         this.submitted = true;
         return;
     }
-    console.log('SUCCESS!! :-)',this.registerForm.value);
  
     this.spinner.show();
   	this.userService.createProvider(this.registerForm.value)
   	.subscribe((response: any) => {
-      console.log(response);
+      this.flagRes = true;
       this.message = 'Registro con éxito, inicie sesión.';
 	  	myModal.open();
       this.submitted = false;
   		this.spinner.hide();
-  		//this.router.navigate(['/ingresar']);
   	}, (error: any) => {
       this.submitted = false;
       this.spinner.hide();
-  		console.log(error);
-	  		return;
+      if (error.error && error.error.data && error.error.data.doc_number) {
+        this.flagRes = false;
+        this.message = "El DNI ya esta registrado.";
+        myModal.open();
+        this.spinner.hide();
+        return;
+      }
   	})
   }
 

@@ -16,7 +16,6 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.session.getObject("user");
-    console.log(this.user);
     if(this.user){
       this.visible = false;
     }

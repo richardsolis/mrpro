@@ -1,7 +1,7 @@
 <ptfm-header></ptfm-header>
 <div class="">
-  <section class="box-mh row row-center" style="min-height: 100vh;">
-    <div class="col-md-7 card mg-t-small card-sesion">
+  <section class="box-mh row row-center">
+    <div class="col-md-7 card card-sesion" style="margin-top: 2rem;">
       <div class="mg-t-small card-title" style="display: flex;align-items: center;">
         <button (click)="goback()" style="padding: 5px 11px;background: #125daa;border: none;color: white;border-radius: 10px;outline: none;height: 31px;margin-right: 15px;">
           <i class="fa fa-chevron-left"></i>
@@ -10,7 +10,7 @@
       </div>
       <div class="divider"></div>
 
-      <form class="form">
+      <form [formGroup]="registerForm" (ngSubmit)="sendBudget(myModal)" class="form">
         <div class="form-group">
           <p>Proveedores :</p>
           <p>
@@ -19,22 +19,22 @@
         </div>
         <div style="display: flex;justify-content: space-between;">
           <div class="form-group" style="width: 49%;margin-top:0px;margin-bottom:0px;">
-            <p>Nombre del Contacto* :</p>
-            <input [(ngModel)]="ObjectServi.contact_name" type="text" name="contact_name" required="true" />
+            <p><b class="text-danger">*</b>Nombre del Contacto:</p>
+            <input class="color-blue" formControlName="contact_name" type="text" name="contact_name" required="true" />
           </div>
           <div class="form-group" style="width: 49%;margin-top:0px;margin-bottom:0px;">
-            <p>Numero de telefono* :</p>
-            <input [(ngModel)]="ObjectServi.phone_name" (keypress)="onlydigit($event)" type="text" name="phone_name" />
+            <p><b class="text-danger">*</b>Numero de telefono:</p>
+            <input class="color-blue" formControlName="phone_name" (keypress)="onlydigit($event)" type="text" name="phone_name" />
           </div>
         </div>
         <div *ngIf="typeServices.type != 'immediate'" style="display: flex;justify-content: space-between;margin-top: 10px;">
           <div class="form-group" style="width: 49%;margin-top:0px;margin-bottom:0px;">
-            <label>Fecha de Servicio:</label>
-            <input [ngModel]="ObjectServi.date_service | date: 'yyyy-MM-dd'" min="{{ ObjectServi.date_service | date: 'yyyy-MM-dd' }}" type="date" name="date" />
+            <label><b class="text-danger">*</b>Fecha de Servicio:</label>
+            <input class="color-blue" (blur)="validateDate()" formControlName="date_service" type="date" min="{{getActualDate()}}"/>
           </div>
           <div class="form-group" style="width: 49%;margin-top:0px;margin-bottom:0px;">
-            <label>Hora de Servicio: </label>
-            <select [(ngModel)]="ObjectServi.hour" name="hour" style="height: 36px;">
+            <label><b class="text-danger">*</b>Hora de Servicio: </label>
+            <select class="color-blue" formControlName="hour" name="hour" style="height: 36px;">
               <option value="08:00:00">08:00:00</option>
               <option value="09:00:00">09:00:00</option>
               <option value="10:00:00">10:00:00</option>
@@ -52,32 +52,32 @@
         </div>
         <div style="display: flex;justify-content: space-between;">
           <div class="form-group" style="width: 49%;margin-bottom:0px;">
-            <p>Distritos* :</p>
+            <p><b class="text-danger">*</b>Distritos:</p>
             <div class="select">
-              <select class="" [(ngModel)]="ObjectServi.district_id" name="district" style="height: 36px;">
+              <select class="color-blue" formControlName="district_id" name="district" style="height: 36px;">
                 <option *ngFor="let district of districts" [value]="district.id">{{ district.name }}</option>
               </select>
             </div>
           </div>
           <div class="form-group" style="width: 49%;margin-bottom:0px;">
-            <p>Direccion* :</p>
-            <input [(ngModel)]="ObjectServi.address" type="text" name="address" />
+            <p><b class="text-danger">*</b>Direccion:</p>
+            <input class="color-blue" formControlName="address" type="text" name="address" />
           </div>
         </div>
         <div class="form-group">
-          <p>Descripción* :</p>
+          <p><b class="text-danger">*</b>Descripción:</p>
           <!-- <input [(ngModel)]="ObjectServi.description" type="text" placeholder="Descripción del servicio" name="description"> -->
-          <textarea style="border: 1px solid #dfdfdf;resize: none;" [(ngModel)]="ObjectServi.description" type="text" name="description"></textarea>
+          <textarea class="color-blue" style="border: 1px solid #dfdfdf;resize: none;" formControlName="description" type="text" name="description"></textarea>
         </div>
         <div class="form-group">
-          <p>Añadir fotos* :</p>
-          <input type="file" accept=".png, .jpg, .jpeg" (change)="onSelectImage($event, 1)" class="form-control" style="margin-bottom: 15px" />
-          <input type="file" accept=".png, .jpg, .jpeg" (change)="onSelectImage($event, 2)" class="form-control" style="margin-bottom: 15px" />
-          <input type="file" accept=".png, .jpg, .jpeg" (change)="onSelectImage($event, 3)" class="form-control" style="margin-bottom: 15px" />
+          <p>Añadir fotos:</p>
+          <input type="file" accept=".png, .jpg, .jpeg" (change)="onSelectImage($event, 1)" class="form-control color-blue" style="margin-bottom: 15px" />
+          <input type="file" accept=".png, .jpg, .jpeg" (change)="onSelectImage($event, 2)" class="form-control color-blue" style="margin-bottom: 15px" />
+          <input type="file" accept=".png, .jpg, .jpeg" (change)="onSelectImage($event, 3)" class="form-control color-blue" style="margin-bottom: 15px" />
         </div>
         <br />
       </form>
-      <button (click)="sendBudget()" class="btn bprimary"><span *ngIf="typeServices.type == 'programmed'">Solicitar cotización</span><span *ngIf="typeServices.type == 'immediate'">Procesar Inmediato</span><span *ngIf="typeServices.type == 'priced'">Solicitar servicio Tarifado</span></button>
+      <button type="submit" (click)="sendBudget(myModal)" class="btn bprimary"><span *ngIf="typeServices.type == 'programmed'">Solicitar cotización</span><span *ngIf="typeServices.type == 'immediate'">Procesar Inmediato</span><span *ngIf="typeServices.type == 'priced'">Solicitar servicio Tarifado</span></button>
     </div>
   </section>
 </div>

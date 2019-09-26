@@ -7,7 +7,6 @@ import { DistrictService } from "../../../services/district.service";
 import { ProviderService } from "../../../services/provider.service";
 import { NgxSpinnerService } from "ngx-spinner";
 import { FormBuilder, FormGroup, Validators, FormControl } from "@angular/forms";
-// import { ConsoleReporter } from "jasmine";
 
 @Component({
   selector: "app-select-provider",
@@ -100,7 +99,6 @@ export class SelectProviderComponent implements OnInit {
       const anyDay = new Date(this.registerForm.get('date').value);
 
       if(tmp.split('-')[0].length > 4){
-        console.log('entro');
         this.registerForm.get('date').setValue(this.getActualDate());
       }else if(today.getTime() > anyDay.getTime()){
         this.registerForm.get('date').setValue(this.getActualDate());

@@ -4,66 +4,16 @@
     <div style="max-width: 1180px;margin: auto;margin-top: 20px;display: flex;">
       <p>Estado:</p>
       <select name="" id="" [(ngModel)]="estado" style="margin-left: 20px;">
-        <option value="pendiente">Pendientes</option>
-        <option value="aceptado">Aceptados</option>
-        <option value="cancelados">Cancelados</option>
+        <option value="1">Pendientes</option>
+        <option value="2">Rechazado</option>
+        <option value="4">Atendido</option>
+        <option value="5">Aprobado</option>
+        <option value="6">Finalizado</option>
       </select>
     </div>
     <section class="box-mh">
-      <div class="box-mg-nano" *ngIf="estado == 'pendiente'">Se han solicitado {{ resultFilter.length }} servicio{{ resultFilter.length == 1 ? "" : "s" }}</div>
-
-      <!-- <div class="row">
-        <div class="col-md-6 mg-t-small" *ngFor="let provider of providerData">
-          <div class="card card-provider">
-            <div class="row no-gutters box-mg-nano">
-              <div class="col-4 image-provider">
-                <img src="./assets/images/user.png" class="card-img" alt="..." />
-              </div>
-              <div class="col-8">
-                <div class="card-body">
-                  <h5 class="">{{ provider.user_provider.user.name }}</h5>
-                  <p class="card-text">
-                  </p>
-                  <p class="card-text">
-                    <small class="text-muted">{{ provider.user_provider.experience }} años de experiencia</small>
-                  </p>
-                  <p class="card-text">
-                    <small class="text-muted">Fecha de Reserva: {{ provider.date_service }}</small>
-                  </p>
-                  <p>Información: {{ provider.description }}</p>
-                </div>
-              </div>
-              <div class="buttons-provider col-md-12 row row-justifycon">
-                <button class="btn color-blue" (click)="ficha(myFile, provider)">Ver ficha</button>
-                <button (click)="schedule(provider)" class="btn btn-danger">Cancelar</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> -->
-      <div class="content-lista-reservados" *ngIf="estado == 'aceptado'" style="margin-top: 20px;">
-        <div class="card card-provider">
-          <!--<div class="row no-gutters box-mg-nano" style="display: flex;flex-direction: row;text-align: left;flex-wrap: nowrap;padding: 15px 20px;">
-            <div class="col-1 image-provider">
-              <img src="./assets/images/user.png" class="card-img" alt="..." />
-            </div>
-            <div style="padding: 20px 0px 20px 20px;width: 100%;">
-              <div class="" style="display: flex;justify-content: space-between;width: 100%;">
-                <div class="card-body" style="padding:0;">
-                  <h5 class="" style="font-size: 14px;font-weight: 600;margin-bottom: 15px;">Proveedor: <span style="font-weight: 300">Richard Solis</span></h5>
-                  <h5 class="" style="font-size: 14px;font-weight: 600;margin-bottom: 15px;">Servicio de: <span style="font-weight: 300">Gasfiteria | Instalación/Reparación de baño</span></h5>
-                </div>
-                <div class="buttons-provider row row-justifycon" style="display: flex;flex-wrap: nowrap;padding: 0;">
-                  <button class="btn color-blue" style="width:105px;background: #ff9800;color: white !important;margin-right: 10px;">Ir al Chat</button>
-                  <button class="btn color-blue" style="width:105px;background: #4caf50;color: white !important;margin-right: 10px;">Finalizar</button>
-                </div>
-              </div>
-            </div>
-          </div>-->
-        </div>
-      </div>
-
-      <div class="content-lista-reservados" style="display: flex;flex-direction: column-reverse;" *ngIf="estado == 'pendiente'">
+      <div class="box-mg-nano">Se han solicitado {{ resultFilter.length }} servicio{{ resultFilter.length == 1 ? "" : "s" }}</div>
+      <div class="content-lista-reservados" style="display: flex;flex-direction: column-reverse;">
         <div class="row">
           <div class="col-lg-12 col-md-12 col-sm-12">
             <table class="table table-responsive table-bordered table-hover" style="background-color: white">
@@ -79,7 +29,7 @@
                   <th scope="col">Acciones</th>
                 </tr>
               </thead>
-              <tbody *ngIf="resultFilter.length > 0">
+              <tbody>
                  <!--<tr>
                   <th scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></th>
                   <td scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></td>
@@ -92,7 +42,7 @@
                       <button class="btn btn-success my-2 my-sm-0" type="submit">Buscar</button>
                   </td>
                 </tr>-->
-                <tr *ngFor="let result of providerData">
+                <tr *ngFor="let result of resultFilter">
                   <td scope="row">{{ result.id }}</td>
                   <td scope="row">{{ result.category_service.name }}</td>
                   <td scope="row">{{ result.parent_category.name }}</td>

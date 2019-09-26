@@ -16,79 +16,10 @@ declare var $: any;
   styleUrls: ["./providers.component.css"]
 })
 export class ProvidersComponent implements OnInit {
-  serviceSearch: any = {
-    type: "programmed",
-    category: "Gasfitería",
-    day: "2019-07-10",
-    hour: "08:00 am"
-  };
-
-  allProviders: any = [
-    {
-      name: "Luis Cardenas",
-      category: "Gasfitería",
-      rating: 4.0,
-      success: 41,
-      criminalrecord: true,
-      policerecord: true,
-      judicialrecord: true,
-      phone: "999999999",
-      type_cedula: "DNI",
-      cedula: "77889955",
-      certified: true,
-      image: "provider.png",
-      experience: 4
-    },
-    {
-      name: "Amelia Contreras",
-      category: "Lavandería",
-      rating: 3.5,
-      success: 41,
-      criminalrecord: true,
-      policerecord: true,
-      judicialrecord: true,
-      phone: "999999999",
-      type_cedula: "DNI",
-      cedula: "25632152",
-      certified: true,
-      image: "provider2.png",
-      experience: 3
-    },
-    {
-      name: "Sara Cruz",
-      category: "Lavandería",
-      rating: 4.5,
-      success: 25,
-      criminalrecord: true,
-      policerecord: true,
-      judicialrecord: true,
-      phone: "999999999",
-      type_cedula: "DNI",
-      cedula: "65413321",
-      certified: true,
-      image: "provider.png",
-      experience: 5
-    },
-    {
-      name: "Armando Pozo",
-      category: "Carpintería",
-      rating: 5.0,
-      success: 16,
-      criminalrecord: true,
-      policerecord: true,
-      judicialrecord: true,
-      phone: "999999999",
-      type_cedula: "DNI",
-      cedula: "14785236",
-      certified: true,
-      image: "provider2.png",
-      experience: 2
-    }
-  ];
 
   providers;
   providerData = [];
-  resultFilter = [];
+  resultFilter: any[];
   tprovider: any = {
     user_provider: {
       user: {}
@@ -100,42 +31,29 @@ export class ProvidersComponent implements OnInit {
     status_id: "1"
   };
 
-  estado = "pendiente";
+  estado:string;
   BudgetID = "";
 
-  constructor(private spinner: NgxSpinnerService, private router: Router, private session: SessionService, private userS: UserService) {}
+  constructor(private spinner: NgxSpinnerService, private router: Router, private session: SessionService, private userS: UserService) {
+    this.resultFilter = [];
+  }
 
   ngOnInit() {
     this.spinner.show();
     var year = new Date();
-    this.userS.getBudget({ type: "client" }).subscribe(
+    this.estado = "1";
+    this.userS.getBudget({ type: "client", status: this.estado }).subscribe(
       response => {
-        this.providers = response; console.log(response);
-        for (let i = 0; i < this.providers.data.length; i++) {
-          this.providers.data[i].user_provider.experience = year.getFullYear() - parseInt(this.providers.data[i].user_provider.experience.split(" ")[0].substring(0, 4));
-          this.providerData.push(this.providers.data[i]);
-        }
-        this.spinner.hide();
-        var groups2 = new Set(this.providerData.map(item2 => item2.unique));
-        var result = [];
-        groups2.forEach(g =>
-          this.resultFilter.push({
-            name: g,
-            acordeon: false,
-            values: this.providerData.filter(i => i.unique === g)
-          })
-        );
+        this.providers = response; 
+        this.resultFilter.push(...this.providers.data);
         console.log(this.resultFilter);
+        
+        this.spinner.hide();
       },
       error => {
         // this.generalS.relogin(this.sendBudget, error, this.spinner);
       }
     );
-  }
-
-  categoryChanged(event) {
-    console.log(event);
-    this.providers = this.allProviders.filter(item => item.category == event);
   }
 
   ficha(modal, proveedor) {

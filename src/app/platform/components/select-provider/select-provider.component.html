@@ -1,55 +1,150 @@
 <ptfm-header></ptfm-header>
 <div class="row">
-  <form class="white col-lg-12" style="padding-top: 10px;padding-bottom: 10px">
+  <form [formGroup]="registerForm" (ngSubmit)="scheduleAll(myModal)" class="white col-lg-12 col-md-12 col-ms-12" style="padding-top: 15px;padding-bottom: 15px">
     <div class="form-row">
-      <div class="form-group fix-fg col-lg-4">
+      <div class="form-group fix-fg col-lg-4 col-md-6 col-ms-12">
         <label for="inputEmail4">Tipo de Servicio:</label>
         <div class="form-check form-check-inline color-blue">
-          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+          <input (click)="buttonSelectType('programmed')" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="0" checked>
           <label class="form-check-label" for="inlineRadio1">Cotizacion</label>
         </div>
         <div class="form-check form-check-inline color-blue">
-          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+          <input (click)="buttonSelectType('priced')" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="1">
           <label class="form-check-label color-blue" for="inlineRadio2">Tarifado</label>
         </div>
       </div>
-      <div class="form-group fix-fg col-lg-4">
+      <div class="form-group fix-fg col-lg-4 col-md-6 col-ms-12" *ngIf="this.registerForm.get('type').value == 'programmed'">
         <label for="inputPassword4">Fecha:</label>
-        <input type="date" class="form-control">
+        <input (blur)="validateDate()" formControlName="date" type="date" class="form-control color-blue" min="{{getActualDate()}}">
       </div>
-      <div class="form-group fix-fg col-lg-4">
+      <div class="form-group fix-fg col-lg-4 col-md-6 col-ms-12" *ngIf="this.registerForm.get('type').value == 'programmed'">
         <label for="inputPassword4">Hora:</label>
-        <select class="form-control color-blue" name="hour">
-            <option value="08:00:00">08:00:00</option>
-            <option value="09:00:00">09:00:00</option>
-            <option value="10:00:00">10:00:00</option>
-            <option value="11:00:00">11:00:00</option>
-            <option value="12:00:00">12:00:00</option>
-            <option value="13:00:00">13:00:00</option>
-            <option value="14:00:00">14:00:00</option>
-            <option value="15:00:00">15:00:00</option>
-            <option value="16:00:00">16:00:00</option>
-            <option value="17:00:00">17:00:00</option>
-            <option value="18:00:00">18:00:00</option>
-            <option value="19:00:00">19:00:00</option>
-          </select>
+        <select formControlName="hour" class="form-control color-blue" name="hour">
+          <option value="08:00:00">08:00:00</option>
+          <option value="09:00:00">09:00:00</option>
+          <option value="10:00:00">10:00:00</option>
+          <option value="11:00:00">11:00:00</option>
+          <option value="12:00:00">12:00:00</option>
+          <option value="13:00:00">13:00:00</option>
+          <option value="14:00:00">14:00:00</option>
+          <option value="15:00:00">15:00:00</option>
+          <option value="16:00:00">16:00:00</option>
+          <option value="17:00:00">17:00:00</option>
+          <option value="18:00:00">18:00:00</option>
+          <option value="19:00:00">19:00:00</option>
+        </select>
       </div>
     </div>
       <div class="form-row">
-        <div class="form-group fix-fg col-lg-4">
+        <div class="form-group fix-fg col-lg-4 col-md-6 col-ms-12">
           <label for="inputEmail4">Categoria:</label>
-          <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+          <select class="form-control color-blue" formControlName="category" name="category">
+            <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
+          </select>
         </div>
-        <div class="form-group fix-fg col-lg-4">
+        <div class="form-group fix-fg col-lg-4 col-md-6 col-ms-12">
           <label for="inputPassword4">Sub Categoria:</label>
-          <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
+          <select class="form-control color-blue" formControlName="subcategory" name="subcategory">
+            <option *ngFor="let subcategory of subCategories" [value]="subcategory.id">{{ subcategory.name }}</option>
+          </select>
         </div>
-        <div class="form-group fix-fg col-lg-4">
-          <label for="inputPassword4">Solicitar</label>
+        <div class="form-group fix-fg col-lg-4 col-md-6 col-ms-12">
+          <label style="height: 20px;"></label>
+          <button type="submit" (click)="scheduleAll(myModal)" class="btn bprimary">Solicitar</button>
         </div>
       </div>
   </form>
+  <div class="col-lg-12 col-md-12 col-ms-12 graysoft">
+      <section class="box-mh">
+        <div class="box-mg-nano row row-justifycon" style="margin-top: 15px;">
+          Se encontraron {{ providers.length }} Profesional{{ providers.length == 1 ? "" : "es" }}
+          <a class="color-blue" (click)="selectAllProviders()"><i class="fa {{ selectedProviders == providers.length ? 'fa-check-circle-o' : 'fa-circle-o' }} font-s-middle"></i> Seleccionar todos</a>
+        </div>
+  
+        <div class="row">
+          <div class="col-md-3 mg-t-small" *ngFor="let provider of providers; let i = index">
+            <div class="card card-provider {{ provider.selected ? 'selected' : '' }}">
+              <i class="fa {{ provider.selected ? 'fa-check-circle-o' : 'fa-circle-o' }} absolute-rt font-s-middle"></i>
+              <div class="no-gutters box-mg-nano" (click)="selectProvider(provider)">
+                <div class="col-4 image-provider" style="margin: auto;">
+                  <img src="{{ provider.user.image ? 'http://admin-mrpro.mrpro.pe/img/' + provider.user.image : './assets/images/provider.png' }}" class="card-img" width="100" height="100" alt="..." />
+                </div>
+                <div class="col-8" style="margin: auto; text-align: center;">
+                  <div class="card-body">
+                    <h5 class="">{{ provider.user.name }}</h5>
+                    <span>{{ provider.rating }} </span><rating [(ngModel)]="provider.rating" [readonly]="true"></rating>
+                    <p class="card-text" style="font-size: 14px;">
+                      <small class="text-muted" style="font-weight: 600;">{{ provider.success }} servicios realizados</small>
+                    </p>
+                    <p class="card-text" style="font-size: 14px;">
+                      <small class="text-muted" style="font-weight: 600;">{{ provider.experience }} años de experiencia</small>
+                    </p>
+                    <button (click)="showFile(myFile, provider)" class="btn bprimary">Ver ficha</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
 </div>
-
 <ptfm-footer></ptfm-footer>
 
+<modal #myModal>
+    <modal-content>
+      <div class="error text-center">
+        <div class="icon">
+          <i class="fa {{ messageT ? 'fa-check-circle' : 'fa-times-circle' }}" aria-hidden="true"></i>
+        </div>
+        <h4>{{ message }}</h4>
+      </div>
+    </modal-content>
+  </modal>
+  
+  <modal #myFile>
+    <modal-content style="    width: 570px;">
+      <div class="error text-center">
+        <div
+          class="content"
+          style="text-align: center;display: flex;align-items: center;
+        justify-content: space-around;"
+        >
+          <img src="./assets/images/provider.png" class="card-img" alt="..." style="width:200px;" />
+          <div>
+            <div style="margin-top: 10px; text-align: left !important;">
+              <h5 style="font-weight: 600;color: #134293;font-size: 17px;">
+                Nombre:
+              </h5>
+              <p>
+                {{ tprovider.user.name + ' ' +  tprovider.user.lastname}}
+              </p>
+            </div>
+            <div style="margin-top: 20px; text-align: left !important;">
+              <h5 style="font-weight: 600;color: #134293;font-size: 17px;">
+                Años de Experiencia:
+              </h5>
+              <p>{{ tprovider.experience }} años</p>
+            </div>
+            <div style="margin-top: 20px; text-align: left !important;">
+              <h5 style="font-weight: 600;color: #134293;font-size: 17px;">
+                Certificaciones:
+              </h5>
+              <p>
+                <span *ngFor="let certificate of tprovider.certificate">{{ certificate.certificate.name }}, </span>
+                <!-- {{ tprovider.user.name }} -->
+              </p>
+            </div>
+            <div style="margin-top: 20px; text-align: left !important;">
+              <h5 style="font-weight: 600;color: #134293;font-size: 17px;">
+                Calificacion (0 - 5.0):
+              </h5>
+              <p>
+                {{ tprovider.rating }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </modal-content>
+  </modal>

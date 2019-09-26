@@ -27,7 +27,7 @@ export class SelectProviderComponent implements OnInit {
     provider_name: "",
     provider: 0
   };
-  allProviders: any = [];
+  --allProviders: any = [];
 
   providers: any = [];
   allcategories: any = [];
@@ -42,7 +42,7 @@ export class SelectProviderComponent implements OnInit {
   tprovider: any = {
     user: {}
   };
-  userProvider: any = {};
+  --userProvider: any = {};
 
   provedores = [];
   constructor(private router: Router, private spinner: NgxSpinnerService, private session: SessionService, private userS: UserService, private categoryS: CategoryService, private districtS: DistrictService, private providerS: ProviderService) {}
@@ -74,7 +74,7 @@ export class SelectProviderComponent implements OnInit {
     this.serviceSearch.type = type;
   }
 
-  userPor(person) {
+  --userPor(person) {
     this.userProvider = this.session.setObject("userProvider", person);
   }
   getProviders() {

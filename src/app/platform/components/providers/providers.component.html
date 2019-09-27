@@ -8,7 +8,7 @@
          <!--<option value="2">Rechazado</option>-->
         <option value="4">Atendido</option>
         <option value="5">Aprobado</option>
-        <!--<option value="6">Finalizado</option>-->
+        <option value="6">Finalizado</option>
       </select>
     </div>
     <section class="">
@@ -19,7 +19,6 @@
             <table class="table table-responsive table-bordered table-hover" style="background-color: white">
             <thead>
                 <tr>
-                  <th scope="col"># ID</th>
                   <th scope="col">Categoria</th>
                   <th scope="col">Subcategoria</th>
                   <th scope="col">Dirección</th>
@@ -31,7 +30,6 @@
               </thead>
               <tbody>
                 <tr *ngFor="let result of resultFilter">
-                  <td scope="row">{{ result.id }}</td>
                   <td scope="row">{{ result.category_service.name }}</td>
                   <td scope="row">{{ result.parent_category.name }}</td>
                   <td scope="row">{{ result.address }}</td>
@@ -39,8 +37,12 @@
                   <td scope="row">{{ result.card_bank_id? 'Tarjeta' : 'Efectivo'}}</td>
                   <td scope="row">{{ result.user_provider.user.name }} {{ result.user_provider.user.lastname }}</td>
                   <td scope="row">
-                    <button *ngIf="result.status_service_id == '4'" class="btn btn-warning" (click)="goChat(result.firebase_id, result.id)" style="width:92px;margin-right: 10px;">Chat</button>
-                    <button (click)="confirm(myFile,result.id)" class="btn btn-danger">Cancelar</button>
+                    <div [ngSwitch]="result.status_service_id">
+                      <button *ngSwitchCase="'1'" (click)="confirm(myFile,result.id)" class="btn btn-danger">Cancelar</button>
+                      <button *ngSwitchCase="'4'" (click)="goChat(result.firebase_id, result.id)" class="btn btn-warning" style="width:92px;margin-right: 10px;">Chat</button>
+                      <button *ngSwitchCase="'5'" (click)="goChat(result.firebase_id, result.id)" type="button" class="btn btn-warning">Chat</button>
+                      <button *ngSwitchCase="'5'" (click)="closeService(myModal,result.user_provider_id,result.id)" type="button" class="btn btn-secondary">Finalizar</button>
+                    </div>
                   </td>
                 </tr>
               </tbody>
@@ -72,6 +74,27 @@
     </div>
   </modal-content>
 </modal>
+
+<modal #myModal>
+    <modal-content>
+        <form [formGroup]="registerForm" (ngSubmit)="Rating()">
+            <div class="form-group">
+              <label for="formGroupExampleInput">
+                <b class="text-danger">*</b>Score (0.0 - 5.0): <b class="color-blue"> {{registerForm.get('score').value}} </b>
+              </label>
+              <input class="form-control-range color-blue" formControlName="score" type="range" min="0" max="5" value="{{registerForm.get('score').value}}" step="0.1"/>
+            </div>
+            <div class="form-group">
+              <label for="formGroupExampleInput2"><b class="text-danger">*</b>Comentario:</label>
+              <textarea class="form-control color-blue" formControlName="comment" type="text"></textarea>
+            </div>
+            <div class="form-group">
+                <label *ngIf="validFlag"><b class="text-danger">Favor de completar todos los campos.</b></label>
+                <button (click)="Rating()" class="btn bprimary">Finalizar</button>
+            </div>
+          </form>
+    </modal-content>
+  </modal>
 <!--
 <modal #myFile>
   <modal-content>

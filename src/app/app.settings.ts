@@ -14,6 +14,8 @@ export class AppSettings {
   public static CLIENT_SEND_BUDGET = "client/send/budget";
   public static CLIENT_GET_BUDGET = "client/get/budget";
   public static CLIENT_EXECUTE_BUDGET = "client/exe/budget";
+  public static CLIENT_SCORE = "score/provider/create";
+  public static PROVIDER_SCORE = "score/client/create";
   public static PROVIDER_GET_BUDGET = "client/get/one/budget";
   public static CURRENT_USER = "oauth/current/user";
   public static GET_ESTATUS_BUDGET = "client/get/budget/status";

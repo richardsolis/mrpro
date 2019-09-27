@@ -213,9 +213,12 @@ export class ChatComponent implements OnInit {
     this.userService.executeBudget(this.currentBudgetID)
         .subscribe((res: any)=>{
           console.log("budget execute: ", res);
-          //modal.close();
-          this.spinner.hide();
-          this.execute = true;
+          this.userService.updateStatus('5', this.currentBudgetID)
+              .subscribe((resp: any)=>{
+                console.log("ActualizaChatBudget",resp);
+                this.spinner.hide();
+                this.execute = true;
+              });
         },
         (error)=>{
           console.log(error);

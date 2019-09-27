@@ -3,7 +3,7 @@ import { ActivatedRoute, Router, RouterModule, Routes } from "@angular/router";
 import { SessionService } from "../../../services/session.service";
 import { UserService } from "../../../services/user.service";
 import { NgxSpinnerService } from "ngx-spinner";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
 import localeDe from "@angular/common/locales/de";
 
@@ -31,15 +31,24 @@ export class ProvidersComponent implements OnInit {
   };
 
   estado:string;
+  registerForm: FormGroup;
   BudgetID = "";
+  validFlag: boolean = false;
 
-  constructor(private spinner: NgxSpinnerService, private router: Router, private session: SessionService, private userS: UserService) {
+  constructor(private spinner: NgxSpinnerService, private router: Router, 
+              private session: SessionService, private userS: UserService,
+              private formBuilder: FormBuilder) {
     
   }
 
   ngOnInit() {
     this.estado = "1";
     this.getRequests();
+    this.registerForm = this.formBuilder.group({
+      score:  ['0', Validators.required],
+      comment:  ['', Validators.required],
+      user_provider_id: ['', Validators.required]
+    });
   }
 
   getRequests(){
@@ -56,7 +65,38 @@ export class ProvidersComponent implements OnInit {
     );
   }
 
+  closeService(mymodal,providerID: string ,BudgetID: string){
+    this.registerForm.setValue({score: '0',comment:'',user_provider_id:''});
+      this.registerForm.get('user_provider_id').setValue(providerID);
+      this.BudgetID = BudgetID;
+      mymodal.open();
+  }
 
+  Rating(){
+    if (this.registerForm.invalid || this.registerForm.get('score').value === '0') {
+      this.validFlag = true;
+      return;
+    }
+    console.log(this.registerForm.value);
+    this.validFlag = false;
+    this.spinner.show();
+    this.userS.scoreOfClient(this.registerForm.value)
+        .subscribe((res: any) => {
+          console.log(res);
+          this.userS.updateStatus('6',this.BudgetID)
+              .subscribe((res: any) => {
+                console.log(res);
+                this.spinner.hide();
+                location.reload();
+              }, (error: any) => {
+                console.log(error);
+                this.spinner.hide();
+              });
+        }, (error: any) => {
+          console.log(error);
+          this.spinner.hide();
+        });
+  }
 
   ficha(modal, proveedor) {
     this.tprovider = proveedor;

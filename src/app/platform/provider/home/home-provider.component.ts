@@ -7,6 +7,7 @@ import { UserService } from 'src/app/services/user.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { CategoryService } from 'src/app/services/category.service';
 import { DistrictService } from 'src/app/services/district.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-home-provider',
@@ -25,9 +26,13 @@ export class HomeProviderComponent implements OnInit {
   categories: any[];
   statusList: any[];
 
+  registerForm: FormGroup;
+  BUDGET_ID: string;
+  validFlag: boolean = false;
+
   constructor(db: AngularFirestore, public _cs: ChatService, private _router:Router, 
               private userService: UserService, private spinner: NgxSpinnerService,
-              private categoryService: CategoryService, private districtService: DistrictService) {
+              private categoryService: CategoryService, private districtService: DistrictService,private formBuilder: FormBuilder) {
     this.items = db.collection('chats').valueChanges();
     this.chatID = "";
 
@@ -60,6 +65,12 @@ export class HomeProviderComponent implements OnInit {
   ngOnInit() {
     this.estado = "1";
     this.getRequests();
+    this.registerForm = this.formBuilder.group({
+      score:  ['0', Validators.required],
+      comment:  ['', Validators.required],
+      user_client_id: ['', Validators.required]
+    });
+  
   }
 
   getRequests(){
@@ -135,6 +146,39 @@ export class HomeProviderComponent implements OnInit {
     this.chatID = chatId;
     this._router.navigate(['/proveedor/chat',chatId, BudgetID]);
     
+  }
+
+  closeService(modal,clientID: string ,BudgetID: string){
+    this.registerForm.setValue({score: '0',comment:'',user_client_id:''});
+      this.registerForm.get('user_client_id').setValue(clientID);
+      this.BUDGET_ID = BudgetID;
+      modal.open();
+  }
+
+  Rating(){
+    if (this.registerForm.invalid || this.registerForm.get('score').value === '0') {
+      this.validFlag = true;
+      return;
+    }
+    console.log(this.registerForm.value);
+    this.validFlag = false;
+    this.spinner.show();
+    this.userService.scoreOfProvider(this.registerForm.value)
+        .subscribe((res: any) => {
+          console.log(res);
+          this.userService.updateStatus('6',this.BUDGET_ID)
+              .subscribe((res: any) => {
+                console.log(res);
+                this.spinner.hide();
+                location.reload();
+              }, (error: any) => {
+                console.log(error);
+                this.spinner.hide();
+              });
+        }, (error: any) => {
+          console.log(error);
+          this.spinner.hide();
+        });
   }
 
 }

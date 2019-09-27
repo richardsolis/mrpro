@@ -29,7 +29,7 @@ export class HeaderComponent implements OnInit {
   }
   logout() {
     this.session.destroy("user");
-    this.user = {};
+    this.user = null;
     this.visible = true;
     this.router.navigate(["/home"]);
   }

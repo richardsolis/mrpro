@@ -16,7 +16,6 @@
       <table class="table table-responsive table-bordered table-hover">
       <thead>
           <tr>
-            <th scope="col"># ID</th>
             <th scope="col">Categoria</th>
             <th scope="col">Descripción</th>
             <th scope="col">Distrito</th>
@@ -41,7 +40,6 @@
               </td>
             </tr>-->
           <tr *ngFor="let budget of budgetsList">
-            <td scope="row">{{ budget.id }}</td>
             <td scope="row">{{ getName(categories, budget.category_service_id) }}</td>
             <td scope="row">{{ budget.description }}</td>
             <td scope="row">{{ getName(districts, budget.district_id) }}</td>
@@ -54,7 +52,8 @@
                 <button *ngSwitchCase="'1'" (click)="changeStatus('A', budget.id)" type="button" class="btn btn-primary">Atender</button>
                 <button *ngSwitchCase="'1'" (click)="changeStatus('R', budget.id)" type="button" class="btn btn-danger">Rechazar</button>
                 <button *ngSwitchCase="'4'" (click)="startChat(budget.firebase_id, budget.id)" type="button" class="btn btn-warning">Chat</button>
-                <button *ngSwitchCase="'4'" (click)="changeStatus('F', budget.id)" type="button" class="btn btn-secondary">Finalizar</button>
+                <button *ngSwitchCase="'5'" (click)="startChat(budget.firebase_id, budget.id)" type="button" class="btn btn-warning">Chat</button>
+                <button *ngSwitchCase="'5'" (click)="closeService(myModal,budget.user_client_id,budget.id)" type="button" class="btn btn-secondary">Finalizar</button>
               </div>
             </td>
           </tr>
@@ -63,3 +62,24 @@
     </div>
   </div>
 </div>
+
+<modal #myModal>
+    <modal-content>
+        <form [formGroup]="registerForm" (ngSubmit)="Rating()">
+            <div class="form-group">
+              <label for="formGroupExampleInput">
+                <b class="text-danger">*</b>Score (0.0 - 5.0): <b class="color-blue"> {{registerForm.get('score').value}} </b>
+              </label>
+              <input class="form-control-range color-blue" formControlName="score" type="range" min="0" max="5" value="{{registerForm.get('score').value}}" step="0.1"/>
+            </div>
+            <div class="form-group">
+              <label for="formGroupExampleInput2"><b class="text-danger">*</b>Comentario:</label>
+              <textarea class="form-control color-blue" formControlName="comment" type="text"></textarea>
+            </div>
+            <div class="form-group">
+                <label *ngIf="validFlag"><b class="text-danger">Favor de completar todos los campos.</b></label>
+                <button (click)="Rating()" class="btn bprimary">Finalizar</button>
+            </div>
+          </form>
+    </modal-content>
+  </modal>

@@ -119,6 +119,22 @@ export class UserService {
     return this.http.post(AppSettings.BASE_PATH + AppSettings.PROVIDER_GET_BUDGET, form, header);
   }
 
+  scoreOfProvider(params){
+    const body = new HttpParams({
+      fromObject: params
+    });
+    var header = this.generalS.getToken();
+    return this.http.post(AppSettings.BASE_PATH + AppSettings.PROVIDER_SCORE, body, header);
+  }
+
+  scoreOfClient(params){
+    const body = new HttpParams({
+      fromObject: params
+    });
+    var header = this.generalS.getToken();
+    return this.http.post(AppSettings.BASE_PATH + AppSettings.CLIENT_SCORE, body, header);
+  }
+
   executeBudget(budgetID: string){
     var form = new FormData();
     form.append("id", budgetID);

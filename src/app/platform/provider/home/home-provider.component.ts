@@ -18,7 +18,9 @@ export class HomeProviderComponent implements OnInit {
   public items: Observable<any[]>;
   public chatID: string;
 
-  public budgetsList: any[] = [];
+  public budgets: any;
+  public budgetsList: any[];
+  estado:string;
   districts: any[];
   categories: any[];
   statusList: any[];
@@ -31,7 +33,10 @@ export class HomeProviderComponent implements OnInit {
 
     this.userService.getStatus()
       .subscribe((response: any) => {
-        this.statusList = response.data;
+        this.statusList = response.data.filter(state => { 
+                                                if(state.id !== 2 && state.id !== 3)
+                                                  return state; 
+                                              });
       }, (error: any) => {
         console.log(error);
       });
@@ -53,16 +58,21 @@ export class HomeProviderComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.estado = "1";
+    this.getRequests();
+  }
+
+  getRequests(){
+    this.budgetsList = [];
     this.spinner.show();
-    this.userService.getBudget({ type: "provider" }).subscribe(
-      (response:any) => {
-        console.log(response);
-        this.budgetsList = response.data;
+    this.userService.getBudget({ type: "provider", status: this.estado }).subscribe(
+      response => {
+        this.budgets = response;
+        this.budgetsList.push(... this.budgets.data);
+        console.log(this.budgetsList);
         this.spinner.hide();
       },
-      error => {
-        // this.generalS.relogin(this.sendBudget, error, this.spinner);
-      }
+      error => console.log(error)
     );
   }
 
@@ -122,9 +132,7 @@ export class HomeProviderComponent implements OnInit {
   }
 
   startChat(chatId: string, BudgetID: string){
-    //this._cs.crearChat(chatId);
     this.chatID = chatId;
-    //this._cs.cargarChat(chatId).subscribe();
     this._router.navigate(['/proveedor/chat',chatId, BudgetID]);
     
   }

@@ -6,7 +6,7 @@
           <a class="navbar-brand"><b>Propuestas</b></a>
           <form class="form-inline">
               <label class="color-blue">Estado:</label>
-              <select class="custom-select color-blue mr-sm-2" name="tipo">
+              <select (change)="getRequests()" [(ngModel)]="estado" class="custom-select color-blue mr-sm-2" name="tipo">
                 <option *ngFor="let status of statusList" [value]="status.id">{{ status.name }}</option>
               </select>
           </form>
@@ -23,6 +23,7 @@
             <th scope="col">Dirección</th>
             <th scope="col">Fec.Pedido</th>
             <th scope="col">Cliente</th>
+            <th scope="col">Metodo Pago</th>
             <th scope="col">Acciones</th>
           </tr>
         </thead>
@@ -47,6 +48,7 @@
             <td scope="row">{{ budget.address }}</td>
             <td scope="row">{{ budget.date_service | date: 'dd/MM/yyyy' }}</td>
             <td scope="row">{{ budget.contact_name }}</td>
+            <td scope="row">{{ budget.card_bank_id? 'Tarjeta' : 'Efectivo'}}</td>
             <td scope="row">
               <div [ngSwitch]="budget.status_service_id">
                 <button *ngSwitchCase="'1'" (click)="changeStatus('A', budget.id)" type="button" class="btn btn-primary">Atender</button>

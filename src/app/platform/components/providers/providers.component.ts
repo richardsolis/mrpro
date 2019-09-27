@@ -18,7 +18,6 @@ declare var $: any;
 export class ProvidersComponent implements OnInit {
 
   providers;
-  providerData = [];
   resultFilter: any[];
   tprovider: any = {
     user_provider: {
@@ -35,26 +34,29 @@ export class ProvidersComponent implements OnInit {
   BudgetID = "";
 
   constructor(private spinner: NgxSpinnerService, private router: Router, private session: SessionService, private userS: UserService) {
-    this.resultFilter = [];
+    
   }
 
   ngOnInit() {
-    this.spinner.show();
-    var year = new Date();
     this.estado = "1";
+    this.getRequests();
+  }
+
+  getRequests(){
+    this.resultFilter = [];
+    this.spinner.show();
     this.userS.getBudget({ type: "client", status: this.estado }).subscribe(
       response => {
-        this.providers = response; 
+        this.providers = response;
         this.resultFilter.push(...this.providers.data);
         console.log(this.resultFilter);
-        
         this.spinner.hide();
       },
-      error => {
-        // this.generalS.relogin(this.sendBudget, error, this.spinner);
-      }
+      error => console.log(error)
     );
   }
+
+
 
   ficha(modal, proveedor) {
     this.tprovider = proveedor;

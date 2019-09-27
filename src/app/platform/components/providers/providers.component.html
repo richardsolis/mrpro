@@ -1,17 +1,17 @@
 <ptfm-header></ptfm-header>
 <div class="row row-start">
-  <div class="col-md-12 min-h-window graysoft">
-    <div style="max-width: 1180px;margin: auto;margin-top: 20px;display: flex;">
+  <div class="col-md-12 graysoft">
+    <div style="max-width: 1180px;margin-top: 20px;display: flex;">
       <p>Estado:</p>
-      <select name="" id="" [(ngModel)]="estado" style="margin-left: 20px;">
+      <select (change)="getRequests()" [(ngModel)]="estado" style="margin-left: 20px;">
         <option value="1">Pendientes</option>
-        <option value="2">Rechazado</option>
+         <!--<option value="2">Rechazado</option>-->
         <option value="4">Atendido</option>
         <option value="5">Aprobado</option>
-        <option value="6">Finalizado</option>
+        <!--<option value="6">Finalizado</option>-->
       </select>
     </div>
-    <section class="box-mh">
+    <section class="">
       <div class="box-mg-nano">Se han solicitado {{ resultFilter.length }} servicio{{ resultFilter.length == 1 ? "" : "s" }}</div>
       <div class="content-lista-reservados" style="display: flex;flex-direction: column-reverse;">
         <div class="row">
@@ -22,33 +22,21 @@
                   <th scope="col"># ID</th>
                   <th scope="col">Categoria</th>
                   <th scope="col">Subcategoria</th>
-                  <!--<th scope="col">Distrito</th>-->
                   <th scope="col">Dirección</th>
                   <th scope="col">Fec.Pedido</th>
                   <th scope="col">Proovedor</th>
+                  <th scope="col">Metodo Pago</th>
                   <th scope="col">Acciones</th>
                 </tr>
               </thead>
               <tbody>
-                 <!--<tr>
-                  <th scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></th>
-                  <td scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></td>
-                  <td scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></td>
-                  <td scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></td>
-                  <td scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></td>
-                  <td scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></td>
-                  <td scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></td>
-                  <td>
-                      <button class="btn btn-success my-2 my-sm-0" type="submit">Buscar</button>
-                  </td>
-                </tr>-->
                 <tr *ngFor="let result of resultFilter">
                   <td scope="row">{{ result.id }}</td>
                   <td scope="row">{{ result.category_service.name }}</td>
                   <td scope="row">{{ result.parent_category.name }}</td>
-                  <!--<td scope="row">{{ result.district_id }}</td>-->
                   <td scope="row">{{ result.address }}</td>
                   <td scope="row">{{ result.date_service | date: 'dd/MM/yyyy' }}</td>
+                  <td scope="row">{{ result.card_bank_id? 'Tarjeta' : 'Efectivo'}}</td>
                   <td scope="row">{{ result.user_provider.user.name }} {{ result.user_provider.user.lastname }}</td>
                   <td scope="row">
                     <button *ngIf="result.status_service_id == '4'" class="btn btn-warning" (click)="goChat(result.firebase_id, result.id)" style="width:92px;margin-right: 10px;">Chat</button>

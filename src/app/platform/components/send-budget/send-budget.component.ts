@@ -19,6 +19,8 @@ export class SendBudgetComponent implements OnInit {
     date: "",
     cvv: ""
   };
+
+  cardBankID: any;
   nFlag: boolean = false;
   dFlag: boolean = false;
   cvvFlag: boolean = false;
@@ -50,7 +52,7 @@ export class SendBudgetComponent implements OnInit {
               private userS: UserService, private generalS: GeneralService, private spinner: NgxSpinnerService,
               private formBuilder: FormBuilder) 
   {
-    
+    this.cardBankID = null;
   }
 
   ngOnInit() {
@@ -206,6 +208,10 @@ export class SendBudgetComponent implements OnInit {
     this.pago = false;
   }
 
+  selectCardBank(bankID: any){
+    this.cardBankID = bankID;
+  }
+
   sendBudget(modal) {
     console.log('sendBudget');
     if (this.registerForm.invalid) {
@@ -235,6 +241,7 @@ export class SendBudgetComponent implements OnInit {
         description: this.registerForm.get('description').value,
         district_id: this.registerForm.get('district_id').value,
         phone_name: this.registerForm.get('phone_name').value,
+        card_bank_id: this.cardBankID,
         user_provider_id: this.LocalProvider[i].id
       });
     }

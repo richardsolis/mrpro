@@ -30,12 +30,18 @@ export class HomeProviderComponent implements OnInit {
   BUDGET_ID: string;
   validFlag: boolean = false;
 
+  confirmModel: any;
+
   constructor(db: AngularFirestore, public _cs: ChatService, private _router:Router, 
               private userService: UserService, private spinner: NgxSpinnerService,
               private categoryService: CategoryService, private districtService: DistrictService,private formBuilder: FormBuilder) {
     this.items = db.collection('chats').valueChanges();
     this.chatID = "";
-
+    this.confirmModel = {
+      mensaje: "",
+      option: "",
+      budgetID: ""
+    };
     this.userService.getStatus()
       .subscribe((response: any) => {
         this.statusList = response.data.filter(state => { 
@@ -98,6 +104,19 @@ export class HomeProviderComponent implements OnInit {
     return temp;
   }
 
+  confirm(cmodal, option: string, budgetID: string){
+    cmodal.open();
+    if(option == 'A'){
+      this.confirmModel.mensaje = "¿Está seguro de Aceptar el servicio? Ingrese al chat para definir el precio, la fecha y hora del servicio.";
+      this.confirmModel.option = option;
+      this.confirmModel.BudgetID = budgetID;
+    }else if(option == 'R'){
+      this.confirmModel.mensaje = "¿Está seguro de Rechazar el servicio? No volverá a verlo en su listado.";
+      this.confirmModel.option = option;
+      this.confirmModel.BudgetID = budgetID;
+    }
+  }
+
   changeStatus(option: string, budgetID: string){
     const chatTitle = `Chat-${budgetID}`;
     this.spinner.show();
@@ -122,15 +141,6 @@ export class HomeProviderComponent implements OnInit {
         });
     }else if(option == 'R'){
       this.userService.updateStatus('3',budgetID)
-        .subscribe((res: any) => {
-          console.log(res);
-          this.spinner.hide();
-          location.reload();
-        }, (error: any) => {
-          console.log(error);
-        });
-    }else if(option == 'F'){
-      this.userService.updateStatus('6',budgetID)
         .subscribe((res: any) => {
           console.log(res);
           this.spinner.hide();

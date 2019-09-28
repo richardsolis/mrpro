@@ -231,6 +231,7 @@ export class SendBudgetComponent implements OnInit {
     this.messageT = true;
     this.services = [];
     var dataSend = [];
+
     for (let i = 0; i < this.LocalProvider.length; i++) {
       dataSend.push({
         address: this.registerForm.get('address').value,

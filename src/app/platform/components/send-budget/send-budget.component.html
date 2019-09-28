@@ -90,7 +90,7 @@
       </button>
     </div>
     <div class="card" style="border:none;" *ngIf="!addMetod">
-      <h5 class="card-header" style="color:white;background: #135daa;">Seleccione su metodo de pago</h5>
+      <h5 class="card-header" style="color:white;background: #135daa;"><b class="text-danger">(*)</b> Seleccione su metodo de pago</h5>
       <div class="card-body" style="padding: 20px;">
         <div style="display: flex;align-items: center; margin-top: 10px;" *ngFor="let list of listCard">
           <div class="form-check" style="width: 400px;margin-right: 40px;display: flex;justify-content: space-between;">
@@ -104,7 +104,7 @@
           <button type="button" (click)="deleteCard(list.id)" class="btn btn-danger" style="width: 101px;height: 36px;padding: 0px;margin-right: 17px;">Eliminar</button>
         </div>
         <div class="form-check" style="margin-top: 10px;">
-          <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2" />
+          <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2" checked/>
           <label class="form-check-label" for="exampleRadios2">
             Efectivo
           </label>

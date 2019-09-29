@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
     password: "",
     grant_type: "password",
     client_id: 2,
-    client_secret: "fd93Cw6b5iZ5gHFOht7Kjq5gCSTMZcZrhCGHZ52e"
+    client_secret: "BvRhVuKW83HLXEfYVjrAZkv0wuUcaOLCOU6wgdkY"
   };
   message = "";
   data: any = {};
@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
     } else if (socialPlatform == "linkedin") {
       socialPlatformProvider = LinkedinLoginProvider.PROVIDER_ID;
     }
-
+    console.log(socialPlatformProvider);
     this.socialAuthService.signIn(socialPlatformProvider).then(userData => {
       console.log(socialPlatform + " sign in data : ", userData);
       // Now sign-in with userData
@@ -73,7 +73,6 @@ export class LoginComponent implements OnInit {
       response => {
         this.session.setObject("token", response);
         this.userS.getCurrentUser().subscribe((response: any) => {
-          console.log(response);
           if (response.data.client) {
             this.session.setObject("user", { ...response.data.client.user, type: response.data.type[0] });
 

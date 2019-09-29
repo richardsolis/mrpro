@@ -13,9 +13,16 @@ export class AppSettings {
   public static LOGIN_USER_EMAIL = "oauth/token";
   public static CLIENT_SEND_BUDGET = "client/send/budget";
   public static CLIENT_GET_BUDGET = "client/get/budget";
+  public static CLIENT_EXECUTE_BUDGET = "client/exe/budget";
+  public static CLIENT_SCORE = "score/provider/create";
+  public static PROVIDER_SCORE = "score/client/create";
+  public static PROVIDER_GET_BUDGET = "client/get/one/budget";
   public static CURRENT_USER = "oauth/current/user";
   public static GET_ESTATUS_BUDGET = "client/get/budget/status";
+  public static UPDATE_PROVIDER_BUDGET = "client/update/budget";
+  public static UPDATE_ESTATUS_BUDGET = "client/set/budget/status";
   public static CANCEL = "client/set/budget/status";
   public static CREATE_CARD_BANK = "card/create";
+  public static DELETE_CARD_BANK = "card/delete";
   public static LIST_ALL_CARD = "card/get";
 }

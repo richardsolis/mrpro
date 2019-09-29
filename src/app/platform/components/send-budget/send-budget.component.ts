@@ -6,6 +6,7 @@ import { DistrictService } from "../../../services/district.service";
 import { GeneralService } from "../../../services/general.service";
 import { NgxSpinnerService } from "ngx-spinner";
 import localeDe from "@angular/common/locales/de";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
 @Component({
   selector: "app-send-budget",
@@ -14,24 +15,16 @@ import localeDe from "@angular/common/locales/de";
 })
 export class SendBudgetComponent implements OnInit {
   cardCreit = {
-    number: null,
+    number: "",
     date: "",
-    cvv: null
+    cvv: ""
   };
 
-  budget: any = {
-    provider: "",
-    user_provider_id: 0,
-    contact_name: "",
-    phone_name: "",
-    address: "",
-    district_id: 9,
-    category_service_id: 0,
-    description: "",
-    date_service: "",
-    date: "",
-    hour: "08:00:00"
-  };
+  cardBankID: any;
+  nFlag: boolean = false;
+  dFlag: boolean = false;
+  cvvFlag: boolean = false;
+ 
   providers = [];
   services = [];
   LocalProvider = this.session.getObject("provider");
@@ -48,40 +41,63 @@ export class SendBudgetComponent implements OnInit {
   image2 = "";
   image3 = "";
 
-  ObjectServi = {
-    address: "",
-    category_service_id: this.session.getObject("budget").category,
-    contact_name: this.session.getObject("user").name + " " + this.session.getObject("user").lastname,
-    date_service: new Date(),
-    description: "",
-    district_id: "1",
-    phone_name: this.session.getObject("user").phone,
-    user_provider_id: ""
-  };
-  y = this.ObjectServi.date_service.getFullYear();
-  //Mes
-  m = this.ObjectServi.date_service.getMonth() + 1;
-  //Día
-  d = this.ObjectServi.date_service.getDate();
+  registerForm: FormGroup;
+
   selectedImage;
   pago = false;
   file: File;
   imgaa: FileList;
   listCard;
-  constructor(private router: Router, private session: SessionService, private districtS: DistrictService, private userS: UserService, private generalS: GeneralService, private spinner: NgxSpinnerService) {}
+  constructor(private router: Router, private session: SessionService, private districtS: DistrictService, 
+              private userS: UserService, private generalS: GeneralService, private spinner: NgxSpinnerService,
+              private formBuilder: FormBuilder) 
+  {
+    this.cardBankID = null;
+  }
 
   ngOnInit() {
-    // [{ user_provider_id: "1", contact_name: "Raquel", phone_name: "Rosas", address: "Av juan 23", district_id: "3", category_service_id: "2", description: "Es una rotura pequeña help!!", date_service: "2019-08-05 13:00:00" }, { user_provider_id: "1", contact_name: "Raquel", phone_name: "Rosas", address: "Av juan 23", district_id: "3", category_service_id: "2", description: "Es una rotura pequeña help!!", date_service: "2019-08-05 13:00:00" }];
-    let budget = this.session.getObject("budget");
+    this.registerForm = this.formBuilder.group({
+      address: ['', Validators.required],
+      category_service_id: [this.session.getObject("budget").category, Validators.required],
+      contact_name: [this.session.getObject("user").name + " " + this.session.getObject("user").lastname, Validators.required],
+      date_service:  [this.session.getObject("budget").date, Validators.required],
+      hour:  [this.session.getObject("budget").hour, Validators.required],
+      description:  ['', Validators.required],
+      district_id: ['1', Validators.required],
+      phone_name: this.session.getObject("user").phone,
+      user_provider_id: ['']
+    });
+
     this.providers = this.session.getObject("providers");
-    this.budget.provider = "Proveedor: " + budget.provider_name;
-    this.budget.user_provider_id = budget.provider;
-    this.budget.category_service_id = budget.category;
-    this.budget.date = budget.date;
-    this.budget.hour = budget.hour;
-    console.log(budget, "dasdadasdasdasd");
     this.getDistricts();
     this.allCard();
+  }
+
+  getActualDate(){
+    let tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const day = tomorrow.getDate();
+    const month = ("0" + (tomorrow.getMonth() + 1)).slice(-2);
+    const year = tomorrow.getFullYear();
+    return `${year}-${month}-${day}`;
+  }
+
+  validateDate(){
+    const tmp = this.registerForm.get('date_service').value;
+    if(tmp){
+      const currentYear: any[] = tmp.split('-');
+      const today = new Date(this.getActualDate());
+      const anyDay = new Date(this.registerForm.get('date_service').value);
+
+      if(tmp.split('-')[0].length > 4){
+        this.registerForm.get('date_service').setValue(this.getActualDate());
+      }else if(today.getTime() > anyDay.getTime()){
+        this.registerForm.get('date_service').setValue(this.getActualDate());
+      }
+    }else{
+      this.registerForm.get('date_service').setValue(this.getActualDate());
+    }
+    
   }
 
   getDistricts() {
@@ -127,11 +143,51 @@ export class SendBudgetComponent implements OnInit {
   }
 
   saveCard() {
+    if(this.cardCreit.number.length != 16){
+      this.nFlag = true;
+      return;
+    }else{
+      this.nFlag = false;
+    }
+
+    if(!this.dateExpiration(this.cardCreit.date)){
+      this.dFlag = true;
+      return;
+    }else{
+      this.dFlag = false;
+    }
+
+    if(this.cardCreit.cvv.length != 3){
+      this.cvvFlag = true;
+      return;
+    }else{
+      this.cvvFlag = false;
+    }
+
     this.userS.createCardBank(this.cardCreit).subscribe((response: any) => {
       console.log(response);
       this.allCard();
       this.addMetod = false;
+      this.cardCreit = {
+        number: "",
+        date: "",
+        cvv: ""
+      };
     });
+  }
+
+  deleteCard(cardID: string){
+      this.userS.deleteCardBank(cardID).subscribe((response: any) => {
+        console.log(response);
+        this.listCard = [];
+        this.allCard();
+      });
+
+  }
+
+  dateExpiration(reg){
+    const regExp    = new RegExp(/^\d{1,2}\/\d{1,2}$/);
+    return regExp.test( reg );
   }
 
   editCard(list) {
@@ -152,8 +208,19 @@ export class SendBudgetComponent implements OnInit {
     this.pago = false;
   }
 
-  sendBudget() {
-    // this.sendBudget(true);
+  selectCardBank(bankID: any){
+    this.cardBankID = bankID;
+  }
+
+  sendBudget(modal) {
+    console.log('sendBudget');
+    if (this.registerForm.invalid) {
+      this.sbutton = false;
+      this.messageT = false;
+      this.message = "Complete los campos obligatorios(*)";
+      modal.open();
+      return;
+    }
     this.pago = true;
   }
 
@@ -164,17 +231,18 @@ export class SendBudgetComponent implements OnInit {
     this.messageT = true;
     this.services = [];
     var dataSend = [];
-    // this.ObjectServi.date_service = this.d + "-" + this.m + "-" + this.y + " " + this.hour;
+
     for (let i = 0; i < this.LocalProvider.length; i++) {
       dataSend.push({
-        address: this.ObjectServi.address,
+        address: this.registerForm.get('address').value,
         category_service_id: this.session.getObject("budget").category,
         parent_category_service: 4,
-        contact_name: this.session.getObject("user").name + " " + this.session.getObject("user").lastname,
-        date_service: this.ObjectServi.date_service,
-        description: this.ObjectServi.description,
-        district_id: this.ObjectServi.district_id,
-        phone_name: this.session.getObject("user").phone,
+        contact_name: this.registerForm.get('contact_name').value,
+        date_service: this.registerForm.get('date_service').value,
+        description: this.registerForm.get('description').value,
+        district_id: this.registerForm.get('district_id').value,
+        phone_name: this.registerForm.get('phone_name').value,
+        card_bank_id: this.cardBankID,
         user_provider_id: this.LocalProvider[i].id
       });
     }
@@ -185,7 +253,8 @@ export class SendBudgetComponent implements OnInit {
         this.spinner.hide();
       },
       error => {
-        // this.generalS.relogin(this.sendBudget, error, this.spinner);
+        console.log(error);
+        this.spinner.hide();
       }
     );
   }

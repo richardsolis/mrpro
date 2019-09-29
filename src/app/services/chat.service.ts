@@ -14,11 +14,9 @@ export class ChatService {
   private itemsCollection: AngularFirestoreCollection<Chat>;
   public mensajes: Mensaje[];
   public currentChat: Chat;
-  public currentUser: any = {};
 
-  constructor(private afs: AngularFirestore, private sessionService: SessionService) {
-    this.currentUser = JSON.parse(this.sessionService.getItem('user'));
-    console.log("currentUser",this.currentUser);
+  constructor(private afs: AngularFirestore) {
+  
   }
 
   //crear el chat 1vs1 cuando se acepta el pedido
@@ -32,13 +30,14 @@ export class ChatService {
       mensajes: []
     }
 
-    return this.itemsCollection.doc(id).set( newchat )
+    this.itemsCollection.doc(id).set( newchat )
                                         .then( ()=>{
                                           this.currentChat = newchat; 
                                           console.log("crearChat",this.currentChat);
                                         })
                                         .catch( (err)=>console.error('Error al enviar',  err ) );
-  
+    return newchat;                                    
+                                        
   }
 
   //Trae el chat creado 1vs1 a traves del id del chat
@@ -77,14 +76,14 @@ export class ChatService {
   }
 
   //agrega un mensaje a un chat especifico
-  agregarMensajePrivado( texto: string, tipoMensaje: string, chatID: string ){
+  agregarMensajePrivado( texto: string, tipoMensaje: string, chatID: string, userID: number, userName: string ){
 
     let mensajeTemp: Mensaje = {
-      nombre:  this.currentUser.name,
+      nombre:  userName,
       mensaje: texto,
       tipo: tipoMensaje,
       fecha: new Date().getTime(),
-      uid: this.currentUser.id
+      uid: userID
     }
     console.log("currentchat", chatID);
     const ref = this.afs.collection<any>('chats').doc<any>(chatID);

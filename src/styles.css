@@ -533,6 +533,11 @@ footer.primary {
   margin-bottom: 150px;
 }
 
+.main-container-provider {
+  margin-top: 40px;
+  margin-bottom: 150px;
+}
+
 .puntero {
   cursor: pointer;
 }
@@ -594,6 +599,13 @@ footer.primary {
   border: 1px solid #cdcdcd;
   padding: 1px;
   background-color: #cdcdcd;
+  display: inline-block;
+}
+
+.donwload-style {
+  color: #135daa;
+  font-size: 0.9rem;
+  font-style: oblique;
 }
 
 /* Animaciones */
@@ -1248,6 +1260,10 @@ input {
 
 .form-group {
   margin: 22px 15px;
+}
+
+.fix-fg {
+  margin: 0px;
 }
 
 .graph-bar {

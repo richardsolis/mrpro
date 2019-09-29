@@ -3,7 +3,7 @@ import { ActivatedRoute, Router, RouterModule, Routes } from "@angular/router";
 import { SessionService } from "../../../services/session.service";
 import { UserService } from "../../../services/user.service";
 import { NgxSpinnerService } from "ngx-spinner";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
 import localeDe from "@angular/common/locales/de";
 
@@ -16,79 +16,9 @@ declare var $: any;
   styleUrls: ["./providers.component.css"]
 })
 export class ProvidersComponent implements OnInit {
-  serviceSearch: any = {
-    type: "programmed",
-    category: "Gasfitería",
-    day: "2019-07-10",
-    hour: "08:00 am"
-  };
-
-  allProviders: any = [
-    {
-      name: "Luis Cardenas",
-      category: "Gasfitería",
-      rating: 4.0,
-      success: 41,
-      criminalrecord: true,
-      policerecord: true,
-      judicialrecord: true,
-      phone: "999999999",
-      type_cedula: "DNI",
-      cedula: "77889955",
-      certified: true,
-      image: "provider.png",
-      experience: 4
-    },
-    {
-      name: "Amelia Contreras",
-      category: "Lavandería",
-      rating: 3.5,
-      success: 41,
-      criminalrecord: true,
-      policerecord: true,
-      judicialrecord: true,
-      phone: "999999999",
-      type_cedula: "DNI",
-      cedula: "25632152",
-      certified: true,
-      image: "provider2.png",
-      experience: 3
-    },
-    {
-      name: "Sara Cruz",
-      category: "Lavandería",
-      rating: 4.5,
-      success: 25,
-      criminalrecord: true,
-      policerecord: true,
-      judicialrecord: true,
-      phone: "999999999",
-      type_cedula: "DNI",
-      cedula: "65413321",
-      certified: true,
-      image: "provider.png",
-      experience: 5
-    },
-    {
-      name: "Armando Pozo",
-      category: "Carpintería",
-      rating: 5.0,
-      success: 16,
-      criminalrecord: true,
-      policerecord: true,
-      judicialrecord: true,
-      phone: "999999999",
-      type_cedula: "DNI",
-      cedula: "14785236",
-      certified: true,
-      image: "provider2.png",
-      experience: 2
-    }
-  ];
 
   providers;
-  providerData = [];
-  resultFilter = [];
+  resultFilter: any[];
   tprovider: any = {
     user_provider: {
       user: {}
@@ -100,43 +30,72 @@ export class ProvidersComponent implements OnInit {
     status_id: "1"
   };
 
-  estado = "pendiente";
+  estado:string;
+  registerForm: FormGroup;
+  BudgetID = "";
+  validFlag: boolean = false;
 
-  constructor(private spinner: NgxSpinnerService, private router: Router, private session: SessionService, private userS: UserService) {}
-
-  ngOnInit() {
-    this.spinner.show();
-    var year = new Date();
-    this.userS.getBudget({ type: "client" }).subscribe(
-      response => {
-        this.providers = response;
-        for (let i = 0; i < this.providers.data.length; i++) {
-          this.providers.data[i].user_provider.experience = year.getFullYear() - parseInt(this.providers.data[i].user_provider.experience.split(" ")[0].substring(0, 4));
-          this.providerData.push(this.providers.data[i]);
-        }
-        this.spinner.hide();
-        console.log(this.providerData, "dasdasd");
-        var groups2 = new Set(this.providerData.map(item2 => item2.unique));
-        var result = [];
-        groups2.forEach(g =>
-          this.resultFilter.push({
-            name: g,
-            acordeon: false,
-            values: this.providerData.filter(i => i.unique === g)
-          })
-        );
-        console.log(this.resultFilter);
-      },
-      error => {
-        // this.generalS.relogin(this.sendBudget, error, this.spinner);
-      }
-    );
-    // this.categoryChanged("Gasfitería");
+  constructor(private spinner: NgxSpinnerService, private router: Router, 
+              private session: SessionService, private userS: UserService,
+              private formBuilder: FormBuilder) {
+    
   }
 
-  categoryChanged(event) {
-    console.log(event);
-    this.providers = this.allProviders.filter(item => item.category == event);
+  ngOnInit() {
+    this.estado = "1";
+    this.getRequests();
+    this.registerForm = this.formBuilder.group({
+      score:  ['0', Validators.required],
+      comment:  ['', Validators.required],
+      user_provider_id: ['', Validators.required]
+    });
+  }
+
+  getRequests(){
+    this.resultFilter = [];
+    this.spinner.show();
+    this.userS.getBudget({ type: "client", status: this.estado }).subscribe(
+      response => {
+        this.providers = response;
+        this.resultFilter.push(...this.providers.data);
+        console.log(this.resultFilter);
+        this.spinner.hide();
+      },
+      error => console.log(error)
+    );
+  }
+
+  closeService(mymodal,providerID: string ,BudgetID: string){
+    this.registerForm.setValue({score: '0',comment:'',user_provider_id:''});
+      this.registerForm.get('user_provider_id').setValue(providerID);
+      this.BudgetID = BudgetID;
+      mymodal.open();
+  }
+
+  Rating(){
+    if (this.registerForm.invalid || this.registerForm.get('score').value === '0') {
+      this.validFlag = true;
+      return;
+    }
+    console.log(this.registerForm.value);
+    this.validFlag = false;
+    this.spinner.show();
+    this.userS.scoreOfClient(this.registerForm.value)
+        .subscribe((res: any) => {
+          console.log(res);
+          this.userS.updateStatus('6',this.BudgetID)
+              .subscribe((res: any) => {
+                console.log(res);
+                this.spinner.hide();
+                location.reload();
+              }, (error: any) => {
+                console.log(error);
+                this.spinner.hide();
+              });
+        }, (error: any) => {
+          console.log(error);
+          this.spinner.hide();
+        });
   }
 
   ficha(modal, proveedor) {
@@ -144,28 +103,27 @@ export class ProvidersComponent implements OnInit {
     modal.open();
   }
 
-  acordeon(data) {
-    for (let i = 0; i < this.resultFilter.length; i++) {
-      this.resultFilter[i].acordeon = false;
-    }
-    if (data.acordeon == true) {
-      data.acordeon = false;
-    } else {
-      data.acordeon = true;
-    }
-
-    // data.acordeon = true;
-    console.log(data);
+  confirm(modal, BudgetID){
+    this.BudgetID = BudgetID;
+    modal.open();
   }
 
-  schedule(proveedor) {
-    console.log(proveedor);
-    this.cancel = {
-      budget_id: proveedor.id,
-      status_id: proveedor.status_service_id
-    };
-    this.userS.cancel(this.cancel).subscribe(response => {
-      console.log(response);
-    });
+  schedule() {
+    console.log(this.BudgetID);
+      this.cancel = {
+        budget_id: this.BudgetID,
+        status_id: '2'
+      };
+      this.userS.cancel(this.cancel).subscribe(response => {
+        console.log(response);
+        location.reload();
+      });
+    
+  }
+
+  goChat(chatId: string, BudgetID: string){
+    
+    this.router.navigate(['/proveedor/chat',chatId, BudgetID]);
+    
   }
 }

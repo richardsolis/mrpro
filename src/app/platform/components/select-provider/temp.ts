@@ -6,17 +6,28 @@ import { CategoryService } from "../../../services/category.service";
 import { DistrictService } from "../../../services/district.service";
 import { ProviderService } from "../../../services/provider.service";
 import { NgxSpinnerService } from "ngx-spinner";
-import { FormBuilder, FormGroup, Validators, FormControl } from "@angular/forms";
-
+// import { ConsoleReporter } from "jasmine";
+/*
 @Component({
   selector: "app-select-provider",
   templateUrl: "./select-provider.component.html",
   styleUrls: ["./select-provider.component.css"]
 })
+
 export class SelectProviderComponent implements OnInit {
+  tomorrow = new Date();
   
-  registerForm: FormGroup;
-  submitted = false;
+  serviceSearch: any = {
+    type: "programmed",
+    category: 1,
+    subcategory: 6,
+    district: 1,
+    date: new Date(),
+    hour: "08:00:00",
+    provider_name: "",
+    provider: 0
+  };
+  --allProviders: any = [];
 
   providers: any = [];
   allcategories: any = [];
@@ -24,18 +35,22 @@ export class SelectProviderComponent implements OnInit {
   categories: any = [];
   subCategories: any = [];
   user: any = {};
-
   message = "";
   messageT = true;
   selectedProviders: any = 0;
+
   tprovider: any = {
     user: {}
   };
+  --userProvider: any = {};
+
   provedores = [];
-  
-  constructor(private router: Router, private spinner: NgxSpinnerService, private session: SessionService,
-              private userS: UserService, private categoryS: CategoryService, private districtS: DistrictService,
-              private providerS: ProviderService, private formBuilder: FormBuilder) {
+  constructor(private router: Router, private spinner: NgxSpinnerService, private session: SessionService, private userS: UserService, private categoryS: CategoryService, private districtS: DistrictService, private providerS: ProviderService) {}
+
+  ngOnInit() {
+    this.tomorrow.setDate(this.tomorrow.getDate() + 1);
+    this.serviceSearch.date = this.tomorrow;
+    this.provedores = [];
     this.spinner.show();
     this.user = this.session.getObject("user");
     this.categoryS.guestGetCategories().subscribe((response: any) => {
@@ -47,87 +62,30 @@ export class SelectProviderComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-    const today = this.getActualDate();
-    this.registerForm = this.formBuilder.group({
-      type: ['programmed'],
-      category: ['1', Validators.required],
-      subcategory: ['6', Validators.required],
-      district:  ['1', Validators.required],
-      date:  [today, Validators.required],
-      hour:  ['08:00:00', Validators.required],
-      provider_name: [''],
-      provider: ['0']
-    });
-  }
-
-  buttonSelectType(type: string) {
-    if(type === 'programmed' && this.registerForm.get('type').value !== 'programmed'){
-      this.registerForm.get('type').setValue(type);
-      this.addControls();
-    }else if(type === 'priced'){
-      this.registerForm.get('type').setValue(type);
-      this.removeControls();
-    }
-  }
-
-  addControls(){
-    const today = this.getActualDate();
-    this.registerForm.addControl('date', new FormControl(today, Validators.required));
-    this.registerForm.addControl('hour', new FormControl('08:00:00', Validators.required));
-  }
-
-  removeControls(){
-    this.registerForm.removeControl('date');
-    this.registerForm.removeControl('hour');
-  }
-
-  getActualDate(){
-    let tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    const day = tomorrow.getDate();
-    const month = ("0" + (tomorrow.getMonth() + 1)).slice(-2);
-    const year = tomorrow.getFullYear();
-    return `${year}-${month}-${day}`;
-  }
-
-  validateDate(){
-    const tmp = this.registerForm.get('date').value;
-    if(tmp){
-      const currentYear: any[] = tmp.split('-');
-      const today = new Date(this.getActualDate());
-      const anyDay = new Date(this.registerForm.get('date').value);
-
-      if(tmp.split('-')[0].length > 4){
-        this.registerForm.get('date').setValue(this.getActualDate());
-      }else if(today.getTime() > anyDay.getTime()){
-        this.registerForm.get('date').setValue(this.getActualDate());
-      }
-    }else{
-      this.registerForm.get('date').setValue(this.getActualDate());
-    }
-    
-  }
-
   getDistricts() {
     this.districtS.guestGetDistricts().subscribe((response: any) => {
       this.districts = response.data;
+      console.log(response);
     });
   }
 
-  categoryChanged() {
-    this.getProviders();
-    this.getSubcategories();
+  buttonSelectType(type) {
+    console.log(type);
+    this.serviceSearch.type = type;
   }
 
+  --userPor(person) {
+    this.userProvider = this.session.setObject("userProvider", person);
+  }
   getProviders() {
     this.spinner.show();
     this.providerS
       .guestGetProviders({
-        categorie: this.registerForm.get('category').value,
-        district: this.registerForm.get('district').value
+        categorie: this.serviceSearch.category,
+        district: this.serviceSearch.district
       })
       .subscribe((response: any) => {
+        console.log(response);
         if (response.data.length) {
           this.providers = response.data;
         } else {
@@ -142,15 +100,13 @@ export class SelectProviderComponent implements OnInit {
           this.providers[i].success = 0;
           this.providers[i].selected = false;
         }
+        console.log(this.providers);
         this.spinner.hide();
       });
   }
 
-  getSubcategories() {
-    this.subCategories = this.allcategories.filter(item => item.parent == this.registerForm.get('category').value);
-  }
-
   selectAllProviders() {
+    console.log([{ user_provider_id: "1", contact_name: "Raquel", phone_name: "Rosas", address: "Av juan 23", district_id: "3", category_service_id: "2", description: "Es una rotura pequeña help!!", date_service: "2019-08-05 13:00:00" }, { user_provider_id: "1", contact_name: "Raquel", phone_name: "Rosas", address: "Av juan 23", district_id: "3", category_service_id: "2", description: "Es una rotura pequeña help!!", date_service: "2019-08-05 13:00:00" }]);
     this.provedores = [];
     if (this.selectedProviders == this.providers.length) {
       for (var i = this.providers.length - 1; i >= 0; i--) {
@@ -164,6 +120,7 @@ export class SelectProviderComponent implements OnInit {
         this.providers[i].selected = true;
         this.provedores.push(this.providers[i]);
         this.session.setObject("provider", this.provedores);
+        console.log(this.provedores, "dasdasdasd");
       }
       this.selectedProviders = this.providers.length;
     }
@@ -176,6 +133,9 @@ export class SelectProviderComponent implements OnInit {
       this.session.setObject("provider", this.provedores);
       this.selectedProviders++;
     } else {
+      var hola = this.provedores.splice(this.provedores.findIndex(word => word.user.name == provider.user.name), 1);
+      //   var hola = this.provedores.filter(word => word.user.name == provider.user.name);
+      console.log(this.provedores, "rererererer");
       this.session.setObject("provider", this.provedores);
       this.selectedProviders--;
     }
@@ -183,16 +143,41 @@ export class SelectProviderComponent implements OnInit {
 
   showFile(modal, provider) {
     this.session.setObject("userProvider", provider);
+    this.userProvider = provider;
+    console.log(provider);
     this.tprovider = provider;
     modal.open();
   }
 
-  scheduleAll(myModal) {
-    if (this.registerForm.invalid) {
-      this.submitted = true;
-      return;
-    }
+  getSubcategories() {
+    console.log(this.serviceSearch.category);
+    this.subCategories = this.allcategories.filter(item => item.parent == this.serviceSearch.category);
+    this.serviceSearch.subcategory = this.subCategories.length ? this.subCategories[0].id : 0;
+    console.log(this.serviceSearch.subcategory);
+    console.log(this.subCategories);
+  }
 
+  categoryChanged() {
+    this.getProviders();
+    // this.providers = this.allProviders.filter(item => item.category == event);
+    this.getSubcategories();
+  }
+
+  schedule(myModal, provider) {
+    console.log("dasdasdasd");
+    this.serviceSearch.provider_name = provider.user.name + " " + provider.user.lastname;
+    this.serviceSearch.provider = provider.id;
+    this.session.setObject("providers", [provider]);
+    this.session.setObject("budget", this.serviceSearch);
+    if (this.user && this.user.name) {
+      this.router.navigate(["/pedir-propuesta"]);
+    } else {
+      this.router.navigate(["/ingresar"]);
+    }
+  }
+
+  scheduleAll(myModal) {
+    console.log(myModal, "hola");
     if (this.selectedProviders == 0) {
       this.message = "Seleccione al menos un profesional";
       this.messageT = false;
@@ -200,13 +185,15 @@ export class SelectProviderComponent implements OnInit {
       return;
     }
     this.session.setObject("providers", this.providers.filter(item => item.selected));
-    this.session.setObject("budget", this.registerForm.value);
+    this.session.setObject("budget", this.serviceSearch);
     if (this.user && this.user.name) {
       this.router.navigate(["/pedir-propuesta"]);
     } else {
       this.router.navigate(["/ingresar"]);
     }
- 
   }
 
-}
+  goReserved() {
+    this.router.navigate(["/reservado"]);
+  }
+}*/

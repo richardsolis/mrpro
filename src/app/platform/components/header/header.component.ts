@@ -16,7 +16,6 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.session.getObject("user");
-    console.log(this.user);
     if(this.user){
       this.visible = false;
     }
@@ -30,7 +29,7 @@ export class HeaderComponent implements OnInit {
   }
   logout() {
     this.session.destroy("user");
-    this.user = {};
+    this.user = null;
     this.visible = true;
     this.router.navigate(["/home"]);
   }

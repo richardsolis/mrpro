@@ -3,6 +3,7 @@ import { Router, NavigationExtras } from "@angular/router";
 import { SessionService } from "../../../services/session.service";
 import { UserService } from "../../../services/user.service";
 import { NgxSpinnerService } from "ngx-spinner";
+import { BlockingProxy } from "blocking-proxy";
 
 @Component({
   selector: "app-register-email",
@@ -24,6 +25,7 @@ export class RegisterEmailComponent implements OnInit {
   };
   message = "";
   image: any;
+  flagSize: boolean = false;
 
   constructor(private session: SessionService, private spinner: NgxSpinnerService, private router: Router, private userService: UserService) {}
 
@@ -42,15 +44,21 @@ export class RegisterEmailComponent implements OnInit {
       return;
     }
 
-	this.image = event.target.files[0];
-	this.spinner.show();
-	this.userService.postSaveImageUser(this.image)
-  	.subscribe((response: any) => {
-  		console.log(response);
-  		this.spinner.hide();
-  	}, (error: any) => {
-  		console.log(error);
-	})
+    if (event.target.files[0].size > 2500000) {
+      this.flagSize = true;
+      this.user.image = "";
+      return;
+    }
+    this.flagSize = false;
+    this.image = event.target.files[0];
+    this.spinner.show();
+    this.userService.postSaveImageUser(this.image)
+      .subscribe((response: any) => {
+        console.log(response);
+        this.spinner.hide();
+      }, (error: any) => {
+        console.log(error);
+    })
   }
 
   login(myModal) {
@@ -67,20 +75,26 @@ export class RegisterEmailComponent implements OnInit {
       return;
     }
 
+    if (this.user.password.length < 8) {
+      this.message = "Contraseña minimo de 8 caracteres";
+      myModal.open();
+      return;
+    }
+
     if (this.user.password != this.user.password_confirmation) {
-      this.message = "ContraseÒas diferentes";
+      this.message = "Contraseñas diferentes";
       myModal.open();
       return;
     }
 
     if (!this.user.cpolicy) {
-      this.message = "Acepta las polÌticas de privacidad";
+      this.message = "Acepta las politicas de privacidad";
       myModal.open();
       return;
     }
 
     if (!this.user.cconditions) {
-      this.message = "Acepta los tÈrminos y condiciones";
+      this.message = "Acepta los terminos y condiciones";
       myModal.open();
       return;
     }
@@ -107,7 +121,13 @@ export class RegisterEmailComponent implements OnInit {
           (error: any) => {
             console.log(error);
             if (error.error && error.error.data && error.error.data.email && error.error.data.email.length) {
-              this.message = "El correo electrÛnico ya est· registrado";
+              this.message = "El correo electronico ya esta registrado";
+              myModal.open();
+              this.spinner.hide();
+              return;
+            }
+            if (error.error && error.error.data && error.error.data.doc_number) {
+              this.message = "El DNI ya esta registrado";
               myModal.open();
               this.spinner.hide();
               return;

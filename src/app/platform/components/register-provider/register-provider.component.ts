@@ -15,6 +15,7 @@ export class RegisterProviderComponent implements OnInit {
 
   registerForm: FormGroup;
   submitted = false;
+  flagRes = false;
   message = '';
   tipoForm:boolean;
   imageLogo:any;
@@ -25,6 +26,10 @@ export class RegisterProviderComponent implements OnInit {
 
   districts: any[];
   categories: any[];
+
+  flagSize: boolean = false;
+  flagImg: boolean = false;
+  flagPsw: boolean = false;
 
   constructor(private formBuilder: FormBuilder, private router: Router,	
               private spinner: NgxSpinnerService,private userService: UserService,
@@ -70,9 +75,9 @@ export class RegisterProviderComponent implements OnInit {
       penales:  [''],
       judiciales:  [''],
       experiencia:  [''],
-      contrasena:  ['', Validators.required],
-      contrasena2:  ['', Validators.required],
-      eBancaria:  [''],
+      contrasena:  ['', [Validators.required, Validators.minLength(8)]],
+      contrasena2:  ['', [Validators.required, Validators.minLength(8)]],
+      eBancaria:  ['',Validators.required],
       nCuenta:  [''],
       interbancaria:  [''],
       categories:  [[], Validators.required],
@@ -135,9 +140,21 @@ export class RegisterProviderComponent implements OnInit {
 
     //this.images.push(event.target.files[0]);
     if(event.target.name === 'logo'){
+      if (event.target.files[0].size > 2500000) {
+        this.flagSize = true;
+        this.imageLogo = null;
+        return;
+      }
+      this.flagSize = false;
       this.imageLogo = event.target.files[0];
       this.uploadFile(this.imageLogo, 'logo');
     }else if(event.target.name === 'foto'){
+      if (event.target.files[0].size > 2500000) {
+        this.flagImg = true;
+        this.imageLogo = null;
+        return;
+      }
+      this.flagImg = false;
       this.imageFoto = event.target.files[0];
       this.uploadFile(this.imageFoto, 'foto');
     }
@@ -184,29 +201,51 @@ export class RegisterProviderComponent implements OnInit {
 	  })
   }
 
+  onlydigit(e) {
+    var tecla;
+    var patron;
+    var tecla_final;
+    tecla = document.all ? e.keyCode : e.which;
+    if (tecla == 8) {
+      return true;
+    }
+    patron = /[0-9.]/;
+    tecla_final = String.fromCharCode(tecla);
+    return patron.test(tecla_final);
+  }
 
   onSubmit(myModal) {
+
+    if(this.registerForm.get('contrasena').value !== this.registerForm.get('contrasena2').value){
+      this.flagPsw = true;
+      return;
+    }
  
     if (this.registerForm.invalid) {
         this.submitted = true;
         return;
     }
-    console.log('SUCCESS!! :-)',this.registerForm.value);
- 
+
     this.spinner.show();
   	this.userService.createProvider(this.registerForm.value)
   	.subscribe((response: any) => {
-      console.log(response);
+      this.flagPsw = false;
+      this.flagRes = true;
       this.message = 'Registro con éxito, inicie sesión.';
 	  	myModal.open();
       this.submitted = false;
   		this.spinner.hide();
-  		//this.router.navigate(['/ingresar']);
   	}, (error: any) => {
+      this.flagPsw = false;
       this.submitted = false;
       this.spinner.hide();
-  		console.log(error);
-	  		return;
+      if (error.error && error.error.data && error.error.data.doc_number) {
+        this.flagRes = false;
+        this.message = "El DNI ya esta registrado.";
+        myModal.open();
+        this.spinner.hide();
+        return;
+      }
   	})
   }
 

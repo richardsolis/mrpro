@@ -36,6 +36,7 @@ import { ChatComponent } from './provider/components/chat/chat.component';
 import { RegisterProviderComponent } from './components/register-provider/register-provider.component';
 import { ProfileProviderComponent } from '../platform/provider/components/profile-provider/profile-provider.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { DataTablesModule } from 'angular-datatables';
 
 export function getAuthServiceConfigs() {
   let config = new AuthServiceConfig(
@@ -70,7 +71,8 @@ export function getAuthServiceConfigs() {
     LightboxModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
-    AngularFireAuthModule  // imports firebase/auth, only needed for auth features,
+    AngularFireAuthModule,  // imports firebase/auth, only needed for auth features,
+    DataTablesModule
   ],
   providers: [
     {

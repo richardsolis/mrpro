@@ -4,8 +4,7 @@ import { SessionService } from "../../../services/session.service";
 import { UserService } from "../../../services/user.service";
 import { NgxSpinnerService } from "ngx-spinner";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-
-import localeDe from "@angular/common/locales/de";
+import { Subject } from "rxjs";
 
 declare var jquery: any;
 declare var $: any;
@@ -34,6 +33,10 @@ export class ProvidersComponent implements OnInit {
   registerForm: FormGroup;
   BudgetID = "";
   validFlag: boolean = false;
+  dtOptions: DataTables.Settings = {};
+  // We use this trigger because fetching the list of persons can be quite long,
+  // thus we ensure the data is fetched before rendering
+  dtTrigger: Subject<any> = new Subject();
 
   constructor(private spinner: NgxSpinnerService, private router: Router, 
               private session: SessionService, private userS: UserService,
@@ -42,6 +45,11 @@ export class ProvidersComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      order: [[3,'desc']]
+    };
+
     this.estado = "1";
     this.getRequests();
     this.registerForm = this.formBuilder.group({
@@ -51,6 +59,11 @@ export class ProvidersComponent implements OnInit {
     });
   }
 
+  ngOnDestroy() {
+    // Do not forget to unsubscribe the event
+    this.dtTrigger.unsubscribe();
+  }
+
   getRequests(){
     this.resultFilter = [];
     this.spinner.show();
@@ -58,6 +71,8 @@ export class ProvidersComponent implements OnInit {
       response => {
         this.providers = response;
         this.resultFilter.push(...this.providers.data);
+        // Calling the DT trigger to manually render the table
+        this.dtTrigger.next();
         console.log(this.resultFilter);
         this.spinner.hide();
       },

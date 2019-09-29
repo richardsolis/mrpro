@@ -24,21 +24,23 @@
             ],
             "styles": [
               "node_modules/wowjs/css/libs/animate.css",
-              "./node_modules/ngx-lightbox/lightbox.css",
+              "node_modules/ngx-lightbox/lightbox.css",
               "node_modules/slick-carousel/slick/slick.scss",
               "node_modules/slick-carousel/slick/slick-theme.scss",
-              "./node_modules/font-awesome/css/font-awesome.css",
-              "./node_modules/bootstrap/dist/css/bootstrap.css",
-              "./node_modules/ng-pick-datetime/assets/style/picker.min.css",
+              "node_modules/font-awesome/css/font-awesome.css",
+              "node_modules/bootstrap/dist/css/bootstrap.css",
+              "node_modules/ng-pick-datetime/assets/style/picker.min.css",
+              "node_modules/datatables.net-dt/css/jquery.dataTables.css",
               "src/styles.css"
             ],
             "scripts": [
+              "node_modules/jquery/dist/jquery.slim.min.js",
               "node_modules/wowjs/dist/wow.js",
               "node_modules/slick-carousel/slick/slick.min.js",
               "src/assets/js/fbsdk.js",
-              "node_modules/jquery/dist/jquery.slim.min.js",
               "node_modules/popper.js/dist/umd/popper.min.js",
-              "node_modules/bootstrap/dist/js/bootstrap.min.js"
+              "node_modules/bootstrap/dist/js/bootstrap.min.js",
+              "node_modules/datatables.net/js/jquery.dataTables.js"
             ]
           },
           "configurations": {

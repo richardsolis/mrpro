@@ -29,6 +29,7 @@ export class RegisterProviderComponent implements OnInit {
 
   flagSize: boolean = false;
   flagImg: boolean = false;
+  flagPsw: boolean = false;
 
   constructor(private formBuilder: FormBuilder, private router: Router,	
               private spinner: NgxSpinnerService,private userService: UserService,
@@ -76,7 +77,7 @@ export class RegisterProviderComponent implements OnInit {
       experiencia:  [''],
       contrasena:  ['', [Validators.required, Validators.minLength(8)]],
       contrasena2:  ['', [Validators.required, Validators.minLength(8)]],
-      eBancaria:  [''],
+      eBancaria:  ['',Validators.required],
       nCuenta:  [''],
       interbancaria:  [''],
       categories:  [[], Validators.required],
@@ -214,21 +215,28 @@ export class RegisterProviderComponent implements OnInit {
   }
 
   onSubmit(myModal) {
+
+    if(this.registerForm.get('contrasena').value !== this.registerForm.get('contrasena2').value){
+      this.flagPsw = true;
+      return;
+    }
  
     if (this.registerForm.invalid) {
         this.submitted = true;
         return;
     }
- 
+
     this.spinner.show();
   	this.userService.createProvider(this.registerForm.value)
   	.subscribe((response: any) => {
+      this.flagPsw = false;
       this.flagRes = true;
       this.message = 'Registro con éxito, inicie sesión.';
 	  	myModal.open();
       this.submitted = false;
   		this.spinner.hide();
   	}, (error: any) => {
+      this.flagPsw = false;
       this.submitted = false;
       this.spinner.hide();
       if (error.error && error.error.data && error.error.data.doc_number) {

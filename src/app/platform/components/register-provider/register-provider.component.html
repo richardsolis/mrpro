@@ -27,6 +27,140 @@
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit(myModal)" class="col-lg-12 col-md-12">
       <div class="row">
         <div class="col-lg-6">
+          <div class="form-group row">
+            <label for="inputEmail3" class="col-lg-6 col-md-6 col-form-label"><strong>Datos del
+                Contacto:</strong></label>
+            <div class="col-lg-6 col-md-6">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Foto:<b *ngIf="flagImg"
+                class="text-danger">Maximo 2.5MB</b></label>
+            <div class="col-lg-8 col-md-6">
+              <input (change)="selectFile($event)" type="file" name="foto">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">DNI/Cédula de Identidad:</label>
+            <div class="col-lg-8 col-md-6">
+              <input type="text" (keypress)="onlydigit($event)" formControlName="dni" class="form-control" id="dni"
+                placeholder="Ingrese DNI">
+              <div *ngIf="submitted && registerForm.controls.dni.errors?.required">
+                <p class="text-danger"><strong>DNI requerido.</strong></p>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Nombre:</label>
+            <div class="col-lg-8 col-md-6">
+              <input type="text" formControlName="nombre" class="form-control" id="nombre" placeholder="Ingrese Nombre">
+              <div *ngIf="submitted && registerForm.controls.nombre.errors?.required">
+                <p class="text-danger"><strong>Nombre requerido.</strong></p>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Apellidos:</label>
+            <div class="col-lg-8 col-md-6">
+              <input type="text" formControlName="apellidos" class="form-control" id="apellidos"
+                placeholder="Ingrese Apellidos">
+              <div *ngIf="submitted && registerForm.controls.apellidos.errors?.required">
+                <p class="text-danger"><strong>Apellidos requerido.</strong></p>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Celular:</label>
+            <div class="col-lg-8 col-md-6">
+              <input type="text" (keypress)="onlydigit($event)" formControlName="ptelefono" class="form-control"
+                id="ptelefono" placeholder="Ingrese Celular" maxlength="9">
+              <div *ngIf="submitted && registerForm.controls.ptelefono.errors?.required">
+                <p class="text-danger"><strong>Celular requerido.</strong></p>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Dirección:</label>
+            <div class="col-lg-8 col-md-6">
+              <input type="text" formControlName="direccion" class="form-control" id="direccion"
+                placeholder="Ingrese Dirección">
+              <div *ngIf="submitted && registerForm.controls.direccion.errors?.required">
+                <p class="text-danger"><strong>Dirección requerido.</strong></p>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">SitioWeb/FanPage</label>
+            <div class="col-lg-8 col-md-6">
+              <input type="text" formControlName="psWeb" class="form-control" id="psWeb"
+                placeholder="Ingrese SitioWeb/FanPage">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Inicio de Experiencia:</label>
+            <div class="col-lg-8 col-md-6">
+              <input type="date" formControlName="experiencia" class="form-control" name="date" />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">C. Electrónico:</label>
+            <div class="col-lg-8 col-md-6">
+              <input type="email" formControlName="pcorreo" class="form-control" id="pcorreo"
+                placeholder="Ingrese Correo">
+              <div *ngIf="submitted && registerForm.controls.pcorreo.errors?.required">
+                <p class="text-danger"><strong>Correo requerido.</strong></p>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Contraseña:</label>
+            <div class="col-lg-8 col-md-6">
+              <input type="password" formControlName="contrasena" class="form-control" id="contrasena"
+                placeholder="Ingrese Contraseña">
+              <div *ngIf="submitted && registerForm.controls.contrasena.errors?.required">
+                <p class="text-danger"><strong>Contraseña requerido y minimo 8 caracteres.</strong></p>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Confirmar Contraseña:</label>
+            <div class="col-lg-8 col-md-6">
+              <input type="password" formControlName="contrasena2" class="form-control" id="contrasena2"
+                placeholder="Ingrese Contraseña de nuevo">
+              <div *ngIf="submitted && registerForm.controls.contrasena2.errors?.required">
+                <p class="text-danger"><strong>Confirmar Contraseña requerido y minimo 8 caracteres.</strong></p>
+              </div>
+              <div *ngIf="flagPsw">
+                  <p class="text-danger"><strong>Contraseñas diferentes.</strong></p>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Distrito(s) de Alcance:
+              <p *ngIf="submitted && registerForm.controls.categories.errors?.required" class="text-danger">
+                <strong>Seleccione minimo 1</strong>
+              </p>
+            </label>
+            <div class="col-lg-8 col-md-6">
+              <select multiple formControlName="categories" class="form-control" id="categories">
+                <option *ngFor="let district of districts" [value]="district.id">{{ district.name }}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Categoría(s):
+              <p *ngIf="submitted && registerForm.controls.districts.errors?.required" class="text-danger">
+                <strong>Seleccione minimo 1</strong>
+              </p>
+            </label>
+            <div class="col-lg-8 col-md-6">
+              <select multiple formControlName="districts" class="form-control" id="districts">
+                <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
           <div class="form-group row" *ngIf="tipoForm">
             <label for="inputEmail3" class="col-lg-6 col-md-6 col-form-label"><strong>Datos de la
                 Empresa:</strong></label>
@@ -46,7 +180,7 @@
               <input type="text" (keypress)="onlydigit($event)" formControlName="ruc" class="form-control" id="RUC"
                 placeholder="Ingrese RUC" min="11">
               <div *ngIf="submitted && registerForm.controls.ruc.errors?.required">
-                <p class="text-warning"><strong>RUC requerido.</strong></p>
+                <p class="text-danger"><strong>RUC requerido.</strong></p>
               </div>
             </div>
           </div>
@@ -56,7 +190,7 @@
               <input type="text" formControlName="rSocial" class="form-control" id="rSocial"
                 placeholder="Ingrese Razón social">
               <div *ngIf="submitted && registerForm.controls.rSocial.errors?.required">
-                <p class="text-warning"><strong>Razón Social requerido.</strong></p>
+                <p class="text-danger"><strong>Razón Social requerido.</strong></p>
               </div>
             </div>
           </div>
@@ -66,7 +200,7 @@
               <input type="text" formControlName="dfiscal" class="form-control" id="dfiscal"
                 placeholder="Ingrese Dirección fiscal">
               <div *ngIf="submitted && registerForm.controls.dfiscal.errors?.required">
-                <p class="text-warning"><strong>Dirección Fiscal requerido.</strong></p>
+                <p class="text-danger"><strong>Dirección Fiscal requerido.</strong></p>
               </div>
             </div>
           </div>
@@ -90,7 +224,7 @@
               <input type="text" (keypress)="onlydigit($event)" formControlName="telefono" class="form-control"
                 id="telefono" placeholder="Ingrese Celular" maxlength="9">
               <div *ngIf="submitted && registerForm.controls.telefono.errors?.required">
-                <p class="text-warning"><strong>Celular requerido.</strong></p>
+                <p class="text-danger"><strong>Celular requerido.</strong></p>
               </div>
             </div>
           </div>
@@ -108,7 +242,7 @@
               <input type="email" formControlName="correo" class="form-control" id="correo"
                 placeholder="Ingrese Correo">
               <div *ngIf="submitted && registerForm.controls.correo.errors?.required">
-                <p class="text-warning"><strong>Correo requerido.</strong></p>
+                <p class="text-danger"><strong>Correo requerido.</strong></p>
               </div>
             </div>
           </div>
@@ -137,129 +271,6 @@
             </div>
           </div>
         </div>
-        <div class="col-lg-6">
-          <div class="form-group row">
-            <label for="inputEmail3" class="col-lg-6 col-md-6 col-form-label"><strong>Datos del
-                Contacto:</strong></label>
-            <div class="col-lg-6 col-md-6">
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Foto:<b *ngIf="flagImg"
-                class="text-danger">Maximo 2.5MB</b></label>
-            <div class="col-lg-8 col-md-6">
-              <input (change)="selectFile($event)" type="file" name="foto">
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">DNI/Cédula de Identidad:</label>
-            <div class="col-lg-8 col-md-6">
-              <input type="text" (keypress)="onlydigit($event)" formControlName="dni" class="form-control" id="dni"
-                placeholder="Ingrese DNI">
-              <div *ngIf="submitted && registerForm.controls.dni.errors?.required">
-                <p class="text-warning"><strong>DNI requerido.</strong></p>
-              </div>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Nombre:</label>
-            <div class="col-lg-8 col-md-6">
-              <input type="text" formControlName="nombre" class="form-control" id="nombre" placeholder="Ingrese Nombre">
-              <div *ngIf="submitted && registerForm.controls.nombre.errors?.required">
-                <p class="text-warning"><strong>Nombre requerido.</strong></p>
-              </div>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Apellidos:</label>
-            <div class="col-lg-8 col-md-6">
-              <input type="text" formControlName="apellidos" class="form-control" id="apellidos"
-                placeholder="Ingrese Apellidos">
-              <div *ngIf="submitted && registerForm.controls.apellidos.errors?.required">
-                <p class="text-warning"><strong>Apellidos requerido.</strong></p>
-              </div>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Celular:</label>
-            <div class="col-lg-8 col-md-6">
-              <input type="text" (keypress)="onlydigit($event)" formControlName="ptelefono" class="form-control"
-                id="ptelefono" placeholder="Ingrese Celular" maxlength="9">
-              <div *ngIf="submitted && registerForm.controls.ptelefono.errors?.required">
-                <p class="text-warning"><strong>Celular requerido.</strong></p>
-              </div>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Dirección:</label>
-            <div class="col-lg-8 col-md-6">
-              <input type="text" formControlName="direccion" class="form-control" id="direccion"
-                placeholder="Ingrese Dirección">
-              <div *ngIf="submitted && registerForm.controls.direccion.errors?.required">
-                <p class="text-warning"><strong>Dirección requerido.</strong></p>
-              </div>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">SitioWeb/FanPage</label>
-            <div class="col-lg-8 col-md-6">
-              <input type="text" formControlName="psWeb" class="form-control" id="psWeb"
-                placeholder="Ingrese SitioWeb/FanPage">
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Inicio de Experiencia:</label>
-            <div class="col-lg-8 col-md-6">
-              <input type="date" formControlName="experiencia" class="form-control" name="date" />
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">C. Electrónico:</label>
-            <div class="col-lg-8 col-md-6">
-              <input type="email" formControlName="pcorreo" class="form-control" id="pcorreo"
-                placeholder="Ingrese Correo">
-              <div *ngIf="submitted && registerForm.controls.pcorreo.errors?.required">
-                <p class="text-warning"><strong>Correo requerido.</strong></p>
-              </div>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Contraseña:</label>
-            <div class="col-lg-8 col-md-6">
-              <input type="password" formControlName="contrasena" class="form-control" id="contrasena"
-                placeholder="Ingrese Contraseña">
-              <div *ngIf="submitted && registerForm.controls.contrasena.errors?.required">
-                <p class="text-warning"><strong>Contraseña requerido y minimo 8 caracteres.</strong></p>
-              </div>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Confirmar Contraseña:</label>
-            <div class="col-lg-8 col-md-6">
-              <input type="password" formControlName="contrasena2" class="form-control" id="contrasena2"
-                placeholder="Ingrese Contraseña de nuevo">
-              <div *ngIf="submitted && registerForm.controls.contrasena2.errors?.required">
-                <p class="text-warning"><strong>Confirmar Contraseña requerido y minimo 8 caracteres.</strong></p>
-              </div>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Distrito(s) de Alcance:</label>
-            <div class="col-lg-8 col-md-6">
-              <select multiple formControlName="categories" class="form-control" id="categories">
-                <option *ngFor="let district of districts" [value]="district.id">{{ district.name }}</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Categoría(s):</label>
-            <div class="col-lg-8 col-md-6">
-              <select multiple formControlName="districts" class="form-control" id="districts">
-                <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
-              </select>
-            </div>
-          </div>
-        </div>
       </div>
 
 
@@ -279,6 +290,9 @@
             <option value="3">BBVA</option>
             <option value="4">Scotiabank</option>
           </select>
+          <div *ngIf="submitted && registerForm.controls.eBancaria.errors?.required">
+            <p class="text-danger"><strong>Banco Requerido.</strong></p>
+          </div>
         </div>
       </div>
       <div class="form-group row">
@@ -310,12 +324,12 @@
 <modal #myModal>
   <modal-content>
     <div class="row text-center">
-      <h3><i class="fa {{ flagRes ? 'fa-check-circle-o text-success' : 'fa-times-circle-o text-danger' }}"
+      <h3><i class="fa {{ flagRes? 'fa-check-circle-o text-success' : 'fa-times-circle-o text-danger' }}"
           aria-hidden="true"></i></h3>
       <h4>{{ message }}</h4>
     </div>
     <div class="row text-center">
-      <a class="btn text-primary" routerLink="/ingresar" routerLinkActive="active-link"><b>Iniciar Sesión</b></a>
+      <a *ngIf="flagRes" class="btn text-primary" routerLink="/ingresar" routerLinkActive="active-link"><b>Iniciar Sesión</b></a>
     </div>
   </modal-content>
 </modal>

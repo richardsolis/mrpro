@@ -45,7 +45,7 @@ export class HomeProviderComponent implements OnInit {
     this.userService.getStatus()
       .subscribe((response: any) => {
         this.statusList = response.data.filter(state => { 
-                                                if(state.id !== 2 && state.id !== 3)
+                                                if(state.id !== 2 && state.id !== 3 && state.id !== 5)
                                                   return state; 
                                               });
       }, (error: any) => {

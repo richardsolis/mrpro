@@ -5,9 +5,7 @@
       <p>Estado:</p>
       <select (change)="getRequests()" [(ngModel)]="estado" style="margin-left: 20px;">
         <option value="1">Pendientes</option>
-         <!--<option value="2">Rechazado</option>-->
         <option value="4">Atendido</option>
-        <option value="5">Aprobado</option>
         <option value="6">Finalizado</option>
       </select>
     </div>
@@ -39,9 +37,8 @@
                   <td scope="row">
                     <div [ngSwitch]="result.status_service_id">
                       <button *ngSwitchCase="'1'" (click)="confirm(myFile,result.id)" class="btn btn-danger">Cancelar</button>
-                      <button *ngSwitchCase="'4'" (click)="goChat(result.firebase_id, result.id)" class="btn btn-warning" style="width:92px;margin-right: 10px;">Chat</button>
-                      <button *ngSwitchCase="'5'" (click)="goChat(result.firebase_id, result.id)" type="button" class="btn btn-warning">Chat</button>
-                      <button *ngSwitchCase="'5'" (click)="closeService(myModal,result.user_provider_id,result.id)" type="button" class="btn btn-secondary">Finalizar</button>
+                      <button *ngSwitchCase="'4'" (click)="goChat(result.firebase_id, result.id)" type="button" class="btn btn-warning">Chat</button>
+                      <button *ngSwitchCase="'4'" (click)="closeService(myModal,result.user_provider_id,result.id)" type="button" class="btn btn-secondary">Finalizar</button>
                     </div>
                   </td>
                 </tr>

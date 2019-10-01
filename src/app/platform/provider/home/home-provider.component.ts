@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { ChatService } from '../../../services/chat.service';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
@@ -8,13 +8,15 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { CategoryService } from 'src/app/services/category.service';
 import { DistrictService } from 'src/app/services/district.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DataTableDirective } from 'angular-datatables';
+import { AppSettings } from '../../../app.settings';
 
 @Component({
   selector: 'app-home-provider',
   templateUrl: './home-provider.component.html',
   styleUrls: ['./home-provider.component.css']
 })
-export class HomeProviderComponent implements OnInit {
+export class HomeProviderComponent implements OnInit, OnDestroy {
 
   public items: Observable<any[]>;
   public chatID: string;
@@ -29,8 +31,11 @@ export class HomeProviderComponent implements OnInit {
   registerForm: FormGroup;
   BUDGET_ID: string;
   validFlag: boolean = false;
-
   confirmModel: any;
+
+  @ViewChild(DataTableDirective) dtElement: DataTableDirective;
+  dtOptions: DataTables.Settings = {};
+  dtTrigger: Subject<any> = new Subject();
 
   constructor(db: AngularFirestore, public _cs: ChatService, private _router:Router, 
               private userService: UserService, private spinner: NgxSpinnerService,
@@ -69,6 +74,12 @@ export class HomeProviderComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      order: [[3,'desc']],
+      language: AppSettings.LANG_SPANISH
+    };
+    
     this.estado = "1";
     this.getRequests();
     this.registerForm = this.formBuilder.group({
@@ -79,6 +90,17 @@ export class HomeProviderComponent implements OnInit {
   
   }
 
+  ngOnDestroy() {
+    this.dtTrigger.unsubscribe();
+  }
+
+  rerender(){
+    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+      dtInstance.destroy();
+      this.getRequests();
+    });
+  }
+
   getRequests(){
     this.budgetsList = [];
     this.spinner.show();
@@ -86,6 +108,7 @@ export class HomeProviderComponent implements OnInit {
       response => {
         this.budgets = response;
         this.budgetsList.push(... this.budgets.data);
+        this.dtTrigger.next();
         console.log(this.budgetsList);
         this.spinner.hide();
       },

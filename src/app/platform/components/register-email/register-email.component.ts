@@ -99,11 +99,11 @@ export class RegisterEmailComponent implements OnInit {
       return;
     }
 
-    if (!this.image) {
+    /*if (!this.image) {
       this.message = "Seleccione imagen";
       myModal.open();
       return;
-    }
+    }*/
 
     console.log(this.image);
     this.spinner.show();

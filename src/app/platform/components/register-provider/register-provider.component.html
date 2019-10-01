@@ -135,7 +135,7 @@
               </div>
             </div>
           </div>
-          <div class="form-group row">
+          <!--<div class="form-group row">
             <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Distrito(s) de Alcance:
               <p *ngIf="submitted && registerForm.controls.categories.errors?.required" class="text-danger">
                 <strong>Seleccione minimo 1</strong>
@@ -146,7 +146,7 @@
                 <option *ngFor="let district of districts" [value]="district.id">{{ district.name }}</option>
               </select>
             </div>
-          </div>
+          </div>-->
           <div class="form-group row">
             <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Categoría(s):
               <p *ngIf="submitted && registerForm.controls.districts.errors?.required" class="text-danger">
@@ -159,8 +159,43 @@
               </select>
             </div>
           </div>
+          <div class="form-group row">
+            <label for="inputEmail3" class="col-lg-8 col-md-12 col-form-label text-danger"><strong>¿En que banco depositamos
+                sus ingresos?</strong></label>
+            <div class="col-lg-4 col-md-12">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Entidad Bancaria:</label>
+            <div class="col-lg-8 col-md-6">
+              <select formControlName="eBancaria" class="form-control" id="eBancaria">
+                <option value="">Seleccionar</option>
+                <option value="1">BCP</option>
+                <option value="2">Interbank</option>
+                <option value="3">BBVA</option>
+                <option value="4">Scotiabank</option>
+              </select>
+              <div *ngIf="submitted && registerForm.controls.eBancaria.errors?.required">
+                <p class="text-danger"><strong>Banco Requerido.</strong></p>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Número de Cuenta Soles:</label>
+            <div class="col-lg-8 col-md-6">
+              <input type="text" (keypress)="onlydigit($event)" formControlName="nCuenta" class="form-control" id="nCuenta"
+                placeholder="Ingrese Nro.Cuenta">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Número de Cuenta Soles Interbancaria:</label>
+            <div class="col-lg-8 col-md-6">
+              <input type="text" (keypress)="onlydigit($event)" formControlName="interbancaria" class="form-control"
+                id="interbancaria" placeholder="Ingrese Nro.Cuenta Interbancaria">
+            </div>
+          </div>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-6" style="flex-direction:row;align-self: flex-start;">
           <div class="form-group row" *ngIf="tipoForm">
             <label for="inputEmail3" class="col-lg-6 col-md-6 col-form-label"><strong>Datos de la
                 Empresa:</strong></label>
@@ -270,43 +305,6 @@
               <input (change)="selectDoc($event)" type="file" name="judiciales">
             </div>
           </div>
-        </div>
-      </div>
-
-
-      <div class="form-group row">
-        <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label text-danger"><strong>¿En que banco depositamos
-            sus ingresos?</strong></label>
-        <div class="col-lg-8 col-md-6">
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Entidad Bancaria:</label>
-        <div class="col-lg-8 col-md-6">
-          <select formControlName="eBancaria" class="form-control" id="eBancaria">
-            <option value="">Seleccionar</option>
-            <option value="1">BCP</option>
-            <option value="2">Interbank</option>
-            <option value="3">BBVA</option>
-            <option value="4">Scotiabank</option>
-          </select>
-          <div *ngIf="submitted && registerForm.controls.eBancaria.errors?.required">
-            <p class="text-danger"><strong>Banco Requerido.</strong></p>
-          </div>
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Número de Cuenta Soles:</label>
-        <div class="col-lg-8 col-md-6">
-          <input type="text" (keypress)="onlydigit($event)" formControlName="nCuenta" class="form-control" id="nCuenta"
-            placeholder="Ingrese Nro. Cuenta Soles">
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Número de Cuenta Soles Interbancaria:</label>
-        <div class="col-lg-8 col-md-6">
-          <input type="text" (keypress)="onlydigit($event)" formControlName="interbancaria" class="form-control"
-            id="interbancaria" placeholder="Ingrese Nro. Cuenta Soles Interbancaria">
         </div>
       </div>
       <div class="form-group row text-center">

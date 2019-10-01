@@ -1,10 +1,12 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router, RouterModule, Routes } from "@angular/router";
 import { SessionService } from "../../../services/session.service";
 import { UserService } from "../../../services/user.service";
 import { NgxSpinnerService } from "ngx-spinner";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Subject } from "rxjs";
+import { DataTableDirective } from "angular-datatables";
+import { AppSettings } from "../../../app.settings";
 
 declare var jquery: any;
 declare var $: any;
@@ -14,8 +16,7 @@ declare var $: any;
   templateUrl: "./providers.component.html",
   styleUrls: ["./providers.component.css"]
 })
-export class ProvidersComponent implements OnInit {
-
+export class ProvidersComponent implements OnInit, OnDestroy {
   providers;
   resultFilter: any[];
   tprovider: any = {
@@ -33,9 +34,9 @@ export class ProvidersComponent implements OnInit {
   registerForm: FormGroup;
   BudgetID = "";
   validFlag: boolean = false;
+
+  @ViewChild(DataTableDirective) dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
-  // We use this trigger because fetching the list of persons can be quite long,
-  // thus we ensure the data is fetched before rendering
   dtTrigger: Subject<any> = new Subject();
 
   constructor(private spinner: NgxSpinnerService, private router: Router, 
@@ -47,7 +48,8 @@ export class ProvidersComponent implements OnInit {
   ngOnInit() {
     this.dtOptions = {
       pagingType: 'full_numbers',
-      order: [[3,'desc']]
+      order: [[3,'desc']],
+      language: AppSettings.LANG_SPANISH
     };
 
     this.estado = "1";
@@ -60,8 +62,14 @@ export class ProvidersComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    // Do not forget to unsubscribe the event
     this.dtTrigger.unsubscribe();
+  }
+
+  rerender(){
+    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+      dtInstance.destroy();
+      this.getRequests();
+    });
   }
 
   getRequests(){
@@ -71,7 +79,6 @@ export class ProvidersComponent implements OnInit {
       response => {
         this.providers = response;
         this.resultFilter.push(...this.providers.data);
-        // Calling the DT trigger to manually render the table
         this.dtTrigger.next();
         console.log(this.resultFilter);
         this.spinner.hide();

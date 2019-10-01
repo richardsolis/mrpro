@@ -81,7 +81,7 @@ export class RegisterProviderComponent implements OnInit {
       nCuenta:  [''],
       interbancaria:  [''],
       categories:  [[], Validators.required],
-      districts:  [[], Validators.required],
+      districts:  [[]],
     });
   }
 

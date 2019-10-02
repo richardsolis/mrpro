@@ -94,6 +94,22 @@ export class HomeProviderComponent implements OnInit, OnDestroy {
     this.dtTrigger.unsubscribe();
   }
 
+  filterInit(){
+    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+      dtInstance.columns().every(function () {
+        const that = this;
+        $('input').val('');
+        $('input', this.footer()).on('keyup change', function () {
+          if (that.search() !== this['value']) {
+            that
+              .search(this['value'])
+              .draw();
+          }
+        });
+      });
+    });
+}
+
   rerender(){
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
       dtInstance.destroy();
@@ -110,6 +126,7 @@ export class HomeProviderComponent implements OnInit, OnDestroy {
         this.budgetsList.push(... this.budgets.data);
         this.dtTrigger.next();
         console.log(this.budgetsList);
+        this.filterInit();
         this.spinner.hide();
       },
       error => console.log(error)

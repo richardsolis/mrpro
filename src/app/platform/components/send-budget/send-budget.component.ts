@@ -231,14 +231,13 @@ export class SendBudgetComponent implements OnInit {
     this.messageT = true;
     this.services = [];
     var dataSend = [];
-
     for (let i = 0; i < this.LocalProvider.length; i++) {
       dataSend.push({
         address: this.registerForm.get('address').value,
         category_service_id: this.session.getObject("budget").category,
         parent_category_service: 4,
         contact_name: this.registerForm.get('contact_name').value,
-        date_service: this.registerForm.get('date_service').value,
+        date_service: `${this.registerForm.get('date_service').value} ${this.registerForm.get('hour').value}`,
         description: this.registerForm.get('description').value,
         district_id: this.registerForm.get('district_id').value,
         phone_name: this.registerForm.get('phone_name').value,

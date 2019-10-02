@@ -69,6 +69,7 @@ export class ProvidersComponent implements OnInit, OnDestroy {
       this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
         dtInstance.columns().every(function () {
           const that = this;
+          $('input').val('');
           $('input', this.footer()).on('keyup change', function () {
             if (that.search() !== this['value']) {
               that

@@ -85,7 +85,7 @@ export class SelectProviderComponent implements OnInit {
   getActualDate(){
     let tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
-    const day = tomorrow.getDate();
+    const day = ("0" + (tomorrow.getDate())).slice(-2);
     const month = ("0" + (tomorrow.getMonth() + 1)).slice(-2);
     const year = tomorrow.getFullYear();
     return `${year}-${month}-${day}`;

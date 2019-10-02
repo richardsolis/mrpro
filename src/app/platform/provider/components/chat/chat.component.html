@@ -29,7 +29,7 @@
             <tr *ngIf="user.type == 'client'">
               <td><label><b>Precio</b></label><label class="form-control mr-sm-4">{{currentBudget.price}}</label></td>
               <td><label><b>Fecha</b></label><label class="form-control mr-sm-4">{{currentBudget.date_service}}</label></td>
-              <td><label><b>Hora</b></label><label class="form-control mr-sm-4">{{currentBudget.hour}}</label></td>
+              <td><label><b>Hora</b></label><label class="form-control mr-sm-4">{{hour}}</label></td>
               <td>
                   <button (click)="getInfo()" class="btn btn-warning" type="button">Actualizar</button>
                   <button (click)="newBudget(myModal)" class="btn btn-success" type="button">Aceptar</button>

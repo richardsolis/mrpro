@@ -1,50 +1,68 @@
 <header>
-  <section class="box-mh">
-    <div class="principal row row-justifycon">
-      <img src="assets/images/logo.png" />
-      <div>
-        <div class="clock mr-4">
-          <div class="d-table">
-            <div class="logo-phone">
-              <i class="fa fa-clock-o" aria-hidden="true"></i>
-            </div>
-            <div class="box-phone">
-              <p>Mon – Fri: 10AM – 7PM</p>
-              <p>Sat – Sun: 10AM – 3PM</p>
-            </div>
+  <!--<section class="box-mh">
+  <div class="principal row row-justifycon">
+    <img src="assets/images/logo.png" />
+    <div>
+      <div class="clock mr-4">
+        <div class="d-table">
+          <div class="logo-phone">
+            <i class="fa fa-clock-o" aria-hidden="true"></i>
+          </div>
+          <div class="box-phone">
+            <p>Mon – Fri: 10AM – 7PM</p>
+            <p>Sat – Sun: 10AM – 3PM</p>
           </div>
         </div>
-        <div class="cell">
-          <div class="d-table">
-            <div class="logo-phone">
-              <i class="fa fa-phone" aria-hidden="true"></i>
-            </div>
-            <div class="box-phone">
-              <p>Llámanos:</p>
-              <h5><a href="tel:7194452808">(+51) 9999999</a></h5>
-            </div>
+      </div>
+      <div class="cell">
+        <div class="d-table">
+          <div class="logo-phone">
+            <i class="fa fa-phone" aria-hidden="true"></i>
+          </div>
+          <div class="box-phone">
+            <p>Llámanos:</p>
+            <h5><a href="tel:7194452808">(+51) 9999999</a></h5>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>-->
   <section class="blue">
     <div class="row box-mh" style="display: flex;justify-content: space-between;">
       <div class="col-md-8">
         <ul *ngIf="visible" class="menu row">
-          <li><a routerLink="/home" routerLinkActive="active-link">INICIO</a></li>
-          <li><a routerLink="/reserva" routerLinkActive="active-link">SERVICIOS</a></li>
-          <li><a routerLink="/contacto" routerLinkActive="active-link">CONTACTO</a></li>
+          <li>
+            <a routerLink="/home" routerLinkActive="active-link">INICIO</a>
+          </li>
+          <li>
+            <a routerLink="/reserva" routerLinkActive="active-link">SERVICIOS</a>
+          </li>
+          <li>
+            <a routerLink="/contacto" routerLinkActive="active-link">CONTACTO</a>
+          </li>
         </ul>
         <ul *ngIf="user && user.type == 'client'" class="menu row">
-          <li><a routerLink="/home" routerLinkActive="active-link">INICIO</a></li>
-          <li><a routerLink="/reserva" routerLinkActive="active-link">SERVICIOS</a></li>
-          <li><a routerLink="/contacto" routerLinkActive="active-link">CONTACTO</a></li>
-          <li><a routerLink="/reservado" routerLinkActive="active-link">SOLICITUDES</a></li>
+          <li>
+            <a routerLink="/home" routerLinkActive="active-link">INICIO</a>
+          </li>
+          <li>
+            <a routerLink="/reserva" routerLinkActive="active-link">SERVICIOS</a>
+          </li>
+          <li>
+            <a routerLink="/contacto" routerLinkActive="active-link">CONTACTO</a>
+          </li>
+          <li>
+            <a routerLink="/reservado" routerLinkActive="active-link">SOLICITUDES</a>
+          </li>
         </ul>
         <ul *ngIf="user && user.type == 'provider'" class="menu row">
-          <li><a routerLink="/proveedor/home" routerLinkActive="active-link">PROPUESTAS</a></li>
-          <li><a routerLink="/proveedor/perfil" routerLinkActive="active-link">PERFIL</a></li>
+          <li>
+            <a routerLink="/proveedor/home" routerLinkActive="active-link">PROPUESTAS</a>
+          </li>
+          <li>
+            <a routerLink="/proveedor/perfil" routerLinkActive="active-link">PERFIL</a>
+          </li>
         </ul>
       </div>
       <div class="col-md-3" *ngIf="!user">
@@ -67,7 +85,8 @@
       </div>
       <div class="col-md-4">
         <div *ngIf="user && user.name" class="box-user row">
-          <img src="{{ user.image_url ? user.image_url : './assets/images/user.png' }}" class="card-img" width="35" height="45" alt="..." />
+          <img src="{{ user.image_url ? user.image_url : './assets/images/user.png' }}" class="card-img" width="35" height="45" alt="..."
+          />
           <p>{{ user.name }} |</p>
           <a class="color-white" (click)="logout()">Cerrar Sesión</a>
         </div>

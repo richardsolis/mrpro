@@ -247,7 +247,7 @@ export class SendBudgetComponent implements OnInit {
     }
     this.userS.sendBudget({ services: JSON.stringify(dataSend), image: [this.image1, this.image2, this.image3] }).subscribe(
       response => {
-        this.message = "Se agendó un servicio";
+        this.message = "Se generó su solicitud";
         modal.open();
         this.spinner.hide();
       },

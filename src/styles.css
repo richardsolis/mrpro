@@ -538,6 +538,20 @@ footer.primary {
   margin-bottom: 150px;
 }
 
+.header-text {
+  font-family: "Montserrat", Sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.428em;
+    letter-spacing: 0px;
+}
+
+.header-icon {
+	color: #283372;
+  font-size: 1.428rem;
+  padding: 0px;
+}
+
 .puntero {
   cursor: pointer;
 }
@@ -1163,6 +1177,13 @@ td {
 }
 .nav-tabs li a {
   width: 100%;
+}
+
+.select-radio {
+  background-color: #135daa;
+  color: white;
+  border-radius: 8px;
+  padding: 5px;
 }
 
 .box-mh {

@@ -40,6 +40,7 @@ export class SendBudgetComponent implements OnInit {
   image1 = "";
   image2 = "";
   image3 = "";
+  imgArray:string [] = [];
 
   registerForm: FormGroup;
 
@@ -121,23 +122,26 @@ export class SendBudgetComponent implements OnInit {
   }
 
   onSelectImage(event, number) {
-    if (number === 1) {
+    if (number == 1) {
       this.image1 = event.target.files[0];
       this.userS.postSaveImageUser(event.target.files[0]).subscribe((response: any) => {
         this.image1 = response.data;
+        this.imgArray.push(this.image1);
         console.log(response);
       });
     }
-    if (number === 2) {
+    if (number == 2) {
       this.image2 = event.target.files[0];
       this.userS.postSaveImageUser(event.target.files[0]).subscribe((response: any) => {
         this.image2 = response.data;
+        this.imgArray.push(this.image2);
         console.log(response);
       });
     }
-    if (number === 3) {
+    if (number == 3) {
       this.userS.postSaveImageUser(event.target.files[0]).subscribe((response: any) => {
         this.image3 = response.data;
+        this.imgArray.push(this.image3);
       });
     }
   }
@@ -245,7 +249,7 @@ export class SendBudgetComponent implements OnInit {
         user_provider_id: this.LocalProvider[i].id
       });
     }
-    this.userS.sendBudget({ services: JSON.stringify(dataSend), image: [this.image1, this.image2, this.image3] }).subscribe(
+    this.userS.sendBudget({ services: JSON.stringify(dataSend), image: JSON.stringify(this.imgArray) }).subscribe(
       response => {
         this.message = "Se generó su solicitud";
         modal.open();

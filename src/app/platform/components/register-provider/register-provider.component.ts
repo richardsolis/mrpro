@@ -217,11 +217,13 @@ export class RegisterProviderComponent implements OnInit {
   onSubmit(myModal) {
 
     if(this.registerForm.get('contrasena').value !== this.registerForm.get('contrasena2').value){
+      console.log('contraseñas');
       this.flagPsw = true;
       return;
     }
- 
+    
     if (this.registerForm.invalid) {
+        console.log('invalidos');
         this.submitted = true;
         return;
     }

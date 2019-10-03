@@ -51,14 +51,14 @@ export class RegisterEmailComponent implements OnInit {
     }
     this.flagSize = false;
     this.image = event.target.files[0];
-    this.spinner.show();
+    /*this.spinner.show();
     this.userService.postSaveImageUser(this.image)
       .subscribe((response: any) => {
         console.log(response);
         this.spinner.hide();
       }, (error: any) => {
         console.log(error);
-    })
+    })*/
   }
 
   login(myModal) {

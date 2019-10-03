@@ -30,7 +30,7 @@
 </section>-->
   <nav class="navbar navbar-expand-lg navbar-light blue" style="padding: 0rem 1rem;">
     <a class="navbar-brand" href="javascript:void(0)">
-      <img src="assets/images/logo.png" width="60" height="60" class="d-inline-block align-top" alt="">
+      <img src="assets/images/logo.png" width="60" height="60" class="d-inline-block align-top header-logo" alt="">
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,25 +48,25 @@
           <a routerLink="/contacto" routerLinkActive="active-link">CONTACTO</a>
         </li>
       </ul>
-      <ul *ngIf="user && user.type == 'client'" class="menu row ml-auto">
-        <li>
+      <ul *ngIf="user && user.type == 'client'" class="navbar-nav menu mr-auto">
+        <li class="nav-item">
           <a routerLink="/home" routerLinkActive="active-link">INICIO</a>
         </li>
-        <li>
+        <li class="nav-item">
           <a routerLink="/reserva" routerLinkActive="active-link">SERVICIOS</a>
         </li>
-        <li>
+        <li class="nav-item">
           <a routerLink="/contacto" routerLinkActive="active-link">CONTACTO</a>
         </li>
-        <li>
+        <li class="nav-item">
           <a routerLink="/reservado" routerLinkActive="active-link">SOLICITUDES</a>
         </li>
       </ul>
-      <ul *ngIf="user && user.type == 'provider'" class="menu row ml-auto">
-        <li>
+      <ul *ngIf="user && user.type == 'provider'" class="navbar-nav menu mr-auto">
+        <li class="nav-item">
           <a routerLink="/proveedor/home" routerLinkActive="active-link">PROPUESTAS</a>
         </li>
-        <li>
+        <li class="nav-item">
           <a routerLink="/proveedor/perfil" routerLinkActive="active-link">PERFIL</a>
         </li>
       </ul>
@@ -87,12 +87,12 @@
             style="background: #134293">INICIAR SESIÓN</a>
         </li>
       </ul>
-      <div *ngIf="user && user.name" class="box-user row">
-        <img src="{{ user.image_url ? user.image_url : './assets/images/user.png' }}" class="card-img" width="35"
-          height="45" alt="..." />
-        <p>{{ user.name }} |</p>
-        <a class="color-white" (click)="logout()">Cerrar Sesión</a>
-      </div>
+      <div *ngIf="user && user.name" class="box-user row" style="padding: 12px 15px;">
+          <img src="{{ user.image_url ? user.image_url : './assets/images/user.png' }}" class="card-img" width="35"
+            height="45" alt="..." />
+          <p>{{ user.name }} |</p>
+          <a class="color-white" (click)="logout()">Cerrar Sesión</a>
+        </div>
     </div>
   </nav>
   <!--<section class="blue">

@@ -11,12 +11,14 @@
       <div class="form-inline">
           <img src="assets/images/logo.png" width="60" height="50" class="d-inline-block align-top" alt="">
           <!--<h1 class="navbar">Chat | Instalación - Reparación baño</h1>-->
-          <h1 class="navbar" *ngIf="categories">{{ getName(categories, currentBudget.category_service_id) }} - Subcategoría</h1>
+          <h4 class="navbar" *ngIf="currentBudget.category_service">{{ currentBudget.category_service.name }} - {{ currentBudget.parent_category.name }}</h4>
+          <p><b>Descripción: </b>{{ currentBudget.description + ' |' }}</p>
+          <button type="button" class="btn btn-primary btn-sm" (click)="details(myImages, currentBudget.image_url)">Detalle</button>
       </div>
     </nav>
     <hr>
     <div class="col-lg-10 col-md-10 col-sm-12 mx-auto">
-      <table class="table-responsive-sm table-bordered part-coti">
+      <table class="table-responsive table-bordered part-coti">
         <tbody>
             <tr *ngIf="user.type == 'provider'">
               <td><label><b>Precio</b></label><input [(ngModel)]="currentBudget.price" value="currentBudget.price" class="form-control mr-sm-4" type="text" placeholder="S/."></td>
@@ -131,3 +133,28 @@
       </div>
     </modal-content>
   </modal>
+
+  <modal #myImages>
+      <modal-content>
+          <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+              <!--<ol class="carousel-indicators">
+                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+              </ol>-->
+              <div class="carousel-inner">
+                <div class="carousel-item active" *ngFor="let imgItem of arrayImgs; let i = index">
+                  <img class="d-block w-100" [src]="imgItem" alt="slide-{{i}}">
+                </div>
+              </div>
+              <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+              </a>
+              <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+              </a>
+            </div>
+      </modal-content>
+    </modal>

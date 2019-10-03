@@ -552,6 +552,13 @@ footer.primary {
   padding: 0px;
 }
 
+.header-logo {
+  background-color: white;
+  border-radius: 8px;
+  padding: 1px;
+  border: 1px black solid;
+}
+
 .puntero {
   cursor: pointer;
 }

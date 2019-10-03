@@ -6,7 +6,7 @@ import { UserService } from 'src/app/services/user.service';
 import { AppSettings } from 'src/app/app.settings';
 import { CategoryService } from 'src/app/services/category.service';
 import { SessionService } from 'src/app/services/session.service';
-
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-chat',
@@ -27,6 +27,7 @@ export class ChatComponent implements OnInit {
   categories: any[];
   user: any = {};
   execute: boolean = false;
+  arrayImgs:string[] = [];
 
   constructor(public _cs: ChatService, private _route:ActivatedRoute, 
               private spinner: NgxSpinnerService, private _router:Router,
@@ -218,6 +219,12 @@ export class ChatComponent implements OnInit {
           console.log(error);
           this.spinner.hide();
         });
+  }
+
+  details(myImages, images){
+    myImages.open();
+    this.arrayImgs = images;
+    console.log(this.arrayImgs);
   }
 
   convertImgToDataURL(imageURL: string){

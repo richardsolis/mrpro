@@ -28,73 +28,74 @@
     </div>
   </div>
 </section>-->
-<nav class="navbar navbar-expand-lg navbar-light blue">
-    <a class="navbar-brand" href="#">
-        <img src="assets/images/logo.png" width="60" height="60" class="d-inline-block align-top" alt="">
+  <nav class="navbar navbar-expand-lg navbar-light blue" style="padding: 0rem 1rem;">
+    <a class="navbar-brand" href="javascript:void(0)">
+      <img src="assets/images/logo.png" width="60" height="60" class="d-inline-block align-top" alt="">
     </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-  
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul *ngIf="visible" class="menu row ml-auto">
-            <li>
-              <a routerLink="/home" routerLinkActive="active-link">INICIO</a>
-            </li>
-            <li>
-              <a routerLink="/reserva" routerLinkActive="active-link">SERVICIOS</a>
-            </li>
-            <li>
-              <a routerLink="/contacto" routerLinkActive="active-link">CONTACTO</a>
-            </li>
-          </ul>
-          <ul *ngIf="user && user.type == 'client'" class="menu row ml-auto">
-            <li>
-              <a routerLink="/home" routerLinkActive="active-link">INICIO</a>
-            </li>
-            <li>
-              <a routerLink="/reserva" routerLinkActive="active-link">SERVICIOS</a>
-            </li>
-            <li>
-              <a routerLink="/contacto" routerLinkActive="active-link">CONTACTO</a>
-            </li>
-            <li>
-              <a routerLink="/reservado" routerLinkActive="active-link">SOLICITUDES</a>
-            </li>
-          </ul>
-          <ul *ngIf="user && user.type == 'provider'" class="menu row ml-auto">
-            <li>
-              <a routerLink="/proveedor/home" routerLinkActive="active-link">PROPUESTAS</a>
-            </li>
-            <li>
-              <a routerLink="/proveedor/perfil" routerLinkActive="active-link">PERFIL</a>
-            </li>
-          </ul>
-          <ul class="menu row ml-auto" *ngIf="!user">
-              <li>
-                <a (click)="ingresarClear()" class="ingresar" routerLink="/ingresar" routerLinkActive="active-link" style="background: #134293">INICIAR SESIÓN</a>
-              </li>
-              <li>
-                <a class="ingresar" style="background: #301d07" (click)="menu()">REGISTRAR</a>
-                <ul class="login-prooverdor" style=" position: absolute;width: 100%;z-index: 999999999;list-style: none;" *ngIf="submenu">
-                  <li>
-                    <a class="itemList" routerLink="/ingresar" routerLinkActive="active-link" style="background: #134293;color: white;">Registrar como Cliente</a>
-                  </li>
-                  <li>
-                    <a class="itemList" routerLink="/registro/proveedor" style="background: #134293;color: white;">Registrar como Proveedor</a>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-            <div *ngIf="user && user.name" class="box-user row">
-                <img src="{{ user.image_url ? user.image_url : './assets/images/user.png' }}" class="card-img" width="35" height="45" alt="..."
-                />
-                <p>{{ user.name }} |</p>
-                <a class="color-white" (click)="logout()">Cerrar Sesión</a>
-              </div>
+      <ul *ngIf="visible" class="navbar-nav menu mr-auto">
+        <li class="nav-item">
+          <a routerLink="/home" routerLinkActive="active-link">INICIO</a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/reserva" routerLinkActive="active-link">SERVICIOS</a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/contacto" routerLinkActive="active-link">CONTACTO</a>
+        </li>
+      </ul>
+      <ul *ngIf="user && user.type == 'client'" class="menu row ml-auto">
+        <li>
+          <a routerLink="/home" routerLinkActive="active-link">INICIO</a>
+        </li>
+        <li>
+          <a routerLink="/reserva" routerLinkActive="active-link">SERVICIOS</a>
+        </li>
+        <li>
+          <a routerLink="/contacto" routerLinkActive="active-link">CONTACTO</a>
+        </li>
+        <li>
+          <a routerLink="/reservado" routerLinkActive="active-link">SOLICITUDES</a>
+        </li>
+      </ul>
+      <ul *ngIf="user && user.type == 'provider'" class="menu row ml-auto">
+        <li>
+          <a routerLink="/proveedor/home" routerLinkActive="active-link">PROPUESTAS</a>
+        </li>
+        <li>
+          <a routerLink="/proveedor/perfil" routerLinkActive="active-link">PERFIL</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav menu ml-auto" *ngIf="!user">
+      <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle ingresar" style="background: #301d07; color: white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            REGISTRAR
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="padding: 0px">
+              <a class="dropdown-item itemList" routerLink="/ingresar" routerLinkActive="active-link"
+                style="background: #134293;color: white;">Registrar como Cliente</a>
+                <a class="dropdown-item itemList" routerLink="/registro/proveedor" style="background: #134293;color: white;">Registrar
+                  como Proveedor</a>
+          </div>
+        </li>
+        <li  class="nav-item">
+          <a (click)="ingresarClear()" class="ingresar" routerLink="/ingresar" routerLinkActive="active-link"
+            style="background: #134293">INICIAR SESIÓN</a>
+        </li>
+      </ul>
+      <div *ngIf="user && user.name" class="box-user row">
+        <img src="{{ user.image_url ? user.image_url : './assets/images/user.png' }}" class="card-img" width="35"
+          height="45" alt="..." />
+        <p>{{ user.name }} |</p>
+        <a class="color-white" (click)="logout()">Cerrar Sesión</a>
+      </div>
     </div>
   </nav>
-  <section class="blue">
+  <!--<section class="blue">
     <div class="row box-mh" style="display: flex;justify-content: space-between;">
       <div class="col-md-8">
         <ul *ngIf="visible" class="menu row">
@@ -134,16 +135,20 @@
       <div class="col-md-3" *ngIf="!user">
         <ul class="menu row">
           <li>
-            <a (click)="ingresarClear()" class="ingresar" routerLink="/ingresar" routerLinkActive="active-link" style="background: #134293">INICIAR SESIÓN</a>
+            <a (click)="ingresarClear()" class="ingresar" routerLink="/ingresar" routerLinkActive="active-link"
+              style="background: #134293">INICIAR SESIÓN</a>
           </li>
           <li>
             <a class="ingresar" style="background: #301d07" (click)="menu()">REGISTRAR</a>
-            <ul class="login-prooverdor" style=" position: absolute;width: 100%;z-index: 999999999;list-style: none;" *ngIf="submenu">
+            <ul class="login-prooverdor" style=" position: absolute;width: 100%;z-index: 999999999;list-style: none;"
+              *ngIf="submenu">
               <li>
-                <a class="itemList" routerLink="/ingresar" routerLinkActive="active-link" style="background: #134293;color: white;">Registrar como Cliente</a>
+                <a class="itemList" routerLink="/ingresar" routerLinkActive="active-link"
+                  style="background: #134293;color: white;">Registrar como Cliente</a>
               </li>
               <li>
-                <a class="itemList" routerLink="/registro/proveedor" style="background: #134293;color: white;">Registrar como Proveedor</a>
+                <a class="itemList" routerLink="/registro/proveedor" style="background: #134293;color: white;">Registrar
+                  como Proveedor</a>
               </li>
             </ul>
           </li>
@@ -151,12 +156,12 @@
       </div>
       <div class="col-md-4">
         <div *ngIf="user && user.name" class="box-user row">
-          <img src="{{ user.image_url ? user.image_url : './assets/images/user.png' }}" class="card-img" width="35" height="45" alt="..."
-          />
+          <img src="{{ user.image_url ? user.image_url : './assets/images/user.png' }}" class="card-img" width="35"
+            height="45" alt="..." />
           <p>{{ user.name }} |</p>
           <a class="color-white" (click)="logout()">Cerrar Sesión</a>
         </div>
       </div>
     </div>
-  </section>
+  </section>-->
 </header>

@@ -39,11 +39,14 @@ export class SelectProviderComponent implements OnInit {
     this.spinner.show();
     this.user = this.session.getObject("user");
     this.categoryS.guestGetCategories().subscribe((response: any) => {
-      this.allcategories = response.data;
+      this.allcategories = response.data; console.log(response.data);
       this.spinner.hide();
       this.categories = this.allcategories.filter(item => item.parent == 0);
       this.categoryChanged();
-      this.getDistricts();
+      //this.getDistricts();
+    });
+    this.categoryS.guestGetPrices().subscribe((response: any) => {
+      console.log(response.data);
     });
   }
 

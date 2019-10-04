@@ -52,7 +52,7 @@
         <div *ngIf="chat.tipo == '2'">
           <!--<br>-->
           <img [src]="pathImage + chat.mensaje" width="100" height="110" class="img-chat-style">
-          <a href="{{chat.mensaje}}" class="donwload-style" download>
+          <a [href]="chat.image" class="donwload-style" download >
             <p><b>Descargar</b></p>
           </a>
         </div>

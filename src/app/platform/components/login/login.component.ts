@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
     password: "",
     grant_type: "password",
     client_id: 2,
-    client_secret: "z1ibSnZmsELId8OE6x7B5wYNcBU9wd6HTHJAVdjT"
+    client_secret: "NMhjbQRnIh4u4guPe9UlWevgxuBTKr4pRarVpdwh"
   };
   message = "";
   data: any = {};
@@ -46,19 +46,13 @@ export class LoginComponent implements OnInit {
     this.socialAuthService.signIn(socialPlatformProvider).then(userData => {
       console.log(socialPlatform + " sign in data : ", userData);
       // Now sign-in with userData
-      // ...
+      this.user.username = userData.email;
+      this.user.password = userData.id;
+      this.login();
     });
   }
 
   login(myModal = null, social = null) {
-    if (social == "facebook") {
-      this.user.username = "facebook";
-      this.user.password = "facebook";
-    } else if (social == "google") {
-      this.user.username = "google";
-      this.user.password = "google";
-    }
-
     if (!this.user.username || !this.user.password) {
       this.message = "Campos incompletos";
       myModal.open();

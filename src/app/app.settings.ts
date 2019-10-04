@@ -10,6 +10,7 @@ export class AppSettings {
   public static GUEST_GET_PROVIDERS = "guest/providers";
   public static GUEST_GET_DISTRICTS = "guest/districts";
   public static GUEST_GET_CATEGORIES = "guest/categories";
+  public static GUEST_GET_PRICED = "guest/priced";
   public static LOGIN_USER_EMAIL = "oauth/token";
   public static CLIENT_SEND_BUDGET = "client/send/budget";
   public static CLIENT_GET_BUDGET = "client/get/budget";

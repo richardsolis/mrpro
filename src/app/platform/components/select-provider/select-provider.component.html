@@ -38,7 +38,7 @@
       <div class="form-row" style="justify-content: center;">
         <div class="form-group fix-fg col-lg-2 col-md-3 col-ms-12">
           <label for="inputEmail4">Categoria:</label>
-          <select class="form-control color-blue" formControlName="category" name="category">
+          <select (change)="categoryChanged()" class="form-control color-blue" formControlName="category" name="category">
             <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
           </select>
         </div>

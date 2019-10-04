@@ -12,4 +12,8 @@ export class CategoryService {
   guestGetCategories(){
   	return this.http.get(AppSettings.BASE_PATH + AppSettings.GUEST_GET_CATEGORIES)
   }
+
+  guestGetPrices(){
+  	return this.http.get(AppSettings.BASE_PATH + AppSettings.GUEST_GET_PRICED)
+  }
 }

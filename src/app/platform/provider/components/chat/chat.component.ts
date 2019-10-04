@@ -72,7 +72,6 @@ export class ChatComponent implements OnInit {
 
   ngOnInit() {
     this.elemento = document.getElementById('app-mensajes');
-    console.log(this.convertImg('222128-baño.jpg'));
   }
 
   getName(array: any[], value){
@@ -148,21 +147,29 @@ export class ChatComponent implements OnInit {
   uploadFile(file){
     this.spinner.show();
     this.userService.postSaveImageUser(file)
-  	.subscribe((response: any) => {
-      this.isDisabled = true;
-      console.log(response); 
-      this._cs.agregarMensajePrivado(response.data, '2', this.currentChat, this.user.id, this.user.name )
-              .then( ()=>{
-                this.isDisabled = false;
-              })
-              .catch( (err)=> {
-                this.isDisabled = false;
-                console.error('Error al enviar imagen mensaje',  err );
-              });
-  		this.spinner.hide();
-  	}, (error: any) => {
-  		console.log(error);
-	  })
+      .subscribe((response: any) => {
+        this.isDisabled = true;
+        console.log(response);
+        this.userService.convertImage(response.data)
+          .subscribe((res: any)=>{
+            //console.log("convert: ", res);
+            this._cs.agregarMensajePrivado(response.data,res.data, '2', this.currentChat, this.user.id, this.user.name )
+                    .then( ()=>{
+                      this.isDisabled = false;
+                    })
+                    .catch( (err)=> {
+                      this.isDisabled = false;
+                      console.error('Error al enviar imagen mensaje',  err );
+                    });
+              this.spinner.hide();
+            }, (error: any) => {
+              console.log(error);
+            })
+        },
+        (error)=>{
+          console.log(error);
+        });
+      
   }
 
   enviar_mensaje(tipo:string){
@@ -175,7 +182,7 @@ export class ChatComponent implements OnInit {
     this.userService.getOneBudget(this.currentBudgetID)
           .subscribe((res: any)=>{
             if(res.data.status_service_id == 4){
-              this._cs.agregarMensajePrivado( this.mensaje, tipo, this.currentChat, this.user.id, this.user.name )
+              this._cs.agregarMensajePrivado( this.mensaje,"", tipo, this.currentChat, this.user.id, this.user.name )
                       .then( ()=>{
                         this.mensaje="";
                         this.isDisabled = false;
@@ -222,19 +229,6 @@ export class ChatComponent implements OnInit {
           console.log(error);
           this.spinner.hide();
         });
-  }
-
-  convertImg(imgName: string){
-    let base64Img = "";
-    this.userService.convertImage(imgName)
-        .subscribe((res: any)=>{
-          console.log("convert: ", res);
-          base64Img = res.data;
-        },
-        (error)=>{
-          console.log(error);
-        });
-    return base64Img;
   }
 
   details(myImages, images){

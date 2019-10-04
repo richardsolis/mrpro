@@ -14,12 +14,20 @@ export class RegistroComponent implements OnInit {
 		username: 'user1',
 		password: 'user1',
 	};
-	message = '';
+  message = '';
+  userSocial: any = {
+    social: "1",
+    email: "",
+    name: "",
+    password: "",
+    password_confirmation: "",
+    image: ""
+  };
 
   constructor(private socialAuthService: AuthService,
   	private spinner: NgxSpinnerService,
   	private router: Router,
-  	private session: SessionService,) { }
+  	private session: SessionService) { }
 
   ngOnInit() {
   }
@@ -38,8 +46,13 @@ export class RegistroComponent implements OnInit {
       (userData) => {
         console.log(socialPlatform+" sign in data : " , userData);
         // Now sign-in with userData
-        // ...
-            
+        this.userSocial.email = userData.email;
+        this.userSocial.name = userData.name;
+        this.userSocial.password = userData.id;
+        this.userSocial.password_confirmation = userData.id;
+        this.userSocial.image = userData.image;
+        this.session.setObject('userSocial', this.userSocial);
+        this.router.navigate(["/registro/mail"]);
       }
     );
   }

@@ -3,7 +3,6 @@ import { Router, NavigationExtras } from "@angular/router";
 import { SessionService } from "../../../services/session.service";
 import { UserService } from "../../../services/user.service";
 import { NgxSpinnerService } from "ngx-spinner";
-import { BlockingProxy } from "blocking-proxy";
 
 @Component({
   selector: "app-register-email",
@@ -12,6 +11,7 @@ import { BlockingProxy } from "blocking-proxy";
 })
 export class RegisterEmailComponent implements OnInit {
   user: any = {
+    social: "",
     email: "",
     name: "",
     lastname: "",
@@ -26,10 +26,25 @@ export class RegisterEmailComponent implements OnInit {
   message = "";
   image: any;
   flagSize: boolean = false;
+  userSocial: any = {};
+  flagSocial: boolean = true;
 
   constructor(private session: SessionService, private spinner: NgxSpinnerService, private router: Router, private userService: UserService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.userSocial = this.session.getObject('userSocial');
+    if(this.userSocial){
+      this.flagSocial = false;
+      this.session.destroy('userSocial');
+      console.log(this.userSocial);
+      this.user.social = this.userSocial.social;
+      this.user.email = this.userSocial.email;
+      this.user.name = this.userSocial.name;
+      this.user.password = this.userSocial.password;
+      this.user.password_confirmation = this.userSocial.password_confirmation;
+      this.user.image = this.userSocial.image;
+    }
+  }
 
   selectFile(event) {
     console.log(event);

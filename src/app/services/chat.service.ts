@@ -76,11 +76,12 @@ export class ChatService {
   }
 
   //agrega un mensaje a un chat especifico
-  agregarMensajePrivado( texto: string, tipoMensaje: string, chatID: string, userID: number, userName: string ){
+  agregarMensajePrivado( texto: string,img: string, tipoMensaje: string, chatID: string, userID: number, userName: string ){
 
     let mensajeTemp: Mensaje = {
       nombre:  userName,
       mensaje: texto,
+      image: img,
       tipo: tipoMensaje,
       fecha: new Date().getTime(),
       uid: userID

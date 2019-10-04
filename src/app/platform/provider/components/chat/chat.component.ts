@@ -27,7 +27,8 @@ export class ChatComponent implements OnInit {
   categories: any[];
   user: any = {};
   execute: boolean = false;
-  arrayImgs:string[] = [];
+  arrayImgs:string[];
+  flagItem: boolean = false;
 
   constructor(public _cs: ChatService, private _route:ActivatedRoute, 
               private spinner: NgxSpinnerService, private _router:Router,
@@ -36,6 +37,7 @@ export class ChatComponent implements OnInit {
 
     this._route.params.subscribe(res => {
       this.user = this.session.getObject("user");
+      this.arrayImgs = [];
       console.log("user",this.user);
       if (res.id) {
         this.currentChat = res.id;
@@ -58,18 +60,19 @@ export class ChatComponent implements OnInit {
             this.currentBudget = res.data;
           });
         
-        this.categoryService.guestGetCategories()
+        /*this.categoryService.guestGetCategories()
           .subscribe((response: any) => {
             this.categories = response.data;
           }, (error: any) => {
             console.log(error);
-          });
+          });*/
       }
     });
   }
 
   ngOnInit() {
     this.elemento = document.getElementById('app-mensajes');
+    console.log(this.convertImg('222128-baño.jpg'));
   }
 
   getName(array: any[], value){
@@ -221,9 +224,24 @@ export class ChatComponent implements OnInit {
         });
   }
 
+  convertImg(imgName: string){
+    let base64Img = "";
+    this.userService.convertImage(imgName)
+        .subscribe((res: any)=>{
+          console.log("convert: ", res);
+          base64Img = res.data;
+        },
+        (error)=>{
+          console.log(error);
+        });
+    return base64Img;
+  }
+
   details(myImages, images){
     myImages.open();
     this.arrayImgs = images;
+    this.flagItem = (this.arrayImgs.length>0)? false : true;
+
     console.log(this.arrayImgs);
   }
 

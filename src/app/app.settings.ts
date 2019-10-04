@@ -25,6 +25,7 @@ export class AppSettings {
   public static CREATE_CARD_BANK = "card/create";
   public static DELETE_CARD_BANK = "card/delete";
   public static LIST_ALL_CARD = "card/get";
+  public static CONVERT_IMG = "guest/convert/image";
 
   public static LANG_SPANISH = {
                 processing:     "Procesando...",

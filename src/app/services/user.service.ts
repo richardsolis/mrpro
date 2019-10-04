@@ -152,6 +152,15 @@ export class UserService {
     return this.http.post(AppSettings.BASE_PATH + AppSettings.UPDATE_PROVIDER_BUDGET, form, header);
   }
 
+  convertImage(imgName: string){
+    var form = new FormData();
+      form.append("image", imgName);
+
+    var header = this.generalS.getToken({}, "application/x-www-form-urlencoded");
+
+    return this.http.post(AppSettings.BASE_PATH + AppSettings.CONVERT_IMG, form, header);
+  }
+
   updateBudgetInfo(params: any,  specificDate: string){
     const obj = {
         id: params.id,

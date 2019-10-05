@@ -17,8 +17,8 @@
       </div>
     </nav>
     <hr>
-    <div class="col-lg-10 col-md-10 col-sm-12 mx-auto">
-      <table class="table-responsive table-bordered part-coti">
+    <div class="col-lg-10 offset-lg-1 col-md-10 offset-md-1 col-sm-12 table-responsive">
+      <table class="table table-bordered part-coti">
         <tbody>
             <tr *ngIf="user.type == 'provider'">
               <td><label><b>Precio</b></label><input [(ngModel)]="currentBudget.price" value="currentBudget.price" class="form-control mr-sm-4" type="text" placeholder="S/."></td>
@@ -30,9 +30,9 @@
             </tr>
             <tr *ngIf="user.type == 'client'">
               <td><label><b>Precio</b></label><label class="form-control mr-sm-4">{{currentBudget.price}}</label></td>
-              <td><label><b>Fecha</b></label><label class="form-control mr-sm-4">{{currentBudget.date_service}}</label></td>
+              <td><label><b>Fecha</b></label><label class="form-control mr-sm-4">{{currentBudget.date_service | date: 'dd/MM/yyyy'}}</label></td>
               <td><label><b>Hora</b></label><label class="form-control mr-sm-4">{{hour}}</label></td>
-              <td>
+              <td style="vertical-align: middle">
                   <button (click)="getInfo()" class="btn btn-warning" type="button">Actualizar</button>
                   <button (click)="newBudget(myModal)" class="btn btn-success" type="button">Aceptar</button>
               </td>
@@ -52,7 +52,7 @@
         <div *ngIf="chat.tipo == '2'">
           <!--<br>-->
           <img [src]="pathImage + chat.mensaje" width="100" height="110" class="img-chat-style">
-          <a [href]="chat.image" class="donwload-style" download >
+          <a [href]="chat.image" class="donwload-style" download ="{{chat.mensaje}}">
             <p><b>Descargar</b></p>
           </a>
         </div>
@@ -136,9 +136,20 @@
 
   <modal #myImages>
     <modal-content>
-        <div *ngFor="let imgItem of arrayImgs; let i = index" class="text-center">
+        <!--<div *ngFor="let imgItem of arrayImgs" class="text-center">
             <img [src]="imgItem" alt="Random first slide" class="img-thumbnail" height="300" width="300">
-        </div>
+        </div>-->
+        <ngx-slick-carousel class="carousel" 
+                        #slickModal="slick-carousel" 
+                        [config]="slideConfig" 
+                        (init)="slickInit($event)"
+                        (breakpoint)="breakpoint($event)"
+                        (afterChange)="afterChange($event)"
+                        (beforeChange)="beforeChange($event)">
+          <div ngxSlickItem *ngFor="let imgItem of arrayImgs" class="slide">
+                <img src="{{ imgItem }}" class="img-thumbnail" alt="" width="100%" style="border: 2px solid #dee2e6;">
+          </div>
+        </ngx-slick-carousel>
         <div class="badge badge-danger text-wrap" *ngIf="flagItem">
           Actualmente no cuenta con imagenes adjuntas.
         </div>

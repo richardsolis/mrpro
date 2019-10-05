@@ -16,10 +16,10 @@ import { FormBuilder, FormGroup, Validators, FormControl } from "@angular/forms"
 export class SelectProviderComponent implements OnInit {
   
   registerForm: FormGroup;
-  submitted = false;
 
   providers: any = [];
   allcategories: any = [];
+  allcategoriesP: any = [];
   districts: any = [];
   categories: any = [];
   subCategories: any = [];
@@ -32,6 +32,7 @@ export class SelectProviderComponent implements OnInit {
     user: {}
   };
   provedores = [];
+  flagCatType: boolean = false;
   
   constructor(private router: Router, private spinner: NgxSpinnerService, private session: SessionService,
               private userS: UserService, private categoryS: CategoryService, private districtS: DistrictService,
@@ -39,14 +40,13 @@ export class SelectProviderComponent implements OnInit {
     this.spinner.show();
     this.user = this.session.getObject("user");
     this.categoryS.guestGetCategories().subscribe((response: any) => {
-      this.allcategories = response.data; console.log(response.data);
+      this.allcategories = response.data; 
       this.spinner.hide();
       this.categories = this.allcategories.filter(item => item.parent == 0);
       this.categoryChanged();
-      //this.getDistricts();
     });
     this.categoryS.guestGetPrices().subscribe((response: any) => {
-      console.log(response.data);
+      this.allcategoriesP = response.data;
     });
   }
 
@@ -55,7 +55,7 @@ export class SelectProviderComponent implements OnInit {
     this.registerForm = this.formBuilder.group({
       type: ['programmed'],
       category: ['1', Validators.required],
-      subcategory: ['6', Validators.required],
+      subcategory: ['', Validators.required],
       district:  ['1', Validators.required],
       date:  [today, Validators.required],
       hour:  ['08:00:00', Validators.required],
@@ -66,11 +66,21 @@ export class SelectProviderComponent implements OnInit {
 
   buttonSelectType(type: string) {
     if(type === 'programmed' && this.registerForm.get('type').value !== 'programmed'){
+      this.flagCatType = false;
+      this.categories = this.allcategories.filter(item => item.parent == 0);
+      this.registerForm.get('category').setValue('1');
       this.registerForm.get('type').setValue(type);
+      this.categoryChanged();
       this.addControls();
+      this.selectedProviders = [];
     }else if(type === 'priced'){
+      this.flagCatType = true;
+      this.categories = this.allcategoriesP.filter(item => item.parent == 0);
+      this.registerForm.get('category').setValue('1');
       this.registerForm.get('type').setValue(type);
+      this.categoryChanged();
       this.removeControls();
+      this.selectedProviders = [];
     }
   }
 
@@ -78,11 +88,15 @@ export class SelectProviderComponent implements OnInit {
     const today = this.getActualDate();
     this.registerForm.addControl('date', new FormControl(today, Validators.required));
     this.registerForm.addControl('hour', new FormControl('08:00:00', Validators.required));
+    this.registerForm.removeControl('price');
+    this.registerForm.removeControl('quantity');
   }
 
   removeControls(){
     this.registerForm.removeControl('date');
     this.registerForm.removeControl('hour');
+    this.registerForm.addControl('price', new FormControl(''));
+    this.registerForm.addControl('quantity', new FormControl('', Validators.required));
   }
 
   getActualDate(){
@@ -119,6 +133,7 @@ export class SelectProviderComponent implements OnInit {
   }
 
   categoryChanged() {
+    this.registerForm.get('subcategory').setValue('');
     this.getProviders();
     this.getSubcategories();
   }
@@ -150,7 +165,24 @@ export class SelectProviderComponent implements OnInit {
   }
 
   getSubcategories() {
-    this.subCategories = this.allcategories.filter(item => item.parent == this.registerForm.get('category').value);
+    if(!this.flagCatType){
+      this.subCategories = this.allcategories.filter(item => item.parent == this.registerForm.get('category').value);
+    }else if(this.flagCatType){
+      this.subCategories = this.allcategoriesP.filter(item => item.parent == this.registerForm.get('category').value);
+    }
+  }
+
+  getPrice(){
+    for (let i = 0; i < this.subCategories.length; i++) {
+      if(this.registerForm.get('subcategory').value ==  this.subCategories[i].id){
+        this.registerForm.get('price').setValue( this.subCategories[i].price);
+        return;
+      }
+      if(this.registerForm.get('subcategory').value == ''){
+        this.registerForm.get('price').setValue('');
+        return;
+      }
+    }
   }
 
   selectAllProviders() {
@@ -192,7 +224,9 @@ export class SelectProviderComponent implements OnInit {
 
   scheduleAll(myModal) {
     if (this.registerForm.invalid) {
-      this.submitted = true;
+      this.message = "Complete todos los campos";
+      this.messageT = false;
+      myModal.open();
       return;
     }
 

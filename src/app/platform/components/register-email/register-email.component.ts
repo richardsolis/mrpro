@@ -66,14 +66,15 @@ export class RegisterEmailComponent implements OnInit {
     }
     this.flagSize = false;
     this.image = event.target.files[0];
-    /*this.spinner.show();
+    this.spinner.show();
     this.userService.postSaveImageUser(this.image)
       .subscribe((response: any) => {
         console.log(response);
+        this.user.image = response.data;
         this.spinner.hide();
       }, (error: any) => {
         console.log(error);
-    })*/
+    })
   }
 
   login(myModal) {
@@ -120,43 +121,31 @@ export class RegisterEmailComponent implements OnInit {
       return;
     }*/
 
-    console.log(this.image);
     this.spinner.show();
-    this.userService.postSaveImageUser(this.image).subscribe(
+
+    this.userService.guestCreateUser(this.user).subscribe(
       (response: any) => {
         console.log(response);
-        this.user.image = response.data;
-        this.userService.guestCreateUser(this.user).subscribe(
-          (response: any) => {
-            console.log(response);
-            this.spinner.hide();
-            this.session.setObject("userlogin", this.user);
-            this.router.navigate(["/ingresar"]);
-          },
-          (error: any) => {
-            console.log(error);
-            if (error.error && error.error.data && error.error.data.email && error.error.data.email.length) {
-              this.message = "El correo electronico ya esta registrado";
-              myModal.open();
-              this.spinner.hide();
-              return;
-            }
-            if (error.error && error.error.data && error.error.data.doc_number) {
-              this.message = "El DNI ya esta registrado";
-              myModal.open();
-              this.spinner.hide();
-              return;
-            }
-          }
-        );
         this.spinner.hide();
+        this.session.setObject("userlogin", this.user);
+        this.router.navigate(["/ingresar"]);
       },
       (error: any) => {
         console.log(error);
+        if (error.error && error.error.data && error.error.data.email && error.error.data.email.length) {
+          this.message = "El correo electronico ya esta registrado";
+          myModal.open();
+          this.spinner.hide();
+          return;
+        }
+        if (error.error && error.error.data && error.error.data.doc_number) {
+          this.message = "El DNI ya esta registrado";
+          myModal.open();
+          this.spinner.hide();
+          return;
+        }
       }
     );
-
-    this.spinner.show();
   }
 
   onlydigit(e) {

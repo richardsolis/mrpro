@@ -30,6 +30,7 @@ export class ChatComponent implements OnInit {
   arrayImgs:string[];
   flagItem: boolean = false;
 
+  public slideConfig = {"slidesToShow": 1, "slidesToScroll": 1, "dots":true};
   constructor(public _cs: ChatService, private _route:ActivatedRoute, 
               private spinner: NgxSpinnerService, private _router:Router,
               private userService: UserService, private categoryService: CategoryService,
@@ -243,6 +244,22 @@ export class ChatComponent implements OnInit {
     let canvas = document.createElement('canvas');
     let dataURL = canvas.toDataURL('image/jpeg',imageURL);
     return dataURL;
+  }
+
+  slickInit(e) {
+    console.log('slick initialized');
+  }
+  
+  breakpoint(e) {
+    console.log('breakpoint');
+  }
+  
+  afterChange(e) {
+    console.log('afterChange');
+  }
+  
+  beforeChange(e) {
+    console.log('beforeChange');
   }
 
 }

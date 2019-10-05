@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  public socialSignIn(socialPlatform: string) {
+  public socialSignIn(myModal,socialPlatform: string) {
     let socialPlatformProvider;
     if (socialPlatform == "facebook") {
       socialPlatformProvider = FacebookLoginProvider.PROVIDER_ID;
@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
       // Now sign-in with userData
       this.user.username = userData.email;
       this.user.password = userData.id;
-      this.login();
+      this.login(myModal);
     });
   }
 
@@ -63,10 +63,12 @@ export class LoginComponent implements OnInit {
       this.session.destroy("userlogin");
     }
     this.spinner.show();
+    console.log(this.user);
     this.generalS.login(this.user).subscribe(
       response => {
         this.session.setObject("token", response);
         this.userS.getCurrentUser().subscribe((response: any) => {
+          console.log(response);
           if (response.data.client) {
             this.session.setObject("user", { ...response.data.client.user, type: response.data.type[0] });
 

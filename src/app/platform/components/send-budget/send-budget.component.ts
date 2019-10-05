@@ -5,7 +5,6 @@ import { UserService } from "../../../services/user.service";
 import { DistrictService } from "../../../services/district.service";
 import { GeneralService } from "../../../services/general.service";
 import { NgxSpinnerService } from "ngx-spinner";
-import localeDe from "@angular/common/locales/de";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
 @Component({
@@ -72,6 +71,12 @@ export class SendBudgetComponent implements OnInit {
     this.providers = this.session.getObject("providers");
     this.getDistricts();
     this.allCard();
+  }
+
+  getTotalPrice(price: string, quantity:string){
+    const priceN = parseInt(price);
+    const quantityN = parseInt(quantity);
+    return priceN*quantityN;
   }
 
   getActualDate(){
@@ -236,18 +241,35 @@ export class SendBudgetComponent implements OnInit {
     this.services = [];
     var dataSend = [];
     for (let i = 0; i < this.LocalProvider.length; i++) {
-      dataSend.push({
-        address: this.registerForm.get('address').value,
-        category_service_id: this.session.getObject("budget").category,
-        parent_category_service: 4,
-        contact_name: this.registerForm.get('contact_name').value,
-        date_service: `${this.registerForm.get('date_service').value} ${this.registerForm.get('hour').value}`,
-        description: this.registerForm.get('description').value,
-        district_id: this.registerForm.get('district_id').value,
-        phone_name: this.registerForm.get('phone_name').value,
-        card_bank_id: this.cardBankID,
-        user_provider_id: this.LocalProvider[i].id
-      });
+      if(this.session.getObject("budget").quantity === undefined){
+        dataSend.push({
+          address: this.registerForm.get('address').value,
+          category_service_id: this.session.getObject("budget").category,
+          parent_category_service: 4,
+          contact_name: this.registerForm.get('contact_name').value,
+          date_service: `${this.registerForm.get('date_service').value} ${this.registerForm.get('hour').value}`,
+          description: this.registerForm.get('description').value,
+          district_id: this.registerForm.get('district_id').value,
+          phone_name: this.registerForm.get('phone_name').value,
+          card_bank_id: this.cardBankID,
+          user_provider_id: this.LocalProvider[i].id
+        });
+      }else{
+        dataSend.push({
+          address: this.registerForm.get('address').value,
+          category_service_id: this.session.getObject("budget").category,
+          parent_category_service: 4,
+          contact_name: this.registerForm.get('contact_name').value,
+          date_service: `${this.registerForm.get('date_service').value} ${this.registerForm.get('hour').value}`,
+          description: this.registerForm.get('description').value,
+          district_id: this.registerForm.get('district_id').value,
+          phone_name: this.registerForm.get('phone_name').value,
+          card_bank_id: this.cardBankID,
+          user_provider_id: this.LocalProvider[i].id,
+          price: this.getTotalPrice(this.session.getObject("budget").price,this.session.getObject("budget").quantity),
+          quantity: this.session.getObject("budget").quantity
+        });
+      }
     }
     this.userS.sendBudget({ services: JSON.stringify(dataSend), image: JSON.stringify(this.imgArray) }).subscribe(
       response => {

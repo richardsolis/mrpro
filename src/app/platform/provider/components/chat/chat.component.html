@@ -12,8 +12,10 @@
           <img src="assets/images/logo.png" width="60" height="50" class="d-inline-block align-top" alt="">
           <!--<h1 class="navbar">Chat | Instalación - Reparación baño</h1>-->
           <h4 class="navbar" *ngIf="currentBudget.category_service">{{ currentBudget.category_service.name }} - {{ currentBudget.parent_category.name }}</h4>
-          <p><b>Descripción: </b>{{ currentBudget.description + ' |' }}</p>
-          <button type="button" class="btn btn-primary btn-sm" (click)="details(myImages, currentBudget.image_url)">Detalle</button>
+      </div>
+      <div class="form-inline">
+        <p><b>Descripción: </b>{{ currentBudget.description + ' |' }}</p>
+        <button type="button" class="btn btn-primary btn-sm" (click)="details(myImages, currentBudget.image_url)">Detalle</button>
       </div>
     </nav>
     <hr>
@@ -24,7 +26,7 @@
               <td><label><b>Precio</b></label><input [(ngModel)]="currentBudget.price" value="currentBudget.price" class="form-control mr-sm-4" type="text" placeholder="S/."></td>
               <td><label><b>Fecha</b></label><input [(ngModel)]="currentBudget.date_service" class="form-control mr-sm-4" type="date" placeholder="dd/mm/yyyy"></td>
               <td><label><b>Hora</b></label><input  [(ngModel)]="hour" class="form-control mr-sm-4" type="time" placeholder="hh:mm"></td>
-              <td>
+              <td style="vertical-align: middle">
                   <button (click)="updateInfo()" class="btn btn-success" type="button">Enviar</button>
               </td>
             </tr>

@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable, Subject } from 'rxjs';
 import { ChatService } from '../../../services/chat.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { CategoryService } from 'src/app/services/category.service';
@@ -37,7 +37,7 @@ export class HomeProviderComponent implements OnInit, OnDestroy {
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
 
-  constructor(db: AngularFirestore, public _cs: ChatService, private _router:Router, 
+  constructor(db: AngularFirestore, public _cs: ChatService, private _router:Router, private _route:ActivatedRoute,
               private userService: UserService, private spinner: NgxSpinnerService,
               private categoryService: CategoryService, private districtService: DistrictService,private formBuilder: FormBuilder) {
     this.items = db.collection('chats').valueChanges();
@@ -69,8 +69,7 @@ export class HomeProviderComponent implements OnInit, OnDestroy {
         this.categories = response.data;
       }, (error: any) => {
         console.log(error);
-      });
-   
+      });;
   }
 
   ngOnInit() {
@@ -79,8 +78,14 @@ export class HomeProviderComponent implements OnInit, OnDestroy {
       order: [[3,'desc']],
       language: AppSettings.LANG_SPANISH
     };
+    this._route.params.subscribe(res => {
+      if(res.status){
+        this.estado = res.status;
+      }else{
+        this.estado = "1";
+      }
+    })
     
-    this.estado = "1";
     this.getRequests();
     this.registerForm = this.formBuilder.group({
       score:  ['0', Validators.required],

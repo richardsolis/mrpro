@@ -208,7 +208,7 @@ export class ChatComponent implements OnInit {
   }
 
   goback(path: string){
-    this._router.navigate([path]);
+    this._router.navigate([path, 4]);
   }
 
   newBudget(modal) {
@@ -224,7 +224,9 @@ export class ChatComponent implements OnInit {
     this.spinner.show();
     this.userService.executeBudget(this.currentBudgetID)
         .subscribe((res: any)=>{
+          this.execute = true;
           console.log("budget execute: ", res);
+          this.spinner.hide();
         },
         (error)=>{
           console.log(error);

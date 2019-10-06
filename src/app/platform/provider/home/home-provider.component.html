@@ -41,6 +41,7 @@
                 <button *ngSwitchCase="'1'" (click)="confirm(confirmModal, 'R', budget.id)" type="button" class="btn btn-danger">Rechazar</button>
                 <button *ngSwitchCase="'4'" (click)="startChat(budget.firebase_id, budget.id)" type="button" class="btn btn-warning">Chat</button>
                 <button *ngSwitchCase="'4'" (click)="closeService(myModal,budget.user_client_id,budget.id)" type="button" class="btn btn-secondary">Finalizar</button>
+                <p *ngSwitchCase="'6'">Sin Acciones</p>
               </div>
             </td>
           </tr>

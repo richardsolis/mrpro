@@ -33,6 +33,7 @@ export class SelectProviderComponent implements OnInit {
   };
   provedores = [];
   flagCatType: boolean = false;
+  totalPrice: number = 0;
   
   constructor(private router: Router, private spinner: NgxSpinnerService, private session: SessionService,
               private userS: UserService, private categoryS: CategoryService, private districtS: DistrictService,
@@ -176,12 +177,24 @@ export class SelectProviderComponent implements OnInit {
     for (let i = 0; i < this.subCategories.length; i++) {
       if(this.registerForm.get('subcategory').value ==  this.subCategories[i].id){
         this.registerForm.get('price').setValue( this.subCategories[i].price);
+        this.calculate();
         return;
       }
       if(this.registerForm.get('subcategory').value == ''){
         this.registerForm.get('price').setValue('');
+        this.calculate();
         return;
       }
+    }
+  }
+
+  calculate(){
+    if(this.registerForm.get('price').value && this.registerForm.get('quantity').value){
+      let p = parseFloat(this.registerForm.get('price').value);
+      let q =  parseInt(this.registerForm.get('quantity').value);
+      this.totalPrice = p*q;
+    }else{
+      this.totalPrice = 0;
     }
   }
 

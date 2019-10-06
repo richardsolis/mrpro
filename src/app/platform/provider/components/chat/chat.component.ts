@@ -29,6 +29,7 @@ export class ChatComponent implements OnInit {
   execute: boolean = false;
   arrayImgs:string[];
   flagItem: boolean = false;
+  flagPrice: boolean = false;
 
   public slideConfig = {"slidesToShow": 1, "slidesToScroll": 1, "dots":true};
   constructor(public _cs: ChatService, private _route:ActivatedRoute, 
@@ -87,18 +88,25 @@ export class ChatComponent implements OnInit {
   }
 
   updateInfo(){
-    const specificDate = `${this.currentBudget.date_service} ${this.hour}`;
-    this.spinner.show();
-    this.userService.updateBudgetInfo(this.currentBudget, specificDate)
-  	.subscribe((response: any) => {
-      console.log("updateInfo",response);
-      this.spinner.hide();
-      this.mensaje = "Por favor hacer clic en el boton Actualizar.";
-      this.enviar_mensaje('3');
-  	}, (error: any) => {
-      console.log(error);
-      this.spinner.hide();
-	  })
+    if(this.currentBudget.price){
+      this.flagPrice = false;
+      const specificDate = `${this.currentBudget.date_service} ${this.hour}`;
+      this.spinner.show();
+      this.userService.updateBudgetInfo(this.currentBudget, specificDate)
+      .subscribe((response: any) => {
+        console.log("updateInfo",response);
+        this.spinner.hide();
+        this.mensaje = "El precio, fecha y hora se ha actualizado.";
+        this.enviar_mensaje('3');
+      }, (error: any) => {
+        console.log(error);
+        this.spinner.hide();
+      })
+    }
+    else{
+      this.flagPrice = true;
+    }
+    
   }
 
   getInfo(){
@@ -213,10 +221,15 @@ export class ChatComponent implements OnInit {
 
   newBudget(modal) {
     console.log("OpenModal newBudget - ", this.currentBudget);
+    if(this.currentBudget.price){
+      this.flagPrice = false;
+      this.spinner.show();
+      modal.open();
+      this.spinner.hide();
+    }else{
+      this.flagPrice = true;
+    }
     
-    this.spinner.show();
-    modal.open();
-    this.spinner.hide();
   }
 
   executeBudget(modal){

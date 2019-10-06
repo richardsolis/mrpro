@@ -25,6 +25,10 @@ export class ProfileProviderComponent implements OnInit {
   districts: any[];
   categories: any[];
 
+  base64Policiales: string;
+  base64Penales: string;
+  base64Judiciales: string;
+
   providerUser: any = {};
 
   constructor(private formBuilder: FormBuilder,	private spinner: NgxSpinnerService,
@@ -166,6 +170,34 @@ export class ProfileProviderComponent implements OnInit {
         interbancaria: this.providerUser.bank_ci
       });
     }
+
+    if(this.providerUser.a_police){
+      this.userService.convertImage(this.providerUser.a_police)
+      .subscribe((res: any)=>{
+        this.base64Policiales = res.data;
+      }, (error: any) => {
+        console.log(error);
+      });
+    }
+
+    if(this.providerUser.a_penal){
+      this.userService.convertImage(this.providerUser.a_penal)
+      .subscribe((res: any)=>{
+        this.base64Penales = res.data;
+      }, (error: any) => {
+        console.log(error);
+      });
+    }
+
+    if(this.providerUser.a_judicial){
+      this.userService.convertImage(this.providerUser.a_judicial)
+      .subscribe((res: any)=>{
+        this.base64Judiciales = res.data;
+      }, (error: any) => {
+        console.log(error);
+      });
+    }
+    
   }
 
   selectFile(event){

@@ -39,6 +39,7 @@
                       <button *ngSwitchCase="'1'" (click)="confirm(myFile,result.id)" class="btn btn-danger">Cancelar</button>
                       <button *ngSwitchCase="'4'" (click)="goChat(result.firebase_id, result.id)" type="button" class="btn btn-warning">Chat</button>
                       <button *ngSwitchCase="'4'" (click)="closeService(myModal,result.user_provider_id,result.id)" type="button" class="btn btn-secondary">Finalizar</button>
+                      <p *ngSwitchCase="'6'">Sin Acciones</p>
                     </div>
                   </td>
                 </tr>

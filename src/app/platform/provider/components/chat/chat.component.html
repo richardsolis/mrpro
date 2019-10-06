@@ -13,9 +13,15 @@
           <!--<h1 class="navbar">Chat | Instalación - Reparación baño</h1>-->
           <h4 class="navbar" *ngIf="currentBudget.category_service">{{ currentBudget.category_service.name }} - {{ currentBudget.parent_category.name }}</h4>
       </div>
+    </nav>
+    <nav class="navbar navbar-light bg-light">
       <div class="form-inline">
-        <p><b>Descripción: </b>{{ currentBudget.description + ' |' }}</p>
-        <button type="button" class="btn btn-primary btn-sm" (click)="details(myImages, currentBudget.image_url)">Detalle</button>
+        <p><b>Descripción: </b>{{ currentBudget.description }}</p>
+      </div>
+      <div class="form-inline">
+        <button type="button" class="btn btn-primary btn-sm" (click)="details(myImages, currentBudget.image_url)">
+          Ver imagenes adjuntas
+        </button>
       </div>
     </nav>
     <hr>
@@ -41,6 +47,7 @@
             </tr>
         </tbody>
       </table>
+      <p class="text-danger" *ngIf="flagPrice"><strong>Precio es obligatorio.</strong></p>
     </div>
     <div class="app-mensajes" id="app-mensajes">
       <div *ngFor="let chat of _cs.mensajes" [ngClass]="{ 'text-right': user.id == chat.uid  }">

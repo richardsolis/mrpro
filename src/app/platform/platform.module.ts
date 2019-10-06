@@ -37,6 +37,7 @@ import { RegisterProviderComponent } from './components/register-provider/regist
 import { ProfileProviderComponent } from '../platform/provider/components/profile-provider/profile-provider.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { DataTablesModule } from 'angular-datatables';
+import { SafeHtml } from '../pipes/safeHtmlPipe';
 
 export function getAuthServiceConfigs() {
   let config = new AuthServiceConfig(
@@ -100,7 +101,8 @@ export function getAuthServiceConfigs() {
     ChatComponent,
     RegisterProviderComponent,
     ProfileProviderComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    SafeHtml
   ]
 })
 export class PlatformModule { }

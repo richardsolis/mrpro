@@ -29,6 +29,10 @@ const routes: Routes = [
 		component: ProvidersComponent
 	},
 	{
+		path: 'reservado/:status',
+		component: ProvidersComponent
+	},
+	{
 		path: 'pedir-propuesta',
 		component: SendBudgetComponent
 	},

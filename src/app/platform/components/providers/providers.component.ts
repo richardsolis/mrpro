@@ -39,7 +39,7 @@ export class ProvidersComponent implements OnInit, OnDestroy {
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
 
-  constructor(private spinner: NgxSpinnerService, private router: Router, 
+  constructor(private spinner: NgxSpinnerService, private router: Router,  private _route:ActivatedRoute,
               private session: SessionService, private userS: UserService,
               private formBuilder: FormBuilder) {
     
@@ -52,7 +52,13 @@ export class ProvidersComponent implements OnInit, OnDestroy {
       language: AppSettings.LANG_SPANISH
     };
 
-    this.estado = "1";
+    this._route.params.subscribe(res => {
+      if(res.status){
+        this.estado = res.status;
+      }else{
+        this.estado = "1";
+      }
+    })
     this.getRequests();
     this.registerForm = this.formBuilder.group({
       score:  ['0', Validators.required],

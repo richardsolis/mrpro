@@ -68,6 +68,14 @@ export class SendBudgetComponent implements OnInit {
       user_provider_id: ['']
     });
 
+    if(!this.registerForm.get('date_service').value){
+      this.registerForm.get('date_service').setValue(this.getActualDate());
+    }
+
+    if(!this.registerForm.get('hour').value){
+      this.registerForm.get('hour').setValue('08:00:00');
+    }
+
     this.providers = this.session.getObject("providers");
     this.getDistricts();
     this.allCard();
@@ -82,7 +90,7 @@ export class SendBudgetComponent implements OnInit {
   getActualDate(){
     let tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
-    const day = tomorrow.getDate();
+    const day = ("0" + (tomorrow.getDate())).slice(-2);
     const month = ("0" + (tomorrow.getMonth() + 1)).slice(-2);
     const year = tomorrow.getFullYear();
     return `${year}-${month}-${day}`;

@@ -35,13 +35,17 @@
         </select>
       </div>
       <div class="form-group fix-fg col-lg-2 col-md-3 col-ms-12" *ngIf="this.registerForm.get('type').value == 'priced'">
-        <label for="inputPassword4">Precio:</label>
+        <label for="inputPassword4">Precio unitario:</label>
         <label class="form-control" style="background-color: #dee2e6">S/.{{registerForm.get('price').value}}</label>
       </div>
-      <div class="form-group fix-fg col-lg-2 col-md-3 col-ms-12" *ngIf="this.registerForm.get('type').value == 'priced'">
-          <label for="inputPassword4">Cantidad:</label>
-          <input class="form-control" formControlName="quantity" type="number" name="quantity" min="1"/>
-        </div>
+      <div class="form-group fix-fg col-lg-1 col-md-3 col-ms-12" *ngIf="this.registerForm.get('type').value == 'priced'">
+        <label for="inputPassword4">Cantidad:</label>
+        <input (change)="calculate()" class="form-control" formControlName="quantity" type="number" name="quantity" min="1"/>
+      </div>
+      <div class="form-group fix-fg col-lg-1 col-md-3 col-ms-12" *ngIf="this.registerForm.get('type').value == 'priced'">
+        <label for="inputPassword4">Total:</label>
+        <label class="form-control" style="background-color: #dee2e6">{{totalPrice}}</label>
+      </div>
     </div>
       <div class="form-row" style="justify-content: center;">
         <div class="form-group fix-fg col-lg-2 col-md-3 col-ms-12">
@@ -53,11 +57,11 @@
         <div class="form-group fix-fg col-lg-3 col-md-4 col-ms-12">
           <label for="inputPassword4">Sub Categoria:</label>
           <select class="form-control color-blue" formControlName="subcategory" name="subcategory" *ngIf="this.registerForm.get('type').value == 'programmed'">
-            <option value="">seleccionar</option>
+            <option value="">Seleccionar</option>
             <option *ngFor="let subcategory of subCategories" [value]="subcategory.id">{{ subcategory.name }}</option>
           </select>
           <select (change)="getPrice()" class="form-control color-blue" formControlName="subcategory" name="subcategory" *ngIf="this.registerForm.get('type').value == 'priced'">
-              <option value="">seleccionar</option>
+              <option value="">Seleccionar</option>
               <option *ngFor="let subcategory of subCategories" [value]="subcategory.id">{{ subcategory.name }}</option>
             </select>
         </div>

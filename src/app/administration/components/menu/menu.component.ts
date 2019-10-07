@@ -14,11 +14,11 @@ export class MenuComponent implements OnInit {
   	private router: Router) { }
 
   ngOnInit() {
-  	this.user = this.session.getObject('user');
+  	this.user = this.session.getObject('admi');
   }
 
   logout(){
-  	this.session.destroy('user');
+  	this.session.destroy('admi');
   	this.router.navigate(['/adminLogin']);
   }
 

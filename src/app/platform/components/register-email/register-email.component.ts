@@ -11,7 +11,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 })
 export class RegisterEmailComponent implements OnInit {
   user: any = {
-    social: "",
+    social: "0",
     email: "",
     name: "",
     lastname: "",

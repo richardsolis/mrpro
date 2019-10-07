@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from "ngx-spinner";
 import { ActivatedRoute, Router, RouterModule, Routes } from '@angular/router';
 import { SessionService } from '../../../services/session.service';
+import { GeneralService } from 'src/app/services/general.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -12,13 +14,16 @@ export class LoginComponent implements OnInit {
 	user:any = {
 		username: '',
 		password: '',
-	}
+		grant_type: "password",
+		client_id: 2,
+		client_secret: "REg26CVz9GF60K268qhkEONCjVO0TNnq78AjWefF"
+	};
 	userdata:any = {};
 	message = 'Datos incorrectos';
 
-  constructor(private spinner: NgxSpinnerService,
-    private router: Router,
-    private session: SessionService) { }
+  constructor(private spinner: NgxSpinnerService, private router: Router,
+			  private session: SessionService, private generalS: GeneralService, 
+			  private userS: UserService) { }
 
   ngOnInit() {
   	// this.spinner.show();
@@ -27,64 +32,31 @@ export class LoginComponent implements OnInit {
   login(myModal){
   	this.message = '';
   	if(!this.user.username || !this.user.password){
-  		this.message = 'Campos incompletos';
+		this.message = 'Campos incompletos';
+		myModal.open(); 
+		return; 
   	}
   	else{
-		this.router.navigate(['/admin/pedido']);
-  		/*if(this.user.username == 'admin'){
-  			this.userdata = {
-	  			firstname: 'Admin',
-	  			lastname: 'Mr Pro',
-	  			email: 'admin@mrpro.com',
-	  			role: 1,
-	  			permission: {
-	  				user: {c: 1, r: 1, u: 1, d: 1},
-	  				provider: {c: 1, r:1, u: 1, d: 1},
-	  			}
-	  		};
-	  	}
-	  	else if(this.user.username == 'user1'){
-	  		this.userdata = {
-	  			firstname: 'User',
-	  			lastname: 'Mr Pro',
-	  			email: 'user1@gmail.com',
-	  			role: 2,
-	  			permission: {
-	  				user: {c: 0, r: 1, u: 1, d: 0},
-	  				provider: {c: 0, r:1, u: 0, d: 0},
-	  			}
-	  		};
-	  	}
-	  	else if(this.user.username == 'provider1'){
-	  		this.userdata = {
-	  			firstname: 'Provider',
-	  			lastname: 'Mr Pro',
-	  			email: 'provider1@gmail.com',
-	  			role: 3,
-	  			permission: {
-	  				user: {c: 0, r: 1, u: 0, d: 0},
-	  				provider: {c: 0, r:1, u: 1, d: 0},
-	  			}
-	  		};
-	  	}
-	  	else {
-	  		this.message = 'Datos incorrectos';
-	  	}
-
-  		this.session.setObject('user', this.userdata);
-		}
-
-		if(this.message){
+		this.spinner.show();
+		console.log(this.user);
+		this.generalS.login(this.user).subscribe(
+		  response => {
+			this.session.setObject("token", response);
+			this.userS.getCurrentUser().subscribe((response: any) => {
+			  console.log(response);
+				this.session.setObject("admi", { ...response });
+				this.spinner.hide();
+				this.router.navigate(['/admin/pedido']);
+			});
+			// this.router.navigate(['/reservado']);
+		  },
+		  error => {
+			console.log(error);
+			this.message = "Usuario y/o contraseña incorrectos";
 			myModal.open();
-			return;
-		}
-
-		if(this.userdata['role'] == 1){
-			this.router.navigate(['/admin']);
-		}
-		else if(this.userdata['role'] == 2){
-			this.router.navigate(['/admin/select']);
-		}*/
+			this.spinner.hide();
+		  }
+		);
   	}
   }
 }

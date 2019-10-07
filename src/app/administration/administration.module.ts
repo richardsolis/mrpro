@@ -16,15 +16,23 @@ import { CommissionComponent } from './components/commission/commission.componen
 import { OrderComponent } from './components/order/order.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ProviderComponent } from './components/provider/provider.component';
+import { ProviderService } from '../services/provider.service';
+import { GeneralService } from '../services/general.service';
+import { UserService } from '../services/user.service';
+import { DataTablesModule } from 'angular-datatables';
+import { SlickCarouselModule } from 'ngx-slick-carousel';
 
 @NgModule({
   imports: [
     CommonModule,
     AdministrationRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpModule,
     ModalModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    DataTablesModule,
+    SlickCarouselModule
   ],
   declarations: [ 
   	LoginComponent,  
@@ -34,7 +42,9 @@ import { ProviderComponent } from './components/provider/provider.component';
   	UserComponent, ServiceComponent, CategoryComponent, CommissionComponent, OrderComponent, ProviderComponent
   ],
   providers: [
-  	
+    ProviderService,
+    GeneralService,
+    UserService
   ]
 })
 export class AdministrationModule { }

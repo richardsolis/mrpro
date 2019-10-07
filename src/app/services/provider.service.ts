@@ -10,6 +10,14 @@ export class ProviderService {
 
   constructor(private http: HttpClient,private generalS: GeneralService) { }
 
+  getProviders() {
+    // const body = new HttpParams({
+    //   fromObject: params
+    // });
+    var header = this.generalS.getToken({}, "application/json");
+    return this.http.get(AppSettings.BASE_PATH + AppSettings.GET_DASHBOARD_PROVIDERS, header);
+  }
+
   guestGetProviders(params){
   	const body = JSON.stringify(params);
     const headers = new HttpHeaders({

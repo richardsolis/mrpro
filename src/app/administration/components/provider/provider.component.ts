@@ -32,6 +32,8 @@ export class ProviderComponent implements OnInit {
   flagSize: boolean = false;
   flagImg: boolean = false;
   flagPsw: boolean = false;
+  flagTipo: boolean = true;
+  flagCreateUpdate: boolean = false;
 
   @ViewChild(DataTableDirective) dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
@@ -58,6 +60,8 @@ export class ProviderComponent implements OnInit {
     this.tipoForm = true;
 
     this.registerForm = this.formBuilder.group({
+      id: [''],
+      status: ['1', Validators.required],
       tipo: ['0', Validators.required],
       ruc: ['', Validators.required],
       rSocial: ['', Validators.required],
@@ -266,16 +270,144 @@ export class ProviderComponent implements OnInit {
       error =>{
         console.log(error);
         this.spinner.hide();
-      } 
-    );
+    });
   }
 
-  newProvider(modal, tempTittle:string) {
-    console.log("OpenModal Usuario - ", tempTittle);
-    this.title = tempTittle;
-    this.spinner.show();
-    modal.open();
-    this.spinner.hide();
+  newProvider(modal, tempTittle:string, provider:any = null) {
+    if(provider){
+      this.flagCreateUpdate = false;
+      this.spinner.show();
+      this.tipoForm = (provider.type_provider == 1)? false : true; 
+      console.log("EditModal Usuario - ", provider);
+      //this.registerForm.setValue({score: '0',comment:'',user_provider_id:''});
+      this.registerForm.setValue(this.initOneProvider(provider));
+      this.title = tempTittle;
+      this.spinner.hide();
+      modal.open();
+      
+    }else{
+      this.flagCreateUpdate = true;
+      console.log(this.registerForm.get('ruc'));
+      if(!this.registerForm.get('ruc')){
+        this.tipoForm = true;
+        this.addControls();
+      }
+      this.registerForm.setValue(this.initOneProvider(null));
+      console.log("CreateModal Usuario - ", tempTittle);
+      this.flagTipo = false;
+      this.title = tempTittle;
+      this.spinner.show();
+      modal.open();
+      this.spinner.hide();
+    }
+  }
+
+  initOneProvider(provider:any){
+    let temp:any = {};
+    if(!provider){
+      temp = {
+        id: '',
+        status: '1',
+        tipo: '0',
+        ruc: '',
+        rSocial: '',
+        dfiscal: '',
+        dComercial: '',
+        dTaller: '',
+        telefono: '',
+        logo: '',
+        sWeb: '',
+        correo: '',
+        dni: '',
+        nombre: '',
+        apellidos: '',
+        ptelefono: '',
+        foto: '',
+        direccion: '',
+        psWeb: '',
+        pcorreo: '',
+        policiales: '',
+        penales: '',
+        judiciales: '',
+        experiencia: '',
+        districts: [],
+        categories: [],
+        contrasena: '',
+        contrasena2: '',
+        eBancaria: '',
+        nCuenta: '',
+        interbancaria: ''
+      }
+      return temp;
+    }
+
+    if(provider.type_provider == 0){
+      if(!this.registerForm.get('ruc')){
+        this.addControls();
+      }
+      this.tipoForm = true;
+      temp = {
+        id: provider.id,
+        status: provider.status,
+        tipo: provider.type_provider,
+        ruc: provider.ruc,
+        rSocial: provider.r_social,
+        dfiscal: provider.a_fiscal,
+        dComercial: provider.a_comercial,
+        dTaller: provider.a_taller,
+        telefono: provider.company_phone,
+        logo: provider.logo,
+        sWeb: provider.url,
+        correo: provider.company_email,
+        dni: provider.user.doc_number,
+        nombre: provider.user.name,
+        apellidos: provider.user.lastname,
+        ptelefono: provider.user.phone,
+        foto: provider.user.image,
+        direccion: provider.user.address,
+        psWeb: provider.user.website,
+        pcorreo: provider.user.email,
+        policiales: provider.a_police,
+        penales: provider.a_penal,
+        judiciales: provider.a_judicial,
+        experiencia: provider.experience.split(" ")[0],
+        districts: provider.districts.map(item => item.district_id),
+        categories: provider.categories.map(item => item.category_service_id),
+        contrasena: '',
+        contrasena2: '',
+        eBancaria: provider.bank_id,
+        nCuenta: provider.bank_c,
+        interbancaria: provider.bank_ci
+      }
+    }else{
+      this.tipoForm = false;
+      this.removeControls();
+      temp = {
+        id: provider.id,
+        status: provider.status,
+        tipo: provider.type_provider,
+        dni: provider.user.doc_number,
+        nombre: provider.user.name,
+        apellidos: provider.user.lastname,
+        ptelefono: provider.user.phone,
+        foto: provider.user.image,
+        direccion: provider.user.address,
+        psWeb: provider.user.website,
+        pcorreo: provider.user.email,
+        policiales: provider.a_police,
+        penales: provider.a_penal,
+        judiciales: provider.a_judicial,
+        experiencia: provider.experience.split(" ")[0],
+        districts: provider.districts.map(item => item.district_id),
+        categories: provider.categories.map(item => item.category_service_id),
+        contrasena: '',
+        contrasena2: '',
+        eBancaria: provider.bank_id,
+        nCuenta: provider.bank_c,
+        interbancaria: provider.bank_ci
+      };
+    }
+    return temp;
   }
 
   onSubmit(myModal) {
@@ -292,27 +424,51 @@ export class ProviderComponent implements OnInit {
         return;
     }
     console.log(this.registerForm.value);
-    /*this.spinner.show();
-  	this.userService.createProvider(this.registerForm.value)
-  	.subscribe((response: any) => {
-      this.flagPsw = false;
-      //this.flagRes = true;
-      //this.message = 'Registro con éxito, inicie sesión.';
-	  	myModal.open();
-      this.submitted = false;
-  		this.spinner.hide();
-  	}, (error: any) => {
-      this.flagPsw = false;
-      this.submitted = false;
-      this.spinner.hide();
-      if (error.error && error.error.data && error.error.data.doc_number) {
-        //this.flagRes = false;
-        //this.message = "El DNI ya esta registrado.";
-        myModal.open();
-        this.spinner.hide();
-        return;
-      }
-  	})*/
+    this.spinner.show();
+    if(!this.flagCreateUpdate){
+      this.providerService.postCreateProvider(this.registerForm.value)
+        .subscribe((response: any) => {
+          this.flagPsw = false;
+          //this.flagRes = true;
+          //this.message = 'Registro con éxito, inicie sesión.';
+          myModal.open();
+          this.submitted = false;
+          this.spinner.hide();
+        }, (error: any) => {
+          this.flagPsw = false;
+          this.submitted = false;
+          this.spinner.hide();
+          if (error.error && error.error.data && error.error.data.doc_number) {
+            //this.flagRes = false;
+            //this.message = "El DNI ya esta registrado.";
+            myModal.open();
+            this.spinner.hide();
+            return;
+          }
+        })
+    }else{
+      /*this.userService.createProvider(this.registerForm.value)
+        .subscribe((response: any) => {
+          this.flagPsw = false;
+          //this.flagRes = true;
+          //this.message = 'Registro con éxito, inicie sesión.';
+          myModal.open();
+          this.submitted = false;
+          this.spinner.hide();
+        }, (error: any) => {
+          this.flagPsw = false;
+          this.submitted = false;
+          this.spinner.hide();
+          if (error.error && error.error.data && error.error.data.doc_number) {
+            //this.flagRes = false;
+            //this.message = "El DNI ya esta registrado.";
+            myModal.open();
+            this.spinner.hide();
+            return;
+          }
+      })*/
+    }
+  	
   }
 
 }

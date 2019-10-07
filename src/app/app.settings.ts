@@ -4,6 +4,8 @@ export class AppSettings {
   public static BASE_PATH_IMAGE = "http://admin-mrpro.mrpro.pe/img/";
   // public static BASE_PATH = 'http://localhost:4028/';
   public static GET_DASHBOARD_PROVIDERS = "crud/provider";
+  public static GET_ONE_DASHBOARD_PROVIDER = "crud/provider";
+  public static POST_CREATE_DASHBOARD_PROVIDER = "crud/provider";
   public static GUEST_RESET_PASSWORD = "guest/reset/password";
   public static GUEST_CREATE_USER = "guest/user/client";
   public static CREATE_PROVIDER = "provider/create";

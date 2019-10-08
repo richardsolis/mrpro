@@ -68,6 +68,8 @@ export class ChatService {
                                 for ( let mensaje of temp ){
                                   this.mensajes.unshift( mensaje );
                                 }
+                              }else{
+                                this.mensajes = [];
                               }
                               return this.mensajes;
 

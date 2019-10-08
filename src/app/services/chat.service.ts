@@ -56,7 +56,7 @@ export class ChatService {
 
   //Trae los mensajes de un chat especifico
   cargarMensajes(chatID: string){
-    this.itemsCollection = this.itemsCollection = this.afs.collection<Chat>('chats', ref => ref.where('id', '==', chatID));
+    this.itemsCollection = this.afs.collection<Chat>('chats', ref => ref.where('id', '==', chatID));
     
     return this.itemsCollection.valueChanges().pipe(
                             map((chat: Chat[])=> {

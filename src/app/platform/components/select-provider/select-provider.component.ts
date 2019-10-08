@@ -162,6 +162,7 @@ export class SelectProviderComponent implements OnInit {
           this.providers[i].selected = false;
         }
         this.spinner.hide();
+        console.log(this.providers);
       });
   }
 

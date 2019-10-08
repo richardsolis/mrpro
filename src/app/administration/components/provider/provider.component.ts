@@ -34,6 +34,12 @@ export class ProviderComponent implements OnInit {
   flagPsw: boolean = false;
   flagTipo: boolean = true;
   flagCreateUpdate: boolean = false;
+  message: string = "";
+  flagRes: boolean = false;
+
+  base64Policiales: string;
+  base64Penales: string;
+  base64Judiciales: string;
 
   @ViewChild(DataTableDirective) dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
@@ -95,7 +101,7 @@ export class ProviderComponent implements OnInit {
     
     this.dtOptions = {
       pagingType: 'full_numbers',
-      order: [[1,'desc']],
+      order: [[0,'desc']],
       language: AppSettings.LANG_SPANISH
     };
     this.getProviderList();
@@ -274,11 +280,14 @@ export class ProviderComponent implements OnInit {
   }
 
   newProvider(modal, tempTittle:string, provider:any = null) {
+    this.flagRes = false;
     if(provider){
+      this.flagTipo = true;
       this.flagCreateUpdate = false;
       this.spinner.show();
       this.tipoForm = (provider.type_provider == 1)? false : true; 
       console.log("EditModal Usuario - ", provider);
+      this.convertImgs(provider.a_police, provider.a_penal, provider.a_judicial);
       //this.registerForm.setValue({score: '0',comment:'',user_provider_id:''});
       this.registerForm.setValue(this.initOneProvider(provider));
       this.title = tempTittle;
@@ -299,6 +308,39 @@ export class ProviderComponent implements OnInit {
       this.spinner.show();
       modal.open();
       this.spinner.hide();
+    }
+  }
+
+  convertImgs(a_police:string, a_penal:string, a_judicial:string){
+    this.base64Penales = "";
+    this.base64Policiales = "";
+    this.base64Judiciales = "";
+
+    if(a_police){
+      this.userService.convertImage(a_police)
+      .subscribe((res: any)=>{
+        this.base64Policiales = res.data;
+      }, (error: any) => {
+        console.log(error);
+      });
+    }
+
+    if(a_penal){
+      this.userService.convertImage(a_penal)
+      .subscribe((res: any)=>{
+        this.base64Penales = res.data;
+      }, (error: any) => {
+        console.log(error);
+      });
+    }
+
+    if(a_judicial){
+      this.userService.convertImage(a_judicial)
+      .subscribe((res: any)=>{
+        this.base64Judiciales = res.data;
+      }, (error: any) => {
+        console.log(error);
+      });
     }
   }
 
@@ -411,62 +453,80 @@ export class ProviderComponent implements OnInit {
   }
 
   onSubmit(myModal) {
-
+    this.flagRes = false;
     if(this.registerForm.get('contrasena').value !== this.registerForm.get('contrasena2').value){
       console.log('contraseñas');
       this.flagPsw = true;
       return;
     }
     
-    if (this.registerForm.invalid) {
+    if (this.flagCreateUpdate == true && this.registerForm.invalid) {
         console.log('invalidos');
         this.submitted = true;
         return;
     }
     console.log(this.registerForm.value);
     this.spinner.show();
-    if(!this.flagCreateUpdate){
+    if(this.flagCreateUpdate == true){
       this.providerService.postCreateProvider(this.registerForm.value)
         .subscribe((response: any) => {
           this.flagPsw = false;
-          //this.flagRes = true;
-          //this.message = 'Registro con éxito, inicie sesión.';
+          this.flagRes = true;
+          console.log('Create',response);
+          this.message = 'Registro con éxito.';
+          this.initOneProvider(null);
           myModal.open();
           this.submitted = false;
           this.spinner.hide();
+          this.rerender();
         }, (error: any) => {
           this.flagPsw = false;
           this.submitted = false;
+          console.log(error);
           this.spinner.hide();
-          if (error.error && error.error.data && error.error.data.doc_number) {
-            //this.flagRes = false;
-            //this.message = "El DNI ya esta registrado.";
+          if (error.error && error.error.data) {
+            if(error.error.data.doc_number){
+              this.message = "El DNI ya esta registrado.";
+            }
+            if(error.error.data.email){
+              this.message = this.message + " El email ya esta registrado.";
+            }
+            this.flagRes = true;
             myModal.open();
             this.spinner.hide();
             return;
           }
         })
     }else{
-      /*this.userService.createProvider(this.registerForm.value)
+      this.providerService.putUpdateProvider(this.registerForm.value)
         .subscribe((response: any) => {
           this.flagPsw = false;
-          //this.flagRes = true;
-          //this.message = 'Registro con éxito, inicie sesión.';
+          this.flagPsw = false;
+          this.flagRes = true;
+          console.log('Update',response);
+          this.message = 'Actualizado con éxito.';
           myModal.open();
           this.submitted = false;
           this.spinner.hide();
+          this.rerender();
         }, (error: any) => {
           this.flagPsw = false;
           this.submitted = false;
+          console.log(error);
           this.spinner.hide();
-          if (error.error && error.error.data && error.error.data.doc_number) {
-            //this.flagRes = false;
-            //this.message = "El DNI ya esta registrado.";
+          if (error.error && error.error.data) {
+            if(error.error.data.doc_number){
+              this.message = "El DNI ya esta registrado.";
+            }
+            if(error.error.data.email){
+              this.message = this.message + " El email ya esta registrado.";
+            }
+            this.flagRes = true;
             myModal.open();
             this.spinner.hide();
             return;
           }
-      })*/
+      })
     }
   	
   }

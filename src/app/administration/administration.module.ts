@@ -21,6 +21,7 @@ import { GeneralService } from '../services/general.service';
 import { UserService } from '../services/user.service';
 import { DataTablesModule } from 'angular-datatables';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
+import { SafeHtml2 } from '../pipes/safeHtml2Pipe';
 
 @NgModule({
   imports: [
@@ -39,7 +40,13 @@ import { SlickCarouselModule } from 'ngx-slick-carousel';
   	HeaderComponent, 
   	AdministrationComponent,
   	MenuComponent, 
-  	UserComponent, ServiceComponent, CategoryComponent, CommissionComponent, OrderComponent, ProviderComponent
+    UserComponent, 
+    ServiceComponent, 
+    CategoryComponent, 
+    CommissionComponent, 
+    OrderComponent, 
+    ProviderComponent,
+    SafeHtml2
   ],
   providers: [
     ProviderService,

@@ -289,7 +289,7 @@
             <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Antecedentes Penales
               <i *ngIf="providerUser.a_penal" class="fa fa-check-circle-o text-success" aria-hidden="true"></i>
               <i *ngIf="!providerUser.a_penal" class="fa fa-times-circle-o text-danger" aria-hidden="true"></i>
-              <a *ngIf="providerUser.a_penal" [href]="base64Penales" class="donwload-style" download ="{{providerUser.a_penal}}">
+              <a *ngIf="providerUser.a_penal" [href]="base64Penales | safeHtml" class="donwload-style" download ="{{providerUser.a_penal}}">
                 <p><b>Descargar</b></p>
               </a>
             </label>
@@ -301,7 +301,7 @@
             <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Antecedentes Judiciales
               <i *ngIf="providerUser.a_judicial" class="fa fa-check-circle-o text-success" aria-hidden="true"></i>
               <i *ngIf="!providerUser.a_judicial" class="fa fa-times-circle-o text-danger" aria-hidden="true"></i>
-              <a *ngIf="providerUser.a_judicial" [href]="base64Judiciales" class="donwload-style" download ="{{providerUser.a_judicial}}">
+              <a *ngIf="providerUser.a_judicial" [href]="base64Judiciales | safeHtml" class="donwload-style" download ="{{providerUser.a_judicial}}">
                 <p><b>Descargar</b></p>
               </a>
             </label>

@@ -44,9 +44,15 @@ export class LoginComponent implements OnInit {
 			this.session.setObject("token", response);
 			this.userS.getCurrentUser().subscribe((response: any) => {
 			  console.log(response);
-				this.session.setObject("admi", { ...response });
+			  if(response.data.client == null && response.data.provider == null){
+				this.session.setObject("admi", { ...response.data });
 				this.spinner.hide();
 				this.router.navigate(['/admin/pedido']);
+			  }else{
+				this.message = "Usuario no autorizado.";
+				myModal.open();
+				this.spinner.hide();
+			  }
 			});
 			// this.router.navigate(['/reservado']);
 		  },

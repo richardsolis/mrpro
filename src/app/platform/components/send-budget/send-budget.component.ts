@@ -288,17 +288,18 @@ export class SendBudgetComponent implements OnInit {
     }
     this.userS.sendBudget({ services: JSON.stringify(dataSend), image: JSON.stringify(this.imgArray) }).subscribe(
       response => {
-        /*this.userS.sendNotification({ 
-          user_id: notification, title: title, message: this.registerForm.get('description').value }).subscribe(res =>{*/
+        this.userS.sendNotification({ 
+          user_id: JSON.stringify(notification), title: title, 
+          message: this.registerForm.get('description').value }).subscribe(res =>{
           console.log(response);
           this.message = "Se generó su solicitud";
           modal.open();
           this.spinner.hide();
-        /*},
+        },
         error => {
           console.log(error);
         this.spinner.hide();
-        });*/
+        });
 
       },
       error => {

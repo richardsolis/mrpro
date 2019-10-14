@@ -152,6 +152,19 @@ export class UserService {
     return this.http.post(AppSettings.BASE_PATH + AppSettings.UPDATE_PROVIDER_BUDGET, form, header);
   }
 
+  sendNotification(params) {
+    console.log(params);
+    const body = new HttpParams({
+      fromObject: params
+    });
+    /*const headers = new HttpHeaders({
+      "Content-Type": "application/x-www-form-urlencoded"
+    }); 
+    const options = { headers: headers };*/
+    var header = this.generalS.getToken({}, "application/x-www-form-urlencoded");
+  	return this.http.post(AppSettings.BASE_PATH + AppSettings.SEND_NOTIFICATION, body, header);
+  }
+
   convertImage(imgName: string){
     var form = new FormData();
       form.append("image", imgName);

@@ -1,150 +1,150 @@
 <br>
 <div class="row">
   <div class="col-lg-10 col-md-10 col-sm-12">
-      <nav class="navbar navbar-light bg-light">
-          <a class="navbar-brand"><b>Cliente</b></a>
-          <div class="navbar-nav mr-auto">
-              <a (click)="newUser(myModal, 'Nueva Administrador')" class="btn blue" href="javascript:void(0)">Nuevo <i class="fa fa-plus-circle" aria-hidden="true"></i>
-              </a>
-            </div>
-          <!--<form class="form-inline">
-              <label class="color-blue">Tipo:</label>
-              <select class="custom-select color-blue mr-sm-2" name="tipo">
-                <option>Administrador</option>
-                <option>Cliente</option>
-              </select>
-          </form>-->
-        </nav>
+    <nav class="navbar navbar-light bg-light">
+      <a class="navbar-brand"><b>Cliente</b></a>
+      <div class="navbar-nav mr-auto">
+        <a (click)="newClient(myModal, 'Nuevo Cliente')" class="btn blue" href="javascript:void(0)">Nuevo <i
+            class="fa fa-plus-circle" aria-hidden="true"></i>
+        </a>
+      </div>
+    </nav>
   </div>
-  <div class="col-lg-10 col-md-10 col-sm-12">
-    <table class="table-responsive-sm table-bordered table-hover" style="background-color: white">
-    <thead>
+  <div class="col-lg-12 col-md-12 col-sm-12 table-responsive" style="background-color: white">
+    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-bordered table-hover">
+      <thead>
         <tr>
           <th scope="col"># ID</th>
           <th scope="col">Nombre</th>
-          <th scope="col">Apellido</th>
+          <th scope="col">Apellidos</th>
           <th scope="col">Correo</th>
+          <th scope="col">Fecha Creación</th>
           <th scope="col">DNI</th>
           <th scope="col">Acciones</th>
         </tr>
       </thead>
       <tbody>
-          <tr>
-            <th scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></th>
-            <td scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></td>
-            <td scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></td>
-            <td scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></td>
-            <td scope="row"><input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"></td>
-            <td>
-                <button class="btn btn-success my-2 my-sm-0" type="submit">Buscar</button>
-            </td>
-          </tr>
-        <tr>
-          <th scope="row">1</th>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-          <td>12345678</td>
-          <td>
-            <button (click)="newUser(myModal, 'Editar cliente')" type="button" class="btn btn-warning">Editar</button>
-            <button type="button" class="btn btn-danger">Dar Baja</button>
+        <tr *ngFor="let result of clientList">
+          <td scope="row">{{ result.code }}</td>
+          <td scope="row">{{ result.user.name }}</td>
+          <td scope="row">{{ result.user.lastname }}</td>
+          <td scope="row">{{ result.user.email }}</td>
+          <td scope="row">{{ result.created_at | date: 'dd/MM/yyyy' }}</td>
+          <td scope="row">{{ result.user.doc_number }}</td>
+          <td scope="row">
+            <button type="button" (click)="newClient(myModal, 'Editar Cliente', result )"
+              class="btn btn-warning">Editar</button>
           </td>
         </tr>
-        <tr>
-          <th scope="row">2</th>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-          <td>12345678</td>
-          <td>
-              <button (click)="newUser(myModal, 'Editar administrador')" type="button" class="btn btn-warning">Editar</button>
-              <button type="button" class="btn btn-danger">Dar Baja</button>
-            </td>
-        </tr>
-        <tr>
-          <th scope="row">3</th>
-          <td>Larry</td>
-          <td>the Bird</td>
-          <td>@twitter</td>
-          <td>12345678</td>
-          <td>
-              <button type="button" class="btn btn-warning">Editar</button>
-              <button type="button" class="btn btn-danger">Dar Baja</button>
-            </td>
-        </tr>
       </tbody>
+      <tfoot>
+        <tr>
+          <th scope="row"><input class="form-control mr-sm-2" type="text" placeholder="Buscar" name="code"></th>
+          <th scope="row"><input class="form-control mr-sm-2" type="text" placeholder="Buscar" name="nombre"></th>
+          <th scope="row"><input class="form-control mr-sm-2" type="text" placeholder="Buscar" name="apellido"></th>
+          <th scope="row"><input class="form-control mr-sm-2" type="text" placeholder="Buscar" name="correo"></th>
+          <th scope="row"><input class="form-control mr-sm-2" type="text" placeholder="Buscar" name="fecha"></th>
+          <th scope="row"><input class="form-control mr-sm-2" type="text" placeholder="Buscar" name="dni"></th>
+          <th></th>
+        </tr>
+      </tfoot>
     </table>
-  </div>
-  <div class="col-lg-10 col-md-10 col-sm-12">
-      <nav aria-label="Page navigation example">
-        <label class="color-blue">N° Filas:</label>
-            <select class="custom-select color-blue col-lg-1" name="hour">
-              <option>10</option>
-              <option>20</option>
-              <option>50</option>
-            </select>
-          <ul class="pagination justify-content-end">
-            <li class="page-item disabled">
-              <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Atras</a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-              <a class="page-link" href="#">Siguiente</a>
-            </li>
-          </ul>
-        </nav>
   </div>
 </div>
 
 <modal #myModal>
-    <modal-content>
-      <div class="row text-center">
-        <h4>{{title}}</h4>
+  <modal-content>
+    <div class="row text-center">
+      <h4>{{title}}</h4>
+    </div>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit(myModal)" class="col-lg-12 col-md-12">
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Nombre</label>
+        <div class="col-sm-10">
+          <input type="text" formControlName="name" class="form-control" placeholder="Nombre">
+          <div *ngIf="submitted && registerForm.controls.name.errors?.required">
+            <p class="text-danger"><strong>Nombre requerido.</strong></p>
+          </div>
+        </div>
       </div>
-        <form> 
-          <div class="form-group row">
-            <label for="inputEmail3" class="col-sm-2 col-form-label">Nombre</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="inputEmail3" placeholder="Nombre">
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Apellido</label>
+        <div class="col-sm-10">
+          <input type="text" formControlName="lastname" class="form-control" placeholder="Apellido">
+          <div *ngIf="submitted && registerForm.controls.lastname.errors?.required">
+            <p class="text-danger"><strong>Apellidos requerido.</strong></p>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+          <label class="col-sm-2 col-form-label">Celular</label>
+          <div class="col-sm-10">
+            <input type="text" formControlName="phone" class="form-control" placeholder="Celular">
+            <div *ngIf="submitted && registerForm.controls.phone.errors?.required">
+              <p class="text-danger"><strong>Celular requerido.</strong></p>
             </div>
           </div>
-          <div class="form-group row">
-            <label for="inputEmail3" class="col-sm-2 col-form-label">Apellido</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="inputEmail3" placeholder="Apellido">
-            </div>
+        </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Correo</label>
+        <div class="col-sm-10">
+          <input type="email" formControlName="email" class="form-control" placeholder="Correo">
+          <div *ngIf="submitted && registerForm.controls.email.errors?.required">
+            <p class="text-danger"><strong>Correo requerido.</strong></p>
           </div>
-          <div class="form-group row">
-            <label for="inputEmail3" class="col-sm-2 col-form-label">Correo</label>
-            <div class="col-sm-10">
-              <input type="email" class="form-control" id="inputEmail3" placeholder="Correo">
-            </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">DNI</label>
+        <div class="col-sm-10">
+          <input type="text" formControlName="doc_number" class="form-control" placeholder="Documento de Identidad">
+          <div *ngIf="submitted && registerForm.controls.doc_number.errors?.required">
+            <p class="text-danger"><strong>DNI requerido y minimo 8 caracteres.</strong></p>
           </div>
-          <div class="form-group row">
-            <label for="inputEmail3" class="col-sm-2 col-form-label">DNI</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="inputEmail3" placeholder="Documento de Identidad">
-            </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Contraseña</label>
+        <div class="col-sm-10">
+          <input type="password" formControlName="password" class="form-control" placeholder="Contraseña">
+          <div *ngIf="submitted && registerForm.controls.password.errors?.required">
+            <p class="text-danger"><strong>Contraseña requerido y minimo 8 caracteres.</strong></p>
           </div>
-          <div class="form-group row">
-            <label for="inputEmail3" class="col-sm-2 col-form-label">Contraseña</label>
-            <div class="col-sm-10">
-              <input type="password" class="form-control" id="inputEmail3" placeholder="Contraseña">
-            </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Repetir Contraseña</label>
+        <div class="col-sm-10">
+          <input type="password" formControlName="password_confirmation" class="form-control"
+            placeholder="Confirmar contraseña">
+          <div *ngIf="submitted && registerForm.controls.password_confirmation.errors?.required">
+            <p class="text-danger"><strong>Confirmar Contraseña requerido y minimo 8 caracteres.</strong></p>
           </div>
-          <div class="form-group row">
-            <label for="inputEmail3" class="col-sm-2 col-form-label">Repetir Contraseña</label>
-            <div class="col-sm-10">
-              <input type="password" class="form-control" id="inputEmail3" placeholder="Confirmar contraseña">
-            </div>
+          <div *ngIf="flagPsw">
+            <p class="text-danger"><strong>Contraseñas diferentes.</strong></p>
           </div>
-          <div class="form-group row">
-            <div class="col-sm-10">
-              <button type="submit" (click)="saveUser(myModal)" class="btn bprimary">guardar</button>
-            </div>
-          </div>
-        </form>
-    </modal-content>
-  </modal>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">foto:
+          <i *ngIf="registerForm.get('image').value && !flagCreateUpdate" class="fa fa-check-circle-o text-success"
+            aria-hidden="true"></i>
+          <i *ngIf="!registerForm.get('image').value && !flagCreateUpdate" class="fa fa-times-circle-o text-danger"
+            aria-hidden="true"></i>
+          <b *ngIf="flagSize" class="text-danger">Maximo 2.5MB</b>
+        </label>
+        <div class="col-sm-10">
+          <input (change)="selectFile($event)" class="form-control" type="file" name="image" />
+        </div>
+      </div>
+      <div class="form-group row" *ngIf="flagRes">
+        <label class="col-lg-12 col-md-12 badge badge-warning text-wrap"><b>{{ message }}</b></label>
+      </div>
+      <div class="form-group row">
+        <div class="col-sm-10">
+          <button type="submit" class="btn bprimary">guardar</button>
+        </div>
+      </div>
+    </form>
+  </modal-content>
+</modal>

@@ -474,7 +474,7 @@ export class ProviderComponent implements OnInit {
           this.flagRes = true;
           console.log('Create',response);
           this.message = 'Registro con éxito.';
-          this.initOneProvider(null);
+          this.registerForm.setValue(this.initOneProvider(null));
           myModal.open();
           this.submitted = false;
           this.spinner.hide();

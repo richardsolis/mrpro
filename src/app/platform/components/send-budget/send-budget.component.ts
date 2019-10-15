@@ -292,6 +292,7 @@ export class SendBudgetComponent implements OnInit {
           user_id: JSON.stringify(notification), title: title, 
           message: this.registerForm.get('description').value }).subscribe(res =>{
           console.log(response);
+          console.log(res);
           this.message = "Se generó su solicitud";
           modal.open();
           this.spinner.hide();

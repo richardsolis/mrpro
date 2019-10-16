@@ -17,6 +17,9 @@ export class AppSettings {
   public static GET_ONE_DASHBOARD_CLIENT = "crud/client";
   public static POST_CREATE_DASHBOARD_CLIENT = "crud/client";
   public static PUT_CREATE_DASHBOARD_CLIENT = "crud/client";
+  public static GET_DASHBOARD_BUDGETS = "crud/service";
+  public static GET_ONE_DASHBOARD_BUDGET = "crud/service";
+  public static DELETE_DASHBOARD_BUDGET = "crud/service";
   public static GUEST_RESET_PASSWORD = "guest/reset/password";
   public static GUEST_CREATE_USER = "guest/user/client";
   public static CREATE_PROVIDER = "provider/create";

@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ServiceComponent implements OnInit {
 
+  services: any[] = [{id:1, name: 'Cotización'},{id:2, name: 'Tarifado'}];
+
   constructor() { }
 
   ngOnInit() {

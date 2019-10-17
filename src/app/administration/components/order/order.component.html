@@ -31,7 +31,8 @@
           <td scope="row">{{ result.price }}</td>
           <td scope="row">{{ result.status_service.name }}</td>
           <td scope="row">
-            <button type="button" (click)="newClient(myModal,result )" class="btn btn-warning">Detalle</button>
+            <button type="button" (click)="budgetDetail(myModal, result)" class="btn btn-warning">Detalle</button>
+            <button type="button" (click)="deleteBudget( result.id )" class="btn btn-danger">Eliminar</button>
           </td>
         </tr>
       </tbody>
@@ -56,94 +57,72 @@
       <div class="row text-center">
         <h4>Detalle del Pedido</h4>
       </div>
-      <!--<form [formGroup]="registerForm" (ngSubmit)="onSubmit(myModal)" class="col-lg-12 col-md-12">
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit(myModal)" class="col-lg-12 col-md-12">
         <div class="form-group row">
-          <label class="col-sm-2 col-form-label">Nombre</label>
+          <label class="col-sm-2 col-form-label"><b>Proveedor</b></label>
           <div class="col-sm-10">
-            <input type="text" formControlName="name" class="form-control" placeholder="Nombre">
-            <div *ngIf="submitted && registerForm.controls.name.errors?.required">
-              <p class="text-danger"><strong>Nombre requerido.</strong></p>
-            </div>
+            <label *ngIf="tmpBudget.provider" class="form-control" style="background: #c0c0c0;">{{tmpBudget.provider.name}} {{tmpBudget.provider.lastname}}</label>
           </div>
         </div>
-        <div class="form-group row">
-          <label class="col-sm-2 col-form-label">Apellido</label>
-          <div class="col-sm-10">
-            <input type="text" formControlName="lastname" class="form-control" placeholder="Apellido">
-            <div *ngIf="submitted && registerForm.controls.lastname.errors?.required">
-              <p class="text-danger"><strong>Apellidos requerido.</strong></p>
-            </div>
-          </div>
-        </div>
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label">Celular</label>
-            <div class="col-sm-10">
-              <input type="text" formControlName="phone" class="form-control" placeholder="Celular">
-              <div *ngIf="submitted && registerForm.controls.phone.errors?.required">
-                <p class="text-danger"><strong>Celular requerido.</strong></p>
-              </div>
-            </div>
-          </div>
         <div class="form-group row">
           <label class="col-sm-2 col-form-label">Correo</label>
           <div class="col-sm-10">
-            <input type="email" formControlName="email" class="form-control" placeholder="Correo">
-            <div *ngIf="submitted && registerForm.controls.email.errors?.required">
-              <p class="text-danger"><strong>Correo requerido.</strong></p>
+            <label *ngIf="tmpBudget.provider"  class="form-control" style="background: #c0c0c0;">{{tmpBudget.provider.email}}</label>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label"><b>Cliente</b></label>
+          <div class="col-sm-10">
+            <label *ngIf="tmpBudget.client"  class="form-control" style="background: #c0c0c0;">{{tmpBudget.client.name}} {{tmpBudget.client.lastname}}</label>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label">Correo</label>
+          <div class="col-sm-10">
+            <label *ngIf="tmpBudget.client"  class="form-control" style="background: #c0c0c0;">{{tmpBudget.client.email}}</label>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label"><b>Servicio Dirección</b></label>
+          <div class="col-sm-10">
+            <label  class="form-control" style="background: #c0c0c0;">{{tmpBudget.address}}</label>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label">Servicio Descripción</label>
+          <div class="col-sm-10">
+            <label  class="form-control" style="background: #c0c0c0;">{{tmpBudget.description}}</label>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label">Servicio Fecha Solicitada:</label>
+          <div class="col-sm-10">
+            <label  class="form-control" style="background: #c0c0c0;">{{tmpBudget.date_service | date: 'dd/MM/yyyy'}}</label>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label" style="color: #135daa;"><b>Asunto</b></label>
+          <div class="col-sm-10">
+            <input type="text" formControlName="subject" class="form-control" placeholder="Asunto">
+            <div *ngIf="submitted && registerForm.controls.subject.errors?.required">
+              <p class="text-danger"><strong>Asunto requerido.</strong></p>
             </div>
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-sm-2 col-form-label">DNI</label>
+          <label class="col-sm-2 col-form-label" style="color: #135daa;"><b>Mensaje</b></label>
           <div class="col-sm-10">
-            <input type="text" formControlName="doc_number" class="form-control" placeholder="Documento de Identidad">
-            <div *ngIf="submitted && registerForm.controls.doc_number.errors?.required">
-              <p class="text-danger"><strong>DNI requerido y minimo 8 caracteres.</strong></p>
+            <textarea formControlName="description" class="form-control" placeholder="Mensaje"></textarea>
+            <div *ngIf="submitted && registerForm.controls.description.errors?.required">
+              <p class="text-danger"><strong>Mensaje requerido.</strong></p>
             </div>
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-sm-2 col-form-label">Contraseña</label>
           <div class="col-sm-10">
-            <input type="password" formControlName="password" class="form-control" placeholder="Contraseña">
-            <div *ngIf="submitted && registerForm.controls.password.errors?.required">
-              <p class="text-danger"><strong>Contraseña requerido y minimo 8 caracteres.</strong></p>
-            </div>
+            <button type="submit" class="btn bprimary">Enviar correo</button>
           </div>
         </div>
-        <div class="form-group row">
-          <label class="col-sm-2 col-form-label">Repetir Contraseña</label>
-          <div class="col-sm-10">
-            <input type="password" formControlName="password_confirmation" class="form-control"
-              placeholder="Confirmar contraseña">
-            <div *ngIf="submitted && registerForm.controls.password_confirmation.errors?.required">
-              <p class="text-danger"><strong>Confirmar Contraseña requerido y minimo 8 caracteres.</strong></p>
-            </div>
-            <div *ngIf="flagPsw">
-              <p class="text-danger"><strong>Contraseñas diferentes.</strong></p>
-            </div>
-          </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-sm-2 col-form-label">foto:
-            <i *ngIf="registerForm.get('image').value && !flagCreateUpdate" class="fa fa-check-circle-o text-success"
-              aria-hidden="true"></i>
-            <i *ngIf="!registerForm.get('image').value && !flagCreateUpdate" class="fa fa-times-circle-o text-danger"
-              aria-hidden="true"></i>
-            <b *ngIf="flagSize" class="text-danger">Maximo 2.5MB</b>
-          </label>
-          <div class="col-sm-10">
-            <input (change)="selectFile($event)" class="form-control" type="file" name="image" />
-          </div>
-        </div>
-        <div class="form-group row" *ngIf="flagRes">
-          <label class="col-lg-12 col-md-12 badge badge-warning text-wrap"><b>{{ message }}</b></label>
-        </div>
-        <div class="form-group row">
-          <div class="col-sm-10">
-            <button type="submit" class="btn bprimary">guardar</button>
-          </div>
-        </div>
-      </form>-->
+      </form>
     </modal-content>
   </modal>

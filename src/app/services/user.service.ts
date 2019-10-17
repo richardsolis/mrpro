@@ -53,7 +53,8 @@ export class UserService {
       categories: JSON.stringify(params.categories),
       districts: JSON.stringify(params.districts),
       company_phone: params.telefono,
-      company_email: params.correo
+      company_email: params.correo,
+      status: '0'
     };
     console.log(obj);
     const body = new HttpParams({

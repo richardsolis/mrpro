@@ -20,6 +20,16 @@ export class AppSettings {
   public static GET_DASHBOARD_BUDGETS = "crud/service";
   public static GET_ONE_DASHBOARD_BUDGET = "crud/service";
   public static DELETE_DASHBOARD_BUDGET = "crud/service";
+  public static GET_DASHBOARD_CATEGORIES = "crud/category";
+  public static GET_ONE_DASHBOARD_CATEGORY = "crud/category";
+  public static POST_CREATE_DASHBOARD_CATEGORY = "crud/category";
+  public static PUT_UPDATE_DASHBOARD_CATEGORY = "crud/category";
+  public static DELETE_DASHBOARD_CATEGORY = "crud/category";
+  public static GET_DASHBOARD_PRICEDS = "crud/priced";
+  public static GET_ONE_DASHBOARD_PRICED = "crud/priced";
+  public static POST_CREATE_DASHBOARD_PRICED = "crud/priced";
+  public static PUT_UPDATE_DASHBOARD_PRICED = "crud/priced";
+  public static DELETE_DASHBOARD_PRICED = "crud/priced";
   public static GUEST_RESET_PASSWORD = "guest/reset/password";
   public static GUEST_CREATE_USER = "guest/user/client";
   public static CREATE_PROVIDER = "provider/create";

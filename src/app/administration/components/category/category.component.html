@@ -1,3 +1,91 @@
-<p>
-  category works!
-</p>
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: white;">
+  <a class="navbar-brand">
+    <b>Servicios Cotización</b>
+  </a>
+  <ul class="navbar-nav">
+    <li class="nav-item">
+      <a (click)="categoryDetail(myModal, 'Nueva Categoria Cotización')" class="btn blue" href="javascript:void(0)">
+        Nuevo<i class="fa fa-plus-circle" aria-hidden="true"></i>
+      </a>
+    </li>
+  </ul>
+</nav>
+<div class="row">
+  <div class="col-lg-12 col-md-12 col-sm-12 table-responsive" style="background-color: white">
+    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th scope="col"># ID</th>
+          <th scope="col">Padre</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let result of categoryList">
+          <td scope="row">{{ result.id }}</td>
+          <td scope="row">{{ result.parent }}</td>
+          <td scope="row">{{ result.name }}</td>
+          <td scope="row">
+            <button type="button" (click)="categoryDetail(myModal, 'Editar Servicio', result)"
+              class="btn btn-warning">Detalle</button>
+            <button type="button" (click)="deleteCategory( result.id )" class="btn btn-danger">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <th scope="row">
+            <input class="form-control mr-sm-2" type="text" placeholder="ID" name="ID">
+          </th>
+          <th scope="row">
+            <input class="form-control mr-sm-2" type="text" placeholder="Padre" name="Padre">
+          </th>
+          <th scope="row">
+            <input class="form-control mr-sm-2" type="text" placeholder="Nombre" name="Nombre">
+          </th>
+          <th></th>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+
+<modal #myModal>
+  <modal-content>
+    <div class="row text-center">
+      <h4>{{title}}</h4>
+    </div>
+    <form [formGroup]="categoryForm" (ngSubmit)="onSubmit(myModal)" class="col-lg-12 col-md-12">
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Padre</label>
+        <div class="col-sm-10">
+          <select formControlName="parent" class="form-control">
+            <option *ngFor="let item of ParentList" [value]="item.id">{{ item.name }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Nombre</label>
+        <div class="col-sm-10">
+          <input type="text" formControlName="name" class="form-control" placeholder="Apellido">
+          <div *ngIf="submitted && categoryForm.controls.name.errors?.required">
+            <p class="text-danger">
+              <strong>Nombre requerido.</strong>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row" *ngIf="flagRes">
+        <label class="col-lg-12 col-md-12 badge badge-warning text-wrap">
+          <b>{{ message }}</b>
+        </label>
+      </div>
+      <div class="form-group row">
+        <div class="col-sm-10">
+          <button type="submit" class="btn bprimary">guardar</button>
+        </div>
+      </div>
+    </form>
+  </modal-content>
+</modal>

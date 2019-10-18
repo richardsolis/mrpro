@@ -173,7 +173,7 @@ export class ServiceComponent implements OnInit {
         this.ParentPList = this.pricedsList.filter(item => item.parent == 0);
         this.ParentPList.push({ id: 0, name: 'Sin Padre' });
         this.dtTriggerP.next();
-        this.filterInitP();
+        //this.filterInitP();
         this.spinner.hide();
       },
       error => {
@@ -297,8 +297,40 @@ export class ServiceComponent implements OnInit {
 
     if (this.flagCreateUpdateP == true && this.pricedForm.invalid) {
       console.log('invalidos');
-      this.submitted = true;
+      this.submittedP = true;
       return;
+    }
+
+    this.spinner.show();
+    if (this.flagCreateUpdateP == true) {
+      this.serviceService.postCreatePriced(this.pricedForm.value)
+        .subscribe((response: any) => {
+          console.log('Create', response);
+          this.flagResP = true;
+          this.messageP = 'Registro con éxito.';
+          myModal.open();
+          this.submittedP = false;
+          this.rerenderP();
+          this.pricedForm.setValue({ id: '', parent: '0', name: '', price: '' });
+          this.spinner.hide();
+        }, (error: any) => {
+          this.submittedP = false;
+          console.log(error);
+        });
+    } else {
+      this.serviceService.putUpdatePriced(this.pricedForm.value)
+        .subscribe((response: any) => {
+          console.log('Update', response);
+          this.flagResP = true;
+          this.messageP = 'Actualizado con éxito.';
+          myModal.open();
+          this.submittedP = false;
+          this.rerenderP();
+          this.spinner.hide();
+        }, (error: any) => {
+          this.submittedP = false;
+          console.log(error);
+        });
     }
   }
 }

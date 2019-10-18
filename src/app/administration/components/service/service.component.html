@@ -74,7 +74,7 @@
         <label class="col-sm-2 col-form-label">Nombre</label>
         <div class="col-sm-10">
           <input type="text" formControlName="name" class="form-control" placeholder="Apellido">
-          <div *ngIf="submitted && pricedForm.controls.name.errors?.required">
+          <div *ngIf="submittedP && pricedForm.controls.name.errors?.required">
             <p class="text-danger">
               <strong>Nombre requerido.</strong>
             </p>
@@ -85,7 +85,7 @@
         <label class="col-sm-2 col-form-label">Precio</label>
         <div class="col-sm-10">
           <input type="number" formControlName="price" class="form-control" placeholder="Apellido">
-          <div *ngIf="submitted && pricedForm.controls.price.errors?.required">
+          <div *ngIf="submittedP && pricedForm.controls.price.errors?.required">
             <p class="text-danger">
               <strong>Precio requerido.</strong>
             </p>

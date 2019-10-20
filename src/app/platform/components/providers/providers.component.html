@@ -86,7 +86,7 @@
 
 <modal #myModal>
     <modal-content>
-        <form [formGroup]="registerForm" (ngSubmit)="Rating()">
+        <form [formGroup]="registerForm" (ngSubmit)="Rating(myModal)">
             <div class="form-group">
               <label for="formGroupExampleInput">
                 <b class="text-danger">*</b>Score (0.0 - 5.0): <b class="color-blue"> {{registerForm.get('score').value}} </b>

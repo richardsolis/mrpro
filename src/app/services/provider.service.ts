@@ -54,6 +54,21 @@ export class ProviderService {
     return this.http.post(AppSettings.BASE_PATH + AppSettings.POST_CREATE_DASHBOARD_PROVIDER, body, header);
   }
 
+  postSetStatusProvider(params) {
+    const obj = {
+      provider_id: params.provider_id,
+      status: params.status
+    };
+    console.log(obj);
+    const body = new HttpParams({
+      fromObject: obj
+    });
+    
+    var header = this.generalS.getToken({}, "application/json");
+
+    return this.http.post(AppSettings.BASE_PATH + AppSettings.POST_STATUS_DASHBOARD_PROVIDER, body, header);
+  }
+
 
   getProviders() {
     // const body = new HttpParams({

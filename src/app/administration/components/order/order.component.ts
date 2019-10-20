@@ -19,6 +19,10 @@ submitted: boolean = false;
 title:string = "";
 budgetList: any[];
 tmpBudget: any = {};
+ORDER_ID: string = "";
+
+flagResP: boolean = false;
+messageP: string = "";
 
 @ViewChild(DataTableDirective) dtElement: DataTableDirective;
 dtOptions: DataTables.Settings = {};
@@ -93,6 +97,28 @@ CountDays(createdDay: string){
   return Math.trunc(diff/(1000*3600*24));
 }
 
+confirm(cmodal, orderID: string){
+  this.ORDER_ID = "";
+  cmodal.open();
+  this.ORDER_ID = orderID;
+}
+
+deleteBudget(cmodal) {
+  this.spinner.show();
+  this.budgetService.DeleteOneBudget(this.ORDER_ID).subscribe(
+    response => {
+      console.log(response);
+      this.ORDER_ID = "";
+      cmodal.close();
+      this.rerender();
+      this.spinner.hide();
+    },
+    error =>{
+      console.log(error);
+      this.spinner.hide();
+  });
+}
+
 budgetDetail(modal, budget:any) {
   this.registerForm.setValue({subject: '', description: ''});
   this.spinner.show();
@@ -106,33 +132,36 @@ budgetDetail(modal, budget:any) {
     parent_category: budget.parent_category
   };
   console.log("OpenModal Comsion - ", this.tmpBudget);
-  
   modal.open();
   this.spinner.hide();
 }
 
-deleteBudget(budgetID: string) {
-  this.spinner.show();
-  this.budgetService.DeleteOneBudget(budgetID).subscribe(
-    response => {
-      console.log(response);
-      this.rerender();
-      this.spinner.hide();
-    },
-    error =>{
-      console.log(error);
-      this.spinner.hide();
-  });
-}
-
 onSubmit(myModal){
+  this.flagResP = false;
   if (this.registerForm.invalid) {
     console.log('invalidos');
     this.submitted = true;
     return;
   }
-
   console.log(this.registerForm.value);
+  this.spinner.show();
+  this.budgetService.SendEmailBudget(this.tmpBudget.provider.email, this.registerForm.value).subscribe(
+    response => {
+      console.log(response);
+      this.flagResP = true;
+      this.messageP = 'Correo enviado al proveedor.';
+      this.submitted = false;
+      myModal.close();
+      this.rerender();
+      this.registerForm.setValue({ subject: '', body: '' });
+      this.spinner.hide();
+    },
+    error =>{
+      this.submitted = false;
+      console.log(error);
+      this.spinner.hide();
+  });
+
 }
 
 }

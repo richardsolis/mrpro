@@ -41,6 +41,8 @@ export class ProviderComponent implements OnInit {
   base64Penales: string;
   base64Judiciales: string;
 
+  urlImageLogo: string = "";
+
   @ViewChild(DataTableDirective) dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
@@ -56,7 +58,10 @@ export class ProviderComponent implements OnInit {
 
     this.categoryService.guestGetCategories()
       .subscribe((response: any) => {
-        this.categories = response.data;
+        this.categories = response.data.filter(item => item.parent == 0);
+        this.categoryService.guestGetPrices().subscribe((res: any) => {
+          this.categories.push(...res.data.filter(item => item.parent == 0));
+        });
       }, (error: any) => {
         console.log(error);
       });
@@ -282,11 +287,13 @@ export class ProviderComponent implements OnInit {
   newProvider(modal, tempTittle:string, provider:any = null) {
     this.flagRes = false;
     if(provider){
+      this.urlImageLogo = "";
       this.flagTipo = true;
       this.flagCreateUpdate = false;
       this.spinner.show();
       this.tipoForm = (provider.type_provider == 1)? false : true; 
       console.log("EditModal Usuario - ", provider);
+      this.urlImageLogo = provider.logo_url;
       this.convertImgs(provider.a_police, provider.a_penal, provider.a_judicial);
       //this.registerForm.setValue({score: '0',comment:'',user_provider_id:''});
       this.registerForm.setValue(this.initOneProvider(provider));
@@ -450,6 +457,16 @@ export class ProviderComponent implements OnInit {
       };
     }
     return temp;
+  }
+
+  setStatus(providerID: string, status: string){
+    this.providerService.postSetStatusProvider({ provider_id: providerID, status: status})
+          .subscribe((response: any) => {
+            console.log('status',response);
+            this.rerender();
+          }, (error: any) => {
+            console.log(error);
+          })
   }
 
   onSubmit(myModal) {

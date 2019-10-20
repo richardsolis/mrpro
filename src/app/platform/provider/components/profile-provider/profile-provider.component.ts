@@ -55,7 +55,10 @@ export class ProfileProviderComponent implements OnInit {
 
     this.categoryService.guestGetCategories()
       .subscribe((response: any) => {
-        this.categories = response.data;
+        this.categories = response.data.filter(item => item.parent == 0);
+        this.categoryService.guestGetPrices().subscribe((res: any) => {
+          this.categories.push(...res.data.filter(item => item.parent == 0));
+        });
       }, (error: any) => {
         console.log(error);
       });

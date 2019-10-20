@@ -21,6 +21,7 @@ export class CategoryComponent implements OnInit {
   flagRes: boolean = false;
   flagCreateUpdate: boolean = false;
   message: string = "";
+  CAT_ID: string = "";
 
   @ViewChild(DataTableDirective) dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
@@ -45,6 +46,7 @@ export class CategoryComponent implements OnInit {
       order: [[0, 'desc']],
       language: AppSettings.LANG_SPANISH
     };
+    this.getCategoryParent();
     this.getCategoryList();
   }
 
@@ -75,6 +77,32 @@ export class CategoryComponent implements OnInit {
     });
   }
 
+  getCategory(ID: string){
+    let categoryName="";
+    for (let index = 0; index < this.ParentList.length; index++) {
+      if(this.ParentList[index].id == ID){
+        categoryName = this.ParentList[index].name;
+        break;
+      }     
+    } 
+    return categoryName;
+  }
+
+  getCategoryParent() {
+    this.serviceService.getCategories().subscribe(
+      response => {
+        console.log(response);
+        let categories: any = response;
+        let tmpList = [];
+        tmpList.push(...categories.data);
+        this.ParentList = tmpList.filter(item => item.parent == 0);
+        this.ParentList.push({ id: 0, name: 'Sin Categoría' });
+      },
+      error => {
+        console.log(error);
+      });
+  }
+
   getCategoryList() {
     this.categoryList = [];
     this.spinner.show();
@@ -83,8 +111,6 @@ export class CategoryComponent implements OnInit {
         console.log(response);
         let categories: any = response;
         this.categoryList.push(...categories.data);
-        this.ParentList = this.categoryList.filter(item => item.parent == 0);
-        this.ParentList.push({ id: 0, name: 'Sin Padre' });
         this.dtTrigger.next();
         this.filterInit();
         this.spinner.hide();
@@ -95,11 +121,19 @@ export class CategoryComponent implements OnInit {
       });
   }
 
-  deleteCategory(categoryID: string) {
+  confirm(cmodal, categoryID: string){
+    this.CAT_ID = "";
+    cmodal.open();
+    this.CAT_ID = categoryID;
+  }
+
+  deleteCategory(cmodal) {
     this.spinner.show();
-    this.serviceService.DeleteOneCategory(categoryID).subscribe(
+    this.serviceService.DeleteOneCategory(this.CAT_ID).subscribe(
       response => {
         console.log(response);
+        this.CAT_ID = "";
+        cmodal.close();
         this.rerender();
         this.spinner.hide();
       },
@@ -152,6 +186,7 @@ export class CategoryComponent implements OnInit {
         }, (error: any) => {
           this.submitted = false;
           console.log(error);
+          this.spinner.hide();
         });
     } else {
       this.serviceService.putUpdateCategory(this.categoryForm.value)
@@ -165,6 +200,7 @@ export class CategoryComponent implements OnInit {
         }, (error: any) => {
           this.submitted = false;
           console.log(error);
+          this.spinner.hide();
         });
     }
   }

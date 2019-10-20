@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AppSettings } from '../app.settings';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { GeneralService } from './general.service';
 
 @Injectable({
@@ -25,5 +25,21 @@ export class BudgetService {
     var header = this.generalS.getToken({}, "application/json");
     const url = `${AppSettings.BASE_PATH}${AppSettings.DELETE_DASHBOARD_BUDGET}/${budgetID}`;
     return this.http.delete(url, header);
+  }
+
+  SendEmailBudget(emailP, params) {
+    const obj = {
+      mail: emailP,
+      subject: params.subject,
+      body: params.body
+    };
+    console.log(obj);
+    const body = new HttpParams({
+      fromObject: obj
+    });
+    
+    var header = this.generalS.getToken({}, "application/json");
+
+    return this.http.post(AppSettings.BASE_PATH + AppSettings.POST_DASHBOARD_SEND_EMAIL_BUDGET, body, header);
   }
 }

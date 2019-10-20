@@ -21,6 +21,7 @@ export class ServiceComponent implements OnInit {
   flagResP: boolean = false;
   flagCreateUpdateP: boolean = false;
   messageP: string = "";
+  PRI_ID: string = "";
 
   @ViewChild(DataTableDirective) dtElementP: DataTableDirective;
   dtOptionsP: DataTables.Settings = {};
@@ -48,6 +49,7 @@ export class ServiceComponent implements OnInit {
       order: [[0, 'desc']],
       language: AppSettings.LANG_SPANISH
     };
+    this.getCategoryParent();
     this.getPricedList();
   }
 
@@ -78,6 +80,32 @@ export class ServiceComponent implements OnInit {
     });
   }
 
+  getCategory(ID: string){
+    let categoryName="";
+    for (let index = 0; index < this.ParentPList.length; index++) {
+      if(this.ParentPList[index].id == ID){
+        categoryName = this.ParentPList[index].name;
+        break;
+      }     
+    } 
+    return categoryName;
+  }
+
+  getCategoryParent() {
+    this.serviceService.getPriceds().subscribe(
+      response => {
+        console.log(response);
+        let priceds: any = response;
+        let tmpList = [];
+        tmpList.push(...priceds.data);
+        this.ParentPList = tmpList.filter(item => item.parent == 0);
+        this.ParentPList.push({ id: 0, name: 'Sin Categoría' });
+      },
+      error => {
+        console.log(error);
+      });
+  }
+
   getPricedList() {
     this.pricedsList = [];
     this.spinner.show();
@@ -86,8 +114,6 @@ export class ServiceComponent implements OnInit {
         console.log(response);
         let priceds: any = response;
         this.pricedsList.push(...priceds.data);
-        this.ParentPList = this.pricedsList.filter(item => item.parent == 0);
-        this.ParentPList.push({ id: 0, name: 'Sin Padre' });
         this.dtTriggerP.next();
         this.filterInitP();
         this.spinner.hide();
@@ -117,11 +143,19 @@ export class ServiceComponent implements OnInit {
     }
   }
 
-  deletePriced(pricedID: string) {
+  confirm(cmodal, pricedID: string){
+    this.PRI_ID = "";
+    cmodal.open();
+    this.PRI_ID = pricedID;
+  }
+
+  deletePriced(cmodal) {
     this.spinner.show();
-    this.serviceService.DeleteOnePriced(pricedID).subscribe(
+    this.serviceService.DeleteOnePriced( this.PRI_ID).subscribe(
       response => {
         console.log(response);
+        this.PRI_ID = "";
+        cmodal.close();
         this.rerenderP();
         this.spinner.hide();
       },
@@ -155,6 +189,7 @@ export class ServiceComponent implements OnInit {
         }, (error: any) => {
           this.submittedP = false;
           console.log(error);
+          this.spinner.hide();
         });
     } else {
       this.serviceService.putUpdatePriced(this.pricedForm.value)
@@ -168,6 +203,7 @@ export class ServiceComponent implements OnInit {
         }, (error: any) => {
           this.submittedP = false;
           console.log(error);
+          this.spinner.hide();
         });
     }
   }

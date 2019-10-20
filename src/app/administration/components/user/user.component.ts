@@ -28,6 +28,8 @@ export class UserComponent implements OnInit {
   flagRes: boolean = false;
   flagPsw: boolean = false;
 
+  urlImageLogo: string = "";
+
   @ViewChild(DataTableDirective) dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
@@ -150,8 +152,10 @@ export class UserComponent implements OnInit {
     console.log("OpenModal Comsion - ", tempTittle);
     this.spinner.show();
     if(client){
+      this.urlImageLogo = "";
       this.title = `${tempTittle} ${client.code}`;
       this.flagCreateUpdate = false;
+      this.urlImageLogo = client.user.image_url;
       this.registerForm.setValue({id: client.id, name: client.user.name, lastname: client.user.lastname,
                                   email: client.user.email, password: '', password_confirmation:  '',
                                   phone:  client.user.phone, image: client.user.image, doc_number: client.user.doc_number});
@@ -199,6 +203,7 @@ export class UserComponent implements OnInit {
         }, (error: any) => {
           this.submitted = false;
           console.log(error);
+          this.spinner.hide();
         });
     }else{
       this.clientService.putUpdateClient(this.registerForm.value)
@@ -214,6 +219,7 @@ export class UserComponent implements OnInit {
         }, (error: any) => {
           this.submitted = false;
           console.log(error);
+          this.spinner.hide();
         });
     }
   }

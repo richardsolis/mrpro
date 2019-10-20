@@ -1,4 +1,3 @@
-<br>
 <div class="row">
   <div class="col-lg-10 col-md-10 col-sm-12">
     <nav class="navbar navbar-light bg-light">
@@ -135,6 +134,13 @@
         </label>
         <div class="col-sm-10">
           <input (change)="selectFile($event)" class="form-control" type="file" name="image" />
+        </div>
+      </div>
+      <div class="form-group row text-center">
+        <div *ngIf="!flagCreateUpdate" class="col-lg-12 col-md-12">
+          <img
+            src="{{ urlImageLogo ? urlImageLogo : './assets/images/user.png' }}"
+            alt="..." class="img-thumbnail" style="height: 200px;width: 200px;">
         </div>
       </div>
       <div class="form-group row" *ngIf="flagRes">

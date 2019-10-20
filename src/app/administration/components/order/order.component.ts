@@ -34,7 +34,7 @@ constructor(private formBuilder: FormBuilder, private spinner: NgxSpinnerService
 ngOnInit() {
   this.registerForm = this.formBuilder.group({
     subject: ['', Validators.required],
-    description: ['', Validators.required]
+    body: ['', Validators.required]
   });
 
   this.dtOptions = {
@@ -120,7 +120,7 @@ deleteBudget(cmodal) {
 }
 
 budgetDetail(modal, budget:any) {
-  this.registerForm.setValue({subject: '', description: ''});
+  this.registerForm.setValue({subject: '', body: ''});
   this.spinner.show();
   this.tmpBudget = {
     provider: budget.user_provider.user,

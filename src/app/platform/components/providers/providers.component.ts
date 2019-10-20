@@ -117,7 +117,7 @@ export class ProvidersComponent implements OnInit, OnDestroy {
       mymodal.open();
   }
 
-  Rating(){
+  Rating(cmodal){
     if (this.registerForm.invalid || this.registerForm.get('score').value === '0') {
       this.validFlag = true;
       return;
@@ -132,7 +132,8 @@ export class ProvidersComponent implements OnInit, OnDestroy {
               .subscribe((res: any) => {
                 console.log(res);
                 this.spinner.hide();
-                location.reload();
+                cmodal.close();
+                this.rerender();
               }, (error: any) => {
                 console.log(error);
                 this.spinner.hide();
@@ -153,7 +154,7 @@ export class ProvidersComponent implements OnInit, OnDestroy {
     modal.open();
   }
 
-  schedule() {
+  schedule(fmodal) {
     console.log(this.BudgetID);
       this.cancel = {
         budget_id: this.BudgetID,
@@ -161,7 +162,8 @@ export class ProvidersComponent implements OnInit, OnDestroy {
       };
       this.userS.cancel(this.cancel).subscribe(response => {
         console.log(response);
-        location.reload();
+        fmodal.close();
+        this.rerender();
       });
     
   }

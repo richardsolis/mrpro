@@ -225,9 +225,14 @@ export class SelectProviderComponent implements OnInit {
       this.session.setObject("provider", this.provedores);
       this.selectedProviders++;
     } else {
+      let index = this.provedores.findIndex(item => item.id == provider.id);
+      if(index > -1){
+        this.provedores.splice(index, 1);
+      }
       this.session.setObject("provider", this.provedores);
       this.selectedProviders--;
     }
+    console.log(this.provedores);
   }
 
   showFile(modal, provider) {

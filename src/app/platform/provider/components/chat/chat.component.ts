@@ -7,6 +7,8 @@ import { AppSettings } from 'src/app/app.settings';
 import { CategoryService } from 'src/app/services/category.service';
 import { SessionService } from 'src/app/services/session.service';
 import * as $ from 'jquery';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-chat',
@@ -30,6 +32,8 @@ export class ChatComponent implements OnInit {
   arrayImgs:string[];
   flagItem: boolean = false;
   flagPrice: boolean = false;
+
+  PATH: string = "";
 
   public slideConfig = {"slidesToShow": 1, "slidesToScroll": 1, "dots":true};
   constructor(public _cs: ChatService, private _route:ActivatedRoute, 
@@ -121,16 +125,23 @@ export class ChatComponent implements OnInit {
           });
   }
 
-  closeChat(path:string){
+  confirm(cmodal, path:string){
+    this.PATH = "";
+    cmodal.open();
+    this.PATH = path;
+  }
+
+  closeChat(cmodal){
     this.spinner.show();
-    
       this.userService.updateStatus('3',this.currentBudgetID)
         .subscribe((res: any) => {
           console.log(res);
+          cmodal.close();
           this.spinner.hide();
-          this.goback(path);
+          this.goback(this.PATH);
         }, (error: any) => {
           console.log(error);
+          this.spinner.hide();
         });
     
 
@@ -161,8 +172,8 @@ export class ChatComponent implements OnInit {
         console.log(response);
         this.userService.convertImage(response.data)
           .subscribe((res: any)=>{
-            //console.log("convert: ", res);
-            this._cs.agregarMensajePrivado(response.data,res.data, '2', this.currentChat, this.user.id, this.user.name )
+            console.log("convert: ", res);
+            this._cs.agregarMensajePrivado(response.data, res.data, '2', this.currentChat, this.user.id, this.user.name )
                     .then( ()=>{
                       this.isDisabled = false;
                     })
@@ -180,6 +191,14 @@ export class ChatComponent implements OnInit {
         });
       
   }
+
+  /*getBase64(nameFile: string): Observable<string>{
+    return this.userService.convertImage(nameFile).pipe(
+                                                    map( (res:any) =>{
+                                                      console.log('getBase64', res);
+                                                      return res.data
+                                                    }));
+  }*/
 
   enviar_mensaje(tipo:string){
     console.log( this.mensaje );

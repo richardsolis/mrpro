@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import {  Mensaje } from '../platform/provider/interface/mensaje.interface';
 import { Chat } from '../platform/provider/interface/chat.interface';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { SessionService } from './session.service';
 import { firestore } from 'firebase';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class ChatService {
   public mensajes: Mensaje[];
   public currentChat: Chat;
 
-  constructor(private afs: AngularFirestore) {
+  constructor(private afs: AngularFirestore, private userService: UserService) {
   
   }
 
@@ -61,12 +62,18 @@ export class ChatService {
     return this.itemsCollection.valueChanges().pipe(
                             map((chat: Chat[])=> {
                               let temp: Mensaje[] = chat[0].mensajes;
+                              console.log(chat[0]);
                               if(temp){
-                                console.log(temp.sort((a,b)=> b.fecha-a.fecha ));
                                 temp = temp.sort((a,b)=> b.fecha-a.fecha );
                                 this.mensajes = [];
                                 for ( let mensaje of temp ){
                                   this.mensajes.unshift( mensaje );
+                                  this.mensajes.map(msj => {
+                                    if(msj.tipo == '2'){
+                                      msj.image = this.userService.convertImage(msj.mensaje);
+                                    }
+                                      return msj;
+                                  });
                                 }
                               }else{
                                 this.mensajes = [];
@@ -83,7 +90,6 @@ export class ChatService {
     let mensajeTemp: Mensaje = {
       nombre:  userName,
       mensaje: texto,
-      image: img,
       tipo: tipoMensaje,
       fecha: new Date().getTime(),
       uid: userID

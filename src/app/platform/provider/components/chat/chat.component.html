@@ -1,7 +1,7 @@
 <div class="container main-container">
   <div class="col-md-12 text-right">
-    <button *ngIf="user.type == 'client'" type="button" class="btn btn-danger" (click)="confirm(confirmModal, '/reservado')">Cancelar Chat</button>
-    <button *ngIf="user.type == 'provider'" type="button" class="btn btn-danger" (click)="confirm(confirmModal, '/proveedor/home')">Cancelar Chat</button>
+    <!--<button *ngIf="user.type == 'client'" type="button" class="btn btn-danger" (click)="confirm(confirmModal, '/reservado')">Cancelar Chat</button>
+    <button *ngIf="user.type == 'provider'" type="button" class="btn btn-danger" (click)="confirm(confirmModal, '/proveedor/home')">Cancelar Chat</button>-->
     <button *ngIf="user.type == 'client'" type="button" class="btn blue" (click)="goback('/reservado')">Regresar</button>
     <button *ngIf="user.type == 'provider'" type="button" class="btn blue" (click)="goback('/proveedor/home')">Regresar</button>
   </div>
@@ -60,10 +60,10 @@
         </p>
         <div *ngIf="chat.tipo == '2'">
           <img [src]="pathImage + chat.mensaje" width="100" height="110" class="img-chat-style">
-          <!--<a [href]="getBase64(chat.mensaje) | async" class="donwload-style" download ="{{chat.mensaje}}">
+          <!--<a [href]="getBase64(chat.mensaje)" class="donwload-style" download ="{{chat.mensaje}}">
             <p><b>Descargar</b></p>
           </a>-->
-          <a [href]="chat.image" class="donwload-style" download ="{{chat.mensaje}}">
+          <a [href]="(chat.image | async)?.data" class="donwload-style" download ="{{chat.mensaje}}">
             <p><b>Descargar</b></p>
           </a>
         </div>

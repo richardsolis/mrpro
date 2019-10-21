@@ -102,6 +102,12 @@ export class CommissionComponent implements OnInit {
       return;
     }
 
+    if(this.registerForm.get('to').value > this.registerForm.get('from').value){
+      this.flagRes = true;
+      this.message = 'Rango Final debe ser mayor al Rango Inicial.';
+      return;
+    }
+
     console.log(this.registerForm.value);
     this.spinner.show();
     if(this.flagCreateUpdate == true){

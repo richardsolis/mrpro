@@ -212,10 +212,10 @@ export class UserComponent implements OnInit {
           this.flagPsw = false;
           this.flagRes = true;
           this.message = 'Actualizado con éxito.';
-          myModal.open();
           this.submitted = false;
           this.rerender();
           this.spinner.hide();
+          //myModal.close();
         }, (error: any) => {
           this.submitted = false;
           console.log(error);

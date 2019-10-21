@@ -17,6 +17,7 @@
             <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-bordered table-hover">
               <thead>
                 <tr>
+                  <th scope="col"># ID</th>
                   <th scope="col">Categoria</th>
                   <th scope="col">Subcategoria</th>
                   <th scope="col">Dirección</th>
@@ -28,6 +29,7 @@
               </thead>
               <tbody>
                 <tr *ngFor="let result of resultFilter">
+                  <td scope="row">{{ result.code }}</td>
                   <td scope="row">{{ result.category_service.name }}</td>
                   <td scope="row">{{ result.parent_category.name }}</td>
                   <td scope="row">{{ result.address }}</td>
@@ -38,7 +40,8 @@
                     <div [ngSwitch]="result.status_service_id">
                       <button *ngSwitchCase="'1'" (click)="confirm(myFile,result.id)" class="btn btn-danger">Cancelar</button>
                       <button *ngSwitchCase="'4'" (click)="goChat(result.firebase_id, result.id)" type="button" class="btn btn-warning">Chat</button>
-                      <button *ngSwitchCase="'4'" (click)="closeService(myModal,result.user_provider_id,result.id)" type="button" class="btn btn-secondary">Finalizar</button>
+                      <button *ngSwitchCase="'4'" (click)="confirm(myFile,result.id)" class="btn btn-danger">Cancelar</button>
+                      <!--<button *ngSwitchCase="'4'" (click)="closeService(myModal,result.user_provider_id,result.id)" type="button" class="btn btn-secondary">Finalizar</button>-->
                       <p *ngSwitchCase="'6'">Sin Acciones</p>
                     </div>
                   </td>
@@ -46,6 +49,7 @@
               </tbody>
               <tfoot>
                 <tr>
+                  <th scope="row"><input class="form-control mr-sm-2" type="text" placeholder="Buscar" name="ID"></th>
                   <th scope="row"><input class="form-control mr-sm-2" type="text" placeholder="Buscar" name="categoria"></th>
                   <th scope="row"><input class="form-control mr-sm-2" type="text" placeholder="Buscar" name="subcategoria"></th>
                   <th scope="row"><input class="form-control mr-sm-2" type="text" placeholder="Buscar" name="direccion"></th>

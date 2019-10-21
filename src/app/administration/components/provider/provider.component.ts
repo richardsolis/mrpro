@@ -46,6 +46,12 @@ export class ProviderComponent implements OnInit {
   @ViewChild(DataTableDirective) dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
+
+  confirmModel: any = {
+    title: "",
+    provider_id: "",
+    status: ""
+  };
   
   constructor(private formBuilder: FormBuilder, private spinner: NgxSpinnerService, private providerService: ProviderService,
               private districtService: DistrictService, private categoryService: CategoryService, private userService: UserService) { 
@@ -459,10 +465,21 @@ export class ProviderComponent implements OnInit {
     return temp;
   }
 
-  setStatus(providerID: string, status: string){
-    this.providerService.postSetStatusProvider({ provider_id: providerID, status: status})
+  confirm(cmodal, title: string, providerID: string, status: string){
+    this.confirmModel.title = '';
+    this.confirmModel.provider_id = '';
+    this.confirmModel.status = '';
+    cmodal.open();
+    this.confirmModel.title = title;
+    this.confirmModel.provider_id = providerID;
+    this.confirmModel.status = status;
+  }
+
+  setStatus(cmodal){
+    this.providerService.postSetStatusProvider({ provider_id: this.confirmModel.provider_id, status: this.confirmModel.status})
           .subscribe((response: any) => {
             console.log('status',response);
+            cmodal.close();
             this.rerender();
           }, (error: any) => {
             console.log(error);
@@ -492,7 +509,7 @@ export class ProviderComponent implements OnInit {
           console.log('Create',response);
           this.message = 'Registro con éxito.';
           this.registerForm.setValue(this.initOneProvider(null));
-          myModal.open();
+          myModal.close();
           this.submitted = false;
           this.spinner.hide();
           this.rerender();
@@ -509,7 +526,7 @@ export class ProviderComponent implements OnInit {
               this.message = this.message + " El email ya esta registrado.";
             }
             this.flagRes = true;
-            myModal.open();
+            myModal.close();
             this.spinner.hide();
             return;
           }
@@ -522,10 +539,10 @@ export class ProviderComponent implements OnInit {
           this.flagRes = true;
           console.log('Update',response);
           this.message = 'Actualizado con éxito.';
-          myModal.open();
           this.submitted = false;
           this.spinner.hide();
           this.rerender();
+          //myModal.close();
         }, (error: any) => {
           this.flagPsw = false;
           this.submitted = false;

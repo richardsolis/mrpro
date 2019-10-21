@@ -123,6 +123,7 @@ budgetDetail(modal, budget:any) {
   this.registerForm.setValue({subject: '', body: ''});
   this.spinner.show();
   this.tmpBudget = {
+    code: budget.code,
     provider: budget.user_provider.user,
     client: budget.user_client.user,
     address: budget.address,

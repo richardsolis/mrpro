@@ -16,6 +16,7 @@
       <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-bordered table-hover">
       <thead>
           <tr>
+            <th scope="col"># ID</th>
             <th scope="col">Categoria</th>
             <th scope="col">Descripción</th>
             <th scope="col">Distrito</th>
@@ -28,6 +29,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let budget of budgetsList">
+            <td scope="row">{{ budget.code }}</td>
             <td scope="row">{{ getName(categories, budget.category_service_id) }}</td>
             <td scope="row">{{ budget.description }}</td>
             <td scope="row">{{ getName(districts, budget.district_id) }}</td>
@@ -48,6 +50,7 @@
         </tbody>
         <tfoot>
           <tr>
+            <th scope="row"><input class="form-control mr-sm-2" type="text" placeholder="ID" name="categoria"></th>
             <th scope="row"><input class="form-control mr-sm-2" type="text" placeholder="Buscar" name="categoria"></th>
             <th scope="row"><input class="form-control mr-sm-2" type="text" placeholder="Buscar" name="descripcion"></th>
             <th scope="row"><input class="form-control mr-sm-2" type="text" placeholder="Buscar" name="distrito"></th>

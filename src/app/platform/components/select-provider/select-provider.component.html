@@ -35,7 +35,7 @@
         </select>
       </div>
       <div class="form-group fix-fg col-lg-2 col-md-3 col-ms-12" *ngIf="this.registerForm.get('type').value == 'priced'">
-        <label for="inputPassword4">Precio unitario:</label>
+        <label for="inputPassword4">Precio unitario referencial:</label>
         <label class="form-control" style="background-color: #dee2e6">S/.{{registerForm.get('price').value}}</label>
       </div>
       <div class="form-group fix-fg col-lg-1 col-md-3 col-ms-12" *ngIf="this.registerForm.get('type').value == 'priced'">
@@ -43,8 +43,8 @@
         <input (change)="calculate()" class="form-control" formControlName="quantity" type="number" name="quantity" min="1"/>
       </div>
       <div class="form-group fix-fg col-lg-1 col-md-3 col-ms-12" *ngIf="this.registerForm.get('type').value == 'priced'">
-        <label for="inputPassword4">Total:</label>
-        <label class="form-control" style="background-color: #dee2e6">{{totalPrice}}</label>
+        <label for="inputPassword4">Total referencial:</label>
+        <label class="form-control" style="background-color: #dee2e6">S/.{{totalPrice}}</label>
       </div>
     </div>
       <div class="form-row" style="justify-content: center;">
@@ -79,7 +79,7 @@
         </div>
   
         <div class="row">
-          <div class="col-lg-3 col-md-4 col-sm-12 mg-t-small" *ngFor="let provider of providers; let i = index">
+          <div class="col-lg-3 col-md-4 col-sm-6 mg-t-small" *ngFor="let provider of providers; let i = index">
             <div class="card card-provider {{ provider.selected ? 'selected' : '' }}">
               <i class="fa {{ provider.selected ? 'fa-check-circle-o' : 'fa-circle-o' }} absolute-rt font-s-middle"></i>
               <div class="no-gutters box-mg-nano" (click)="selectProvider(provider)">

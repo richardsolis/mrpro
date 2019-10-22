@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-contact',
@@ -7,13 +9,28 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ContactComponent implements OnInit {
 
-  constructor() { }
+  contactForm: FormGroup;
+  submitted: boolean = false;
+
+  constructor(private formBuilder: FormBuilder, private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
+    this.contactForm = this.formBuilder.group({
+      name: ['', Validators.required],
+      email: ['', Validators.required],
+      telephone: [''],
+      subject: ['', Validators.required],
+      body: ['', Validators.required],
+    });
   }
 
-  send(){
-  	
+  onSubmit(){
+  	if (this.contactForm.invalid) {
+      console.log('invalidos');
+      this.submitted = true;
+      return;
+    }
+    console.log('EXITO', this.contactForm.value);
   }
 
 }

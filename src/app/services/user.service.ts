@@ -189,6 +189,19 @@ export class UserService {
     return this.http.post(AppSettings.BASE_PATH + AppSettings.UPDATE_PROVIDER_BUDGET, obj, header);
   }
 
+  updateBudgetProvider(params: any){
+    const obj = {
+        id: params.id,
+        user_provider_id: params.user_provider_id
+      };
+
+    /*const body = new HttpParams({
+      fromObject: obj
+    });*/
+    var header = this.generalS.getToken({}, "application/x-www-form-urlencoded");
+    return this.http.post(AppSettings.BASE_PATH + AppSettings.UPDATE_PROVIDER_BUDGET, obj, header);
+  }
+
   updateStatus(option: string, budgetID: string) {
     let obj = {
         budget_id: budgetID,

@@ -18,6 +18,7 @@ export class CommissionComponent implements OnInit {
   registerForm: FormGroup;
   submitted = false;
   flagRes = false;
+  COM_ID: string = "";
 
   constructor(private formBuilder: FormBuilder, private spinner: NgxSpinnerService, 
               private commissionService: CommissionService) { 
@@ -29,7 +30,8 @@ export class CommissionComponent implements OnInit {
       id: [''],
       to: ['', Validators.required],
       from: ['', Validators.required],
-      amount: ['', Validators.required]
+      amount: ['', Validators.required],
+      penalty: ['']
     });
 
     this.getCommissionList()
@@ -40,18 +42,27 @@ export class CommissionComponent implements OnInit {
       id: '',
       to: '',
       from: '',
-      amount: ''
+      amount: '',
+      penalty: ''
     };
   }
 
-  deleteOneComission(commissionID: string){
+  confirm(cmodal, commissionID: string){
     console.log(commissionID);
+    this.COM_ID = "";
+    cmodal.open();
+    this.COM_ID = commissionID;
+  }
+
+  deleteOneComission(cmodal){
+    
     this.spinner.show();
-    this.commissionService.DeleteOneCommission(commissionID)
+    this.commissionService.DeleteOneCommission(this.COM_ID)
         .subscribe((response: any) => {
           console.log('Delete',response);
           this.getCommissionList();
           this.spinner.hide();
+          cmodal.close();
         }, (error: any) => {
           console.log(error);
           this.spinner.hide();
@@ -81,7 +92,7 @@ export class CommissionComponent implements OnInit {
       this.title = `${tempTittle} ${commission.id}`;
       this.flagCreateUpdate = false;
       this.registerForm.setValue({id: commission.id, to: commission.to,
-                                  from: commission.from, amount: commission.amount});
+                                  from: commission.from, amount: commission.amount, penalty: ''});
       modal.open();
       this.spinner.hide();
     }else{

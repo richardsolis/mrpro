@@ -5,6 +5,8 @@ import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { AppSettings } from '../../../app.settings';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ProviderService } from '../../../services/provider.service';
+import { UserService } from '../../../services/user.service';
 
 @Component({
 selector: 'app-order',
@@ -15,6 +17,12 @@ export class OrderComponent implements OnInit {
 
 registerForm: FormGroup;
 submitted: boolean = false;
+
+reasignForm: FormGroup;
+submittedR: boolean = false;
+flagResR: boolean = false;
+messageR: string = "";
+providersList: any[];
 
 title:string = "";
 budgetList: any[];
@@ -29,12 +37,18 @@ dtOptions: DataTables.Settings = {};
 dtTrigger: Subject<any> = new Subject();
 
 constructor(private formBuilder: FormBuilder, private spinner: NgxSpinnerService, 
-            private budgetService: BudgetService) { }
+            private budgetService: BudgetService, private providerS: ProviderService,
+            private userService: UserService) { }
 
 ngOnInit() {
   this.registerForm = this.formBuilder.group({
     subject: ['', Validators.required],
     body: ['', Validators.required]
+  });
+
+  this.reasignForm = this.formBuilder.group({
+    id: ['', Validators.required],
+    user_provider_id: ['', Validators.required]
   });
 
   this.dtOptions = {
@@ -95,6 +109,48 @@ CountDays(createdDay: string){
   let EndDate = new Date().getTime();
   const diff = EndDate - startDate;
   return Math.trunc(diff/(1000*3600*24));
+}
+
+budgetAsign(AsignModal, result: any){
+  this.flagResR = false;
+  this.spinner.show();
+  this.reasignForm.setValue({id: result.id, user_provider_id: result.user_provider_id});
+  this.providerS.guestGetProviders({ categorie: result.category_service_id, district: result.district_id })
+    .subscribe((response: any) => {
+      console.log(response.data);
+      this.providersList = response.data;
+      AsignModal.open();
+      this.spinner.hide();
+    },
+    error =>{
+      console.log(error);
+      this.spinner.hide();
+  });
+}
+
+changeProvider(AsignModal){
+  this.flagResR = false;
+  this.spinner.show();
+  if (this.reasignForm.invalid) {
+    console.log('invalidos');
+    this.submittedR = true;
+    return;
+  }
+  console.log(this.reasignForm.value);
+  this.userService.updateBudgetProvider(this.reasignForm.value)
+        .subscribe((response: any) => {
+          console.log('Update', response);
+          this.flagResR = true;
+          this.messageR = 'Actualizado con éxito.';
+          this.rerender();
+          this.reasignForm.get('user_provider_id').setValue('');
+          this.submittedR = false;
+          this.spinner.hide();
+        }, (error: any) => {
+          this.submitted = false;
+          console.log(error);
+          this.spinner.hide();
+        });
 }
 
 confirm(cmodal, orderID: string){

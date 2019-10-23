@@ -34,6 +34,7 @@ export class ProvidersComponent implements OnInit, OnDestroy {
   registerForm: FormGroup;
   BudgetID = "";
   validFlag: boolean = false;
+  statusList: any[];
 
   @ViewChild(DataTableDirective) dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
@@ -42,7 +43,15 @@ export class ProvidersComponent implements OnInit, OnDestroy {
   constructor(private spinner: NgxSpinnerService, private router: Router,  private _route:ActivatedRoute,
               private session: SessionService, private userS: UserService,
               private formBuilder: FormBuilder) {
-    
+    this.userS.getStatus()
+      .subscribe((response: any) => {
+        this.statusList = response.data.filter(state => { 
+                                                if(state.id !== 2 && state.id !== 3 && state.id !== 5)
+                                                  return state; 
+                                              });
+      }, (error: any) => {
+        console.log(error);
+      });
   }
 
   ngOnInit() {

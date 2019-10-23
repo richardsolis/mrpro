@@ -13,6 +13,7 @@ import { ChatComponent } from './provider/components/chat/chat.component';
 import { RegisterProviderComponent } from './components/register-provider/register-provider.component';
 import { ProfileProviderComponent } from './provider/components/profile-provider/profile-provider.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { ProfileClientComponent } from './components/profile-client/profile-client.component';
 
 
 const routes: Routes = [
@@ -38,6 +39,10 @@ const routes: Routes = [
 	{
 		path: 'pedir-propuesta',
 		component: SendBudgetComponent
+	},
+	{
+		path: 'perfil',
+		component: ProfileClientComponent
 	},
 	{
 		path: 'ingresar',

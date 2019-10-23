@@ -55,6 +55,7 @@ export class RegisterProviderComponent implements OnInit {
    }
 
   ngOnInit() {
+    const today = this.getActualDate();
     this.registerForm = this.formBuilder.group({
       tipo: ['0', Validators.required],
       ruc: ['', Validators.required],
@@ -77,7 +78,7 @@ export class RegisterProviderComponent implements OnInit {
       policiales:  [''],
       penales:  [''],
       judiciales:  [''],
-      experiencia:  [''],
+      experiencia:  [today],
       contrasena:  ['', [Validators.required, Validators.minLength(8)]],
       contrasena2:  ['', [Validators.required, Validators.minLength(8)]],
       eBancaria:  ['',Validators.required],
@@ -86,6 +87,15 @@ export class RegisterProviderComponent implements OnInit {
       categories:  [[], Validators.required],
       districts:  [[]],
     });
+  }
+
+  getActualDate(){
+    let tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const day = ("0" + (tomorrow.getDate())).slice(-2);
+    const month = ("0" + (tomorrow.getMonth() + 1)).slice(-2);
+    const year = tomorrow.getFullYear();
+    return `${year}-${month}-${day}`;
   }
 
   addControls(){

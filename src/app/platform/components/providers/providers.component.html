@@ -4,9 +4,7 @@
     <div style="max-width: 1180px;margin-top: 20px;display: flex;">
       <p>Estado:</p>
       <select (change)="rerender()" [(ngModel)]="estado" style="margin-left: 20px;">
-        <option value="1">Pendientes</option>
-        <option value="4">Atendido</option>
-        <option value="6">Finalizado</option>
+          <option *ngFor="let status of statusList" [value]="status.id">{{ status.name }}</option>
       </select>
     </div>
     <section style="margin-top: 15px;margin-bottom: 15px;">

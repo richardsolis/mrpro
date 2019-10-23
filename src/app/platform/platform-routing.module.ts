@@ -23,6 +23,9 @@ const routes: Routes = [
 	{
 		path: 'reserva',
 		component: SelectProviderComponent
+	},{
+		path: 'reserva/:category',
+		component: SelectProviderComponent
 	},
 	{
 		path: 'reservado',

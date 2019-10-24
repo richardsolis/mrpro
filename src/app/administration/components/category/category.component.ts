@@ -26,6 +26,12 @@ export class CategoryComponent implements OnInit {
   flagError: boolean = false;
   messageError: string = "";
 
+  ParentForm: FormGroup;
+  submittedP: boolean = false;
+  flagResP: boolean = false;
+  flagCreateUpdateP: boolean = true;
+  messageP: string = "";
+
   @ViewChild(DataTableDirective) dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
@@ -38,6 +44,13 @@ export class CategoryComponent implements OnInit {
   }
 
   InitCategoryService() {
+
+    this.ParentForm = this.formBuilder.group({
+      id: [''],
+      parent: ['0'],
+      name: ['', Validators.required]
+    });
+
     this.categoryForm = this.formBuilder.group({
       id: [''],
       parent: ['', Validators.required],
@@ -61,6 +74,7 @@ export class CategoryComponent implements OnInit {
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
       dtInstance.destroy();
       this.getCategoryList();
+      this.getCategoryParent();
     });
   }
 
@@ -124,6 +138,19 @@ export class CategoryComponent implements OnInit {
       });
   }
 
+  openParent(parentModal, cmodal){
+    this.flagCreateUpdateP = true;
+    this.submittedP = false;
+    this.ParentForm.setValue({ id: '', parent: '0', name: '' });
+    cmodal.close();
+    parentModal.open();
+  }
+
+  backModal(parentModal, cmodal){
+    cmodal.open();
+    parentModal.close();
+  }
+
   confirm(cmodal, categoryID: string){
     this.flagError = false;
     this.CAT_ID = "";
@@ -143,7 +170,7 @@ export class CategoryComponent implements OnInit {
         this.spinner.hide();
       },
       error => {
-        console.log(error);
+        console.log(error.message);
         if(error.message){
           this.flagError = true;
           this.messageError = "No es posible eliminarla porque está siendo usada por un proveedor.";
@@ -157,7 +184,7 @@ export class CategoryComponent implements OnInit {
     console.log("OpenModal Category - ", tempTittle);
     this.spinner.show();
     if (category) {
-      this.title = `${tempTittle} ${category.id}`;
+      this.title =  (category.parent == '0')? `${tempTittle} Categoría-${category.id}` : `${tempTittle} Subcategoría-${category.id}`;
       this.flagCreateUpdate = false;
       this.categoryForm.setValue({ id: category.id, parent: category.parent, name: category.name });
       modal.open();
@@ -166,6 +193,19 @@ export class CategoryComponent implements OnInit {
       this.title = tempTittle;
       this.flagCreateUpdate = true;
       this.categoryForm.setValue({ id: '', parent: '0', name: '' });
+      modal.open();
+      this.spinner.hide();
+    }
+  }
+
+  parentDetail(modal, tempTittle: string, category: any = null) {
+    this.flagResP = false;
+    console.log("OpenModal Parent - ", tempTittle);
+    this.spinner.show();
+    if (category) {
+      this.flagCreateUpdateP = false;
+      this.title = `${tempTittle} Categoría-${category.id}`;
+      this.ParentForm.setValue({ id: category.id, parent: category.parent, name: category.name });
       modal.open();
       this.spinner.hide();
     }
@@ -208,6 +248,50 @@ export class CategoryComponent implements OnInit {
           this.spinner.hide();
         }, (error: any) => {
           this.submitted = false;
+          console.log(error);
+          this.spinner.hide();
+        });
+    }
+  }
+
+  onSubmitP(parentModal, cmodal) {
+    this.flagResP = false;
+    if (this.ParentForm.invalid) {
+      console.log('invalidos');
+      this.submittedP = true;
+      return;
+    }
+    console.log(this.ParentForm.value);
+    this.spinner.show();
+    if (this.flagCreateUpdateP == true) {
+      this.serviceService.postCreateCategory(this.ParentForm.value)
+        .subscribe((response: any) => {
+          console.log('Create', response);
+          this.rerender();
+          this.submittedP = false;
+          parentModal.close();
+          cmodal.open();
+          this.ParentForm.setValue({id:  '',parent: '0', name: '' });
+          this.spinner.hide();
+        }, (error: any) => {
+          this.submittedP = false;
+          parentModal.close();
+          cmodal.open();
+          console.log(error);
+          this.spinner.hide();
+        });
+    }else {
+      this.serviceService.putUpdateCategory(this.ParentForm.value)
+        .subscribe((response: any) => {
+          console.log('Update', response);
+          this.flagResP = true;
+          this.messageP = 'Actualizado con éxito.';
+          this.submittedP = false;
+          this.rerender();
+          this.spinner.hide();
+          this.ParentForm.setValue({id: response.data.id, parent: response.data.parent, name: response.data.name});
+        }, (error: any) => {
+          this.submittedP = false;
           console.log(error);
           this.spinner.hide();
         });

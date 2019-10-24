@@ -26,6 +26,12 @@ export class ServiceComponent implements OnInit {
   flagError: boolean = false;
   messageError: string = "";
 
+  ParentForm: FormGroup;
+  submitted: boolean = false;
+  flagRes: boolean = false;
+  flagCreateUpdate: boolean = true;
+  message: string = "";
+
   @ViewChild(DataTableDirective) dtElementP: DataTableDirective;
   dtOptionsP: DataTables.Settings = {};
   dtTriggerP: Subject<any> = new Subject();
@@ -40,6 +46,14 @@ export class ServiceComponent implements OnInit {
   }
 
   InitPricedService() {
+
+    this.ParentForm = this.formBuilder.group({
+      id: [''],
+      parent: ['0'],
+      name: ['', Validators.required],
+      price: ['0.00']
+    });
+
     this.pricedForm = this.formBuilder.group({
       id: [''],
       parent: ['', Validators.required],
@@ -64,6 +78,7 @@ export class ServiceComponent implements OnInit {
     this.dtElementP.dtInstance.then((dtInstanceP: DataTables.Api) => {
       dtInstanceP.destroy();
       this.getPricedList();
+      this.getCategoryParent();
     });
   }
 
@@ -127,6 +142,19 @@ export class ServiceComponent implements OnInit {
       });
   }
 
+  openParent(parentModal, cmodal){
+    this.flagCreateUpdate = true;
+    this.submitted = false;
+    this.ParentForm.setValue({ id: '', parent: '0', name: '', price: '0.00' });
+    cmodal.close();
+    parentModal.open();
+  }
+
+  backModal(parentModal, cmodal){
+    cmodal.open();
+    parentModal.close();
+  }
+
   PricedDetail(modal, tempTittle: string, priced: any = null) {
     this.flagResP = false;
     console.log("OpenModal Category - ", tempTittle);
@@ -141,6 +169,19 @@ export class ServiceComponent implements OnInit {
       this.titleP = tempTittle;
       this.flagCreateUpdateP = true;
       this.pricedForm.setValue({ id: '', parent: '0', name: '', price: '' });
+      modal.open();
+      this.spinner.hide();
+    }
+  }
+
+  parentDetail(modal, tempTittle: string, priced: any = null) {
+    this.flagRes = false;
+    console.log("OpenModal Parent - ", tempTittle);
+    this.spinner.show();
+    if (priced) {
+      this.flagCreateUpdate = false;
+      this.titleP = `${tempTittle} Categoría-${priced.id}`;
+      this.ParentForm.setValue({ id: priced.id, parent: priced.parent, name: priced.name, price: priced.price });
       modal.open();
       this.spinner.hide();
     }
@@ -165,7 +206,7 @@ export class ServiceComponent implements OnInit {
         this.spinner.hide();
       },
       error => {
-        console.log(error);
+        console.log(error.message);
         if(error.message){
           this.flagError = true;
           this.messageError = "No es posible eliminarla porque está siendo usada por un proveedor.";
@@ -193,8 +234,8 @@ export class ServiceComponent implements OnInit {
           this.messageP = 'Registro con éxito.';
           this.submittedP = false;
           this.rerenderP();
-          this.pricedForm.setValue({ id: '', parent: '0', name: '', price: '' });
           this.spinner.hide();
+          this.pricedForm.setValue({ id: '', parent: '0', name: '', price: '' });
         }, (error: any) => {
           this.submittedP = false;
           console.log(error);
@@ -211,6 +252,51 @@ export class ServiceComponent implements OnInit {
           this.spinner.hide();
         }, (error: any) => {
           this.submittedP = false;
+          console.log(error);
+          this.spinner.hide();
+        });
+    }
+  }
+
+  onSubmit(parentModal, cmodal) {
+    this.flagRes = false;
+    if (this.ParentForm.invalid) {
+      console.log('invalidos');
+      this.submitted = true;
+      return;
+    }
+    console.log(this.ParentForm.value);
+    this.spinner.show();
+    if (this.flagCreateUpdate == true) {
+      this.serviceService.postCreatePriced(this.ParentForm.value)
+        .subscribe((response: any) => {
+          console.log('Create', response);
+          this.rerenderP();
+          this.submitted = false;
+          parentModal.close();
+          cmodal.open();
+          this.ParentForm.setValue({ id: '', parent: '0', name: '', price: '' });
+          this.spinner.hide();
+        }, (error: any) => {
+          this.submitted = false;
+          parentModal.close();
+          cmodal.open();
+          console.log(error);
+          this.spinner.hide();
+        });
+    }else {
+      this.serviceService.putUpdatePriced(this.ParentForm.value)
+        .subscribe((response: any) => {
+          console.log('Update', response);
+          this.flagRes = true;
+          this.message = 'Actualizado con éxito.';
+          this.submitted = false;
+          this.rerenderP();
+          this.spinner.hide();
+          this.ParentForm.setValue({id: response.data.id, parent: response.data.parent, 
+                                    name: response.data.name, price: response.data.price});
+        }, (error: any) => {
+          this.submitted = false;
           console.log(error);
           this.spinner.hide();
         });

@@ -149,6 +149,19 @@ export class HomeProviderComponent implements OnInit, OnDestroy {
     return temp;
   }
 
+  checkoutCondition(accepted: string, date_service: string){
+    let today = new Date();
+    let serviceDate = new Date(date_service);
+    let result = (today.getTime() > serviceDate.getTime())? true: false;
+    if(accepted == '1' && result == true){
+      return false;
+    }else if(accepted == '1' && result == false){
+      return true;
+    }else  if(accepted == '0'){
+      return true;
+    }
+  }
+
   confirm(cmodal, option: string, budgetID: string){
     cmodal.open();
     if(option == 'A'){

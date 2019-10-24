@@ -72,7 +72,8 @@ export class ProvidersComponent implements OnInit, OnDestroy {
     this.registerForm = this.formBuilder.group({
       score:  ['0', Validators.required],
       comment:  ['', Validators.required],
-      user_provider_id: ['', Validators.required]
+      user_provider_id: ['', Validators.required],
+      budget_id: ['', Validators.required]
     });
   }
 
@@ -119,10 +120,19 @@ export class ProvidersComponent implements OnInit, OnDestroy {
     );
   }
 
+  checkout(client_score: string){
+    if(client_score == '0'){
+      return false;
+    }else{
+      return true;
+    }
+  }
+
   closeService(mymodal,providerID: string ,BudgetID: string){
-    this.registerForm.setValue({score: '0',comment:'',user_provider_id:''});
+    this.registerForm.setValue({score: '0',comment:'',user_provider_id:'', budget_id: ''});
       this.registerForm.get('user_provider_id').setValue(providerID);
-      this.BudgetID = BudgetID;
+      this.registerForm.get('budget_id').setValue(BudgetID);
+      
       mymodal.open();
   }
 
@@ -137,16 +147,9 @@ export class ProvidersComponent implements OnInit, OnDestroy {
     this.userS.scoreOfClient(this.registerForm.value)
         .subscribe((res: any) => {
           console.log(res);
-          this.userS.updateStatus('6',this.BudgetID)
-              .subscribe((res: any) => {
-                console.log(res);
-                this.spinner.hide();
-                cmodal.close();
-                this.rerender();
-              }, (error: any) => {
-                console.log(error);
-                this.spinner.hide();
-              });
+          cmodal.close();
+          this.spinner.hide();
+          this.rerender();
         }, (error: any) => {
           console.log(error);
           this.spinner.hide();

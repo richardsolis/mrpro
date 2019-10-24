@@ -23,6 +23,9 @@ export class CategoryComponent implements OnInit {
   message: string = "";
   CAT_ID: string = "";
 
+  flagError: boolean = false;
+  messageError: string = "";
+
   @ViewChild(DataTableDirective) dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
@@ -122,12 +125,14 @@ export class CategoryComponent implements OnInit {
   }
 
   confirm(cmodal, categoryID: string){
+    this.flagError = false;
     this.CAT_ID = "";
     cmodal.open();
     this.CAT_ID = categoryID;
   }
 
   deleteCategory(cmodal) {
+    this.flagError = false;
     this.spinner.show();
     this.serviceService.DeleteOneCategory(this.CAT_ID).subscribe(
       response => {
@@ -139,6 +144,10 @@ export class CategoryComponent implements OnInit {
       },
       error => {
         console.log(error);
+        if(error.message){
+          this.flagError = true;
+          this.messageError = "No es posible eliminarla porque está siendo usada por un proveedor.";
+        }
         this.spinner.hide();
       });
   }

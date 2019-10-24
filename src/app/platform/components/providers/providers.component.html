@@ -39,8 +39,9 @@
                       <button *ngSwitchCase="'1'" (click)="confirm(myFile,result.id)" class="btn btn-danger">Cancelar</button>
                       <button *ngSwitchCase="'4'" (click)="goChat(result.firebase_id, result.id)" type="button" class="btn btn-warning">Chat</button>
                       <button *ngSwitchCase="'4'" (click)="confirm(myFile,result.id)" class="btn btn-danger">Cancelar</button>
-                      <!--<button *ngSwitchCase="'4'" (click)="closeService(myModal,result.user_provider_id,result.id)" type="button" class="btn btn-secondary">Finalizar</button>-->
-                      <p *ngSwitchCase="'6'">Sin Acciones</p>
+                      <button *ngSwitchCase="'6'" (click)="closeService(myModal,result.user_provider_id,result.id)" 
+                        type="button" class="btn btn-success" [hidden]="checkout(result.client_score)">Valorar</button>
+                      
                     </div>
                   </td>
                 </tr>
@@ -88,7 +89,12 @@
 
 <modal #myModal>
     <modal-content>
+        
         <form [formGroup]="registerForm" (ngSubmit)="Rating(myModal)">
+          <div class="">
+              <label class="col-lg-12 col-md-12 col-form-label" style="color: #135daa">
+                <b>Valoración del Cliente</b></label>     
+            </div>
             <div class="form-group">
               <label for="formGroupExampleInput">
                 <b class="text-danger">*</b>Score (0.0 - 5.0): <b class="color-blue"> {{registerForm.get('score').value}} </b>
@@ -101,7 +107,7 @@
             </div>
             <div class="form-group">
                 <label *ngIf="validFlag"><b class="text-danger">Favor de completar todos los campos.</b></label>
-                <button (click)="Rating(myModal)" class="btn bprimary">Finalizar</button>
+                <button type="submit" class="btn bprimary">Finalizar</button>
             </div>
           </form>
     </modal-content>

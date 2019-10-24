@@ -140,11 +140,11 @@
         </div>
         <div class="row">
             <label for="inputEmail3" class="col-lg-4 col-form-label"><b>Servicio de:</b></label>
-            <label *ngIf="categories" class="col-lg-6 col-form-label">{{  getName(categories, currentBudget.category_service_id) }}</label>
+            <label *ngIf="currentBudget.parent_category" class="col-lg-6 col-form-label">{{  currentBudget.parent_category.name }}</label>
         </div>
         <div class="row">
             <label for="inputEmail3" class="col-lg-4 col-form-label"><b>Decripcion:</b></label>
-            <label class="col-lg-6 form-control">{{ currentBudget.description }}</label>
+            <textarea  class="col-lg-6 form-control" disabled>{{ currentBudget.description }}</textarea >
         </div>
         <hr>
         <div class="row">

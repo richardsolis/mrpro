@@ -23,6 +23,9 @@ export class ServiceComponent implements OnInit {
   messageP: string = "";
   PRI_ID: string = "";
 
+  flagError: boolean = false;
+  messageError: string = "";
+
   @ViewChild(DataTableDirective) dtElementP: DataTableDirective;
   dtOptionsP: DataTables.Settings = {};
   dtTriggerP: Subject<any> = new Subject();
@@ -144,12 +147,14 @@ export class ServiceComponent implements OnInit {
   }
 
   confirm(cmodal, pricedID: string){
+    this.flagError = false;
     this.PRI_ID = "";
     cmodal.open();
     this.PRI_ID = pricedID;
   }
 
   deletePriced(cmodal) {
+    this.flagError = false;
     this.spinner.show();
     this.serviceService.DeleteOnePriced( this.PRI_ID).subscribe(
       response => {
@@ -161,6 +166,10 @@ export class ServiceComponent implements OnInit {
       },
       error => {
         console.log(error);
+        if(error.message){
+          this.flagError = true;
+          this.messageError = "No es posible eliminarla porque está siendo usada por un proveedor.";
+        }
         this.spinner.hide();
       });
   }

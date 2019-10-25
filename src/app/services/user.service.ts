@@ -81,6 +81,23 @@ export class UserService {
   	return this.http.post(AppSettings.BASE_PATH + AppSettings.GUEST_RESET_PASSWORD, body, options);
   }
 
+  changePassword(params) {
+    const obj = {
+      email: params.email,
+      password: params.password,
+      password_confirm: params.password_confirm
+    }
+    const body = new HttpParams({
+      fromObject: obj
+    });
+    const headers = new HttpHeaders({
+      "Content-Type": "application/x-www-form-urlencoded"
+    }); 
+    const options = { headers: headers };
+    
+  	return this.http.post(AppSettings.BASE_PATH + AppSettings.GUEST_CHANGE_PASSWORD, body, options);
+  }
+
   postSaveImageUser(image) {
     const formData = new FormData();
     formData.append("image", image);

@@ -87,4 +87,36 @@ export class ClientService {
     const url = `${AppSettings.BASE_PATH}${AppSettings.PUT_CREATE_DASHBOARD_CLIENT}/${params.id}`;
     return this.http.put(url, body, header);
   }
+
+  postUpdateClientProfile(params){
+    let obj = {};
+    if(params.password == undefined || params.password == null || params.password == ""){
+      obj = {
+        name: params.name,
+        lastname: params.lastname,
+        email: params.email,
+        phone: params.phone,
+        image: (params.image == undefined)? "" : params.image,
+        doc_number: params.doc_number
+      };
+    }else{
+      obj = {
+        name: params.name,
+        lastname: params.lastname,
+        email: params.email,
+        password: params.password,
+        password_confirmation: params.password_confirmation,
+        phone: params.phone,
+        image: (params.image == undefined)? "" : params.image,
+        doc_number: params.doc_number
+      };
+    }
+
+    console.log(obj);
+    const body = new HttpParams({
+      fromObject: obj
+    });
+    var header = this.generalS.getToken({}, "application/x-www-form-urlencoded");
+    return this.http.post(AppSettings.BASE_PATH + AppSettings.UPDATE_CLIENT, body, header);
+  }
 }

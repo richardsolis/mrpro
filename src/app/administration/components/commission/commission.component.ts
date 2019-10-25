@@ -156,7 +156,7 @@ export class CommissionComponent implements OnInit {
           console.log(error);
           if(error.message){
             this.flagRes = true;
-            this.message = 'El rango interfiere con otra comisión, modifiquelo.';
+            this.message = 'Ya existe una comisión en el mismo rango, por favor ingrese uno diferente.';
           }
         });
     }

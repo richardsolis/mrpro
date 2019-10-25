@@ -33,6 +33,7 @@ export class AppSettings {
   public static PUT_UPDATE_DASHBOARD_PRICED = "crud/priced";
   public static DELETE_DASHBOARD_PRICED = "crud/priced";
   public static GUEST_RESET_PASSWORD = "guest/reset/password";
+  public static GUEST_CHANGE_PASSWORD = "guest/set/password";
   public static GUEST_CREATE_USER = "guest/user/client";
   public static CREATE_PROVIDER = "provider/create";
   public static UPDATE_PROVIDER = "provider/update";
@@ -45,6 +46,7 @@ export class AppSettings {
   public static CLIENT_GET_BUDGET = "client/get/budget";
   public static CLIENT_EXECUTE_BUDGET = "client/exe/budget";
   public static CLIENT_SCORE = "score/provider/create";
+  public static UPDATE_CLIENT = "client/update/user";
   public static PROVIDER_SCORE = "score/client/create";
   public static PROVIDER_GET_BUDGET = "client/get/one/budget";
   public static CURRENT_USER = "oauth/current/user";

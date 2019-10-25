@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
 		password: '',
 		grant_type: "password",
 		client_id: 2,
-		client_secret: "JHwnnAHRf0vw1luSItHZxD9ECwdrHL1PhghKXNI9"
+		client_secret: "tgOahYqzhbWMrjsDKPGsP2qSGU22dVxxNcfrt0lr"
 	};
 	userdata:any = {};
 	message = 'Datos incorrectos';

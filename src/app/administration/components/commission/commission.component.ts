@@ -31,7 +31,7 @@ export class CommissionComponent implements OnInit {
       to: ['', Validators.required],
       from: ['', Validators.required],
       amount: ['', Validators.required],
-      penalty: ['']
+      penalty: ['',Validators.required]
     });
 
     this.getCommissionList()
@@ -86,13 +86,14 @@ export class CommissionComponent implements OnInit {
   }
 
   newComission(modal, tempTittle:string, commission:any = null) {
+    this.flagRes = false;
     console.log("OpenModal Comsion - ", tempTittle);
     this.spinner.show();
     if(commission){
       this.title = `${tempTittle} ${commission.id}`;
       this.flagCreateUpdate = false;
       this.registerForm.setValue({id: commission.id, to: commission.to,
-                                  from: commission.from, amount: commission.amount, penalty: ''});
+                                  from: commission.from, amount: commission.amount, penalty: commission.penalty});
       modal.open();
       this.spinner.hide();
     }else{
@@ -135,6 +136,10 @@ export class CommissionComponent implements OnInit {
         }, (error: any) => {
           this.submitted = false;
           console.log(error);
+          if(error.message){
+            this.flagRes = true;
+            this.message = 'El rango interfiere con otra comisión, modifiquelo.';
+          }
         });
     }else{
       this.commissionService.putUpdateCommission(this.registerForm.value)
@@ -149,6 +154,10 @@ export class CommissionComponent implements OnInit {
         }, (error: any) => {
           this.submitted = false;
           console.log(error);
+          if(error.message){
+            this.flagRes = true;
+            this.message = 'El rango interfiere con otra comisión, modifiquelo.';
+          }
         });
     }
 

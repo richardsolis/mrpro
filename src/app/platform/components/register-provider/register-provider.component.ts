@@ -251,12 +251,20 @@ export class RegisterProviderComponent implements OnInit {
       this.submitted = false;
   		this.spinner.hide();
   	}, (error: any) => {
+      console.log(error);
       this.flagPsw = false;
       this.submitted = false;
       this.spinner.hide();
       if (error.error && error.error.data && error.error.data.doc_number) {
         this.flagRes = false;
         this.message = "El DNI ya esta registrado.";
+        myModal.open();
+        this.spinner.hide();
+        return;
+      }
+      if (error.error && error.error.data && error.error.data.email) {
+        this.flagRes = false;
+        this.message = "El correo Electrónico ya esta registrado.";
         myModal.open();
         this.spinner.hide();
         return;

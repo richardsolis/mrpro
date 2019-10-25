@@ -30,6 +30,12 @@ export class UserComponent implements OnInit {
 
   urlImageLogo: string = "";
 
+  confirmModel: any = {
+    title: "",
+    client_id: "",
+    status: ""
+  };
+
   @ViewChild(DataTableDirective) dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
@@ -145,6 +151,27 @@ export class UserComponent implements OnInit {
             password: '', password_confirmation:  '',
             phone: '', image: '',
             doc_number: ''};
+  }
+
+  confirm(cmodal, title: string, providerID: string, status: string){
+    this.confirmModel.title = '';
+    this.confirmModel.client_id = '';
+    this.confirmModel.status = '';
+    cmodal.open();
+    this.confirmModel.title = title;
+    this.confirmModel.client_id = providerID;
+    this.confirmModel.status = status;
+  }
+
+  setStatus(cmodal){
+    this.clientService.postSetStatusClient({ client_id: this.confirmModel.client_id, status: this.confirmModel.status})
+          .subscribe((response: any) => {
+            console.log('status',response);
+            cmodal.close();
+            this.rerender();
+          }, (error: any) => {
+            console.log(error);
+          })
   }
 
   newClient(modal, tempTittle:string, client:any = null) {

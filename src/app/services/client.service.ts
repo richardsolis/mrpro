@@ -42,6 +42,19 @@ export class ClientService {
     return this.http.post(AppSettings.BASE_PATH + AppSettings.POST_CREATE_DASHBOARD_CLIENT, body, header);
   }
 
+  postSetStatusClient(params) {
+    const obj = {
+      status: params.status
+    };
+    console.log(obj);
+    const body = new HttpParams({
+      fromObject: obj
+    });
+    var header = this.generalS.getToken({}, "application/json");
+    const url = `${AppSettings.BASE_PATH}${AppSettings.PUT_CREATE_DASHBOARD_CLIENT}/${params.client_id}`;
+    return this.http.put(url, body, header);
+  }
+
   putUpdateClient(params){
     let obj = {};
     if(params.contrasena == undefined || params.contrasena == null || params.contrasena == ""){

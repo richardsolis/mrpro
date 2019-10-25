@@ -17,6 +17,7 @@
       <div class="card-body card-body-admin">
         <label>Rango:</label><p class="card-text">De {{ item.to | number }} a {{ item.from | number }} soles</p>
         <label>Porcentaje:</label><p class="card-text">{{item.amount | number}}%</p>
+        <label>Penalidad:</label><p class="card-text">{{item.penalty | number}}</p>
       </div>
       <div class="card-footer">
           <a (click)="newComission(myModal, 'Editar Comision', item)" href="javascript:void(0)" class="btn btn-success">Editar</a>
@@ -52,39 +53,39 @@
       </div>
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit(myModal)" class="col-lg-12 col-md-12"> 
           <div class="form-group row">
-              <label for="inputEmail3" class="col-sm-2 col-form-label">Rango Inicial (S/.)</label>
-              <div class="col-sm-10">
-                <input type="number" formControlName="to" class="form-control" id="inputEmail3" placeholder="Monetario en soles">
+              <label for="inputEmail3" class="col-sm-3 col-form-label">Rango Inicial (S/.)</label>
+              <div class="col-sm-9">
+                <input type="number" formControlName="to" class="form-control" placeholder="Monetario en soles">
                 <div *ngIf="submitted && registerForm.controls.to.errors?.required">
                   <p class="text-danger"><strong>Rango Inicial requerido.</strong></p>
                 </div>
               </div>
           </div>
           <div class="form-group row">
-              <label for="inputEmail3" class="col-sm-2 col-form-label">Rango Final (S/.)</label>
-              <div class="col-sm-10">
-                <input type="number" formControlName="from" class="form-control" id="inputEmail3" placeholder="Monetario en soles">
+              <label for="inputEmail3" class="col-sm-3 col-form-label">Rango Final (S/.)</label>
+              <div class="col-sm-9">
+                <input type="number" formControlName="from" class="form-control" placeholder="Monetario en soles">
                 <div *ngIf="submitted && registerForm.controls.from.errors?.required">
                   <p class="text-danger"><strong>Rango Final requerido.</strong></p>
                 </div>
               </div>
           </div>
           <div class="form-group row">
-              <label for="inputEmail3" class="col-sm-2 col-form-label">Porcentaje</label>
-              <div class="col-sm-10">
-                <input type="number" formControlName="amount" class="form-control" id="inputEmail3" placeholder="Porcentaje de comision">
+              <label for="inputEmail3" class="col-sm-3 col-form-label">Porcentaje</label>
+              <div class="col-sm-9">
+                <input type="number" formControlName="amount" class="form-control" placeholder="Porcentaje de comision">
                 <div *ngIf="submitted && registerForm.controls.amount.errors?.required">
                   <p class="text-danger"><strong>Porcentaje requerido.</strong></p>
                 </div>
               </div>
           </div>
           <div class="form-group row">
-              <label for="inputEmail3" class="col-sm-2 col-form-label">Penalidad</label>
-              <div class="col-sm-10">
-                <input type="number" formControlName="penalty" class="form-control" id="inputEmail3" placeholder="Monto de la Penalidad">
-                <!--<div *ngIf="submitted && registerForm.controls.amount.penalty?.required">
+              <label for="inputEmail3" class="col-sm-3 col-form-label">Penalidad</label>
+              <div class="col-sm-9">
+                <input type="number" formControlName="penalty" class="form-control" placeholder="Monto de la Penalidad">
+                <div *ngIf="submitted && registerForm.controls.penalty.errors?.required">
                   <p class="text-danger"><strong>Penalidad requerido.</strong></p>
-                </div>-->
+                </div>
               </div>
           </div>
           <div class="form-group row" *ngIf="flagRes">

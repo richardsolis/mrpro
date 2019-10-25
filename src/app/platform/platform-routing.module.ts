@@ -14,6 +14,7 @@ import { RegisterProviderComponent } from './components/register-provider/regist
 import { ProfileProviderComponent } from './provider/components/profile-provider/profile-provider.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { ProfileClientComponent } from './components/profile-client/profile-client.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
 
 
 const routes: Routes = [
@@ -51,6 +52,9 @@ const routes: Routes = [
 	{
 		path: 'olvidar-contrasena',
 		component: ResetPasswordComponent
+	},{
+		path: 'cambiar-contrasena',
+		component: ChangePasswordComponent
 	},
 	{
 		path: 'registro',

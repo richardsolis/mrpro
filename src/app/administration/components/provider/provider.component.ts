@@ -212,6 +212,23 @@ export class ProviderComponent implements OnInit {
      
   }
 
+  selectExcel(event){
+    console.log(event.target.name);
+  
+    /*if (!event) {
+      this.imageFoto  = null;
+      this.imageLogo = null;
+      return;
+    }
+
+    if(event.target.files[0].type.indexOf('image') < 0) {
+      this.imageFoto  = null;
+      this.imageLogo = null;
+      return;
+    }*/
+     
+  }
+
   selectDoc(event){
     console.log(event.target.name);
 

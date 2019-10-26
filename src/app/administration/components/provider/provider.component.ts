@@ -8,6 +8,7 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { DistrictService } from '../../../services/district.service';
 import { CategoryService } from '../../../services/category.service';
 import { UserService } from '../../../services/user.service';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-provider',
@@ -213,8 +214,29 @@ export class ProviderComponent implements OnInit {
   }
 
   selectExcel(event){
-    console.log(event.target.name);
-  
+    let excelJsonEmpresa: any[] = [];
+    let excelJsonIndividual: any[] = [];
+    var reader = new FileReader();
+    reader.readAsBinaryString(event.target.files[0]);
+    reader.onload = function(){
+      let fileData = reader.result;
+      var workbook = XLSX.read(fileData, {type: 'binary'});
+      workbook.SheetNames.forEach(function(sheetName){
+        console.log(sheetName);
+        if(sheetName == 'Empresa'){
+          let rowObject = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
+          excelJsonEmpresa = rowObject;
+        }
+
+        if(sheetName == 'Individual'){
+          let rowObject = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
+          excelJsonIndividual = rowObject;
+        }
+      });
+      console.log(excelJsonEmpresa);
+      console.log(excelJsonIndividual);
+    };
+
     /*if (!event) {
       this.imageFoto  = null;
       this.imageLogo = null;

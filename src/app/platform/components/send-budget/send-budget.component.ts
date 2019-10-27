@@ -256,7 +256,7 @@ export class SendBudgetComponent implements OnInit {
         dataSend.push({
           address: this.registerForm.get('address').value,
           category_service_id: this.session.getObject("budget").category,
-          parent_category_service: 4,
+          parent_category_service: this.session.getObject("budget").subcategory,
           contact_name: this.registerForm.get('contact_name').value,
           date_service: `${this.registerForm.get('date_service').value} ${this.registerForm.get('hour').value}`,
           description: this.registerForm.get('description').value,
@@ -271,7 +271,7 @@ export class SendBudgetComponent implements OnInit {
         dataSend.push({
           address: this.registerForm.get('address').value,
           category_service_id: this.session.getObject("budget").category,
-          parent_category_service: 4,
+          parent_category_service: this.session.getObject("budget").subcategory,
           contact_name: this.registerForm.get('contact_name').value,
           date_service: `${this.registerForm.get('date_service').value} ${this.registerForm.get('hour').value}`,
           description: this.registerForm.get('description').value,

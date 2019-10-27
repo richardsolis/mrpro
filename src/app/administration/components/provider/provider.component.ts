@@ -44,6 +44,8 @@ export class ProviderComponent implements OnInit {
 
   urlImageLogo: string = "";
 
+  providerImporList: any[] = [];
+
   @ViewChild(DataTableDirective) dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
@@ -213,42 +215,116 @@ export class ProviderComponent implements OnInit {
      
   }
 
+  createObjProvider(params: any){
+    return {
+        doc_number: params.DNI,
+        name: params.Nombre,
+        lastname: params.Apellidos,
+        email: (params.CorreoElectronicoEmpresa == undefined)? params.CorreoElectronico : params.CorreoElectronicoEmpresa,
+        password: '12345678',
+        password_confirmation: '12345678',
+        phone: params.Celular,
+        website: '',
+        image: '',
+        address: params.Direccion,
+        ruc: (params.RUC == undefined)? '' : params.RUC,
+        experience: '',
+        type_provider: params.TipoProv,
+        logo: '',
+        r_social: (params.RazonSocial == undefined)? '' : params.RazonSocial,
+        a_fiscal: (params.DireccionFiscal == undefined)? '' : params.DireccionFiscal,
+        a_comercial: '',
+        a_taller: '',
+        url: '',
+        a_police: '',
+        a_penal: '',
+        a_judicial: '',
+        bank_id: this.getIdBank(params.Banco),
+        bank_c: '',
+        bank_ci: '',
+        categories: JSON.stringify([]),
+        districts: JSON.stringify([]),
+        company_phone: (params.CelularEmpresa == undefined)? '' : params.CelularEmpresa,
+        company_email: (params.CorreoElectronicoEmpresa == undefined)? '' : params.CorreoElectronicoEmpresa,
+        status: '0'
+    };
+  }
+
+  getIdBank(bankID: string){
+    let banco='';
+    switch (bankID) {
+      case 'BCP':
+        banco = '1';
+        break;
+      case 'Interbank':
+          banco = '2';
+        break;
+      case 'BBVA':
+          banco = '3';
+        break;
+      case 'Scotiabank':
+          banco = '4';
+        break;
+    }
+    return banco;
+  }
+
+  validateProviderExcel(obj, tipo){
+    if(tipo == 0){
+      return (obj.TipoProv != '' && obj.DNI != '' && obj.Nombre != '' && obj.Apellidos != '' && obj.Celular != '' && 
+              obj.Direccion != '' && obj.CorreoElectronico != '' && obj.Banco != '' && obj.RUC != '' && obj.RazonSocial != '' 
+              && obj.DireccionFiscal != '' && obj.CelularEmpresa != '' && obj.CorreoElectronicoEmpresa != '')? true: false;
+    }else if(tipo == 1){
+      return (obj.TipoProv != '' && obj.DNI != '' && obj.Nombre != '' && obj.Apellidos != '' && obj.Celular != '' && 
+        obj.Direccion != '' && obj.CorreoElectronico != '' && obj.Banco != '')? true: false;
+    }
+  }
+
   selectExcel(event){
     let excelJsonEmpresa: any[] = [];
     let excelJsonIndividual: any[] = [];
     var reader = new FileReader();
     reader.readAsBinaryString(event.target.files[0]);
-    reader.onload = function(){
+    reader.onload = ()=> {
       let fileData = reader.result;
       var workbook = XLSX.read(fileData, {type: 'binary'});
-      workbook.SheetNames.forEach(function(sheetName){
+      workbook.SheetNames.forEach((sheetName)=>{
         console.log(sheetName);
         if(sheetName == 'Empresa'){
-          let rowObject = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
-          excelJsonEmpresa = rowObject;
+          let rowObjectE = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
+          for (let index = 0; index < rowObjectE.length; index++) {
+            if(this.validateProviderExcel(rowObjectE[index], 0)){
+              excelJsonEmpresa.push(this.createObjProvider(rowObjectE[index]));
+            }
+          }
         }
 
         if(sheetName == 'Individual'){
-          let rowObject = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
-          excelJsonIndividual = rowObject;
+          let rowObjectI = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
+          for (let index = 0; index < rowObjectI.length; index++) {
+            if(this.validateProviderExcel(rowObjectI[index], 1)){
+              excelJsonIndividual.push(this.createObjProvider(rowObjectI[index]));
+            }
+          }
         }
       });
-      console.log(excelJsonEmpresa);
-      console.log(excelJsonIndividual);
+      this.providerImporList.push(...excelJsonEmpresa);
+      this.providerImporList.push(...excelJsonIndividual);
     };
+    
+  }
 
-    /*if (!event) {
-      this.imageFoto  = null;
-      this.imageLogo = null;
-      return;
-    }
-
-    if(event.target.files[0].type.indexOf('image') < 0) {
-      this.imageFoto  = null;
-      this.imageLogo = null;
-      return;
-    }*/
-     
+  ImportMassive(){
+    this.spinner.show();
+    this.providerService.postSaveMassiveProvider({data: JSON.stringify(this.providerImporList)})
+        .subscribe((response: any) => {
+          console.log('Registro Masivo',response);
+          this.spinner.hide();
+          this.rerender();
+        }, (error: any) => {
+          console.log(error);
+          this.spinner.hide();
+        })
   }
 
   selectDoc(event){

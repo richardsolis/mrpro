@@ -22,6 +22,25 @@ export class UserService {
     return this.http.post(AppSettings.BASE_PATH + AppSettings.GUEST_CREATE_USER, body, options);
   }
 
+  guestSendInfo(params) {
+    const obj = {
+      name: params.name,
+      email: params.email,
+      phone: params.phone,
+      subject: params.subject,
+      body: params.body
+    }
+    const body = new HttpParams({
+      fromObject: obj
+    });
+    const headers = new HttpHeaders({
+      "Content-Type": "application/x-www-form-urlencoded"
+    }); 
+    const options = { headers: headers };
+    
+  	return this.http.post(AppSettings.BASE_PATH + AppSettings.GUEST_SEND_INFO, body, options);
+  }
+
   createProvider(params) {
     const obj = {
       doc_number: params.dni,

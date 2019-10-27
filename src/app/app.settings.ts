@@ -9,6 +9,7 @@ export class AppSettings {
   public static POST_CREATE_DASHBOARD_PROVIDER = "crud/provider";
   public static PUT_CREATE_DASHBOARD_PROVIDER = "crud/provider";
   public static POST_STATUS_DASHBOARD_PROVIDER = "crud/setstatus/provider";
+  public static POST_MASSIVE_DASHBOARD_PROVIDER = "crud/massive/provider";
   public static GET_DASHBOARD_COMMISSION = "crud/commission";
   public static GET_ONE_DASHBOARD_COMMISSION = "crud/commission";
   public static POST_CREATE_DASHBOARD_COMMISSION = "crud/commission";
@@ -35,6 +36,7 @@ export class AppSettings {
   public static GUEST_RESET_PASSWORD = "guest/reset/password";
   public static GUEST_CHANGE_PASSWORD = "guest/set/password";
   public static GUEST_CREATE_USER = "guest/user/client";
+  public static GUEST_SEND_INFO = "guest/send/info";
   public static CREATE_PROVIDER = "provider/create";
   public static UPDATE_PROVIDER = "provider/update";
   public static GUEST_GET_PROVIDERS = "guest/providers";

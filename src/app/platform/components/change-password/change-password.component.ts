@@ -49,7 +49,7 @@ export class ChangePasswordComponent implements OnInit {
       console.log(response);
       this.submitted = false;
       this.flagRes = true;
-      this.message = 'El cambio de su contraseña ha sido efectuado correctamente, por favor inicie sesión.';
+      this.message = 'El cambio de su contraseña ha sido efectuado correctamente, por favor dirijase a iniciar sesión nuevamente.';
       myModal.open();
       this.registerForm.setValue({
         email: ''

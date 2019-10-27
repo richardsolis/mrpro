@@ -139,6 +139,7 @@ export class CommissionComponent implements OnInit {
           if(error.message){
             this.flagRes = true;
             this.message = 'El rango interfiere con otra comisión, modifiquelo.';
+            this.spinner.hide();
           }
         });
     }else{
@@ -157,6 +158,7 @@ export class CommissionComponent implements OnInit {
           if(error.message){
             this.flagRes = true;
             this.message = 'Ya existe una comisión en el mismo rango, por favor ingrese uno diferente.';
+            this.spinner.hide();
           }
         });
     }

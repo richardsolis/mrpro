@@ -104,7 +104,7 @@ export class UserService {
     const obj = {
       email: params.email,
       password: params.password,
-      password_confirm: params.password_confirm
+      password_confirmation: params.password_confirmation
     }
     const body = new HttpParams({
       fromObject: obj

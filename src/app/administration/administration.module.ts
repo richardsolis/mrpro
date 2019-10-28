@@ -22,6 +22,7 @@ import { UserService } from '../services/user.service';
 import { DataTablesModule } from 'angular-datatables';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { SafeHtml2 } from '../pipes/safeHtml2Pipe';
+import { BarRatingModule } from 'ngx-bar-rating';
 
 @NgModule({
   imports: [
@@ -33,7 +34,8 @@ import { SafeHtml2 } from '../pipes/safeHtml2Pipe';
     ModalModule,
     NgxSpinnerModule,
     DataTablesModule,
-    SlickCarouselModule
+    SlickCarouselModule,
+    BarRatingModule
   ],
   declarations: [ 
   	LoginComponent,  

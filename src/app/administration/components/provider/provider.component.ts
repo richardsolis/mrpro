@@ -45,6 +45,8 @@ export class ProviderComponent implements OnInit {
   urlImageLogo: string = "";
 
   providerImporList: any[] = [];
+  flagImport: boolean = false;
+  messageImport: string = "";
 
   @ViewChild(DataTableDirective) dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
@@ -224,30 +226,23 @@ export class ProviderComponent implements OnInit {
         password: '12345678',
         password_confirmation: '12345678',
         phone: params.Celular,
-        website: '',
-        image: '',
         address: params.Direccion,
         ruc: (params.RUC == undefined)? '' : params.RUC,
-        experience: '',
         type_provider: params.TipoProv,
-        logo: '',
         r_social: (params.RazonSocial == undefined)? '' : params.RazonSocial,
         a_fiscal: (params.DireccionFiscal == undefined)? '' : params.DireccionFiscal,
-        a_comercial: '',
-        a_taller: '',
-        url: '',
-        a_police: '',
-        a_penal: '',
-        a_judicial: '',
         bank_id: this.getIdBank(params.Banco),
-        bank_c: '',
-        bank_ci: '',
         categories: JSON.stringify([]),
         districts: JSON.stringify([]),
         company_phone: (params.CelularEmpresa == undefined)? '' : params.CelularEmpresa,
         company_email: (params.CorreoElectronicoEmpresa == undefined)? '' : params.CorreoElectronicoEmpresa,
         status: '0'
     };
+  }
+
+  showImport(importModal){
+    this.flagImport = false;
+    importModal.open();
   }
 
   getIdBank(bankID: string){
@@ -269,14 +264,27 @@ export class ProviderComponent implements OnInit {
     return banco;
   }
 
-  validateProviderExcel(obj, tipo){
+  validateProviderExcel(obj: any, tipo){
     if(tipo == 0){
-      return (obj.TipoProv != '' && obj.DNI != '' && obj.Nombre != '' && obj.Apellidos != '' && obj.Celular != '' && 
-              obj.Direccion != '' && obj.CorreoElectronico != '' && obj.Banco != '' && obj.RUC != '' && obj.RazonSocial != '' 
-              && obj.DireccionFiscal != '' && obj.CelularEmpresa != '' && obj.CorreoElectronicoEmpresa != '')? true: false;
+      if ( (obj.DNI != '' && obj.DNI != undefined)  && (obj.Nombre != '' && obj.Nombre != undefined) && 
+               (obj.Apellidos != '' && obj.Apellidos != undefined) && (obj.Celular != '' && obj.Celular != undefined) && 
+               (obj.Direccion != '' && obj.Direccion != undefined) && (obj.CorreoElectronico != '' && obj.CorreoElectronico != undefined) &&
+               (obj.Banco != '' && obj.Banco != undefined) && (obj.RUC != '' && obj.RUC != undefined) &&
+               (obj.RazonSocial != '' && obj.RazonSocial != undefined) && (obj.DireccionFiscal != '' && obj.DireccionFiscal != undefined) &&
+               (obj.CelularEmpresa != '' && obj.CelularEmpresa != undefined) && (obj.CorreoElectronicoEmpresa != '' && obj.CorreoElectronicoEmpresa != undefined)){
+                 return true;
+               }else{
+                 return false;
+               }
     }else if(tipo == 1){
-      return (obj.TipoProv != '' && obj.DNI != '' && obj.Nombre != '' && obj.Apellidos != '' && obj.Celular != '' && 
-        obj.Direccion != '' && obj.CorreoElectronico != '' && obj.Banco != '')? true: false;
+      if((obj.TipoProv != '' && obj.TipoProv != undefined) && (obj.DNI != '' && obj.DNI != undefined) && 
+              (obj.Nombre != '' && obj.Nombre != undefined) && (obj.Apellidos != '' && obj.Apellidos != undefined) && 
+              (obj.Celular != '' && obj.Celular != undefined) && (obj.Direccion != '' && obj.Direccion != undefined) &&
+              (obj.CorreoElectronico != '' && obj.CorreoElectronico != undefined) && (obj.Banco != '' && obj.Banco != undefined)){
+                return true;
+              }else{
+                return false;
+              }
     }
   }
 
@@ -289,7 +297,6 @@ export class ProviderComponent implements OnInit {
       let fileData = reader.result;
       var workbook = XLSX.read(fileData, {type: 'binary'});
       workbook.SheetNames.forEach((sheetName)=>{
-        console.log(sheetName);
         if(sheetName == 'Empresa'){
           let rowObjectE = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
           for (let index = 0; index < rowObjectE.length; index++) {
@@ -310,20 +317,30 @@ export class ProviderComponent implements OnInit {
       });
       this.providerImporList.push(...excelJsonEmpresa);
       this.providerImporList.push(...excelJsonIndividual);
+      console.log(this.providerImporList);
     };
     
   }
 
   ImportMassive(){
+    this.flagImport = false;
+    if(this.providerImporList.length == 0){
+      return;
+    }
     this.spinner.show();
     this.providerService.postSaveMassiveProvider({data: JSON.stringify(this.providerImporList)})
         .subscribe((response: any) => {
           console.log('Registro Masivo',response);
+          let counter = response.data.length;
           this.spinner.hide();
           this.rerender();
+          this.flagImport = true;
+          this.messageImport = `Se registraron ${counter} proveedores exitosamente.`;
         }, (error: any) => {
           console.log(error);
           this.spinner.hide();
+          this.flagImport = true;
+          this.messageImport = "Ocurrio un error, verifique que los correos y DNI's no se encuentren registrados en el sistema.";
         })
   }
 

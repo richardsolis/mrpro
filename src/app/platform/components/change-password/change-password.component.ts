@@ -24,7 +24,7 @@ export class ChangePasswordComponent implements OnInit {
     this.registerForm = new FormGroup({
       'email': new FormControl('', Validators.required),
       'password': new FormControl('', [Validators.required,Validators.minLength(8)]),
-      'password_confirm': new FormControl('', [Validators.required,Validators.minLength(8)])
+      'password_confirmation': new FormControl('', [Validators.required,Validators.minLength(8)])
     });
   }
 

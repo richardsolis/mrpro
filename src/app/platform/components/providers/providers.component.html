@@ -38,7 +38,8 @@
                     <div [ngSwitch]="result.status_service_id">
                       <button *ngSwitchCase="'1'" (click)="confirm(myFile,result.id)" class="btn btn-danger">Cancelar</button>
                       <button *ngSwitchCase="'4'" (click)="goChat(result.firebase_id, result.id)" type="button" class="btn btn-warning">Chat</button>
-                      <button *ngSwitchCase="'4'" (click)="confirm(myFile,result.id)" class="btn btn-danger">Cancelar</button>
+                      <button *ngSwitchCase="'4'" (click)="confirm(myFile,result.id, result.accepted, result.date_service)" [hidden]="verifyTypePay(result.card_bank_id)" 
+                        class="btn btn-danger">Cancelar</button>
                       <button *ngSwitchCase="'6'" (click)="closeService(myModal,result.user_provider_id,result.id)" 
                         type="button" class="btn btn-success" [hidden]="checkout(result.client_score)">Valorar</button>
                       
@@ -75,6 +76,9 @@
         <label class="col-lg-12 col-md-12 col-form-label" style="color: #135daa">
           <b>¿Está seguro que desea cancelar este servicio?</b></label>     
       </div>
+      <div class="form-group row" *ngIf="flagPenalty">
+          <label class="col-lg-12 col-md-12 badge badge-warning text-wrap"><b>{{ messagePenalty }}</b></label>
+        </div>
       <div class="form-group row">
         <div class="col">
           <button (click)="schedule(myFile)" class="btn bprimary">Aceptar</button>
@@ -97,9 +101,9 @@
             </div>
             <div class="form-group">
               <label for="formGroupExampleInput">
-                <b class="text-danger">*</b>Score (0.0 - 5.0): <b class="color-blue"> {{registerForm.get('score').value}} </b>
+                <b class="text-danger">*</b>Calificación (0 - 5): <b class="color-blue"> {{registerForm.get('score').value}} </b>
               </label>
-              <input class="form-control-range color-blue" formControlName="score" type="range" min="0" max="5" value="{{registerForm.get('score').value}}" step="0.1"/>
+              <bar-rating name="rating" formControlName="score" [max]="5"></bar-rating>
             </div>
             <div class="form-group">
               <label for="formGroupExampleInput2"><b class="text-danger">*</b>Comentario:</label>

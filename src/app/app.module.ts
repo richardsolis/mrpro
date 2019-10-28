@@ -13,6 +13,7 @@ import { PlatformModule } from "./platform/platform.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
 import { SlickCarouselModule } from "ngx-slick-carousel";
+import { BarRatingModule } from 'ngx-bar-rating';
 
 // ********************** angular-modal-gallery *****************************
 //import 'hammerjs'; // Mandatory for angular-modal-gallery 3.x.x or greater (`npm i --save hammerjs`)
@@ -33,7 +34,8 @@ import { SlickCarouselModule } from "ngx-slick-carousel";
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    SlickCarouselModule
+    SlickCarouselModule,
+    BarRatingModule
     //ModalGalleryModule.forRoot() // <-------------------------------------------- angular-modal-gallery module import
   ],
   providers: [],

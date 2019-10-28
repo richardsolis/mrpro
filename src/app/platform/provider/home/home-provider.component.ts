@@ -75,7 +75,7 @@ export class HomeProviderComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.dtOptions = {
       pagingType: 'full_numbers',
-      order: [[3,'desc']],
+      order: [[0,'desc']],
       language: AppSettings.LANG_SPANISH
     };
     this._route.params.subscribe(res => {

@@ -36,6 +36,9 @@ export class ProvidersComponent implements OnInit, OnDestroy {
   validFlag: boolean = false;
   statusList: any[];
 
+  flagPenalty: boolean = false;
+  messagePenalty: string = "";
+
   @ViewChild(DataTableDirective) dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
@@ -57,7 +60,7 @@ export class ProvidersComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.dtOptions = {
       pagingType: 'full_numbers',
-      order: [[3,'desc']],
+      order: [[0,'desc']],
       language: AppSettings.LANG_SPANISH
     };
 
@@ -128,6 +131,14 @@ export class ProvidersComponent implements OnInit, OnDestroy {
     }
   }
 
+  verifyTypePay(card_bank_id:any){
+    if(card_bank_id){
+      return false;
+    }else{
+      return true;
+    }
+  }
+
   closeService(mymodal,providerID: string ,BudgetID: string){
     this.registerForm.setValue({score: '0',comment:'',user_provider_id:'', budget_id: ''});
       this.registerForm.get('user_provider_id').setValue(providerID);
@@ -161,9 +172,27 @@ export class ProvidersComponent implements OnInit, OnDestroy {
     modal.open();
   }
 
-  confirm(modal, BudgetID){
+  getActualDate(){
+    let today = new Date();
+    const day = ("0" + (today.getDate())).slice(-2);
+    const month = ("0" + (today.getMonth() + 1)).slice(-2);
+    const year = today.getFullYear();
+    return `${year}-${month}-${day}`;
+  }
+
+  confirm(modal, BudgetID, accepted: string = null, date_service: string = null){
+    this.flagPenalty = false;
     this.BudgetID = BudgetID;
     modal.open();
+    if(date_service){
+      let today = new Date(this.getActualDate());
+      let serviceDate = new Date(date_service.split(' ')[0]);
+      let result = (serviceDate.getTime() <= today.getTime())? true: false;
+      if(accepted == '1' && result == true){
+        this.flagPenalty = true;
+        this.messagePenalty = "Si cancela la solicitud hecha, se aplicará una penalidad que se descontará automaticamente de su tarjeta.";  
+      }
+    }
   }
 
   schedule(fmodal) {

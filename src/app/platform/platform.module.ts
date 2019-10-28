@@ -40,6 +40,7 @@ import { DataTablesModule } from 'angular-datatables';
 import { SafeHtml } from '../pipes/safeHtmlPipe';
 import { ProfileClientComponent } from './components/profile-client/profile-client.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { BarRatingModule } from 'ngx-bar-rating';
 
 export function getAuthServiceConfigs() {
   let config = new AuthServiceConfig(
@@ -75,7 +76,8 @@ export function getAuthServiceConfigs() {
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule,  // imports firebase/auth, only needed for auth features,
-    DataTablesModule
+    DataTablesModule,
+    BarRatingModule
   ],
   providers: [
     {

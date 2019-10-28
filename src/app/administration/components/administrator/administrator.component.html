@@ -1,0 +1,146 @@
+<div class="row">
+    <div class="col-lg-10 col-md-10 col-sm-12">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand"><b>Administrador</b></a>
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a (click)="newAdmin(myModal, 'Nuevo Administrador')" class="btn blue" href="javascript:void(0)">Nuevo <i class="fa fa-plus-circle" 
+                  aria-hidden="true"></i></a>
+            </li>
+        </ul>
+      </nav>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 table-responsive" style="background-color: white">
+      <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th scope="col"># ID</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Apellidos</th>
+            <th scope="col">Correo</th>
+            <th scope="col">Fecha Creación</th>
+            <th scope="col">DNI</th>
+            <th scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let result of adminList">
+            <td scope="row">{{ result.id }}</td>
+            <td scope="row">{{ result.name }}</td>
+            <td scope="row">{{ result.lastname }}</td>
+            <td scope="row">{{ result.email }}</td>
+            <td scope="row">{{ result.created_at | date: 'dd/MM/yyyy' }}</td>
+            <td scope="row">{{ result.doc_number }}</td>
+            <td scope="row">
+              <button type="button" (click)="newAdmin(myModal, 'Editar Administrador', result )" class="btn btn-warning">Editar</button>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th scope="row"><input class="form-control mr-sm-2" type="text" placeholder="Buscar" name="id"></th>
+            <th scope="row"><input class="form-control mr-sm-2" type="text" placeholder="Buscar" name="nombre"></th>
+            <th scope="row"><input class="form-control mr-sm-2" type="text" placeholder="Buscar" name="apellido"></th>
+            <th scope="row"><input class="form-control mr-sm-2" type="text" placeholder="Buscar" name="correo"></th>
+            <th scope="row"><input class="form-control mr-sm-2" type="text" placeholder="Buscar" name="fecha"></th>
+            <th scope="row"><input class="form-control mr-sm-2" type="text" placeholder="Buscar" name="dni"></th>
+            <th></th>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+<modal #ResultModal>
+  <modal-content>
+    <div class="row text-center">
+      <h4>{{title}}</h4>
+    </div>
+    <div class="col-lg-12 col-md-12">
+      <div class="form-group row">
+        <label class="col-lg-12 col-md-12 badge badge-warning text-wrap"><b>{{ message }}</b></label>
+      </div>
+    </div>
+  </modal-content>
+</modal>
+
+  <modal #myModal>
+    <modal-content>
+      <div class="row text-center">
+        <h4>{{title}}</h4>
+      </div>
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit(myModal, ResultModal)" class="col-lg-12 col-md-12">
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label">Nombre</label>
+          <div class="col-sm-10">
+            <input type="text" formControlName="name" class="form-control" placeholder="Nombre">
+            <div *ngIf="submitted && registerForm.controls.name.errors?.required">
+              <p class="text-danger"><strong>Nombre requerido.</strong></p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label">Apellido</label>
+          <div class="col-sm-10">
+            <input type="text" formControlName="lastname" class="form-control" placeholder="Apellido">
+            <div *ngIf="submitted && registerForm.controls.lastname.errors?.required">
+              <p class="text-danger"><strong>Apellidos requerido.</strong></p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Celular</label>
+            <div class="col-sm-10">
+              <input type="text" formControlName="phone" class="form-control" placeholder="Celular">
+              <div *ngIf="submitted && registerForm.controls.phone.errors?.required">
+                <p class="text-danger"><strong>Celular requerido.</strong></p>
+              </div>
+            </div>
+          </div>
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label">Correo</label>
+          <div class="col-sm-10">
+            <input type="email" formControlName="email" class="form-control" placeholder="Correo">
+            <div *ngIf="submitted && registerForm.controls.email.errors?.required">
+              <p class="text-danger"><strong>Correo requerido.</strong></p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label">DNI</label>
+          <div class="col-sm-10">
+            <input type="text" formControlName="doc_number" class="form-control" placeholder="Documento de Identidad">
+            <div *ngIf="submitted && registerForm.controls.doc_number.errors?.required">
+              <p class="text-danger"><strong>DNI requerido y minimo 8 caracteres.</strong></p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label">Contraseña</label>
+          <div class="col-sm-10">
+            <input type="password" formControlName="password" class="form-control" placeholder="Contraseña">
+            <div *ngIf="submitted && registerForm.controls.password.errors?.required">
+              <p class="text-danger"><strong>Contraseña requerido y minimo 8 caracteres.</strong></p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label">Repetir Contraseña</label>
+          <div class="col-sm-10">
+            <input type="password" formControlName="password_confirmation" class="form-control"
+              placeholder="Confirmar contraseña">
+            <div *ngIf="submitted && registerForm.controls.password_confirmation.errors?.required">
+              <p class="text-danger"><strong>Confirmar Contraseña requerido y minimo 8 caracteres.</strong></p>
+            </div>
+            <div *ngIf="flagPsw">
+              <p class="text-danger"><strong>Contraseñas diferentes.</strong></p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-10">
+            <button type="submit" class="btn bprimary">guardar</button>
+          </div>
+        </div>
+      </form>
+    </modal-content>
+  </modal>

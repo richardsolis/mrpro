@@ -19,6 +19,11 @@ export class AppSettings {
   public static GET_ONE_DASHBOARD_CLIENT = "crud/client";
   public static POST_CREATE_DASHBOARD_CLIENT = "crud/client";
   public static PUT_CREATE_DASHBOARD_CLIENT = "crud/client";
+  public static GET_DASHBOARD_ADMIS = "crud/admin";
+  public static GET_ONE_DASHBOARD_ADMI = "crud/admin";
+  public static POST_CREATE_DASHBOARD_ADMI = "crud/admin";
+  public static PUT_UPDATE_DASHBOARD_ADMI = "crud/admin";
+  public static DELETE_DASHBOARD_ADMI = "crud/admin";
   public static GET_DASHBOARD_BUDGETS = "crud/service";
   public static GET_ONE_DASHBOARD_BUDGET = "crud/service";
   public static DELETE_DASHBOARD_BUDGET = "crud/service";

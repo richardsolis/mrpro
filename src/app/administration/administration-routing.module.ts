@@ -9,6 +9,7 @@ import { ServiceComponent } from './components/service/service.component';
 import { UserComponent } from './components/user/user.component';
 import { OrderComponent } from './components/order/order.component';
 import { ProviderComponent } from './components/provider/provider.component';
+import { AdministratorComponent } from './components/administrator/administrator.component';
 
 
 const routes: Routes = [
@@ -36,6 +37,10 @@ const routes: Routes = [
 			{
 				path: 'comision',
 				component: CommissionComponent
+			},
+			{
+				path: 'administrador',
+				component: AdministratorComponent
 			},
 			{
 				path: 'usuario',

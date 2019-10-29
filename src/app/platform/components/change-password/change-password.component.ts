@@ -35,7 +35,7 @@ export class ChangePasswordComponent implements OnInit {
         return;
     }
 
-    if(this.registerForm.get('password').value !== this.registerForm.get('password_confirm').value){
+    if(this.registerForm.get('password').value !== this.registerForm.get('password_confirmation').value){
         this.flagPsw = true;
         return
       
@@ -52,7 +52,9 @@ export class ChangePasswordComponent implements OnInit {
       this.message = 'El cambio de su contraseña ha sido efectuado correctamente, por favor dirijase a iniciar sesión nuevamente.';
       myModal.open();
       this.registerForm.setValue({
-        email: ''
+        email: '',
+        password: '',
+        password_confirmation: ''
       });
   		this.spinner.hide();
   	}, (error: any) => {

@@ -1,0 +1,111 @@
+<ptfm-header></ptfm-header>
+<div class="container">
+  <div class="row card-sesion">
+    <div class=" col-lg-12 mg-t-small card-title">
+      <h5>Perfil Cliente</h5>
+    </div>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="col-lg-12">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="form-group row">
+            <label for="inputEmail3" class="col-lg-3 col-md-3 col-form-label">Foto:
+              <i *ngIf="client && client.image" class="fa fa-check-circle-o text-success"
+                aria-hidden="true"></i>
+              <i *ngIf="client && !client.image" class="fa fa-times-circle-o text-danger"
+                aria-hidden="true"></i>
+            </label>
+            <div class="col-lg-5 col-md-5">
+              <input (change)="selectFile($event)" type="file" name="foto">
+            </div>
+            <div class="col-lg-4 col-md-4">
+                <img *ngIf="client"
+                  src="{{ client.image_url ? client.image_url : './assets/images/user.png' }}"
+                  height="200" width="200" class="img-thumbnail">
+              </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputEmail3" class="col-lg-3 col-md-6 col-form-label">DNI:</label>
+            <div class="col-lg-9 col-md-6">
+              <input type="text" formControlName="doc_number" class="form-control" id="dni" placeholder="Ingrese DNI">
+              <div *ngIf="submitted && registerForm.controls.doc_number.errors?.required">
+                <p class="text-warning">
+                  <strong>DNI requerido.</strong>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputEmail3" class="col-lg-3 col-md-6 col-form-label">Nombre:</label>
+            <div class="col-lg-9 col-md-6">
+              <input type="text" formControlName="name" class="form-control" id="nombre" placeholder="Ingrese Nombre">
+              <div *ngIf="submitted && registerForm.controls.name.errors?.required">
+                <p class="text-warning">
+                  <strong>Nombre requerido.</strong>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputEmail3" class="col-lg-3 col-md-6 col-form-label">Apellidos:</label>
+            <div class="col-lg-9 col-md-6">
+              <input type="text" formControlName="lastname" class="form-control" id="apellidos" placeholder="Ingrese Apellidos">
+              <div *ngIf="submitted && registerForm.controls.lastname.errors?.required">
+                <p class="text-warning">
+                  <strong>Apellidos requerido.</strong>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputEmail3" class="col-lg-3 col-md-6 col-form-label">Celular:</label>
+            <div class="col-lg-9 col-md-6">
+              <input type="text" formControlName="phone" class="form-control" id="ptelefono" placeholder="Ingrese Celular" maxlength="9">
+              <div *ngIf="submitted && registerForm.controls.phone.errors?.required">
+                <p class="text-warning">
+                  <strong>Celular requerido.</strong>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputEmail3" class="col-lg-3 col-md-6 col-form-label">C. Electrónico:</label>
+            <div class="col-lg-9 col-md-6">
+              <input type="email" formControlName="email" class="form-control" id="pcorreo" placeholder="Ingrese Correo">
+              <div *ngIf="submitted && registerForm.controls.email.errors?.required">
+                <p class="text-warning">
+                  <strong>Correo requerido.</strong>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputEmail3" class="col-lg-3 col-md-6 col-form-label">Contraseña:</label>
+            <div class="col-lg-9 col-md-6">
+              <input type="password" formControlName="password" class="form-control" id="contrasena" placeholder="Ingrese Contraseña" minlength="8">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputEmail3" class="col-lg-3 col-md-6 col-form-label">Confirmar Contraseña:</label>
+            <div class="col-lg-9 col-md-6">
+              <input type="password" formControlName="password_confirmation" class="form-control" id="contrasena2" placeholder="Ingrese Contraseña de nuevo"
+                minlength="8">
+                <div *ngIf="flagPsw">
+                    <p class="text-danger">
+                      <strong>La contraseña y la confirmación son requeridas.</strong>
+                    </p>
+                  </div>
+            </div>
+          </div>
+          <div class="form-group row" *ngIf="flagRes">
+              <label class="col-lg-12 col-md-12 badge badge-primary text-wrap"><b>{{ message }}</b></label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-lg-6 col-md-6">
+          <button type="submit" class="btn btn-warning">Guardar cambios.</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

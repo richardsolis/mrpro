@@ -38,7 +38,7 @@ export class ResetPasswordComponent implements OnInit {
       console.log(response);
       this.submitted = false;
       this.flagRes = true;
-      this.message = 'Se le asignó una nueva contraseña, por favor revise su bandeja del correo.';
+      this.message = 'Se envió un enlace para restablecer su contraseña. Por favor, revisa su bandeja de correo.';
       myModal.open();
       this.registerForm.setValue({
         email: ''

@@ -133,7 +133,7 @@
           <!--<div class="form-group row">
             <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Distrito(s) de Alcance:</label>
             <div class="col-lg-8 col-md-6">
-              <select multiple formControlName="categories" class="form-control" id="categories">
+              <select multiple formControlName="districts" class="form-control" id="categories">
                 <option *ngFor="let district of districts" [value]="district.id">{{ district.name }}</option>
               </select>
             </div>
@@ -141,7 +141,7 @@
           <div class="form-group row">
             <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Categoría(s):</label>
             <div class="col-lg-8 col-md-6">
-              <select multiple formControlName="districts" class="form-control" id="districts">
+              <select multiple formControlName="categories" class="form-control" id="districts">
                 <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
               </select>
             </div>

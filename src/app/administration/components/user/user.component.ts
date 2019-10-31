@@ -28,6 +28,14 @@ export class UserComponent implements OnInit {
   flagRes: boolean = false;
   flagPsw: boolean = false;
 
+  urlImageLogo: string = "";
+
+  confirmModel: any = {
+    title: "",
+    client_id: "",
+    status: ""
+  };
+
   @ViewChild(DataTableDirective) dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
@@ -102,6 +110,22 @@ export class UserComponent implements OnInit {
     });
   }
 
+  getExcelClient(){
+    this.spinner.show();
+    this.clientService.getExportExcelClients().subscribe(
+      (response: any) => {
+        let blob = new Blob([response], { type:  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;'});
+        let url = window.URL.createObjectURL(blob);
+        console.log(url);
+        let pwa = window.open(url);
+        this.spinner.hide();
+      },
+      error =>{
+        console.log(error);
+        this.spinner.hide();
+    });
+  }
+
   selectFile(event){
     console.log(event.target.name);
   
@@ -145,13 +169,36 @@ export class UserComponent implements OnInit {
             doc_number: ''};
   }
 
+  confirm(cmodal, title: string, providerID: string, status: string){
+    this.confirmModel.title = '';
+    this.confirmModel.client_id = '';
+    this.confirmModel.status = '';
+    cmodal.open();
+    this.confirmModel.title = title;
+    this.confirmModel.client_id = providerID;
+    this.confirmModel.status = status;
+  }
+
+  setStatus(cmodal){
+    this.clientService.postSetStatusClient({ client_id: this.confirmModel.client_id, status: this.confirmModel.status})
+          .subscribe((response: any) => {
+            console.log('status',response);
+            cmodal.close();
+            this.rerender();
+          }, (error: any) => {
+            console.log(error);
+          })
+  }
+
   newClient(modal, tempTittle:string, client:any = null) {
     this.flagRes = false;
     console.log("OpenModal Comsion - ", tempTittle);
     this.spinner.show();
     if(client){
+      this.urlImageLogo = "";
       this.title = `${tempTittle} ${client.code}`;
       this.flagCreateUpdate = false;
+      this.urlImageLogo = client.user.image_url;
       this.registerForm.setValue({id: client.id, name: client.user.name, lastname: client.user.lastname,
                                   email: client.user.email, password: '', password_confirmation:  '',
                                   phone:  client.user.phone, image: client.user.image, doc_number: client.user.doc_number});
@@ -199,6 +246,7 @@ export class UserComponent implements OnInit {
         }, (error: any) => {
           this.submitted = false;
           console.log(error);
+          this.spinner.hide();
         });
     }else{
       this.clientService.putUpdateClient(this.registerForm.value)
@@ -207,13 +255,14 @@ export class UserComponent implements OnInit {
           this.flagPsw = false;
           this.flagRes = true;
           this.message = 'Actualizado con éxito.';
-          myModal.open();
           this.submitted = false;
           this.rerender();
           this.spinner.hide();
+          //myModal.close();
         }, (error: any) => {
           this.submitted = false;
           console.log(error);
+          this.spinner.hide();
         });
     }
   }

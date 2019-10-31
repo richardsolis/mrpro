@@ -7,6 +7,8 @@ import { AppSettings } from 'src/app/app.settings';
 import { CategoryService } from 'src/app/services/category.service';
 import { SessionService } from 'src/app/services/session.service';
 import * as $ from 'jquery';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-chat',
@@ -31,6 +33,8 @@ export class ChatComponent implements OnInit {
   flagItem: boolean = false;
   flagPrice: boolean = false;
 
+  PATH: string = "";
+
   public slideConfig = {"slidesToShow": 1, "slidesToScroll": 1, "dots":true};
   constructor(public _cs: ChatService, private _route:ActivatedRoute, 
               private spinner: NgxSpinnerService, private _router:Router,
@@ -52,6 +56,9 @@ export class ChatComponent implements OnInit {
                 this.elemento.scrollTop = this.elemento.scrollHeight;
                 this.spinner.hide();
               },100);
+            }, (error: any) => {
+              console.log(error);
+              this.spinner.hide();
             });
 
         this.userService.getOneBudget(this.currentBudgetID)
@@ -60,6 +67,8 @@ export class ChatComponent implements OnInit {
             this.hour = res.data.date_service.split(" ")[1];
             res.data.date_service = res.data.date_service.split(" ")[0];
             this.currentBudget = res.data;
+          }, (error: any) => {
+            console.log(error);
           });
         
         /*this.categoryService.guestGetCategories()
@@ -121,16 +130,23 @@ export class ChatComponent implements OnInit {
           });
   }
 
-  closeChat(path:string){
+  confirm(cmodal, path:string){
+    this.PATH = "";
+    cmodal.open();
+    this.PATH = path;
+  }
+
+  closeChat(cmodal){
     this.spinner.show();
-    
       this.userService.updateStatus('3',this.currentBudgetID)
         .subscribe((res: any) => {
           console.log(res);
+          cmodal.close();
           this.spinner.hide();
-          this.goback(path);
+          this.goback(this.PATH);
         }, (error: any) => {
           console.log(error);
+          this.spinner.hide();
         });
     
 
@@ -159,10 +175,10 @@ export class ChatComponent implements OnInit {
       .subscribe((response: any) => {
         this.isDisabled = true;
         console.log(response);
-        this.userService.convertImage(response.data)
+        /*this.userService.convertImage(response.data)
           .subscribe((res: any)=>{
-            //console.log("convert: ", res);
-            this._cs.agregarMensajePrivado(response.data,res.data, '2', this.currentChat, this.user.id, this.user.name )
+            console.log("convert: ", res);*/
+            this._cs.agregarMensajePrivado(response.data, '', '2', this.currentChat, this.user.id, this.user.name )
                     .then( ()=>{
                       this.isDisabled = false;
                     })
@@ -171,14 +187,25 @@ export class ChatComponent implements OnInit {
                       console.error('Error al enviar imagen mensaje',  err );
                     });
               this.spinner.hide();
-            }, (error: any) => {
+            /*}, (error: any) => {
               console.log(error);
-            })
+            })*/
         },
         (error)=>{
           console.log(error);
         });
       
+  }
+
+  getBase64(nameFile: string){
+    console.log(nameFile);
+    this.userService.convertImage(nameFile).pipe(
+                                            map( (res:any) =>{
+                                                  return res.data
+                                            })).subscribe((res:string)=>{
+                                              console.log('base64', res);
+                                            });
+    return "hola";
   }
 
   enviar_mensaje(tipo:string){

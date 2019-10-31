@@ -22,6 +22,25 @@ export class UserService {
     return this.http.post(AppSettings.BASE_PATH + AppSettings.GUEST_CREATE_USER, body, options);
   }
 
+  guestSendInfo(params) {
+    const obj = {
+      name: params.name,
+      email: params.email,
+      phone: params.phone,
+      subject: params.subject,
+      body: params.body
+    }
+    const body = new HttpParams({
+      fromObject: obj
+    });
+    const headers = new HttpHeaders({
+      "Content-Type": "application/x-www-form-urlencoded"
+    }); 
+    const options = { headers: headers };
+    
+  	return this.http.post(AppSettings.BASE_PATH + AppSettings.GUEST_SEND_INFO, body, options);
+  }
+
   createProvider(params) {
     const obj = {
       doc_number: params.dni,
@@ -53,7 +72,8 @@ export class UserService {
       categories: JSON.stringify(params.categories),
       districts: JSON.stringify(params.districts),
       company_phone: params.telefono,
-      company_email: params.correo
+      company_email: params.correo,
+      status: '0'
     };
     console.log(obj);
     const body = new HttpParams({
@@ -78,6 +98,23 @@ export class UserService {
     const options = { headers: headers };
     
   	return this.http.post(AppSettings.BASE_PATH + AppSettings.GUEST_RESET_PASSWORD, body, options);
+  }
+
+  changePassword(params) {
+    const obj = {
+      email: params.email,
+      password: params.password,
+      password_confirmation: params.password_confirmation
+    }
+    const body = new HttpParams({
+      fromObject: obj
+    });
+    const headers = new HttpHeaders({
+      "Content-Type": "application/x-www-form-urlencoded"
+    }); 
+    const options = { headers: headers };
+    
+  	return this.http.post(AppSettings.BASE_PATH + AppSettings.GUEST_CHANGE_PASSWORD, body, options);
   }
 
   postSaveImageUser(image) {
@@ -179,6 +216,19 @@ export class UserService {
         id: params.id,
         price: params.price,
         date_service: specificDate
+      };
+
+    /*const body = new HttpParams({
+      fromObject: obj
+    });*/
+    var header = this.generalS.getToken({}, "application/x-www-form-urlencoded");
+    return this.http.post(AppSettings.BASE_PATH + AppSettings.UPDATE_PROVIDER_BUDGET, obj, header);
+  }
+
+  updateBudgetProvider(params: any){
+    const obj = {
+        id: params.id,
+        user_provider_id: params.user_provider_id
       };
 
     /*const body = new HttpParams({

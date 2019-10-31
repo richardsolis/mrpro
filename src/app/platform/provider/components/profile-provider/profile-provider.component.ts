@@ -55,7 +55,10 @@ export class ProfileProviderComponent implements OnInit {
 
     this.categoryService.guestGetCategories()
       .subscribe((response: any) => {
-        this.categories = response.data;
+        this.categories = response.data.filter(item => item.parent == 0);
+        this.categoryService.guestGetPrices().subscribe((res: any) => {
+          this.categories.push(...res.data.filter(item => item.parent == 0));
+        });
       }, (error: any) => {
         console.log(error);
       });
@@ -134,7 +137,7 @@ export class ProfileProviderComponent implements OnInit {
         policiales: this.providerUser.a_police,
         penales: this.providerUser.a_penal,
         judiciales: this.providerUser.a_judicial,
-        experiencia: this.providerUser.experience.split(" ")[0],
+        experiencia: (this.providerUser.experience)? this.providerUser.experience.split(" ")[0] : "",
         districts: this.providerUser.districts.map(item => item.district_id),
         categories: this.providerUser.categories.map(item => item.category_service_id),
         contrasena: '',
@@ -160,7 +163,7 @@ export class ProfileProviderComponent implements OnInit {
         policiales: this.providerUser.a_police,
         penales: this.providerUser.a_penal,
         judiciales: this.providerUser.a_judicial,
-        experiencia: this.providerUser.experience.split(" ")[0],
+        experiencia: (this.providerUser.experience)? this.providerUser.experience.split(" ")[0] : "",
         districts: this.providerUser.districts.map(item => item.district_id),
         categories: this.providerUser.categories.map(item => item.category_service_id),
         contrasena: '',

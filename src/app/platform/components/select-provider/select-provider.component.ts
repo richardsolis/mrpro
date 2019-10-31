@@ -37,7 +37,7 @@ export class SelectProviderComponent implements OnInit {
   
   constructor(private router: Router, private spinner: NgxSpinnerService, private session: SessionService,
               private userS: UserService, private categoryS: CategoryService, private districtS: DistrictService,
-              private providerS: ProviderService, private formBuilder: FormBuilder) {
+              private providerS: ProviderService, private formBuilder: FormBuilder, private _route:ActivatedRoute) {
     this.spinner.show();
     this.user = this.session.getObject("user");
     this.categoryS.guestGetCategories().subscribe((response: any) => {
@@ -53,9 +53,17 @@ export class SelectProviderComponent implements OnInit {
 
   ngOnInit() {
     const today = this.getActualDate();
+    let tmpCategory = '';
+    this._route.params.subscribe(res => {
+      if(res.category){
+        tmpCategory =  res.category;
+      }else{
+        tmpCategory = '1';
+      }
+    })
     this.registerForm = this.formBuilder.group({
       type: ['programmed'],
-      category: ['1', Validators.required],
+      category: [tmpCategory, Validators.required],
       subcategory: ['', Validators.required],
       district:  ['1', Validators.required],
       date:  [today, Validators.required],
@@ -225,9 +233,14 @@ export class SelectProviderComponent implements OnInit {
       this.session.setObject("provider", this.provedores);
       this.selectedProviders++;
     } else {
+      let index = this.provedores.findIndex(item => item.id == provider.id);
+      if(index > -1){
+        this.provedores.splice(index, 1);
+      }
       this.session.setObject("provider", this.provedores);
       this.selectedProviders--;
     }
+    console.log(this.provedores);
   }
 
   showFile(modal, provider) {

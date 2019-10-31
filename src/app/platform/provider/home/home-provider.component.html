@@ -16,6 +16,7 @@
       <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-bordered table-hover">
       <thead>
           <tr>
+            <th scope="col"># ID</th>
             <th scope="col">Categoria</th>
             <th scope="col">Descripción</th>
             <th scope="col">Distrito</th>
@@ -28,6 +29,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let budget of budgetsList">
+            <td scope="row">{{ budget.code }}</td>
             <td scope="row">{{ getName(categories, budget.category_service_id) }}</td>
             <td scope="row">{{ budget.description }}</td>
             <td scope="row">{{ getName(districts, budget.district_id) }}</td>
@@ -40,7 +42,8 @@
                 <button *ngSwitchCase="'1'" (click)="confirm(confirmModal, 'A', budget.id)" type="button" class="btn btn-primary">Atender</button>
                 <button *ngSwitchCase="'1'" (click)="confirm(confirmModal, 'R', budget.id)" type="button" class="btn btn-danger">Rechazar</button>
                 <button *ngSwitchCase="'4'" (click)="startChat(budget.firebase_id, budget.id)" type="button" class="btn btn-warning">Chat</button>
-                <button *ngSwitchCase="'4'" (click)="closeService(myModal,budget.user_client_id,budget.id)" type="button" class="btn btn-secondary">Finalizar</button>
+                <button *ngSwitchCase="'4'" (click)="closeService(myModal,budget.user_client_id,budget.id)" type="button" 
+                  class="btn btn-secondary" [hidden]="checkoutCondition(budget.accepted, budget.date_service)">Finalizar</button>
                 <p *ngSwitchCase="'6'">Sin Acciones</p>
               </div>
             </td>
@@ -48,6 +51,7 @@
         </tbody>
         <tfoot>
           <tr>
+            <th scope="row"><input class="form-control mr-sm-2" type="text" placeholder="ID" name="categoria"></th>
             <th scope="row"><input class="form-control mr-sm-2" type="text" placeholder="Buscar" name="categoria"></th>
             <th scope="row"><input class="form-control mr-sm-2" type="text" placeholder="Buscar" name="descripcion"></th>
             <th scope="row"><input class="form-control mr-sm-2" type="text" placeholder="Buscar" name="distrito"></th>
@@ -72,7 +76,7 @@
             </div>
             <div class="form-group row">
               <div class="col">
-                <button (click)="changeStatus(confirmModel.option, confirmModel.BudgetID)" class="btn bprimary">Si</button>
+                <button (click)="changeStatus(confirmModal, confirmModel.option, confirmModel.BudgetID)" class="btn bprimary">Si</button>
               </div>
               <div class="col">
                 <button (click)="confirmModal.close()" class="btn btn-danger">No</button>
@@ -87,9 +91,9 @@
         <form [formGroup]="registerForm" (ngSubmit)="Rating()">
             <div class="form-group">
               <label for="formGroupExampleInput">
-                <b class="text-danger">*</b>Score (0.0 - 5.0): <b class="color-blue"> {{registerForm.get('score').value}} </b>
+                <b class="text-danger">*</b>Calificación (0 - 5): <b class="color-blue"> {{registerForm.get('score').value}} </b>
               </label>
-              <input class="form-control-range color-blue" formControlName="score" type="range" min="0" max="5" value="{{registerForm.get('score').value}}" step="0.1"/>
+              <bar-rating name="rating" formControlName="score" [max]="5"></bar-rating>
             </div>
             <div class="form-group">
               <label for="formGroupExampleInput2"><b class="text-danger">*</b>Comentario:</label>

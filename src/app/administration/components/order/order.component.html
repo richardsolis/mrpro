@@ -1,32 +1,232 @@
-<br>
 <div class="row">
   <div class="col-lg-10 col-md-10 col-sm-12">
-      <nav class="navbar navbar-light bg-light">
-          <a class="navbar-brand"><b>Pedidos</b></a>
-          <form class="form-inline">
-              <label class="color-blue">Tipo:</label>
-              <select class="custom-select color-blue mr-sm-2" name="tipo">
-                <option>Atendido</option>
-                <option>En espera</option>
-                <option>Sin respuesta</option>
-                <option>Anulado</option>
-              </select>
-          </form>
-        </nav>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand">
+        <b>Pedidos</b>
+      </a>
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a (click)="getExcelBudget()" class="btn btn-success">Exportar
+            <i class="fa fa-download" aria-hidden="true"></i>
+          </a>
+        </li>
+      </ul>
+    </nav>
   </div>
-  <div class="col-lg-10 col-md-10 col-sm-12">
-    <!--<table class="table-responsive-sm table-bordered table-hover" style="background-color: white">
-    <thead>
+  <div class="col-lg-12 col-md-12 col-sm-12 table-responsive" style="background-color: white">
+    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-bordered table-hover">
+      <thead>
         <tr>
           <th scope="col"># ID</th>
-          <th scope="col">Nombre</th>
-          <th scope="col">Apellido</th>
-          <th scope="col">Correo</th>
+          <th scope="col">Categoria</th>
+          <th scope="col">Subcategoria</th>
+          <th scope="col">Fecha Creación</th>
+          <th scope="col">Dias Pasados</th>
+          <th scope="col">Monto</th>
+          <th scope="col">Estado</th>
           <th scope="col">Acciones</th>
         </tr>
       </thead>
       <tbody>
+        <tr *ngFor="let result of budgetList">
+          <td scope="row">{{ result.code }}</td>
+          <td scope="row">{{ result.category_service.name }}</td>
+          <td scope="row">{{ result.parent_category.name }}</td>
+          <td scope="row">{{ result.created_at | date: 'dd/MM/yyyy' }}</td>
+          <td scope="row">{{ CountDays(result.created_at) }}</td>
+          <td scope="row">{{ result.price }}</td>
+          <td scope="row">{{ result.status_service.name }}</td>
+          <td scope="row">
+            <button type="button" (click)="budgetDetail(myModal, result)" class="btn btn-warning">Detalle</button>
+            <button type="button" *ngIf="result.status_service_id == 1" (click)="budgetAsign(AsignModal, result)" class="btn btn-success">Reasignar</button>
+            <button type="button" *ngIf="result.status_service_id == 3" (click)="budgetAsign(AsignModal, result)" class="btn btn-success">Reasignar</button>
+            <button type="button" (click)="confirm(confirmModal, result.id)" class="btn btn-danger">Eliminar</button>
+          </td>
+        </tr>
       </tbody>
-    </table>-->
+      <tfoot>
+        <tr>
+          <th scope="row">
+            <input class="form-control mr-sm-2" type="text" placeholder="ID" name="ID">
+          </th>
+          <th scope="row">
+            <input class="form-control mr-sm-2" type="text" placeholder="Categoria" name="Categoria">
+          </th>
+          <th scope="row">
+            <input class="form-control mr-sm-2" type="text" placeholder="Subcategoria" name="Subcategoria">
+          </th>
+          <th scope="row">
+            <input class="form-control mr-sm-2" type="text" placeholder="Fecha" name="Fecha Creacion">
+          </th>
+          <th scope="row">
+            <input class="form-control mr-sm-2" type="text" placeholder="Dias" name="Dias transcurridos">
+          </th>
+          <th scope="row">
+            <input class="form-control mr-sm-2" type="text" placeholder="Monto" name="monto">
+          </th>
+          <th scope="row">
+            <input class="form-control mr-sm-2" type="text" placeholder="Estado" name="Estado">
+          </th>
+          <th></th>
+        </tr>
+      </tfoot>
+    </table>
   </div>
 </div>
+
+<modal #confirmModal>
+  <modal-content>
+    <div class="form text-center">
+      <div class="form-group row">
+        <label class="col-lg-12 col-md-12 col-form-label" style="color: #135daa">
+          <b>¿Está seguro que desea eliminar el pedido?</b>
+        </label>
+      </div>
+      <div class="form-group row">
+        <div class="col">
+          <button (click)="deleteBudget(confirmModal)" class="btn bprimary">Si</button>
+        </div>
+        <div class="col">
+          <button (click)="confirmModal.close()" class="btn btn-danger">No</button>
+        </div>
+      </div>
+    </div>
+  </modal-content>
+</modal>
+
+<modal #AsignModal>
+  <modal-content>
+    <div class="row text-center">
+      <h4>Reasignación de Proveedor</h4>
+    </div>
+    <form [formGroup]="reasignForm" (ngSubmit)="changeProvider(AsignModal)" class="col-lg-12 col-md-12">
+      <div class="form-group row" hidden>
+        <label class="col-sm-2 col-form-label" style="color: #135daa;">
+          <b>Pedido</b>
+        </label>
+        <div class="col-sm-10">
+          <input type="text" formControlName="id" class="form-control" placeholder="id" disabled>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label" style="color: #135daa;">
+          <b>Nuevo Provedor</b>
+        </label>
+        <div class="col-sm-10">
+          <select formControlName="user_provider_id" class="form-control" id="eBancaria">
+            <option *ngFor="let provider of providersList" [value]="provider.id">{{ provider.user.name }} {{ provider.user.lastname }}</option>
+          </select>
+          <div *ngIf="submittedR && reasignForm.controls.user_provider_id.errors?.required">
+            <p class="text-danger">
+              <strong>Proveedor Requerido.</strong>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row" *ngIf="flagResR">
+        <label class="col-lg-12 col-md-12 badge badge-warning text-wrap">
+          <b>{{ messageR }}</b>
+        </label>
+      </div>
+      <div class="form-group row">
+        <div class="col-sm-10">
+          <button type="submit" class="btn bprimary">Cambiar</button>
+        </div>
+      </div>
+    </form>
+  </modal-content>
+</modal>
+
+<modal #myModal>
+  <modal-content>
+    <div class="row text-center">
+      <h4>Detalle del Pedido {{tmpBudget.code}}</h4>
+    </div>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit(myModal)" class="col-lg-12 col-md-12">
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">
+          <b>Proveedor</b>
+        </label>
+        <div class="col-sm-10">
+          <label *ngIf="tmpBudget.provider" class="form-control" style="background: #c0c0c0;">{{tmpBudget.provider.name}} {{tmpBudget.provider.lastname}}</label>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Correo</label>
+        <div class="col-sm-10">
+          <label *ngIf="tmpBudget.provider" class="form-control" style="background: #c0c0c0;">{{tmpBudget.provider.email}}</label>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">
+          <b>Cliente</b>
+        </label>
+        <div class="col-sm-10">
+          <label *ngIf="tmpBudget.client" class="form-control" style="background: #c0c0c0;">{{tmpBudget.client.name}} {{tmpBudget.client.lastname}}</label>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Correo</label>
+        <div class="col-sm-10">
+          <label *ngIf="tmpBudget.client" class="form-control" style="background: #c0c0c0;">{{tmpBudget.client.email}}</label>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">
+          <b>Servicio Dirección</b>
+        </label>
+        <div class="col-sm-10">
+          <label class="form-control" style="background: #c0c0c0;">{{tmpBudget.address}}</label>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Servicio Descripción</label>
+        <div class="col-sm-10">
+          <label class="form-control" style="background: #c0c0c0;">{{tmpBudget.description}}</label>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Servicio Fecha Solicitada:</label>
+        <div class="col-sm-10">
+          <label class="form-control" style="background: #c0c0c0;">{{tmpBudget.date_service | date: 'dd/MM/yyyy'}}</label>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label" style="color: #135daa;">
+          <b>Asunto</b>
+        </label>
+        <div class="col-sm-10">
+          <input type="text" formControlName="subject" class="form-control" placeholder="Asunto">
+          <div *ngIf="submitted && registerForm.controls.subject.errors?.required">
+            <p class="text-danger">
+              <strong>Asunto requerido.</strong>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label" style="color: #135daa;">
+          <b>Mensaje</b>
+        </label>
+        <div class="col-sm-10">
+          <textarea formControlName="body" class="form-control" placeholder="Mensaje"></textarea>
+          <div *ngIf="submitted && registerForm.controls.description.errors?.required">
+            <p class="text-danger">
+              <strong>Mensaje requerido.</strong>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row" *ngIf="flagResP">
+        <label class="col-lg-12 col-md-12 badge badge-warning text-wrap">
+          <b>{{ messageP }}</b>
+        </label>
+      </div>
+      <div class="form-group row">
+        <div class="col-sm-10">
+          <button type="submit" class="btn bprimary">Enviar correo</button>
+        </div>
+      </div>
+    </form>
+  </modal-content>
+</modal>

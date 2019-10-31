@@ -31,7 +31,8 @@ export class CommissionService {
     const obj = {
       from: params.from,
       to: params.to,
-      amount: params.amount
+      amount: params.amount,
+      penalty: params.penalty
     };
     console.log(obj);
     const body = new HttpParams({
@@ -47,7 +48,8 @@ export class CommissionService {
     const obj = {
       from: params.from,
       to: params.to,
-      amount: params.amount
+      amount: params.amount,
+      penalty: params.penalty
     };
     console.log(obj);
     const body = new HttpParams({

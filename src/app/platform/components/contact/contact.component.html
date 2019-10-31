@@ -8,6 +8,7 @@
 	<section>
 		<div class="box-mh box-mg-small">
 			<div class="row row-start">
+				<!--
 				<div class="col-md-4 white box-mg-micro">
 					<div class="">
 						<h5>Contact Information</h5>
@@ -32,64 +33,97 @@
 						<p>Contact with Us</p>
 						<p>E-mail: <a href="mailto:info@demolink.org">info@demolink.org</a></p>
 					</div>
-				</div>
+				</div>-->
 				<div class="col-md-8 white box-mg-micro">
 					<div>
-						<h5>Feedback form contact with us</h5>
+						<h5>¿Necesitas información adicional?</h5>
 					</div>
 					<div class="mg-t-small">
-						<p>If you’d like a free consultation, please start by completing the form:</p>
+						<p>Completa el siguiente formulario o escríbenos directamente a nuestra dirección de correo info@mrpro.pe . Te atenderemos
+							lo antes posible.</p>
 					</div>
-					<div class="mg-t-small">
-						<div class="form-group">
-							<h5>Tu nombre</h5>
+					<form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+						<div class="mg-t-small">
+							<div class="form-group">
+								<h5>Nombre</h5>
+							</div>
 						</div>
-					</div>
-					<div class="mg-t-micro card-sesion">
-						<div class="form-group">
-							<input type="" name="">
+						<div class="mg-t-micro card-sesion" style="margin-top: 0px">
+							<div class="form-group">
+								<input formControlName="name" class="form-control" type="text" placeholder="Nombre">
+								<div *ngIf="submitted && contactForm.controls.name.errors?.required">
+									<p class="text-danger">
+										<strong>Nombre requerido.</strong>
+									</p>
+								</div>
+							</div>
 						</div>
-					</div>
-					
-					<div class="mg-t-small">
-						<div class="form-group">
-							<h5>Tu email</h5>
+						<div class="mg-t-small">
+							<div class="form-group">
+								<h5>Email</h5>
+							</div>
 						</div>
-					</div>
-					<div class="mg-t-micro card-sesion">
-						<div class="form-group">
-							<input type="" name="">
+						<div class="mg-t-micro card-sesion" style="margin-top: 0px">
+							<div class="form-group">
+								<input formControlName="email" class="form-control" type="email" placeholder="Email">
+								<div *ngIf="submitted && contactForm.controls.email.errors?.required">
+									<p class="text-danger">
+										<strong>Email requerido.</strong>
+									</p>
+								</div>
+							</div>
 						</div>
-					</div>
-					
-					<div class="mg-t-small">
-						<div class="form-group">
-							<h5>Servicio</h5>
+						<div class="mg-t-small">
+							<div class="form-group">
+								<h5>Teléfono (Opcional)</h5>
+							</div>
 						</div>
-					</div>
-					<div class="mg-t-micro card-sesion">
-						<div class="form-group">
-							<input type="" name="">
+						<div class="mg-t-micro card-sesion" style="margin-top: 0px">
+							<div class="form-group">
+								<input formControlName="telephone" class="form-control" type="text" placeholder="Telefono">
+							</div>
 						</div>
-					</div>
+						<div class="mg-t-small">
+							<div class="form-group">
+								<h5>Asunto</h5>
+							</div>
+						</div>
+						<div class="mg-t-micro card-sesion" style="margin-top: 0px">
+							<div class="form-group">
+								<input formControlName="subject" class="form-control" type="text" placeholder="Asunto">
+								<div *ngIf="submitted && contactForm.controls.subject.errors?.required">
+									<p class="text-danger">
+										<strong>Asunto requerido.</strong>
+									</p>
+								</div>
+							</div>
+						</div>
+						<div class="mg-t-small">
+							<div class="form-group">
+								<h5>Mensaje</h5>
+							</div>
+						</div>
+						<div class="mg-t-micro card-sesion" style="margin-top: 0px">
+							<div class="form-group">
+								<textarea formControlName="body" class="form-control"></textarea>
+								<div *ngIf="submitted && contactForm.controls.body.errors?.required">
+									<p class="text-danger">
+										<strong>Mensaje requerido.</strong>
+									</p>
+								</div>
+							</div>
+						</div>
+						<div class="form-group row" *ngIf="flagRes">
+							<label class="col-lg-12 col-md-12 badge badge-success text-wrap" style="padding: 5px;">
+								<b>{{ message }}</b></label>
+						  </div>
+						<div class="mg-t-small">
+							<div class="form-group">
+								<button type="submit" class="btn btn-primary" style="padding: 10px 15px;">ENVIAR</button>
+							</div>
+						</div>
+					</form>
 
-					<div class="mg-t-small">
-						<div class="form-group">
-							<h5>Tu mensaje</h5>
-						</div>
-					</div>
-					<div class="mg-t-micro card-sesion">
-						<div class="form-group">
-							<textarea></textarea>
-						</div>
-					</div>
-					
-
-					<div class="mg-t-small card-sesion">
-						<div class="form-group">
-							<button (click)="send()" class="btn btn-primary mg-t-medium">Enviar</button>
-						</div>
-					</div>
 				</div>
 			</div>
 		</div>

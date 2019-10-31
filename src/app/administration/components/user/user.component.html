@@ -1,13 +1,16 @@
-<br>
 <div class="row">
   <div class="col-lg-10 col-md-10 col-sm-12">
-    <nav class="navbar navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <a class="navbar-brand"><b>Cliente</b></a>
-      <div class="navbar-nav mr-auto">
-        <a (click)="newClient(myModal, 'Nuevo Cliente')" class="btn blue" href="javascript:void(0)">Nuevo <i
-            class="fa fa-plus-circle" aria-hidden="true"></i>
-        </a>
-      </div>
+      <ul class="navbar-nav">
+          <li class="nav-item">
+              <a (click)="newClient(myModal, 'Nuevo Cliente')" class="btn blue" href="javascript:void(0)">Nuevo <i class="fa fa-plus-circle" 
+                aria-hidden="true"></i></a>
+          </li>
+          <li class="nav-item">
+            <a (click)="getExcelClient()" class="btn btn-success">Exportar<i class="fa fa-download" aria-hidden="true"></i>
+          </a></li>
+      </ul>
     </nav>
   </div>
   <div class="col-lg-12 col-md-12 col-sm-12 table-responsive" style="background-color: white">
@@ -20,6 +23,7 @@
           <th scope="col">Correo</th>
           <th scope="col">Fecha Creación</th>
           <th scope="col">DNI</th>
+          <th scope="col">Estado</th>
           <th scope="col">Acciones</th>
         </tr>
       </thead>
@@ -31,9 +35,11 @@
           <td scope="row">{{ result.user.email }}</td>
           <td scope="row">{{ result.created_at | date: 'dd/MM/yyyy' }}</td>
           <td scope="row">{{ result.user.doc_number }}</td>
+          <td scope="row">{{ (result.status == 1)? 'Alta' : 'Baja'}}</td>
           <td scope="row">
-            <button type="button" (click)="newClient(myModal, 'Editar Cliente', result )"
-              class="btn btn-warning">Editar</button>
+            <button type="button" (click)="newClient(myModal, 'Editar Cliente', result )" class="btn btn-warning">Editar</button>
+            <button *ngIf="result.status == 0" (click)="confirm(confirmModal, 'Alta', result.id, 1 )" type="button" class="btn btn-success">Alta</button>
+            <button *ngIf="result.status == 1" (click)="confirm(confirmModal, 'Baja', result.id, 0 )" type="button" class="btn btn-danger">Baja</button>
           </td>
         </tr>
       </tbody>
@@ -45,12 +51,32 @@
           <th scope="row"><input class="form-control mr-sm-2" type="text" placeholder="Buscar" name="correo"></th>
           <th scope="row"><input class="form-control mr-sm-2" type="text" placeholder="Buscar" name="fecha"></th>
           <th scope="row"><input class="form-control mr-sm-2" type="text" placeholder="Buscar" name="dni"></th>
+          <th scope="row"><input class="form-control mr-sm-2" type="text" placeholder="Buscar" name="estado"></th>
           <th></th>
         </tr>
       </tfoot>
     </table>
   </div>
 </div>
+
+<modal #confirmModal>
+    <modal-content>
+        <div class="form text-center">
+            <div class="form-group row">
+              <label class="col-lg-12 col-md-12 col-form-label" style="color: #135daa">
+                <b>¿Está seguro que desea dar de {{confirmModel.title}}?</b></label>     
+            </div>
+            <div class="form-group row">
+              <div class="col">
+                <button (click)="setStatus(confirmModal)" class="btn bprimary">Si</button>
+              </div>
+              <div class="col">
+                <button (click)="confirmModal.close()" class="btn btn-danger">No</button>
+              </div>
+            </div>
+          </div>
+    </modal-content>
+  </modal>
 
 <modal #myModal>
   <modal-content>
@@ -103,7 +129,7 @@
           </div>
         </div>
       </div>
-      <div class="form-group row">
+      <div class="form-group row" [hidden]="!flagCreateUpdate">
         <label class="col-sm-2 col-form-label">Contraseña</label>
         <div class="col-sm-10">
           <input type="password" formControlName="password" class="form-control" placeholder="Contraseña">
@@ -112,7 +138,7 @@
           </div>
         </div>
       </div>
-      <div class="form-group row">
+      <div class="form-group row" [hidden]="!flagCreateUpdate">
         <label class="col-sm-2 col-form-label">Repetir Contraseña</label>
         <div class="col-sm-10">
           <input type="password" formControlName="password_confirmation" class="form-control"
@@ -135,6 +161,13 @@
         </label>
         <div class="col-sm-10">
           <input (change)="selectFile($event)" class="form-control" type="file" name="image" />
+        </div>
+      </div>
+      <div class="form-group row text-center">
+        <div *ngIf="!flagCreateUpdate" class="col-lg-12 col-md-12">
+          <img
+            src="{{ urlImageLogo ? urlImageLogo : './assets/images/user.png' }}"
+            alt="..." class="img-thumbnail" style="height: 200px;width: 200px;">
         </div>
       </div>
       <div class="form-group row" *ngIf="flagRes">

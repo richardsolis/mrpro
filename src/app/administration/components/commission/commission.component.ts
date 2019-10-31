@@ -18,6 +18,7 @@ export class CommissionComponent implements OnInit {
   registerForm: FormGroup;
   submitted = false;
   flagRes = false;
+  COM_ID: string = "";
 
   constructor(private formBuilder: FormBuilder, private spinner: NgxSpinnerService, 
               private commissionService: CommissionService) { 
@@ -29,7 +30,8 @@ export class CommissionComponent implements OnInit {
       id: [''],
       to: ['', Validators.required],
       from: ['', Validators.required],
-      amount: ['', Validators.required]
+      amount: ['', Validators.required],
+      penalty: ['',Validators.required]
     });
 
     this.getCommissionList()
@@ -40,18 +42,27 @@ export class CommissionComponent implements OnInit {
       id: '',
       to: '',
       from: '',
-      amount: ''
+      amount: '',
+      penalty: ''
     };
   }
 
-  deleteOneComission(commissionID: string){
+  confirm(cmodal, commissionID: string){
     console.log(commissionID);
+    this.COM_ID = "";
+    cmodal.open();
+    this.COM_ID = commissionID;
+  }
+
+  deleteOneComission(cmodal){
+    
     this.spinner.show();
-    this.commissionService.DeleteOneCommission(commissionID)
+    this.commissionService.DeleteOneCommission(this.COM_ID)
         .subscribe((response: any) => {
           console.log('Delete',response);
           this.getCommissionList();
           this.spinner.hide();
+          cmodal.close();
         }, (error: any) => {
           console.log(error);
           this.spinner.hide();
@@ -75,13 +86,14 @@ export class CommissionComponent implements OnInit {
   }
 
   newComission(modal, tempTittle:string, commission:any = null) {
+    this.flagRes = false;
     console.log("OpenModal Comsion - ", tempTittle);
     this.spinner.show();
     if(commission){
       this.title = `${tempTittle} ${commission.id}`;
       this.flagCreateUpdate = false;
       this.registerForm.setValue({id: commission.id, to: commission.to,
-                                  from: commission.from, amount: commission.amount});
+                                  from: commission.from, amount: commission.amount, penalty: commission.penalty});
       modal.open();
       this.spinner.hide();
     }else{
@@ -102,6 +114,12 @@ export class CommissionComponent implements OnInit {
       return;
     }
 
+    if(this.registerForm.get('to').value > this.registerForm.get('from').value){
+      this.flagRes = true;
+      this.message = 'Rango Final debe ser mayor al Rango Inicial.';
+      return;
+    }
+
     console.log(this.registerForm.value);
     this.spinner.show();
     if(this.flagCreateUpdate == true){
@@ -118,6 +136,11 @@ export class CommissionComponent implements OnInit {
         }, (error: any) => {
           this.submitted = false;
           console.log(error);
+          if(error.message){
+            this.flagRes = true;
+            this.message = 'El rango interfiere con otra comisión, modifiquelo.';
+            this.spinner.hide();
+          }
         });
     }else{
       this.commissionService.putUpdateCommission(this.registerForm.value)
@@ -132,6 +155,11 @@ export class CommissionComponent implements OnInit {
         }, (error: any) => {
           this.submitted = false;
           console.log(error);
+          if(error.message){
+            this.flagRes = true;
+            this.message = 'Ya existe una comisión en el mismo rango, por favor ingrese uno diferente.';
+            this.spinner.hide();
+          }
         });
     }
 

@@ -8,6 +8,7 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { DistrictService } from '../../../services/district.service';
 import { CategoryService } from '../../../services/category.service';
 import { UserService } from '../../../services/user.service';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-provider',
@@ -41,9 +42,21 @@ export class ProviderComponent implements OnInit {
   base64Penales: string;
   base64Judiciales: string;
 
+  urlImageLogo: string = "";
+
+  providerImporList: any[] = [];
+  flagImport: boolean = false;
+  messageImport: string = "";
+
   @ViewChild(DataTableDirective) dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
+
+  confirmModel: any = {
+    title: "",
+    provider_id: "",
+    status: ""
+  };
   
   constructor(private formBuilder: FormBuilder, private spinner: NgxSpinnerService, private providerService: ProviderService,
               private districtService: DistrictService, private categoryService: CategoryService, private userService: UserService) { 
@@ -56,7 +69,10 @@ export class ProviderComponent implements OnInit {
 
     this.categoryService.guestGetCategories()
       .subscribe((response: any) => {
-        this.categories = response.data;
+        this.categories = response.data.filter(item => item.parent == 0);
+        this.categoryService.guestGetPrices().subscribe((res: any) => {
+          this.categories.push(...res.data.filter(item => item.parent == 0));
+        });
       }, (error: any) => {
         console.log(error);
       });
@@ -201,6 +217,133 @@ export class ProviderComponent implements OnInit {
      
   }
 
+  createObjProvider(params: any){
+    return {
+        doc_number: params.DNI,
+        name: params.Nombre,
+        lastname: params.Apellidos,
+        email: (params.CorreoElectronicoEmpresa == undefined)? params.CorreoElectronico : params.CorreoElectronicoEmpresa,
+        password: '12345678',
+        password_confirmation: '12345678',
+        phone: params.Celular,
+        address: params.Direccion,
+        ruc: (params.RUC == undefined)? '' : params.RUC,
+        type_provider: params.TipoProv,
+        r_social: (params.RazonSocial == undefined)? '' : params.RazonSocial,
+        a_fiscal: (params.DireccionFiscal == undefined)? '' : params.DireccionFiscal,
+        bank_id: this.getIdBank(params.Banco),
+        categories: JSON.stringify([]),
+        districts: JSON.stringify([]),
+        company_phone: (params.CelularEmpresa == undefined)? '' : params.CelularEmpresa,
+        company_email: (params.CorreoElectronicoEmpresa == undefined)? '' : params.CorreoElectronicoEmpresa,
+        status: '0'
+    };
+  }
+
+  showImport(importModal){
+    this.flagImport = false;
+    importModal.open();
+  }
+
+  getIdBank(bankID: string){
+    let banco='';
+    switch (bankID) {
+      case 'BCP':
+        banco = '1';
+        break;
+      case 'Interbank':
+          banco = '2';
+        break;
+      case 'BBVA':
+          banco = '3';
+        break;
+      case 'Scotiabank':
+          banco = '4';
+        break;
+    }
+    return banco;
+  }
+
+  validateProviderExcel(obj: any, tipo){
+    if(tipo == 0){
+      if ( (obj.DNI != '' && obj.DNI != undefined)  && (obj.Nombre != '' && obj.Nombre != undefined) && 
+               (obj.Apellidos != '' && obj.Apellidos != undefined) && (obj.Celular != '' && obj.Celular != undefined) && 
+               (obj.Direccion != '' && obj.Direccion != undefined) && (obj.CorreoElectronico != '' && obj.CorreoElectronico != undefined) &&
+               (obj.Banco != '' && obj.Banco != undefined) && (obj.RUC != '' && obj.RUC != undefined) &&
+               (obj.RazonSocial != '' && obj.RazonSocial != undefined) && (obj.DireccionFiscal != '' && obj.DireccionFiscal != undefined) &&
+               (obj.CelularEmpresa != '' && obj.CelularEmpresa != undefined) && (obj.CorreoElectronicoEmpresa != '' && obj.CorreoElectronicoEmpresa != undefined)){
+                 return true;
+               }else{
+                 return false;
+               }
+    }else if(tipo == 1){
+      if((obj.TipoProv != '' && obj.TipoProv != undefined) && (obj.DNI != '' && obj.DNI != undefined) && 
+              (obj.Nombre != '' && obj.Nombre != undefined) && (obj.Apellidos != '' && obj.Apellidos != undefined) && 
+              (obj.Celular != '' && obj.Celular != undefined) && (obj.Direccion != '' && obj.Direccion != undefined) &&
+              (obj.CorreoElectronico != '' && obj.CorreoElectronico != undefined) && (obj.Banco != '' && obj.Banco != undefined)){
+                return true;
+              }else{
+                return false;
+              }
+    }
+  }
+
+  selectExcel(event){
+    let excelJsonEmpresa: any[] = [];
+    let excelJsonIndividual: any[] = [];
+    var reader = new FileReader();
+    reader.readAsBinaryString(event.target.files[0]);
+    reader.onload = ()=> {
+      let fileData = reader.result;
+      var workbook = XLSX.read(fileData, {type: 'binary'});
+      workbook.SheetNames.forEach((sheetName)=>{
+        if(sheetName == 'Empresa'){
+          let rowObjectE = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
+          for (let index = 0; index < rowObjectE.length; index++) {
+            if(this.validateProviderExcel(rowObjectE[index], 0)){
+              excelJsonEmpresa.push(this.createObjProvider(rowObjectE[index]));
+            }
+          }
+        }
+
+        if(sheetName == 'Individual'){
+          let rowObjectI = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
+          for (let index = 0; index < rowObjectI.length; index++) {
+            if(this.validateProviderExcel(rowObjectI[index], 1)){
+              excelJsonIndividual.push(this.createObjProvider(rowObjectI[index]));
+            }
+          }
+        }
+      });
+      this.providerImporList.push(...excelJsonEmpresa);
+      this.providerImporList.push(...excelJsonIndividual);
+      console.log(this.providerImporList);
+    };
+    
+  }
+
+  ImportMassive(){
+    this.flagImport = false;
+    if(this.providerImporList.length == 0){
+      return;
+    }
+    this.spinner.show();
+    this.providerService.postSaveMassiveProvider({data: JSON.stringify(this.providerImporList)})
+        .subscribe((response: any) => {
+          console.log('Registro Masivo',response);
+          let counter = response.data.length;
+          this.spinner.hide();
+          this.rerender();
+          this.flagImport = true;
+          this.messageImport = `Se registraron ${counter} proveedores exitosamente.`;
+        }, (error: any) => {
+          console.log(error);
+          this.spinner.hide();
+          this.flagImport = true;
+          this.messageImport = "Ocurrio un error, verifique que los correos y DNI's no se encuentren registrados en el sistema.";
+        })
+  }
+
   selectDoc(event){
     console.log(event.target.name);
 
@@ -279,14 +422,32 @@ export class ProviderComponent implements OnInit {
     });
   }
 
+  getExcelProvider(){
+    this.spinner.show();
+    this.providerService.getExportExcelProviders().subscribe(
+      (response: any) => {
+        let blob = new Blob([response], { type:  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;'});
+        let url = window.URL.createObjectURL(blob);
+        console.log(url);
+        let pwa = window.open(url);
+        this.spinner.hide();
+      },
+      error =>{
+        console.log(error);
+        this.spinner.hide();
+    });
+  }
+
   newProvider(modal, tempTittle:string, provider:any = null) {
     this.flagRes = false;
     if(provider){
+      this.urlImageLogo = "";
       this.flagTipo = true;
       this.flagCreateUpdate = false;
       this.spinner.show();
       this.tipoForm = (provider.type_provider == 1)? false : true; 
       console.log("EditModal Usuario - ", provider);
+      this.urlImageLogo = provider.logo_url;
       this.convertImgs(provider.a_police, provider.a_penal, provider.a_judicial);
       //this.registerForm.setValue({score: '0',comment:'',user_provider_id:''});
       this.registerForm.setValue(this.initOneProvider(provider));
@@ -412,7 +573,7 @@ export class ProviderComponent implements OnInit {
         policiales: provider.a_police,
         penales: provider.a_penal,
         judiciales: provider.a_judicial,
-        experiencia: provider.experience.split(" ")[0],
+        experiencia: (provider.experience)? provider.experience.split(" ")[0] : "",
         districts: provider.districts.map(item => item.district_id),
         categories: provider.categories.map(item => item.category_service_id),
         contrasena: '',
@@ -439,7 +600,7 @@ export class ProviderComponent implements OnInit {
         policiales: provider.a_police,
         penales: provider.a_penal,
         judiciales: provider.a_judicial,
-        experiencia: provider.experience.split(" ")[0],
+        experiencia: (provider.experience)? provider.experience.split(" ")[0] : "",
         districts: provider.districts.map(item => item.district_id),
         categories: provider.categories.map(item => item.category_service_id),
         contrasena: '',
@@ -450,6 +611,27 @@ export class ProviderComponent implements OnInit {
       };
     }
     return temp;
+  }
+
+  confirm(cmodal, title: string, providerID: string, status: string){
+    this.confirmModel.title = '';
+    this.confirmModel.provider_id = '';
+    this.confirmModel.status = '';
+    cmodal.open();
+    this.confirmModel.title = title;
+    this.confirmModel.provider_id = providerID;
+    this.confirmModel.status = status;
+  }
+
+  setStatus(cmodal){
+    this.providerService.postSetStatusProvider({ provider_id: this.confirmModel.provider_id, status: this.confirmModel.status})
+          .subscribe((response: any) => {
+            console.log('status',response);
+            cmodal.close();
+            this.rerender();
+          }, (error: any) => {
+            console.log(error);
+          })
   }
 
   onSubmit(myModal) {
@@ -475,7 +657,7 @@ export class ProviderComponent implements OnInit {
           console.log('Create',response);
           this.message = 'Registro con éxito.';
           this.registerForm.setValue(this.initOneProvider(null));
-          myModal.open();
+          myModal.close();
           this.submitted = false;
           this.spinner.hide();
           this.rerender();
@@ -492,7 +674,7 @@ export class ProviderComponent implements OnInit {
               this.message = this.message + " El email ya esta registrado.";
             }
             this.flagRes = true;
-            myModal.open();
+            myModal.close();
             this.spinner.hide();
             return;
           }
@@ -505,10 +687,10 @@ export class ProviderComponent implements OnInit {
           this.flagRes = true;
           console.log('Update',response);
           this.message = 'Actualizado con éxito.';
-          myModal.open();
           this.submitted = false;
           this.spinner.hide();
           this.rerender();
+          //myModal.close();
         }, (error: any) => {
           this.flagPsw = false;
           this.submitted = false;

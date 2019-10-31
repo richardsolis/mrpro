@@ -56,11 +56,11 @@
           <a routerLink="/reserva" routerLinkActive="active-link">SERVICIOS</a>
         </li>
         <li class="nav-item">
-          <a routerLink="/contacto" routerLinkActive="active-link">CONTACTO</a>
-        </li>
-        <li class="nav-item">
           <a routerLink="/reservado" routerLinkActive="active-link">SOLICITUDES</a>
         </li>
+        <li class="nav-item">
+            <a routerLink="/perfil" routerLinkActive="active-link">PERFIL</a>
+          </li>
       </ul>
       <ul *ngIf="user && user.type == 'provider'" class="navbar-nav menu mr-auto">
         <li class="nav-item">

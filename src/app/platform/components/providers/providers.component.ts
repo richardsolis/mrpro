@@ -34,6 +34,10 @@ export class ProvidersComponent implements OnInit, OnDestroy {
   registerForm: FormGroup;
   BudgetID = "";
   validFlag: boolean = false;
+  statusList: any[];
+
+  flagPenalty: boolean = false;
+  messagePenalty: string = "";
 
   @ViewChild(DataTableDirective) dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
@@ -42,13 +46,21 @@ export class ProvidersComponent implements OnInit, OnDestroy {
   constructor(private spinner: NgxSpinnerService, private router: Router,  private _route:ActivatedRoute,
               private session: SessionService, private userS: UserService,
               private formBuilder: FormBuilder) {
-    
+    this.userS.getStatus()
+      .subscribe((response: any) => {
+        this.statusList = response.data.filter(state => { 
+                                                if(state.id !== 2 && state.id !== 3 && state.id !== 5)
+                                                  return state; 
+                                              });
+      }, (error: any) => {
+        console.log(error);
+      });
   }
 
   ngOnInit() {
     this.dtOptions = {
       pagingType: 'full_numbers',
-      order: [[3,'desc']],
+      order: [[0,'desc']],
       language: AppSettings.LANG_SPANISH
     };
 
@@ -63,7 +75,8 @@ export class ProvidersComponent implements OnInit, OnDestroy {
     this.registerForm = this.formBuilder.group({
       score:  ['0', Validators.required],
       comment:  ['', Validators.required],
-      user_provider_id: ['', Validators.required]
+      user_provider_id: ['', Validators.required],
+      budget_id: ['', Validators.required]
     });
   }
 
@@ -110,14 +123,31 @@ export class ProvidersComponent implements OnInit, OnDestroy {
     );
   }
 
+  checkout(client_score: string){
+    if(client_score == '0'){
+      return false;
+    }else{
+      return true;
+    }
+  }
+
+  verifyTypePay(card_bank_id:any){
+    if(card_bank_id){
+      return false;
+    }else{
+      return true;
+    }
+  }
+
   closeService(mymodal,providerID: string ,BudgetID: string){
-    this.registerForm.setValue({score: '0',comment:'',user_provider_id:''});
+    this.registerForm.setValue({score: '0',comment:'',user_provider_id:'', budget_id: ''});
       this.registerForm.get('user_provider_id').setValue(providerID);
-      this.BudgetID = BudgetID;
+      this.registerForm.get('budget_id').setValue(BudgetID);
+      
       mymodal.open();
   }
 
-  Rating(){
+  Rating(cmodal){
     if (this.registerForm.invalid || this.registerForm.get('score').value === '0') {
       this.validFlag = true;
       return;
@@ -128,15 +158,9 @@ export class ProvidersComponent implements OnInit, OnDestroy {
     this.userS.scoreOfClient(this.registerForm.value)
         .subscribe((res: any) => {
           console.log(res);
-          this.userS.updateStatus('6',this.BudgetID)
-              .subscribe((res: any) => {
-                console.log(res);
-                this.spinner.hide();
-                location.reload();
-              }, (error: any) => {
-                console.log(error);
-                this.spinner.hide();
-              });
+          cmodal.close();
+          this.spinner.hide();
+          this.rerender();
         }, (error: any) => {
           console.log(error);
           this.spinner.hide();
@@ -148,12 +172,30 @@ export class ProvidersComponent implements OnInit, OnDestroy {
     modal.open();
   }
 
-  confirm(modal, BudgetID){
-    this.BudgetID = BudgetID;
-    modal.open();
+  getActualDate(){
+    let today = new Date();
+    const day = ("0" + (today.getDate())).slice(-2);
+    const month = ("0" + (today.getMonth() + 1)).slice(-2);
+    const year = today.getFullYear();
+    return `${year}-${month}-${day}`;
   }
 
-  schedule() {
+  confirm(modal, BudgetID, accepted: string = null, date_service: string = null){
+    this.flagPenalty = false;
+    this.BudgetID = BudgetID;
+    modal.open();
+    if(date_service){
+      let today = new Date(this.getActualDate());
+      let serviceDate = new Date(date_service.split(' ')[0]);
+      let result = (serviceDate.getTime() <= today.getTime())? true: false;
+      if(accepted == '1' && result == true){
+        this.flagPenalty = true;
+        this.messagePenalty = "Si cancela la solicitud hecha, se aplicará una penalidad que se descontará automaticamente de su tarjeta.";  
+      }
+    }
+  }
+
+  schedule(fmodal) {
     console.log(this.BudgetID);
       this.cancel = {
         budget_id: this.BudgetID,
@@ -161,7 +203,8 @@ export class ProvidersComponent implements OnInit, OnDestroy {
       };
       this.userS.cancel(this.cancel).subscribe(response => {
         console.log(response);
-        location.reload();
+        fmodal.close();
+        this.rerender();
       });
     
   }

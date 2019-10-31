@@ -1,14 +1,18 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { AppSettings } from '../app.settings';
 import { GeneralService } from './general.service';
+import { Observable } from 'rxjs';
+import { ResponseContentType, ResponseType } from '@angular/http';
+import { map } from 'rxjs/operators';
+import { SessionService } from './session.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProviderService {
 
-  constructor(private http: HttpClient,private generalS: GeneralService) { }
+  constructor(private http: HttpClient,private generalS: GeneralService, private sessionS: SessionService) { }
 
   postCreateProvider(params) {
     const obj = {
@@ -54,13 +58,48 @@ export class ProviderService {
     return this.http.post(AppSettings.BASE_PATH + AppSettings.POST_CREATE_DASHBOARD_PROVIDER, body, header);
   }
 
+  postSetStatusProvider(params) {
+    const obj = {
+      provider_id: params.provider_id,
+      status: params.status
+    };
+    console.log(obj);
+    const body = new HttpParams({
+      fromObject: obj
+    });
+    
+    var header = this.generalS.getToken({}, "application/json");
+
+    return this.http.post(AppSettings.BASE_PATH + AppSettings.POST_STATUS_DASHBOARD_PROVIDER, body, header);
+  }
+
+  postSaveMassiveProvider(params){
+    const obj = {
+      data: params.data
+    };
+    console.log(obj);
+    const body = new HttpParams({
+      fromObject: obj
+    });
+    
+    var header = this.generalS.getToken({}, "application/json");
+
+    return this.http.post(AppSettings.BASE_PATH + AppSettings.POST_MASSIVE_DASHBOARD_PROVIDER, body, header);
+  }
+
 
   getProviders() {
-    // const body = new HttpParams({
-    //   fromObject: params
-    // });
     var header = this.generalS.getToken({}, "application/json");
     return this.http.get(AppSettings.BASE_PATH + AppSettings.GET_DASHBOARD_PROVIDERS, header);
+  }
+
+  getExportExcelProviders(){
+    var header = {headers: {
+      Authorization: this.sessionS.getObject("token").token_type + " " + this.sessionS.getObject("token").access_token
+      },
+      responseType: 'blob' as 'json',
+    };
+    return this.http.get(AppSettings.BASE_PATH + AppSettings.GET_EXPORT_EXCEL_PROVIDER, header);
   }
 
   getOneProvider(providerID: string) {

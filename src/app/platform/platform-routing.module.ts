@@ -13,6 +13,8 @@ import { ChatComponent } from './provider/components/chat/chat.component';
 import { RegisterProviderComponent } from './components/register-provider/register-provider.component';
 import { ProfileProviderComponent } from './provider/components/profile-provider/profile-provider.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { ProfileClientComponent } from './components/profile-client/profile-client.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
 
 
 const routes: Routes = [
@@ -22,6 +24,9 @@ const routes: Routes = [
 	},
 	{
 		path: 'reserva',
+		component: SelectProviderComponent
+	},{
+		path: 'reserva/:category',
 		component: SelectProviderComponent
 	},
 	{
@@ -37,12 +42,19 @@ const routes: Routes = [
 		component: SendBudgetComponent
 	},
 	{
+		path: 'perfil',
+		component: ProfileClientComponent
+	},
+	{
 		path: 'ingresar',
 		component: LoginComponent
 	},
 	{
 		path: 'olvidar-contrasena',
 		component: ResetPasswordComponent
+	},{
+		path: 'cambiar-contrasena',
+		component: ChangePasswordComponent
 	},
 	{
 		path: 'registro',

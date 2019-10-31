@@ -22,6 +22,8 @@ import { UserService } from '../services/user.service';
 import { DataTablesModule } from 'angular-datatables';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { SafeHtml2 } from '../pipes/safeHtml2Pipe';
+import { BarRatingModule } from 'ngx-bar-rating';
+import { AdministratorComponent } from './components/administrator/administrator.component';
 
 @NgModule({
   imports: [
@@ -33,7 +35,8 @@ import { SafeHtml2 } from '../pipes/safeHtml2Pipe';
     ModalModule,
     NgxSpinnerModule,
     DataTablesModule,
-    SlickCarouselModule
+    SlickCarouselModule,
+    BarRatingModule
   ],
   declarations: [ 
   	LoginComponent,  
@@ -46,7 +49,8 @@ import { SafeHtml2 } from '../pipes/safeHtml2Pipe';
     CommissionComponent, 
     OrderComponent, 
     ProviderComponent,
-    SafeHtml2
+    SafeHtml2,
+    AdministratorComponent
   ],
   providers: [
     ProviderService,

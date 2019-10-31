@@ -1,5 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Lightbox } from 'ngx-lightbox';
+import { SessionService } from 'src/app/services/session.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { UserService } from 'src/app/services/user.service';
+import { Router } from '@angular/router';
+
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-home',
@@ -52,11 +58,31 @@ export class HomeComponent implements OnInit {
 
   ]
 
+  resultFilter: any[];
+
   public slideConfig = {"slidesToShow": 1, "slidesToScroll": 1, "dots":true};
 
-  constructor(private _lightbox: Lightbox) { }
+  constructor(private _lightbox: Lightbox,private session: SessionService,
+              private spinner: NgxSpinnerService, private userS: UserService,
+              private router: Router) { }
 
   ngOnInit() {
+    if(this.session.getObject('user')){
+      this.resultFilter = [];
+      this.spinner.show();
+      this.userS.getBudget({ type: "client", status: 6 }).subscribe(
+        response => {
+          let providers:any = response;
+          this.resultFilter.push(...providers.data.filter(item => item.client_score == 0));
+          console.log(this.resultFilter);
+          this.spinner.hide();
+          if(this.resultFilter.length > 0){
+            this.router.navigate(['/reservado/6']); 
+          }
+        },
+        error => console.log(error)
+      );
+    }
   }
 
   addSlide() {

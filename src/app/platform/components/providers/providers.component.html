@@ -4,9 +4,7 @@
     <div style="max-width: 1180px;margin-top: 20px;display: flex;">
       <p>Estado:</p>
       <select (change)="rerender()" [(ngModel)]="estado" style="margin-left: 20px;">
-        <option value="1">Pendientes</option>
-        <option value="4">Atendido</option>
-        <option value="6">Finalizado</option>
+          <option *ngFor="let status of statusList" [value]="status.id">{{ status.name }}</option>
       </select>
     </div>
     <section style="margin-top: 15px;margin-bottom: 15px;">
@@ -17,6 +15,7 @@
             <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-bordered table-hover">
               <thead>
                 <tr>
+                  <th scope="col"># ID</th>
                   <th scope="col">Categoria</th>
                   <th scope="col">Subcategoria</th>
                   <th scope="col">Dirección</th>
@@ -28,6 +27,7 @@
               </thead>
               <tbody>
                 <tr *ngFor="let result of resultFilter">
+                  <td scope="row">{{ result.code }}</td>
                   <td scope="row">{{ result.category_service.name }}</td>
                   <td scope="row">{{ result.parent_category.name }}</td>
                   <td scope="row">{{ result.address }}</td>
@@ -38,14 +38,18 @@
                     <div [ngSwitch]="result.status_service_id">
                       <button *ngSwitchCase="'1'" (click)="confirm(myFile,result.id)" class="btn btn-danger">Cancelar</button>
                       <button *ngSwitchCase="'4'" (click)="goChat(result.firebase_id, result.id)" type="button" class="btn btn-warning">Chat</button>
-                      <button *ngSwitchCase="'4'" (click)="closeService(myModal,result.user_provider_id,result.id)" type="button" class="btn btn-secondary">Finalizar</button>
-                      <p *ngSwitchCase="'6'">Sin Acciones</p>
+                      <button *ngSwitchCase="'4'" (click)="confirm(myFile,result.id, result.accepted, result.date_service)" [hidden]="verifyTypePay(result.card_bank_id)" 
+                        class="btn btn-danger">Cancelar</button>
+                      <button *ngSwitchCase="'6'" (click)="closeService(myModal,result.user_provider_id,result.id)" 
+                        type="button" class="btn btn-success" [hidden]="checkout(result.client_score)">Valorar</button>
+                      
                     </div>
                   </td>
                 </tr>
               </tbody>
               <tfoot>
                 <tr>
+                  <th scope="row"><input class="form-control mr-sm-2" type="text" placeholder="Buscar" name="ID"></th>
                   <th scope="row"><input class="form-control mr-sm-2" type="text" placeholder="Buscar" name="categoria"></th>
                   <th scope="row"><input class="form-control mr-sm-2" type="text" placeholder="Buscar" name="subcategoria"></th>
                   <th scope="row"><input class="form-control mr-sm-2" type="text" placeholder="Buscar" name="direccion"></th>
@@ -72,9 +76,12 @@
         <label class="col-lg-12 col-md-12 col-form-label" style="color: #135daa">
           <b>¿Está seguro que desea cancelar este servicio?</b></label>     
       </div>
+      <div class="form-group row" *ngIf="flagPenalty">
+          <label class="col-lg-12 col-md-12 badge badge-warning text-wrap"><b>{{ messagePenalty }}</b></label>
+        </div>
       <div class="form-group row">
         <div class="col">
-          <button (click)="schedule()" class="btn bprimary">Aceptar</button>
+          <button (click)="schedule(myFile)" class="btn bprimary">Aceptar</button>
         </div>
         <div class="col">
           <button (click)="myFile.close()" class="btn btn-danger">Rechazar</button>
@@ -86,12 +93,17 @@
 
 <modal #myModal>
     <modal-content>
-        <form [formGroup]="registerForm" (ngSubmit)="Rating()">
+        
+        <form [formGroup]="registerForm" (ngSubmit)="Rating(myModal)">
+          <div class="">
+              <label class="col-lg-12 col-md-12 col-form-label" style="color: #135daa">
+                <b>Valoración del Cliente</b></label>     
+            </div>
             <div class="form-group">
               <label for="formGroupExampleInput">
-                <b class="text-danger">*</b>Score (0.0 - 5.0): <b class="color-blue"> {{registerForm.get('score').value}} </b>
+                <b class="text-danger">*</b>Calificación (0 - 5): <b class="color-blue"> {{registerForm.get('score').value}} </b>
               </label>
-              <input class="form-control-range color-blue" formControlName="score" type="range" min="0" max="5" value="{{registerForm.get('score').value}}" step="0.1"/>
+              <bar-rating name="rating" formControlName="score" [max]="5"></bar-rating>
             </div>
             <div class="form-group">
               <label for="formGroupExampleInput2"><b class="text-danger">*</b>Comentario:</label>
@@ -99,7 +111,7 @@
             </div>
             <div class="form-group">
                 <label *ngIf="validFlag"><b class="text-danger">Favor de completar todos los campos.</b></label>
-                <button (click)="Rating()" class="btn bprimary">Finalizar</button>
+                <button type="submit" class="btn bprimary">Finalizar</button>
             </div>
           </form>
     </modal-content>

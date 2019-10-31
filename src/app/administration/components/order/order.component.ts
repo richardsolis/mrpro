@@ -108,7 +108,10 @@ getExcelBudget(){
   this.spinner.show();
   this.budgetService.getExportExcelBudgets().subscribe(
     (response:any) => {
-      console.log(response);
+      let blob = new Blob([response], { type:  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;'});
+      let url = window.URL.createObjectURL(blob);
+      console.log(url);
+      let pwa = window.open(url);
       this.spinner.hide();
     },
     error =>{

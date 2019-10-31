@@ -110,6 +110,22 @@ export class UserComponent implements OnInit {
     });
   }
 
+  getExcelClient(){
+    this.spinner.show();
+    this.clientService.getExportExcelClients().subscribe(
+      (response: any) => {
+        let blob = new Blob([response], { type:  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;'});
+        let url = window.URL.createObjectURL(blob);
+        console.log(url);
+        let pwa = window.open(url);
+        this.spinner.hide();
+      },
+      error =>{
+        console.log(error);
+        this.spinner.hide();
+    });
+  }
+
   selectFile(event){
     console.log(event.target.name);
   

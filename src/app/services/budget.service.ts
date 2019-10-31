@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { AppSettings } from '../app.settings';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { GeneralService } from './general.service';
+import { SessionService } from './session.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BudgetService {
 
-  constructor(private http: HttpClient,private generalS: GeneralService) { }
+  constructor(private http: HttpClient,private generalS: GeneralService, private sessionS: SessionService) { }
 
   getBudgets() {
     var header = this.generalS.getToken({}, "application/json");
@@ -16,7 +17,11 @@ export class BudgetService {
   }
 
   getExportExcelBudgets() {
-    var header = this.generalS.getToken({}, "application/json");
+    var header = {headers: {
+      Authorization: this.sessionS.getObject("token").token_type + " " + this.sessionS.getObject("token").access_token
+      },
+      responseType: 'blob' as 'json',
+    };
     return this.http.get(AppSettings.BASE_PATH + AppSettings.GET_EXPORT_EXCEL_BUDGET, header);
   }
 

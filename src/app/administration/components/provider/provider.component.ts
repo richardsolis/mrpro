@@ -425,11 +425,11 @@ export class ProviderComponent implements OnInit {
   getExcelProvider(){
     this.spinner.show();
     this.providerService.getExportExcelProviders().subscribe(
-      (response: string) => {
-        /*let blob = new Blob([response], { type:  "application/ms-excel"});
+      (response: any) => {
+        let blob = new Blob([response], { type:  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;'});
         let url = window.URL.createObjectURL(blob);
         console.log(url);
-        let pwa = window.open(url);*/
+        let pwa = window.open(url);
         this.spinner.hide();
       },
       error =>{

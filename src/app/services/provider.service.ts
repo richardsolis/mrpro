@@ -3,15 +3,16 @@ import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/comm
 import { AppSettings } from '../app.settings';
 import { GeneralService } from './general.service';
 import { Observable } from 'rxjs';
-import { ResponseContentType } from '@angular/http';
+import { ResponseContentType, ResponseType } from '@angular/http';
 import { map } from 'rxjs/operators';
+import { SessionService } from './session.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProviderService {
 
-  constructor(private http: HttpClient,private generalS: GeneralService) { }
+  constructor(private http: HttpClient,private generalS: GeneralService, private sessionS: SessionService) { }
 
   postCreateProvider(params) {
     const obj = {
@@ -93,7 +94,11 @@ export class ProviderService {
   }
 
   getExportExcelProviders(){
-    var header = this.generalS.getToken({}, "application/json");
+    var header = {headers: {
+      Authorization: this.sessionS.getObject("token").token_type + " " + this.sessionS.getObject("token").access_token
+      },
+      responseType: 'blob' as 'json',
+    };
     return this.http.get(AppSettings.BASE_PATH + AppSettings.GET_EXPORT_EXCEL_PROVIDER, header);
   }
 

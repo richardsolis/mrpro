@@ -20,6 +20,7 @@ export class AppSettings {
   public static GET_ONE_DASHBOARD_CLIENT = "crud/client";
   public static POST_CREATE_DASHBOARD_CLIENT = "crud/client";
   public static PUT_CREATE_DASHBOARD_CLIENT = "crud/client";
+  public static GET_EXPORT_EXCEL_CLIENT = "crud/export/client";
   public static GET_DASHBOARD_ADMIS = "crud/admin";
   public static GET_ONE_DASHBOARD_ADMI = "crud/admin";
   public static POST_CREATE_DASHBOARD_ADMI = "crud/admin";

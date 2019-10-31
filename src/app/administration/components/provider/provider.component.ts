@@ -422,6 +422,22 @@ export class ProviderComponent implements OnInit {
     });
   }
 
+  getExcelProvider(){
+    this.spinner.show();
+    this.providerService.getExportExcelProviders().subscribe(
+      (response: string) => {
+        /*let blob = new Blob([response], { type:  "application/ms-excel"});
+        let url = window.URL.createObjectURL(blob);
+        console.log(url);
+        let pwa = window.open(url);*/
+        this.spinner.hide();
+      },
+      error =>{
+        console.log(error);
+        this.spinner.hide();
+    });
+  }
+
   newProvider(modal, tempTittle:string, provider:any = null) {
     this.flagRes = false;
     if(provider){

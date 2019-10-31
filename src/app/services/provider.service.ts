@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { AppSettings } from '../app.settings';
 import { GeneralService } from './general.service';
+import { Observable } from 'rxjs';
+import { ResponseContentType } from '@angular/http';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -85,11 +88,13 @@ export class ProviderService {
 
 
   getProviders() {
-    // const body = new HttpParams({
-    //   fromObject: params
-    // });
     var header = this.generalS.getToken({}, "application/json");
     return this.http.get(AppSettings.BASE_PATH + AppSettings.GET_DASHBOARD_PROVIDERS, header);
+  }
+
+  getExportExcelProviders(){
+    var header = this.generalS.getToken({}, "application/json");
+    return this.http.get(AppSettings.BASE_PATH + AppSettings.GET_EXPORT_EXCEL_PROVIDER, header);
   }
 
   getOneProvider(providerID: string) {

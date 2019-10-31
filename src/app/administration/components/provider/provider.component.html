@@ -4,18 +4,24 @@
       <a class="navbar-brand" href="javascript:void(0)"><b>Proveedor</b></a>
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a (click)="newProvider(myModal, 'Nueva Proveedor')" class="btn blue" href="javascript:void(0)">Nuevo <i
+          <a (click)="newProvider(myModal, 'Nueva Proveedor')" class="btn blue">Nuevo <i
               class="fa fa-plus-circle" aria-hidden="true"></i>
           </a>
         </li>
         <li class="nav-item">
-            <a class="btn btn-success" href="javascript:void(0)">Exportar<i class="fa fa-download" aria-hidden="true"></i>
-            </a>
-          </li>
-          <li class="nav-item">
-              <a (click)="showImport(importModal)" class="btn btn-warning" href="javascript:void(0)">Importar<i class="fa fa-upload" aria-hidden="true"></i>
-              </a>
-            </li>
+          <a (click)="getExcelProvider()" class="btn btn-success">Exportar<i class="fa fa-download" aria-hidden="true"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a (click)="showImport(importModal)" class="btn btn-warning">Importar<i
+              class="fa fa-upload" aria-hidden="true"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="btn btn-secondary" href="http://admin-mrpro.mrpro.pe/import_providers.xlsx">Plantilla
+            <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+          </a>
+        </li>
       </ul>
     </nav>
   </div>
@@ -43,8 +49,10 @@
           <td scope="row">
             <button (click)="newProvider(myModal, 'Editar Proveedor', result )" type="button"
               class="btn btn-warning">Editar</button>
-            <button *ngIf="result.status == 0" (click)="confirm(confirmModal, 'Alta', result.id, 1 )" type="button" class="btn btn-success">Alta</button>
-            <button *ngIf="result.status == 1" (click)="confirm(confirmModal, 'Baja', result.id, 0 )" type="button" class="btn btn-danger">Baja</button>
+            <button *ngIf="result.status == 0" (click)="confirm(confirmModal, 'Alta', result.id, 1 )" type="button"
+              class="btn btn-success">Alta</button>
+            <button *ngIf="result.status == 1" (click)="confirm(confirmModal, 'Baja', result.id, 0 )" type="button"
+              class="btn btn-danger">Baja</button>
           </td>
         </tr>
       </tbody>
@@ -65,20 +73,20 @@
 
 <modal #confirmModal>
   <modal-content>
-      <div class="form text-center">
-          <div class="form-group row">
-            <label class="col-lg-12 col-md-12 col-form-label" style="color: #135daa">
-              <b>¿Está seguro que desea dar de {{confirmModel.title}}?</b></label>     
-          </div>
-          <div class="form-group row">
-            <div class="col">
-              <button (click)="setStatus(confirmModal)" class="btn bprimary">Si</button>
-            </div>
-            <div class="col">
-              <button (click)="confirmModal.close()" class="btn btn-danger">No</button>
-            </div>
-          </div>
+    <div class="form text-center">
+      <div class="form-group row">
+        <label class="col-lg-12 col-md-12 col-form-label" style="color: #135daa">
+          <b>¿Está seguro que desea dar de {{confirmModel.title}}?</b></label>
+      </div>
+      <div class="form-group row">
+        <div class="col">
+          <button (click)="setStatus(confirmModal)" class="btn bprimary">Si</button>
         </div>
+        <div class="col">
+          <button (click)="confirmModal.close()" class="btn btn-danger">No</button>
+        </div>
+      </div>
+    </div>
   </modal-content>
 </modal>
 
@@ -139,9 +147,8 @@
           </div>
           <div class="form-group row text-center">
             <div *ngIf="!flagCreateUpdate" class="col-lg-12 col-md-12">
-              <img
-                src="{{ urlImageLogo ? urlImageLogo : './assets/images/user.png' }}"
-                alt="..." class="img-thumbnail" style="height: 200px;width: 200px;">
+              <img src="{{ urlImageLogo ? urlImageLogo : './assets/images/user.png' }}" alt="..." class="img-thumbnail"
+                style="height: 200px;width: 200px;">
             </div>
           </div>
           <div class="form-group row">
@@ -466,8 +473,8 @@
         </div>
       </div>
       <div class="form-group row" *ngIf="flagImport">
-          <label class="col-lg-12 col-md-12 badge badge-warning text-wrap"><b>{{ messageImport }}</b></label>
-        </div>
+        <label class="col-lg-12 col-md-12 badge badge-warning text-wrap"><b>{{ messageImport }}</b></label>
+      </div>
       <div class="form-group row">
         <div class="col-sm-12 text-center">
           <button type="button" (click)="ImportMassive()" class="btn bprimary">Ejecutar</button>

@@ -104,6 +104,19 @@ getBudgetList(){
   });
 }
 
+getExcelBudget(){
+  this.spinner.show();
+  this.budgetService.getExportExcelBudgets().subscribe(
+    (response:any) => {
+      console.log(response);
+      this.spinner.hide();
+    },
+    error =>{
+      console.log(error);
+      this.spinner.hide();
+  });
+}
+
 CountDays(createdDay: string){
   let startDate = new Date(createdDay.split(' ')[0]).getTime();
   let EndDate = new Date().getTime();

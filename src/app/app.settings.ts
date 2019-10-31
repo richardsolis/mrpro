@@ -8,6 +8,7 @@ export class AppSettings {
   public static GET_ONE_DASHBOARD_PROVIDER = "crud/provider";
   public static POST_CREATE_DASHBOARD_PROVIDER = "crud/provider";
   public static PUT_CREATE_DASHBOARD_PROVIDER = "crud/provider";
+  public static GET_EXPORT_EXCEL_PROVIDER = "crud/export/provider";
   public static POST_STATUS_DASHBOARD_PROVIDER = "crud/setstatus/provider";
   public static POST_MASSIVE_DASHBOARD_PROVIDER = "crud/massive/provider";
   public static GET_DASHBOARD_COMMISSION = "crud/commission";
@@ -27,6 +28,7 @@ export class AppSettings {
   public static GET_DASHBOARD_BUDGETS = "crud/service";
   public static GET_ONE_DASHBOARD_BUDGET = "crud/service";
   public static DELETE_DASHBOARD_BUDGET = "crud/service";
+  public static GET_EXPORT_EXCEL_BUDGET = "crud/export/service";
   public static POST_DASHBOARD_SEND_EMAIL_BUDGET = "crud/email";
   public static GET_DASHBOARD_CATEGORIES = "crud/category";
   public static GET_ONE_DASHBOARD_CATEGORY = "crud/category";

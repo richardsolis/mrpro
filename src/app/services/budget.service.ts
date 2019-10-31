@@ -15,6 +15,11 @@ export class BudgetService {
     return this.http.get(AppSettings.BASE_PATH + AppSettings.GET_DASHBOARD_BUDGETS, header);
   }
 
+  getExportExcelBudgets() {
+    var header = this.generalS.getToken({}, "application/json");
+    return this.http.get(AppSettings.BASE_PATH + AppSettings.GET_EXPORT_EXCEL_BUDGET, header);
+  }
+
   getOneBudget(budgetID: string) {
     var header = this.generalS.getToken({}, "application/json");
     const url = `${AppSettings.BASE_PATH}${AppSettings.GET_ONE_DASHBOARD_BUDGET}/${budgetID}`;

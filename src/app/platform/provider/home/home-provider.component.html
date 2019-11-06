@@ -93,7 +93,7 @@
               <label for="formGroupExampleInput">
                 <b class="text-danger">*</b>Calificación (0 - 5): <b class="color-blue"> {{registerForm.get('score').value}} </b>
               </label>
-              <bar-rating name="rating" formControlName="score" [max]="5"></bar-rating>
+              <app-stars formControlName="score"></app-stars>
             </div>
             <div class="form-group">
               <label for="formGroupExampleInput2"><b class="text-danger">*</b>Comentario:</label>
@@ -101,7 +101,7 @@
             </div>
             <div class="form-group">
                 <label *ngIf="validFlag"><b class="text-danger">Favor de completar todos los campos.</b></label>
-                <button (click)="Rating()" class="btn bprimary">Finalizar</button>
+                <button class="btn bprimary">Finalizar</button>
             </div>
           </form>
     </modal-content>

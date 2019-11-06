@@ -41,6 +41,7 @@ import { SafeHtml } from '../pipes/safeHtmlPipe';
 import { ProfileClientComponent } from './components/profile-client/profile-client.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
 import { BarRatingModule } from 'ngx-bar-rating';
+import { StarsComponent } from './components/stars/stars.component';
 
 export function getAuthServiceConfigs() {
   let config = new AuthServiceConfig(
@@ -108,7 +109,8 @@ export function getAuthServiceConfigs() {
     ResetPasswordComponent,
     SafeHtml,
     ProfileClientComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    StarsComponent
   ]
 })
 export class PlatformModule { }

@@ -73,7 +73,7 @@ export class ProvidersComponent implements OnInit, OnDestroy {
     })
     this.getRequests();
     this.registerForm = this.formBuilder.group({
-      score:  ['0', Validators.required],
+      score:  [null, Validators.required],
       comment:  ['', Validators.required],
       user_provider_id: ['', Validators.required],
       budget_id: ['', Validators.required]

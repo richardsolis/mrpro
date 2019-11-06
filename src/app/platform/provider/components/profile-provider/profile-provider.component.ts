@@ -174,7 +174,7 @@ export class ProfileProviderComponent implements OnInit {
       });
     }
 
-    if(this.providerUser.a_police){
+    if(this.providerUser.a_police && this.providerUser.a_police != 'null'){
       this.userService.convertImage(this.providerUser.a_police)
       .subscribe((res: any)=>{
         this.base64Policiales = res.data;
@@ -183,7 +183,7 @@ export class ProfileProviderComponent implements OnInit {
       });
     }
 
-    if(this.providerUser.a_penal){
+    if(this.providerUser.a_penal && this.providerUser.a_penal != 'null'){
       this.userService.convertImage(this.providerUser.a_penal)
       .subscribe((res: any)=>{
         this.base64Penales = res.data;
@@ -192,7 +192,7 @@ export class ProfileProviderComponent implements OnInit {
       });
     }
 
-    if(this.providerUser.a_judicial){
+    if(this.providerUser.a_judicial && this.providerUser.a_judicial != 'null'){
       this.userService.convertImage(this.providerUser.a_judicial)
       .subscribe((res: any)=>{
         this.base64Judiciales = res.data;

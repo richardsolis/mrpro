@@ -275,9 +275,9 @@
           </div>
           <div class="form-group row">
             <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Antecedentes Policiales
-              <i *ngIf="providerUser.a_police" class="fa fa-check-circle-o text-success" aria-hidden="true"></i>
-              <i *ngIf="!providerUser.a_police" class="fa fa-times-circle-o text-danger" aria-hidden="true"></i>
-              <a *ngIf="providerUser.a_police" [href]="base64Policiales | safeHtml" class="donwload-style" download ="{{providerUser.a_police}}">
+              <i *ngIf="providerUser.a_police && providerUser.a_police != 'null'" class="fa fa-check-circle-o text-success" aria-hidden="true"></i>
+              <i *ngIf="!providerUser.a_police || providerUser.a_police == 'null'" class="fa fa-times-circle-o text-danger" aria-hidden="true"></i>
+              <a *ngIf="providerUser.a_police && providerUser.a_police !== 'null'" [href]="base64Policiales | safeHtml" class="donwload-style" download ="{{providerUser.a_police}}">
                 <p><b>Descargar</b></p>
               </a>
             </label>
@@ -287,9 +287,9 @@
           </div>
           <div class="form-group row">
             <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Antecedentes Penales
-              <i *ngIf="providerUser.a_penal" class="fa fa-check-circle-o text-success" aria-hidden="true"></i>
-              <i *ngIf="!providerUser.a_penal" class="fa fa-times-circle-o text-danger" aria-hidden="true"></i>
-              <a *ngIf="providerUser.a_penal" [href]="base64Penales | safeHtml" class="donwload-style" download ="{{providerUser.a_penal}}">
+              <i *ngIf="providerUser.a_penal && providerUser.a_penal != 'null'" class="fa fa-check-circle-o text-success" aria-hidden="true"></i>
+              <i *ngIf="!providerUser.a_penal || providerUser.a_penal == 'null'" class="fa fa-times-circle-o text-danger" aria-hidden="true"></i>
+              <a *ngIf="providerUser.a_penal && providerUser.a_penal != 'null'" [href]="base64Penales | safeHtml" class="donwload-style" download ="{{providerUser.a_penal}}">
                 <p><b>Descargar</b></p>
               </a>
             </label>
@@ -299,9 +299,9 @@
           </div>
           <div class="form-group row">
             <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Antecedentes Judiciales
-              <i *ngIf="providerUser.a_judicial" class="fa fa-check-circle-o text-success" aria-hidden="true"></i>
-              <i *ngIf="!providerUser.a_judicial" class="fa fa-times-circle-o text-danger" aria-hidden="true"></i>
-              <a *ngIf="providerUser.a_judicial" [href]="base64Judiciales | safeHtml" class="donwload-style" download ="{{providerUser.a_judicial}}">
+              <i *ngIf="providerUser.a_judicial && providerUser.a_judicial != 'null'" class="fa fa-check-circle-o text-success" aria-hidden="true"></i>
+              <i *ngIf="!providerUser.a_judicial || providerUser.a_judicial == 'null'" class="fa fa-times-circle-o text-danger" aria-hidden="true"></i>
+              <a *ngIf="providerUser.a_judicial && providerUser.a_judicial != 'null'" [href]="base64Judiciales | safeHtml" class="donwload-style" download ="{{providerUser.a_judicial}}">
                 <p><b>Descargar</b></p>
               </a>
             </label>

@@ -80,7 +80,10 @@ export class HomeComponent implements OnInit {
             this.router.navigate(['/reservado/6']); 
           }
         },
-        error => console.log(error)
+        error =>{
+          console.log(error);
+          this.spinner.hide();
+        }
       );
     }
   }

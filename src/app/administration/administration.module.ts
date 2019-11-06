@@ -22,7 +22,6 @@ import { UserService } from '../services/user.service';
 import { DataTablesModule } from 'angular-datatables';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { SafeHtml2 } from '../pipes/safeHtml2Pipe';
-import { BarRatingModule } from 'ngx-bar-rating';
 import { AdministratorComponent } from './components/administrator/administrator.component';
 
 @NgModule({
@@ -35,8 +34,7 @@ import { AdministratorComponent } from './components/administrator/administrator
     ModalModule,
     NgxSpinnerModule,
     DataTablesModule,
-    SlickCarouselModule,
-    BarRatingModule
+    SlickCarouselModule
   ],
   declarations: [ 
   	LoginComponent,  

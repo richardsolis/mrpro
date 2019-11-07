@@ -226,15 +226,13 @@ export class HomeProviderComponent implements OnInit, OnDestroy {
   }
 
   Rating(){
-    console.log(this.registerForm.get('score').errors);
-    console.log(this.registerForm.get('comment').errors);
     if (this.registerForm.invalid) {
       this.validFlag = true;
       return;
     }
     console.log(this.registerForm.value);
     this.validFlag = false;
-    /*this.spinner.show();
+    this.spinner.show();
     this.userService.scoreOfProvider(this.registerForm.value)
         .subscribe((res: any) => {
           console.log(res);
@@ -250,7 +248,7 @@ export class HomeProviderComponent implements OnInit, OnDestroy {
         }, (error: any) => {
           console.log(error);
           this.spinner.hide();
-        });*/
+        });
   }
 
 }

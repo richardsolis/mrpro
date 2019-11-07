@@ -269,7 +269,8 @@ export class ProfileProviderComponent implements OnInit {
 	  })
   }
 
-  public onSubmit() {
+  public onSubmit(ResultModal) {
+    this.message = '';
     // stop here if form is invalid
     if (this.registerForm.invalid) {
       this.submitted = true;
@@ -281,9 +282,13 @@ export class ProfileProviderComponent implements OnInit {
   	this.providerService.postUpdateProviders(this.registerForm.value)
   	.subscribe((response: any) => {
       console.log(response);
+      ResultModal.open();
+      this.message = "Perfil proveedor actualizado con éxito.";
       this.submitted = false;
   		this.spinner.hide();
   	}, (error: any) => {
+      ResultModal.open();
+      this.message = "Ocurrió un error en el proceso, intentelo nuevamente.";
       this.submitted = false;
       this.spinner.hide();
   		console.log(error);

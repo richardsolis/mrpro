@@ -64,6 +64,7 @@ export class ChatComponent implements OnInit {
         this.userService.getOneBudget(this.currentBudgetID)
           .subscribe((res: any)=>{
             console.log("budget info: ", res);
+            this.flagItem = (res.data.image_url.length>0)? false : true;
             this.hour = res.data.date_service.split(" ")[1];
             res.data.date_service = res.data.date_service.split(" ")[0];
             this.currentBudget = res.data;
@@ -280,6 +281,32 @@ export class ChatComponent implements OnInit {
     this.flagItem = (this.arrayImgs.length>0)? false : true;
 
     console.log(this.arrayImgs);
+  }
+
+  getActualDate(){
+    let tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate());
+    const day = ("0" + (tomorrow.getDate())).slice(-2);
+    const month = ("0" + (tomorrow.getMonth() + 1)).slice(-2);
+    const year = tomorrow.getFullYear();
+    return `${year}-${month}-${day}`;
+  }
+
+  validateDate(){
+    const tmp = this.currentBudget.date_service;
+    if(tmp){
+      const currentYear: any[] = tmp.split('-');
+      const today = new Date(this.getActualDate());
+      const anyDay = new Date(this.currentBudget.date_service);
+
+      if(tmp.split('-')[0].length > 4){
+        this.currentBudget.date_service = this.getActualDate();
+      }else if(today.getTime() > anyDay.getTime()){
+        this.currentBudget.date_service = this.getActualDate();
+      }
+    }else{
+      this.currentBudget.date_service = this.getActualDate();
+    }
   }
 
   convertImgToDataURL(imageURL: string){

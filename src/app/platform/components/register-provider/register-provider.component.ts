@@ -57,7 +57,7 @@ export class RegisterProviderComponent implements OnInit {
   ngOnInit() {
     const today = this.getActualDate();
     this.registerForm = this.formBuilder.group({
-      tipo: ['0', Validators.required],
+      tipo: ['1', Validators.required],
       ruc: ['', Validators.required],
       rSocial: ['', Validators.required],
       dfiscal:  ['', Validators.required],
@@ -87,6 +87,7 @@ export class RegisterProviderComponent implements OnInit {
       categories:  [[], Validators.required],
       districts:  [[]],
     });
+    this.tipo('Particular');
   }
 
   getActualDate(){

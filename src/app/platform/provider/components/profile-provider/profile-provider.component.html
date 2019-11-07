@@ -18,7 +18,7 @@
         </div>
       </div>
     </div>
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="col-lg-12">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit(ResultModal)" class="col-lg-12">
       <div class="row">
         <div class="col-lg-6">
           <div class="form-group row">
@@ -319,3 +319,15 @@
     </form>
   </div>
 </div>
+
+<modal #ResultModal>
+  <modal-content>
+    <div class="row text-center">
+    </div>
+    <div class="col-lg-12 col-md-12">
+      <div class="form-group row">
+        <label class="col-lg-12 col-md-12 badge badge-warning text-wrap"><b>{{ message }}</b></label>
+      </div>
+    </div>
+  </modal-content>
+</modal>

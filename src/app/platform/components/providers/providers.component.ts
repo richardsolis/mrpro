@@ -49,7 +49,8 @@ export class ProvidersComponent implements OnInit, OnDestroy {
     this.userS.getStatus()
       .subscribe((response: any) => {
         this.statusList = response.data.filter(state => { 
-                                                if(state.id !== 2 && state.id !== 3 && state.id !== 5)
+                                                if(state.id !== 2 && state.id !== 3 && 
+                                                   state.id !== 5 && state.id !== 1)
                                                   return state; 
                                               });
       }, (error: any) => {
@@ -68,7 +69,7 @@ export class ProvidersComponent implements OnInit, OnDestroy {
       if(res.status){
         this.estado = res.status;
       }else{
-        this.estado = "1";
+        this.estado = "4";
       }
     })
     this.getRequests();
@@ -148,7 +149,7 @@ export class ProvidersComponent implements OnInit, OnDestroy {
   }
 
   Rating(cmodal){
-    if (this.registerForm.invalid || this.registerForm.get('score').value === '0') {
+    if (this.registerForm.invalid) {
       this.validFlag = true;
       return;
     }

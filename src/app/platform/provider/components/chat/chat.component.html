@@ -19,7 +19,7 @@
         <p><b>Descripción: </b>{{ currentBudget.description }}</p>
       </div>
       <div class="form-inline">
-        <button type="button" class="btn btn-primary btn-sm" (click)="details(myImages, currentBudget.image_url)">
+        <button *ngIf="!flagItem" type="button" class="btn btn-primary btn-sm" (click)="details(myImages, currentBudget.image_url)">
           Ver imagenes adjuntas
         </button>
       </div>
@@ -30,7 +30,7 @@
         <tbody>
             <tr *ngIf="user.type == 'provider'">
               <td><label><b>Precio</b></label><input [(ngModel)]="currentBudget.price" value="currentBudget.price" class="form-control mr-sm-4" type="text" placeholder="S/."></td>
-              <td><label><b>Fecha</b></label><input [(ngModel)]="currentBudget.date_service" class="form-control mr-sm-4" type="date" placeholder="dd/mm/yyyy"></td>
+              <td><label><b>Fecha</b></label><input (blur)="validateDate()" [(ngModel)]="currentBudget.date_service" class="form-control mr-sm-4" type="date" placeholder="dd/mm/yyyy"></td>
               <td><label><b>Hora</b></label><input  [(ngModel)]="hour" class="form-control mr-sm-4" type="time" placeholder="hh:mm"></td>
               <td style="vertical-align: middle">
                   <button (click)="updateInfo()" class="btn btn-success" type="button">Enviar</button>
@@ -41,7 +41,7 @@
               <td><label><b>Fecha</b></label><label class="form-control mr-sm-4">{{currentBudget.date_service | date: 'dd/MM/yyyy'}}</label></td>
               <td><label><b>Hora</b></label><label class="form-control mr-sm-4">{{hour}}</label></td>
               <td style="vertical-align: middle">
-                  <button (click)="getInfo()" class="btn btn-warning" type="button">Actualizar</button>
+                  <!--<button (click)="getInfo()" class="btn btn-warning" type="button">Actualizar</button>-->
                   <button (click)="newBudget(myModal)" class="btn btn-success" type="button">Aceptar</button>
               </td>
             </tr>

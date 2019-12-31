@@ -1,0 +1,77 @@
+.chat-origin div {
+    width: 100%;
+    display: flex;
+
+}
+
+body {
+    overflow: hidden !important;
+}
+
+.chat-origin div p {
+    padding: 5px 10px;
+    background: #f6f6f6;
+    color: #607D8B;
+    margin-top: 8px;
+    border-radius: 5px;
+    max-width: 450px;
+}
+
+.chat-propio {
+    text-align: right;
+}
+
+.chat-propio div {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.chat-propio div p {
+    background: #56a6da;
+    color:white;
+    
+}
+
+.bg-light {
+    background-color: #ffbd00 !important;
+    box-shadow: rgba(41, 98, 182, 0.12) 0px 2px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    color: white;
+}
+
+.part-coti {
+    background-color: #f6f6f6;
+}
+
+.blue-btn {
+    border-radius: 9px !important;
+}
+
+.main-container {
+    margin-top: 0px;
+    margin-bottom: 0;
+}
+
+@media only screen and (max-width: 725px) { 
+    label.form-control.mr-sm-4 {
+        width: 140px;
+    }
+    
+    .table-bordered th, .table-bordered td {
+        display: flex;
+        width: 50%;
+        align-items: center;
+        justify-content: space-between;
+    }
+    
+    .table-bordered tr {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .app-mensajes {
+        height: 53vh;
+    }
+}

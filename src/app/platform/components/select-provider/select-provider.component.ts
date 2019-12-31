@@ -34,7 +34,16 @@ export class SelectProviderComponent implements OnInit {
   provedores = [];
   flagCatType: boolean = false;
   totalPrice: number = 0;
-  
+  dropdownSettings = {};
+  dropdownList = [];
+  selectedItems = [];
+  idsCategory = [];
+
+  dropdownSettings2 = {};
+  dropdownList2 = [];
+  selectedItems2 = [];
+  idsCategory2 = [];
+  selection:any;
   constructor(private router: Router, private spinner: NgxSpinnerService, private session: SessionService,
               private userS: UserService, private categoryS: CategoryService, private districtS: DistrictService,
               private providerS: ProviderService, private formBuilder: FormBuilder, private _route:ActivatedRoute) {
@@ -44,6 +53,11 @@ export class SelectProviderComponent implements OnInit {
       this.allcategories = response.data; 
       this.spinner.hide();
       this.categories = this.allcategories.filter(item => item.parent == 0);
+      console.log(this.categories)
+      for (let i = 0; i < this.categories.length; i++) {
+        this.dropdownList.push({"id":i , "valueId":this.categories[i].id ,"itemName":this.categories[i].name})
+      }
+      console.log(this.dropdownList)
       this.categoryChanged();
     });
     this.categoryS.guestGetPrices().subscribe((response: any) => {
@@ -52,6 +66,26 @@ export class SelectProviderComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.dropdownSettings = { 
+      singleSelection: true, 
+      text:"Seleccionar Categoria",
+      selectAllText:'Seleccionar todo',
+      unSelectAllText:'UnSelect All',
+      enableSearchFilter: true,
+      enableCheckAll:false,
+      classes:"myclass custom-class",
+      searchPlaceholderText: "Buscar..."
+    }; 
+    this.dropdownSettings2 = { 
+      singleSelection: true, 
+      text:"Seleccionar",
+      selectAllText:'Seleccionar todo',
+      unSelectAllText:'UnSelect All',
+      enableSearchFilter: true,
+      enableCheckAll:false,
+      classes:"myclass custom-class",
+      searchPlaceholderText: "Buscar..."
+    };  
     const today = this.getActualDate();
     let tmpCategory = '';
     this._route.params.subscribe(res => {
@@ -73,23 +107,75 @@ export class SelectProviderComponent implements OnInit {
     });
   }
 
+  onItemSelect(item:any){
+    this.selection = item;
+    console.log(item.valueId)
+    this.registerForm.patchValue({
+      category: item.valueId
+    });
+    console.log(this.registerForm)
+    this.categoryChanged();
+    this.selectedItems2 = [];
+  }
+  OnItemDeSelect(item:any){
+      console.log(item);
+  }
+  onSelectAll(items: any){
+  }
+  onDeSelectAll(items: any){
+      console.log(items);
+  }
+
+  onItemSelect2(item:any){
+    this.registerForm.patchValue({
+      subcategory: item.valueId
+    });
+    this.getPrice()
+    console.log(item)
+  }
+  OnItemDeSelect2(item:any){
+   
+    console.log(item);
+  }
+  onSelectAll2(items: any){
+  }
+  onDeSelectAll2(items: any){
+    console.log(items);
+  }
+
   buttonSelectType(type: string) {
     if(type === 'programmed' && this.registerForm.get('type').value !== 'programmed'){
+      
       this.flagCatType = false;
       this.categories = this.allcategories.filter(item => item.parent == 0);
+      console.log(this.categories)
+      this.dropdownList = [];
+      this.selectedItems = [];
+      for (let i = 0; i < this.categories.length; i++) {
+        this.dropdownList.push({"id":i , "valueId":this.categories[i].id ,"itemName":this.categories[i].name})
+      }
+
       this.registerForm.get('category').setValue('1');
       this.registerForm.get('type').setValue(type);
       this.categoryChanged();
       this.addControls();
       this.selectedProviders = [];
+      this.onItemSelect(this.selection)
     }else if(type === 'priced'){
       this.flagCatType = true;
       this.categories = this.allcategoriesP.filter(item => item.parent == 0);
+      console.log(this.categories)
+      this.selectedItems = [];
+      this.dropdownList = [];
+      for (let i = 0; i < this.categories.length; i++) {
+        this.dropdownList.push({"id":i , "valueId":this.categories[i].id ,"itemName":this.categories[i].name})
+      }
       this.registerForm.get('category').setValue('1');
       this.registerForm.get('type').setValue(type);
       this.categoryChanged();
       this.removeControls();
       this.selectedProviders = [];
+      this.onItemSelect(this.selection)
     }
   }
 
@@ -175,15 +261,22 @@ export class SelectProviderComponent implements OnInit {
   }
 
   getSubcategories() {
+    this.dropdownList2 = [];
     if(!this.flagCatType){
       this.subCategories = this.allcategories.filter(item => item.parent == this.registerForm.get('category').value);
     }else if(this.flagCatType){
       this.subCategories = this.allcategoriesP.filter(item => item.parent == this.registerForm.get('category').value);
     }
+    console.log(this.subCategories)
+    for (let i = 0; i < this.subCategories.length; i++) {
+      this.dropdownList2.push({"id":i , "valueId":this.subCategories[i].id ,"itemName":this.subCategories[i].name})
+    }
+    console.log(this.dropdownList2)
   }
 
   getPrice(){
     for (let i = 0; i < this.subCategories.length; i++) {
+      console.log(this.subCategories[i])
       if(this.registerForm.get('subcategory').value ==  this.subCategories[i].id){
         this.registerForm.get('price').setValue( this.subCategories[i].price);
         this.calculate();
@@ -198,6 +291,7 @@ export class SelectProviderComponent implements OnInit {
   }
 
   calculate(){
+    console.log("sdasd" ,this.registerForm.get('price').value, this.registerForm.get('quantity').value)
     if(this.registerForm.get('price').value && this.registerForm.get('quantity').value){
       let p = parseFloat(this.registerForm.get('price').value);
       let q =  parseInt(this.registerForm.get('quantity').value);

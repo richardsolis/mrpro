@@ -42,9 +42,9 @@
           <label class="col-lg-4 col-md-4 col-form-label">Sube tu foto:<b *ngIf="flagSize" class="text-danger">Maximo 2.5MB</b></label>
           <input (change)="selectFile($event)" class="col-lg-8 col-md-8 form-control" type="file" name="image" />
         </div>
-        <div class="form-group"><input [(ngModel)]="user.cpolicy" class="col-lg-12 col-md-12 check" type="checkbox" name="cpolicy" /> Acepto <strong class="color-blue"><b class="text-danger">*</b>Politica de privacidad</strong></div>
-        <div class="form-group"><input [(ngModel)]="user.cconditions" class=" col-lg-12 col-md-12 check" type="checkbox" name="cconditions" /> Acepto <strong class="color-blue"><b class="text-danger">*</b>Terminos y condiciones</strong></div>
-      </form>
+        <div class="form-group"><input [(ngModel)]="user.cpolicy" class="col-lg-12 col-md-12 check" type="checkbox" name="cpolicy" /> Acepto <strong class="color-blue"><b class="text-danger">*</b><a href="./assets/docs/MRPRO-Politica-de-privacidad.pdf" target="_blank">Politica de privacidad</a></strong></div>
+        <div class="form-group"><input [(ngModel)]="user.cconditions" class=" col-lg-12 col-md-12 check" type="checkbox" name="cconditions" /> Acepto <strong class="color-blue"><b class="text-danger">*</b><a href="./assets/docs/MRPRO-Terminos-y-Condiciones-Clientes.pdf" target="_blank">Terminos y condiciones</a></strong></div>
+      </form> 
       <div class="divider"></div>
       <div class="form-group row">
         <div class="col">

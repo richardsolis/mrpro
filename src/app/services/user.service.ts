@@ -45,6 +45,7 @@ export class UserService {
     const obj = {
       doc_number: params.dni,
       name: params.nombre,
+      certificates: JSON.stringify(params.certificates),
       lastname: params.apellidos,
       email: (params.correo == undefined)? params.pcorreo : params.correo,
       password: params.contrasena,
@@ -52,7 +53,7 @@ export class UserService {
       phone: params.ptelefono,
       website: params.psWeb,
       image: params.foto,
-      address: params.direccion,
+      address: (params.direccion == undefined)? "" : params.direccion,
       //emergency: '1',
       ruc: (params.ruc == undefined)? "" : params.ruc,
       experience: params.experiencia,
@@ -66,14 +67,15 @@ export class UserService {
       a_police: (params.policiales == undefined)? "" : params.policiales,
       a_penal: (params.penales == undefined)? "" : params.penales,
       a_judicial: (params.judiciales == undefined)? "" : params.judiciales,
-      bank_id: params.eBancaria,
+      bank_id: (params.eBancaria == undefined)? "" : params.eBancaria,
       bank_c: params.nCuenta,
       bank_ci: params.interbancaria,
       categories: JSON.stringify(params.categories),
       districts: JSON.stringify(params.districts),
-      company_phone: params.telefono,
-      company_email: params.correo,
-      status: '0'
+      company_phone: (params.telefono == undefined)? "" : params.telefono,
+      company_email: (params.correo == undefined)? "" : params.correo,
+      status: '0',
+     
     };
     console.log(obj);
     const body = new HttpParams({

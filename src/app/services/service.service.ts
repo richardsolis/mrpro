@@ -104,5 +104,68 @@ export class ServiceService {
     return this.http.put(url, body, header);
   }
 
+  getAllCertificate(){
+    
+    var header = this.generalS.getToken({}, "application/json");
+
+    return this.http.get(AppSettings.BASE_PATH + AppSettings.CERTIFICATE, header);
+  }
+
+  getAllCertificateAll(){
+    
+    var header = this.generalS.getToken({}, "application/json");
+
+    return this.http.get(AppSettings.BASE_PATH + AppSettings.CERTIFICATEGET, header);
+  }
+
+  setCardCredit(params) {
+    const obj = {
+      id: params,
+    };
+    console.log(obj);
+    const body = new HttpParams({
+      fromObject: obj
+    });
+    
+    var header = this.generalS.getToken({}, "application/json");
+
+    return this.http.post(AppSettings.BASE_PATH + AppSettings.CARDSET, body, header);
+  }
+
+  changeCerti(params){
+    const obj = {
+      company: params.company,
+      name: params.name,
+    };
+    console.log(obj);
+    const body = new HttpParams({
+      fromObject: obj
+    });
+    var header = this.generalS.getToken({}, "application/x-www-form-urlencoded");
+    const url = `${AppSettings.BASE_PATH}${AppSettings.CERTIFICATE}/${params.id}`;
+    return this.http.put(url, body, header);
+  }
+
+  DeleteCerti(pricedID: string) {
+    var header = this.generalS.getToken({}, "application/json");
+    const url = `${AppSettings.BASE_PATH}${AppSettings.CERTIFICATE}/${pricedID}`;
+    return this.http.delete(url, header);
+  }
+
+  sendCerti(params){
+    const obj = {
+      company: params.company,
+      name: params.name,
+    };
+    console.log(obj);
+    const body = new HttpParams({
+      fromObject: obj
+    });
+    
+    var header = this.generalS.getToken({});
+
+    return this.http.post(AppSettings.BASE_PATH + AppSettings.CERTIFICATE, body, header);
+  }
+
 
 }

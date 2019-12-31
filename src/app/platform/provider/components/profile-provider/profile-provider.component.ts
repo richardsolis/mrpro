@@ -24,13 +24,16 @@ export class ProfileProviderComponent implements OnInit {
   pdfJudiciales:any;
   districts: any[];
   categories: any[];
-
   base64Policiales: string;
   base64Penales: string;
   base64Judiciales: string;
 
   providerUser: any = {};
 
+  dropdownList = [];
+  selectedItems = [];
+  dropdownSettings = {};
+  idsCategory = [];
   constructor(private formBuilder: FormBuilder,	private spinner: NgxSpinnerService,
               private userService: UserService, private districtService: DistrictService,
               private categoryService: CategoryService, private providerService: ProviderService) {
@@ -39,8 +42,10 @@ export class ProfileProviderComponent implements OnInit {
     this.userService.getCurrentUser()
         .subscribe((res: any) => {
           this.providerUser = {...res.data.provider};
-          console.log(this.providerUser);
           this.tipo(this.providerUser.type_provider);
+          for (let i = 0; i < this.providerUser.categories.length; i++) {
+            this.selectedItems.push({"id":i , "valueId":this.providerUser.categories[i].id ,"itemName":this.providerUser.categories[i].category_service.name},)
+          }
           this.spinner.hide();
         }, (error: any) => {
           console.log(error);
@@ -58,6 +63,11 @@ export class ProfileProviderComponent implements OnInit {
         this.categories = response.data.filter(item => item.parent == 0);
         this.categoryService.guestGetPrices().subscribe((res: any) => {
           this.categories.push(...res.data.filter(item => item.parent == 0));
+          console.log(this.categories)
+          for (let i = 0; i < this.categories.length; i++) {
+            this.dropdownList.push({"id":i,"valueId":this.categories[i].id,"itemName":this.categories[i].name},)
+          }
+          console.log(this.dropdownList)
         });
       }, (error: any) => {
         console.log(error);
@@ -65,6 +75,15 @@ export class ProfileProviderComponent implements OnInit {
    }
 
    ngOnInit() {
+        this.dropdownSettings = { 
+              singleSelection: false, 
+              text:"Seleccionar Categoria",
+              selectAllText:'Seleccionar todo',
+              unSelectAllText:'UnSelect All',
+              enableSearchFilter: true,
+              enableCheckAll:false,
+              classes:"myclass custom-class"
+            };            
     this.registerForm = this.formBuilder.group({
       id: [''],
       tipo: ['0', Validators.required],
@@ -94,11 +113,29 @@ export class ProfileProviderComponent implements OnInit {
       eBancaria:  [''],
       nCuenta:  [''],
       interbancaria:  [''],
-      categories:  [[], Validators.required],
+      categories:  [[]],
       districts:  [[]]
     });
   }
 
+  onItemSelect(item:any){
+    this.tipo(this.providerUser.type_provider)
+    console.log(item);
+    console.log(this.selectedItems);
+  }
+  OnItemDeSelect(item:any){
+    this.tipo(this.providerUser.type_provider)
+      console.log(item);
+      console.log(this.selectedItems);
+  }
+  onSelectAll(items: any){
+    this.tipo(this.providerUser.type_provider)
+      console.log(this.providerUser.categories.map(item => item.category_service_id),"asdasd");
+  }
+  onDeSelectAll(items: any){
+    this.tipo(this.providerUser.type_provider)
+      console.log(items);
+  }
   removeControls(){
     this.registerForm.removeControl('ruc');
     this.registerForm.removeControl('rSocial');
@@ -112,6 +149,11 @@ export class ProfileProviderComponent implements OnInit {
   }
 
   tipo(option:string){
+    this.idsCategory = []
+    for (let i = 0; i < this.selectedItems.length; i++) {
+      this.idsCategory.push(this.selectedItems[i].valueId)
+    }
+    
     if(option == '0'){
       this.tipoForm = true;
       this.registerForm.setValue({
@@ -139,7 +181,7 @@ export class ProfileProviderComponent implements OnInit {
         judiciales: this.providerUser.a_judicial,
         experiencia: (this.providerUser.experience)? this.providerUser.experience.split(" ")[0] : "",
         districts: this.providerUser.districts.map(item => item.district_id),
-        categories: this.providerUser.categories.map(item => item.category_service_id),
+        categories: this.idsCategory,
         contrasena: '',
         contrasena2: '',
         eBancaria: this.providerUser.bank_id,
@@ -165,13 +207,14 @@ export class ProfileProviderComponent implements OnInit {
         judiciales: this.providerUser.a_judicial,
         experiencia: (this.providerUser.experience)? this.providerUser.experience.split(" ")[0] : "",
         districts: this.providerUser.districts.map(item => item.district_id),
-        categories: this.providerUser.categories.map(item => item.category_service_id),
+        categories: this.idsCategory,
         contrasena: '',
         contrasena2: '',
         eBancaria: this.providerUser.bank_id,
         nCuenta: this.providerUser.bank_c,
         interbancaria: this.providerUser.bank_ci
       });
+      console.log(this.registerForm)
     }
 
     if(this.providerUser.a_police && this.providerUser.a_police != 'null'){

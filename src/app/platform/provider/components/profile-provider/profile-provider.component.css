@@ -1,0 +1,9 @@
+.box-card-credit {
+    width: 100%;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    padding: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

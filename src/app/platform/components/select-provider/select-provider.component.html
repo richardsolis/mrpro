@@ -49,25 +49,42 @@
     </div>
       <div class="form-row" style="justify-content: center;">
         <div class="form-group fix-fg col-lg-2 col-md-3 col-ms-12">
-          <label for="inputEmail4">Categoria:</label>
+          <!-- <label for="inputEmail4">Categoria:</label>
           <select (change)="categoryChanged()" class="form-control color-blue" formControlName="category" name="category">
             <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
-          </select>
+          </select> -->
+          <angular2-multiselect [data]="dropdownList"
+                [settings]="dropdownSettings" 
+                (onSelect)="onItemSelect($event)" 
+                (onDeSelect)="OnItemDeSelect($event)"
+                (onSelectAll)="onSelectAll($event)"
+                [ngModel]="selectedItems"
+                (onDeSelectAll)="onDeSelectAll($event)"
+                [ngModelOptions]="{standalone: true}">
+              </angular2-multiselect> 
         </div>
         <div class="form-group fix-fg col-lg-3 col-md-4 col-ms-12">
-          <label for="inputPassword4">Sub Categoria:</label>
+          <!-- <label for="inputPassword4">Sub Categoria:</label>
           <select class="form-control color-blue" formControlName="subcategory" name="subcategory" *ngIf="this.registerForm.get('type').value == 'programmed'">
             <option value="">Seleccionar</option>
             <option *ngFor="let subcategory of subCategories" [value]="subcategory.id">{{ subcategory.name }}</option>
-          </select>
-          <select (change)="getPrice()" class="form-control color-blue" formControlName="subcategory" name="subcategory" *ngIf="this.registerForm.get('type').value == 'priced'">
+          </select> -->
+          <angular2-multiselect [data]="dropdownList2"
+          [settings]="dropdownSettings2" 
+          (onSelect)="onItemSelect2($event)" 
+          (onDeSelect)="OnItemDeSelect2($event)"
+          (onSelectAll)="onSelectAll2($event)"
+          [ngModel]="selectedItems2"
+          (onDeSelectAll)="onDeSelectAll2($event)"
+          [ngModelOptions]="{standalone: true}">
+        </angular2-multiselect> 
+          <!-- <select (change)="getPrice()" class="form-control color-blue" formControlName="subcategory" name="subcategory" *ngIf="this.registerForm.get('type').value == 'priced'">
               <option value="">Seleccionar</option>
               <option *ngFor="let subcategory of subCategories" [value]="subcategory.id">{{ subcategory.name }}</option>
-            </select>
+            </select> -->
         </div>
         <div class="form-group fix-fg col-lg-1 col-md-2 col-ms-12">
-          <label style="height: 20px;"></label>
-          <button type="submit" class="btn bprimary">Solicitar</button>
+          <button type="submit" class="btn bprimary" style="margin-top: 5px !important;">Solicitar</button>
         </div>
       </div>
   </form>

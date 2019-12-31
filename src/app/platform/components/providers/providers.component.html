@@ -7,8 +7,7 @@
           <option *ngFor="let status of statusList" [value]="status.id">{{ status.name }}</option>
       </select>
     </div>
-    <section style="margin-top: 15px;margin-bottom: 15px;">
-      <!--<div class="box-mg-nano">Se han solicitado {{ resultFilter.length }} servicio{{ resultFilter.length == 1 ? "" : "s" }}</div>-->
+    <!-- <section style="margin-top: 15px;margin-bottom: 15px;">
       <div class="content-lista-reservados" style="display: flex;flex-direction: column-reverse;background-color: white">
         <div class="row">
           <div class="col-lg-12 col-md-12 col-sm-12 table-responsive">
@@ -63,7 +62,45 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
+    <!-- <th scope="col"># ID</th>
+                  <th scope="col">Categoria</th>
+                  <th scope="col">Subcategoria</th>
+                  <th scope="col">Dirección</th>
+                  <th scope="col">Fec.Pedido</th>
+                  <th scope="col">Metodo Pago</th>
+                  <th scope="col">Proovedor</th>
+                  <th scope="col">Acciones</th> -->
+    <div class="container-cards">
+      <div class="cards-unique" *ngFor="let grup of grupProvider">
+        <p style="margin-bottom: 10px;font-weight: 400;color: #000000;padding: 10px;background: rgb(255, 193, 8);border-radius: 9px;">Fec.Pedido: {{grup.data[0].created_at | date: 'dd/MM/yyyy'}} </p>
+        <div class="information">
+          <div class="row-categori">
+            <p><b>Categoria:</b> <br> {{ grup.data[0].category_service.name }}</p>
+            <p style="text-align: right;"><b>Subcategoria:</b> <br> {{ grup.data[0].parent_category.name }}</p>
+          </div>
+        </div>
+        <div class="provedores-list">
+          <div class="row-provedor" *ngFor="let row_provedor of grup.data">
+            <p style="
+            display: flex;
+            align-items: center;
+            font-size: 12px;
+        "><span style="font-size: 12px;margin-right: 7px;">{{ row_provedor.code }}</span> {{ row_provedor.user_provider.user.name }} 
+              {{ row_provedor.user_provider.user.lastname }}
+            </p>
+            <div class="row-buttons" [ngSwitch]="row_provedor.status_service_id">
+                <button *ngSwitchCase="'1'" (click)="confirm(myFile,row_provedor.id)" class="btn btn-danger">Cancelar</button>
+                <button *ngSwitchCase="'4'" (click)="goChat(row_provedor.firebase_id, row_provedor.id)" type="button" class="btn btn-warning">Chat</button>
+                <button *ngSwitchCase="'4'" (click)="confirm(myFile,row_provedor.id, row_provedor.accepted, row_provedor.date_service)" [hidden]="verifyTypePay(row_provedor.card_bank_id)" 
+                  class="btn btn-danger">Cancelar</button>
+                <button *ngSwitchCase="'6'" (click)="closeService(myModal,row_provedor.user_provider_id,row_provedor.id)" 
+                  type="button" class="btn btn-success" [hidden]="checkout(row_provedor.client_score)">Valorar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 

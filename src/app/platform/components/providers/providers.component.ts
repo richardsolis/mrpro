@@ -38,6 +38,13 @@ export class ProvidersComponent implements OnInit, OnDestroy {
 
   flagPenalty: boolean = false;
   messagePenalty: string = "";
+  uniqueList = [];
+  grupProvider = [
+    // {
+    //   name:"",
+    //   data:[]
+    // }
+  ]
 
   @ViewChild(DataTableDirective) dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
@@ -85,27 +92,27 @@ export class ProvidersComponent implements OnInit, OnDestroy {
     this.dtTrigger.unsubscribe();
   }
 
-  filterInit(){
-      this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-        dtInstance.columns().every(function () {
-          const that = this;
-          $('input').val('');
-          $('input', this.footer()).on('keyup change', function () {
-            if (that.search() !== this['value']) {
-              that
-                .search(this['value'])
-                .draw();
-            }
-          });
-        });
-      });
-  }
+  // filterInit(){
+  //     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+  //       dtInstance.columns().every(function () {
+  //         const that = this;
+  //         $('input').val('');
+  //         $('input', this.footer()).on('keyup change', function () {
+  //           if (that.search() !== this['value']) {
+  //             that
+  //               .search(this['value'])
+  //               .draw();
+  //           }
+  //         });
+  //       });
+  //     });
+  // }
 
   rerender(){
-    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-      dtInstance.destroy();
+    // this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+    //   dtInstance.destroy();
       this.getRequests();
-    });
+    // });
   }
 
   getRequests(){
@@ -116,8 +123,24 @@ export class ProvidersComponent implements OnInit, OnDestroy {
         this.providers = response;
         this.resultFilter.push(...this.providers.data);
         this.dtTrigger.next();
-        console.log(this.resultFilter);
-        this.filterInit();
+        this.uniqueList = [];
+        this.grupProvider = [];
+        for (let i = 0; i < this.resultFilter.length; i++) {
+            if (this.uniqueList.indexOf(this.resultFilter[i].unique) == -1) {
+              this.uniqueList.push(this.resultFilter[i].unique);
+              this.grupProvider.push({name:this.resultFilter[i].unique, data:[]})
+            }
+        }
+        for (let i = 0; i < this.resultFilter.length; i++) {
+          for (let e = 0; e < this.grupProvider.length; e++) {
+            if (this.grupProvider[e].name == this.resultFilter[i].unique) {
+                this.grupProvider[e].data.push(this.resultFilter[i])
+            }
+          }
+        }
+        console.log(this.uniqueList)
+        console.log(this.grupProvider)
+        // this.filterInit();
         this.spinner.hide();
       },
       error => console.log(error)

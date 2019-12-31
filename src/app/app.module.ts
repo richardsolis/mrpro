@@ -14,6 +14,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
 import { SlickCarouselModule } from "ngx-slick-carousel";
 
+import { NO_ERRORS_SCHEMA } from "@angular/core"; 
 // ********************** angular-modal-gallery *****************************
 //import 'hammerjs'; // Mandatory for angular-modal-gallery 3.x.x or greater (`npm i --save hammerjs`)
 //import 'mousetrap'; // Mandatory for angular-modal-gallery 3.x.x or greater (`npm i --save mousetrap`)
@@ -33,10 +34,11 @@ import { SlickCarouselModule } from "ngx-slick-carousel";
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    SlickCarouselModule
+    SlickCarouselModule,
     //ModalGalleryModule.forRoot() // <-------------------------------------------- angular-modal-gallery module import
   ],
   providers: [],
+  schemas:[NO_ERRORS_SCHEMA],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

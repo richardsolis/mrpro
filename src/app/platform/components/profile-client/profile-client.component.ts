@@ -4,6 +4,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { UserService } from '../../../services/user.service';
 import { SessionService } from '../../../services/session.service';
 import { ClientService } from '../../../services/client.service';
+import { ServiceService } from '../../../services/service.service';
 
 @Component({
   selector: 'app-profile-client',
@@ -17,18 +18,38 @@ export class ProfileClientComponent implements OnInit {
   message = '';
   imageFoto:any;
   flagRes: boolean = false;
-
+  listCard = [];
   client: any = {};
   flagPsw: boolean = false;
+  pago = false;
+  addMetod = false;
+  cardCreit = {
+    number: "",
+    date: "",
+    cvv: ""
+  };
+  dFlag: boolean = false;
+  cvvFlag: boolean = false;
+  nFlag: boolean = false;
+
   
-  constructor(private formBuilder: FormBuilder,	private spinner: NgxSpinnerService,
+  constructor(public ServiceService:ServiceService ,private formBuilder: FormBuilder,	private spinner: NgxSpinnerService,
               private userService: UserService, private session: SessionService,
               private clientService: ClientService) { }
 
   ngOnInit() {
     this.initClient();
+    this.allCard();
+  }
+
+  addMetodButon() {
+    this.addMetod = true;
   }
   
+  editPago(){
+    this.pago = true;
+  }
+
   initClient(){
     console.log(this.session.getObject('user'));
     this.client = this.session.getObject('user');
@@ -42,6 +63,73 @@ export class ProfileClientComponent implements OnInit {
       image: [this.client.image],
       doc_number: [this.client.doc_number, Validators.required],
       social: [this.client.social]
+    });
+  }
+
+  setCardCredite(id){
+    console.log(id)
+    this.ServiceService.setCardCredit(id).subscribe((response: any) => {
+      console.log(response);
+      this.listCard = [];
+      this.allCard();
+    });
+    
+  }
+
+  allCard() {
+    this.userService.getCardBank().subscribe((response: any) => {
+      this.listCard = response.data;
+      console.log(this.listCard);
+    });
+  }
+
+  dateExpiration(reg){
+    const regExp    = new RegExp(/^\d{1,2}\/\d{1,2}$/);
+    return regExp.test( reg );
+  }
+
+  deleteCard(cardID: string){
+    this.userService.deleteCardBank(cardID).subscribe((response: any) => {
+      console.log(response);
+      this.listCard = [];
+      this.allCard();
+    });
+}
+
+cancelSend() {
+  this.pago = false;
+}
+  saveCard() {
+    if(this.cardCreit.number.length != 16){
+      this.nFlag = true;
+      return;
+    }else{
+      this.nFlag = false;
+    }
+
+    if(!this.dateExpiration(this.cardCreit.date)){
+      this.dFlag = true;
+      return;
+    }else{
+      this.dFlag = false;
+    }
+
+    if(this.cardCreit.cvv.length != 3){
+      this.cvvFlag = true;
+      return;
+    }else{
+      this.cvvFlag = false;
+    }
+
+    this.userService.createCardBank(this.cardCreit).subscribe((response: any) => {
+      console.log(response);
+      this.allCard();
+      this.addMetod = false;
+      this.cardCreit = {
+        number: "",
+        date: "",
+        cvv: ""
+      };
     });
   }
 

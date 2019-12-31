@@ -22,6 +22,11 @@
             <i class="fa fa-file-excel-o" aria-hidden="true"></i>
           </a>
         </li>
+        <li class="nav-item">
+            <a class="btn btn-secondary" (click)="certificadoPopUp()" >Certificado
+              <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+            </a>
+          </li>
       </ul>
     </nav>
   </div>
@@ -483,3 +488,42 @@
     </div>
   </modal-content>
 </modal>
+
+<div class="modal-certificate" *ngIf="popUpCertificate">
+  <div class="box-white">
+    <div style="display: flex;justify-content: space-between;">
+        <h2>Certificados</h2>
+        <button class="btn btn-secondary" style="background: #4caf50;" (click)="createCerti()">Crea Certificado</button>
+    </div>
+    <div class="box-list-certificates">
+      <ng-container *ngIf="!editC">
+        <div class="row-certificates" *ngFor="let certi of certificatesAll" >
+          <div class="text">
+              <p>Compañia: <b>{{ certi.company }}</b></p>
+              <p>Nombre: <b>{{ certi.name }}</b></p>
+          </div>
+          <div class="row-buttons">
+            <button class="btn btn-secondary" style="background: #4caf50;" (click)="editCerti(certi)"><i class="fa fa-edit"></i></button>
+            <button class="btn btn-secondary" style="background: #f44336;" (click)="deleteCerti(certi.id)"><i class="fa fa-trash" ></i></button>
+          </div>
+        </div>
+      </ng-container>
+      
+      <div class="content-edit" *ngIf="editC">
+        <div class="row-edit" style="display: flex;justify-content: space-between;margin-bottom: 13px;">
+          <p>Compañia:</p>
+          <input type="text" style="width: 76%;padding: 0px 8px;" [(ngModel)]="campania">
+        </div>
+        <div class="row-edit" style="display: flex;justify-content: space-between;">
+          <p>Nombre:</p>
+          <input type="text" style="width: 76%;padding: 0px 8px;" [(ngModel)]="nombre">
+        </div>
+        <div style="width: 250px;margin: auto;display: flex;justify-content: space-around;margin-top: 20px;">
+            <button class="btn btn-secondary" style="background: #4caf50;" (click)="setCerti()" *ngIf="!createCertiBtn">Guardar</button>
+            <button class="btn btn-secondary" style="background: #4caf50;" (click)="CreateSetCerti()" *ngIf="createCertiBtn">Crear</button>
+            <button class="btn btn-secondary" style="background: #f44336;" (click)="cancelCerti()">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

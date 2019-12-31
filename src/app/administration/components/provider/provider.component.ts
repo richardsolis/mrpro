@@ -8,6 +8,7 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { DistrictService } from '../../../services/district.service';
 import { CategoryService } from '../../../services/category.service';
 import { UserService } from '../../../services/user.service';
+import { ServiceService } from '../../../services/service.service';
 import * as XLSX from 'xlsx';
 
 @Component({
@@ -47,6 +48,10 @@ export class ProviderComponent implements OnInit {
   providerImporList: any[] = [];
   flagImport: boolean = false;
   messageImport: string = "";
+  popUpCertificate = false;
+  certificatesAll = [];
+  editC = false;
+  idCerti:number;
 
   @ViewChild(DataTableDirective) dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
@@ -58,7 +63,10 @@ export class ProviderComponent implements OnInit {
     status: ""
   };
   
-  constructor(private formBuilder: FormBuilder, private spinner: NgxSpinnerService, private providerService: ProviderService,
+  campania = "";
+  nombre = "";
+  createCertiBtn = false;
+  constructor(public ServiceService: ServiceService,private formBuilder: FormBuilder, private spinner: NgxSpinnerService, private providerService: ProviderService,
               private districtService: DistrictService, private categoryService: CategoryService, private userService: UserService) { 
     this.districtService.guestGetDistricts()
       .subscribe((response: any) => {
@@ -76,6 +84,60 @@ export class ProviderComponent implements OnInit {
       }, (error: any) => {
         console.log(error);
       });
+  }
+
+  certificadoPopUp(){
+    this.popUpCertificate = true;
+    this.ServiceService.getAllCertificate().subscribe((response:any) => {
+      this.certificatesAll = response.data
+      console.log(this.certificatesAll,"hola")
+    })
+  }
+
+  editCerti(certi){
+    this.campania = certi.company;
+    this.nombre = certi.name; 
+    this.idCerti = certi.id;
+    this.editC = true;
+  }
+
+  cancelCerti(){
+    this.editC = false;
+  }
+
+  setCerti(){
+    this.ServiceService.changeCerti({company: this.campania,name: this.nombre, id: this.idCerti}).subscribe(response => {
+      this.ServiceService.getAllCertificate().subscribe((response:any) => {
+        this.certificatesAll = response.data
+        this.editC = false;
+      })
+    })
+  }
+
+  createCerti(){
+    this.createCertiBtn = true;
+    this.editC = true;
+    this.campania = "";
+    this.nombre = ""; 
+    // this.idCerti = certi.id;
+  }
+
+  CreateSetCerti(){
+    this.ServiceService.sendCerti({company: this.campania,name: this.nombre}).subscribe(response => {
+      this.ServiceService.getAllCertificate().subscribe((response:any) => {
+        this.certificatesAll = response.data
+        this.editC = false;
+      })
+    })
+  }
+
+  deleteCerti(id){
+    this.ServiceService.DeleteCerti(id).subscribe(response => {
+      console.log(response)
+      this.ServiceService.getAllCertificate().subscribe((response:any) => {
+        this.certificatesAll = response.data
+      })
+    })
   }
 
   ngOnInit() {

@@ -68,7 +68,9 @@ export class AppSettings {
   public static DELETE_CARD_BANK = "card/delete";
   public static LIST_ALL_CARD = "card/get";
   public static CONVERT_IMG = "guest/convert/image";
-
+  public static CERTIFICATE = "crud/certificate";
+  public static CERTIFICATEGET = "guest/certificates";
+  public static CARDSET = "card/set/default";
   public static LANG_SPANISH = {
                 processing:     "Procesando...",
                 lengthMenu:     "Mostrar _MENU_ registros",

@@ -34,13 +34,6 @@
             </div>
           </div>
           <div class="form-group row">
-            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Foto:<b *ngIf="flagImg"
-                class="text-danger">Maximo 2.5MB</b></label>
-            <div class="col-lg-8 col-md-6">
-              <input (change)="selectFile($event)" type="file" name="foto">
-            </div>
-          </div>
-          <div class="form-group row">
             <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">DNI/Cédula de Identidad:</label>
             <div class="col-lg-8 col-md-6">
               <input type="text" (keypress)="onlydigit($event)" formControlName="dni" class="form-control" id="dni"
@@ -80,23 +73,6 @@
             </div>
           </div>
           <div class="form-group row">
-            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Dirección:</label>
-            <div class="col-lg-8 col-md-6">
-              <input type="text" formControlName="direccion" class="form-control" id="direccion"
-                placeholder="Ingrese Dirección">
-              <div *ngIf="submitted && registerForm.controls.direccion.errors?.required">
-                <p class="text-danger"><strong>Dirección requerido.</strong></p>
-              </div>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">SitioWeb/FanPage</label>
-            <div class="col-lg-8 col-md-6">
-              <input type="text" formControlName="psWeb" class="form-control" id="psWeb"
-                placeholder="Ingrese SitioWeb/FanPage">
-            </div>
-          </div>
-          <div class="form-group row">
             <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Inicio de Experiencia:</label>
             <div class="col-lg-8 col-md-6">
               <input type="date" formControlName="experiencia" class="form-control" name="date" />
@@ -112,6 +88,26 @@
               </div>
             </div>
           </div>
+          <div class="form-group row">
+              <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Dirección:</label>
+              <div class="col-lg-8 col-md-6">
+                <input type="text" formControlName="direccion" class="form-control" id="direccion"
+                  placeholder="Ingrese Dirección">
+                <div *ngIf="submitted && registerForm.controls.direccion.errors?.required">
+                  <p class="text-danger"><strong>Dirección requerido.</strong></p>
+                </div>
+              </div>
+            </div>
+          <!-- <div class="form-group row">
+              <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Certificados: </label>
+              <div class="col-lg-8 col-md-6">
+                <input type="text" formControlName="certificates" class="form-control" id="certificates"
+                  placeholder="Ingrese cartificado">
+                <div *ngIf="submitted && registerForm.controls.certificates.errors?.required">
+                  <p class="text-danger"><strong>Certificados requerido.</strong></p>
+                </div>
+              </div>
+            </div> -->
           <div class="form-group row">
             <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Contraseña:</label>
             <div class="col-lg-8 col-md-6">
@@ -147,7 +143,7 @@
               </select>
             </div>
           </div>-->
-          <div class="form-group row">
+          <!-- <div class="form-group row">
             <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Categoría(s):
               <p *ngIf="submitted && registerForm.controls.categories.errors?.required" class="text-danger">
                 <strong>Seleccione minimo 1</strong>
@@ -158,42 +154,35 @@
                 <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
               </select>
             </div>
-          </div>
+          </div> -->
           <div class="form-group row">
-            <label for="inputEmail3" class="col-lg-8 col-md-12 col-form-label text-danger"><strong>¿En que banco depositamos
-                sus ingresos?</strong></label>
-            <div class="col-lg-4 col-md-12">
+            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Categoría(s):</label>
+            <div class="col-lg-8 col-md-6">
+              <angular2-multiselect [data]="dropdownList"
+                [settings]="dropdownSettings" 
+                (onSelect)="onItemSelect($event)" 
+                (onDeSelect)="OnItemDeSelect($event)"
+                (onSelectAll)="onSelectAll($event)"
+                [ngModel]="selectedItems"
+                (onDeSelectAll)="onDeSelectAll($event)"
+                [ngModelOptions]="{standalone: true}">
+              </angular2-multiselect> 
             </div>
           </div>
           <div class="form-group row">
-            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Entidad Bancaria:</label>
-            <div class="col-lg-8 col-md-6">
-              <select formControlName="eBancaria" class="form-control" id="eBancaria">
-                <option value="">Seleccionar</option>
-                <option value="1">BCP</option>
-                <option value="2">Interbank</option>
-                <option value="3">BBVA</option>
-                <option value="4">Scotiabank</option>
-              </select>
-              <div *ngIf="submitted && registerForm.controls.eBancaria.errors?.required">
-                <p class="text-danger"><strong>Banco Requerido.</strong></p>
+              <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Certificado (s):</label>
+              <div class="col-lg-8 col-md-6">
+                <angular2-multiselect [data]="dropdownList"
+                  [settings]="dropdownSettings" 
+                  (onSelect)="onItemSelect($event)" 
+                  (onDeSelect)="OnItemDeSelect($event)"
+                  (onSelectAll)="onSelectAll($event)"
+                  [ngModel]="selectedItems"
+                  (onDeSelectAll)="onDeSelectAll($event)"
+                  [ngModelOptions]="{standalone: true}">
+                </angular2-multiselect> 
               </div>
             </div>
-          </div>
-          <div class="form-group row">
-            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Número de Cuenta Soles:</label>
-            <div class="col-lg-8 col-md-6">
-              <input type="text" (keypress)="onlydigit($event)" formControlName="nCuenta" class="form-control" id="nCuenta"
-                placeholder="Ingrese Nro.Cuenta">
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Número de Cuenta Soles Interbancaria:</label>
-            <div class="col-lg-8 col-md-6">
-              <input type="text" (keypress)="onlydigit($event)" formControlName="interbancaria" class="form-control"
-                id="interbancaria" placeholder="Ingrese Nro.Cuenta Interbancaria">
-            </div>
-          </div>
         </div>
         <div class="col-lg-6" style="flex-direction:row;align-self: flex-start;">
           <div class="form-group row" *ngIf="tipoForm">
@@ -279,30 +268,6 @@
               <div *ngIf="submitted && registerForm.controls.correo.errors?.required">
                 <p class="text-danger"><strong>Correo requerido.</strong></p>
               </div>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label"><strong>Documentos del
-                Contacto:</strong></label>
-            <div class="col-lg-8 col-md-6">
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Antecedentes Policiales</label>
-            <div class="col-lg-8 col-md-6">
-              <input (change)="selectDoc($event)" type="file" name="policiales">
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Antecedentes Penales</label>
-            <div class="col-lg-8 col-md-6">
-              <input (change)="selectDoc($event)" type="file" name="penales">
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Antecedentes Judiciales</label>
-            <div class="col-lg-8 col-md-6">
-              <input (change)="selectDoc($event)" type="file" name="judiciales">
             </div>
           </div>
         </div>

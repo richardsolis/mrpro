@@ -172,13 +172,13 @@
           <div class="form-group row">
               <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Certificado (s):</label>
               <div class="col-lg-8 col-md-6">
-                <angular2-multiselect [data]="dropdownList"
-                  [settings]="dropdownSettings" 
-                  (onSelect)="onItemSelect($event)" 
-                  (onDeSelect)="OnItemDeSelect($event)"
-                  (onSelectAll)="onSelectAll($event)"
-                  [ngModel]="selectedItems"
-                  (onDeSelectAll)="onDeSelectAll($event)"
+                <angular2-multiselect [data]="certificatesAll"
+                  [settings]="dropdownSettings2" 
+                  (onSelect)="onItemSelect2($event)" 
+                  (onDeSelect)="OnItemDeSelect2($event)"
+                  (onSelectAll)="onSelectAll2($event)"
+                  [ngModel]="selectedItems2"
+                  (onDeSelectAll)="onDeSelectAll2($event)"
                   [ngModelOptions]="{standalone: true}">
                 </angular2-multiselect> 
               </div>

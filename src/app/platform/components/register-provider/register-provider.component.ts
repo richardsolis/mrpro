@@ -35,10 +35,12 @@ export class RegisterProviderComponent implements OnInit {
   flagSize: boolean = false;
   flagImg: boolean = false;
   flagPsw: boolean = false;
-
+  idCertificate = [];
   dropdownList = [];
   selectedItems = [];
+  selectedItems2 = [];
   dropdownSettings = {};
+  dropdownSettings2 = {};
   idsCategory = [];
   certificatesAll = [];
   constructor(
@@ -79,9 +81,21 @@ export class RegisterProviderComponent implements OnInit {
 
   ngOnInit() {
     this.ServiceService.getAllCertificateAll().subscribe((response:any) => {
-      this.certificatesAll = response.data
+      console.log(response.data)
+      for (let i = 0; i < response.data.length; i++) {
+        this.certificatesAll.push({"id":i,"valueId":response.data[i].id,"itemName":response.data[i].name},)
+      }
       console.log(this.certificatesAll,"hola")
     })
+    this.dropdownSettings2 = { 
+      singleSelection: false, 
+      text:"Seleccionar Certificado",
+      selectAllText:'Seleccionar todo',
+      unSelectAllText:'UnSelect All',
+      enableSearchFilter: true,
+      enableCheckAll:false,
+      classes:"myclass custom-class"
+    }; 
     this.dropdownSettings = { 
       singleSelection: false, 
       text:"Seleccionar Categoria",
@@ -137,6 +151,20 @@ export class RegisterProviderComponent implements OnInit {
   onSelectAll(items: any){
   }
   onDeSelectAll(items: any){
+      console.log(items);
+  }
+
+  onItemSelect2(item:any){
+    console.log(item);
+    console.log(this.selectedItems2);
+  }
+  OnItemDeSelect2(item:any){
+      console.log(item);
+      console.log(this.selectedItems2);
+  }
+  onSelectAll2(items: any){
+  }
+  onDeSelectAll2(items: any){
       console.log(items);
   }
 
@@ -294,10 +322,10 @@ export class RegisterProviderComponent implements OnInit {
   }
 
   onSubmit(myModal) {
-    console.log(this.registerForm)
-    // this.registerForm.setValue({
-    //   categories: this.idsCategory
-    // })
+    this.idCertificate = [];
+    for (let i = 0; i < this.selectedItems2.length; i++) {
+      this.idCertificate.push(this.selectedItems2[i].id)
+    }
     this.idsCategory = []
     for (let i = 0; i < this.selectedItems.length; i++) {
       this.idsCategory.push(this.selectedItems[i].valueId)
@@ -305,8 +333,9 @@ export class RegisterProviderComponent implements OnInit {
     this.registerForm.patchValue({
       categories: this.idsCategory
     });
+    console.log(this.idCertificate)
     this.registerForm.patchValue({
-      certificates: [1]
+      certificates: this.idCertificate
     });
     if (
       this.registerForm.get("contrasena").value !==

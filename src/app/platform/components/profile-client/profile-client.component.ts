@@ -31,7 +31,7 @@ export class ProfileClientComponent implements OnInit {
   dFlag: boolean = false;
   cvvFlag: boolean = false;
   nFlag: boolean = false;
-
+  option1 = true;
   
   constructor(public ServiceService:ServiceService ,private formBuilder: FormBuilder,	private spinner: NgxSpinnerService,
               private userService: UserService, private session: SessionService,

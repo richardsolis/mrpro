@@ -6,6 +6,7 @@ import { DistrictService } from "../../../services/district.service";
 import { GeneralService } from "../../../services/general.service";
 import { NgxSpinnerService } from "ngx-spinner";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { ServiceService } from '../../../services/service.service';
 
 @Component({
   selector: "app-send-budget",
@@ -50,7 +51,7 @@ export class SendBudgetComponent implements OnInit {
   listCard;
 
   flagTypePay: boolean = true;
-  constructor(private router: Router, private session: SessionService, private districtS: DistrictService, 
+  constructor(public ServiceService:ServiceService ,private router: Router, private session: SessionService, private districtS: DistrictService, 
               private userS: UserService, private generalS: GeneralService, private spinner: NgxSpinnerService,
               private formBuilder: FormBuilder) 
   {
@@ -83,7 +84,15 @@ export class SendBudgetComponent implements OnInit {
     this.getDistricts();
     this.allCard();
   }
-
+  setCardCredite(id){
+    console.log(id)
+    this.ServiceService.setCardCredit(id).subscribe((response: any) => {
+      console.log(response);
+      this.listCard = [];
+      this.allCard();
+    });
+    
+  }
   getTotalPrice(price: string, quantity:string){
     const priceN = parseInt(price);
     const quantityN = parseInt(quantity);

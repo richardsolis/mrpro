@@ -9,6 +9,7 @@ import { SessionService } from 'src/app/services/session.service';
 import * as $ from 'jquery';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ServiceService } from 'src/app/services/service.service';
 
 @Component({
   selector: 'app-chat',
@@ -39,7 +40,8 @@ export class ChatComponent implements OnInit {
   constructor(public _cs: ChatService, private _route:ActivatedRoute, 
               private spinner: NgxSpinnerService, private _router:Router,
               private userService: UserService, private categoryService: CategoryService,
-              private session: SessionService) {
+              private session: SessionService,
+              public ServiceService:ServiceService) {
 
     this._route.params.subscribe(res => {
       this.user = this.session.getObject("user");
@@ -168,6 +170,12 @@ export class ChatComponent implements OnInit {
 
       this.imageChat = event.target.files[0];
       this.uploadFile(this.imageChat);
+  }
+
+  rechazarPropuesta(){
+    this.ServiceService.sendCancelProvider(this.currentBudgetID).subscribe((response:any) => {
+      console.log("richard",response)
+    })
   }
 
   uploadFile(file){

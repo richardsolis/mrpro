@@ -132,6 +132,22 @@ export class ServiceService {
     return this.http.post(AppSettings.BASE_PATH + AppSettings.CARDSET, body, header);
   }
 
+
+  sendCancelProvider(params) {
+    const obj = {
+      budget_id: params,
+    };
+    console.log(obj);
+    const body = new HttpParams({
+      fromObject: obj
+    });
+    
+    var header = this.generalS.getToken({}, "application/json");
+
+    return this.http.post(AppSettings.BASE_PATH + AppSettings.SENDCANCELPORVIDER, body, header);
+    
+  }
+
   changeCerti(params){
     const obj = {
       company: params.company,

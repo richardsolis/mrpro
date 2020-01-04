@@ -71,6 +71,7 @@ export class AppSettings {
   public static CERTIFICATE = "crud/certificate";
   public static CERTIFICATEGET = "guest/certificates";
   public static CARDSET = "card/set/default";
+  public static SENDCANCELPORVIDER =  "client/send/budget/refuse";
   public static LANG_SPANISH = {
                 processing:     "Procesando...",
                 lengthMenu:     "Mostrar _MENU_ registros",

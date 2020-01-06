@@ -23,6 +23,7 @@ import { DataTablesModule } from 'angular-datatables';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { SafeHtml2 } from '../pipes/safeHtml2Pipe';
 import { AdministratorComponent } from './components/administrator/administrator.component';
+import { UiSwitchModule } from 'ngx-ui-switch';
 
 @NgModule({
   imports: [
@@ -34,7 +35,8 @@ import { AdministratorComponent } from './components/administrator/administrator
     ModalModule,
     NgxSpinnerModule,
     DataTablesModule,
-    SlickCarouselModule
+    SlickCarouselModule,
+    UiSwitchModule
   ],
   declarations: [ 
   	LoginComponent,  

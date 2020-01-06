@@ -53,6 +53,9 @@ const routes: Routes = [
 		path: 'olvidar-contrasena',
 		component: ResetPasswordComponent
 	},{
+		path: 'cambiar-contrasena/:id',
+		component: ChangePasswordComponent
+	},{
 		path: 'cambiar-contrasena',
 		component: ChangePasswordComponent
 	},

@@ -45,6 +45,21 @@ export class ServiceService {
   putUpdateCategory(params){
     const obj = {
       parent: params.parent,
+      name: params.name,
+      status: params.status
+    };
+    console.log(obj);
+    const body = new HttpParams({
+      fromObject: obj
+    });
+    var header = this.generalS.getToken({}, "application/x-www-form-urlencoded");
+    const url = `${AppSettings.BASE_PATH}${AppSettings.PUT_UPDATE_DASHBOARD_CATEGORY}/${params.id}`;
+    return this.http.put(url, body, header);
+  }
+
+  putUpdateCategory2(params){
+    const obj = {
+      parent: params.parent,
       name: params.name
     };
     console.log(obj);
@@ -93,7 +108,8 @@ export class ServiceService {
     const obj = {
       parent: params.parent,
       name: params.name,
-      price: params.price
+      price: params.price,
+      status: params.status
     };
     console.log(obj);
     const body = new HttpParams({

@@ -42,6 +42,7 @@
     "ngx-rating": "0.0.9",
     "ngx-slick-carousel": "^0.4.5",
     "ngx-spinner": "^7.2.0",
+    "ngx-ui-switch": "^8.3.0",
     "popper.js": "^1.15.0",
     "rxjs": "^6.2.2",
     "rxjs-observable": "0.0.7",

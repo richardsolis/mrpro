@@ -22,7 +22,7 @@ export class ServiceComponent implements OnInit {
   flagCreateUpdateP: boolean = false;
   messageP: string = "";
   PRI_ID: string = "";
-
+  enable = []
   flagError: boolean = false;
   messageError: string = "";
 
@@ -43,6 +43,22 @@ export class ServiceComponent implements OnInit {
 
   ngOnInit() {
     this.InitPricedService();
+  }
+
+
+  onChange(event,result){
+    this.spinner.show();
+    console.log(this.enable)
+    console.log(event,result)
+    if (result.status == 0) {
+      result.status = 1
+    }else {
+      result.status = 0
+    }
+    this.serviceService.putUpdatePriced(result).subscribe(response => {
+      console.log(response)
+      this.spinner.hide();
+    })
   }
 
   InitPricedService() {
@@ -131,9 +147,22 @@ export class ServiceComponent implements OnInit {
       response => {
         console.log(response);
         let priceds: any = response;
-        this.pricedsList.push(...priceds.data);
+        // this.pricedsList.push(...priceds.data);
+        for (var i = 0; i < priceds.data.length; i++) {
+          if (priceds.data[i].parent != 0) {
+            this.pricedsList.push(priceds.data[i]);
+          }
+        }
         this.dtTriggerP.next();
         this.filterInitP();
+        for (var i = 0; i < this.pricedsList.length; i++) {
+          if ( this.pricedsList[i].status == 1) {
+            this.enable.push(true)
+          }else {
+            this.enable.push(false)
+          }
+      }
+      console.log( this.pricedsList,this.enable)
         this.spinner.hide();
       },
       error => {

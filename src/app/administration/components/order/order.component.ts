@@ -130,11 +130,16 @@ CountDays(createdDay: string){
 budgetAsign(AsignModal, result: any){
   this.flagResR = false;
   this.spinner.show();
+  let arraySolution = [];
   this.reasignForm.setValue({id: result.id, user_provider_id: result.user_provider_id});
   this.providerS.guestGetProviders({ categorie: result.category_service_id, district: result.district_id })
     .subscribe((response: any) => {
-      console.log(response.data);
-      this.providersList = response.data;
+      console.log(response.data)
+      for (var key in response.data) {
+        arraySolution.push(response.data[key])
+      }
+     
+      this.providersList = arraySolution;
       AsignModal.open();
       this.spinner.hide();
     },

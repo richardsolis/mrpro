@@ -22,6 +22,7 @@ export class CategoryComponent implements OnInit {
   flagCreateUpdate: boolean = false;
   message: string = "";
   CAT_ID: string = "";
+  enable = []
 
   flagError: boolean = false;
   messageError: string = "";
@@ -41,6 +42,21 @@ export class CategoryComponent implements OnInit {
 
   ngOnInit() {
     this.InitCategoryService();
+  }
+
+  onChange(event,result){
+    this.spinner.show();
+    console.log(this.enable)
+    console.log(event,result)
+    if (result.status == 0) {
+      result.status = 1
+    }else {
+      result.status = 0
+    }
+    this.serviceService.putUpdateCategory(result).subscribe(response => {
+      console.log(response)
+      this.spinner.hide();
+    })
   }
 
   InitCategoryService() {
@@ -127,9 +143,23 @@ export class CategoryComponent implements OnInit {
       response => {
         console.log(response);
         let categories: any = response;
-        this.categoryList.push(...categories.data);
+        console.log(response,"este es primero")
+        for (var i = 0; i < categories.data.length; i++) {
+          if (categories.data[i].parent != 0) {
+            this.categoryList.push(categories.data[i]);
+          }
+        }
+        console.log(this.categoryList,"este es segundo")
         this.dtTrigger.next();
         this.filterInit();
+        console.log(this.categoryList,"elmaki")
+        for (var i = 0; i < this.categoryList.length; i++) {
+            if ( this.categoryList[i].status == 1) {
+              this.enable.push(true)
+            }else {
+              this.enable.push(false)
+            }
+        }
         this.spinner.hide();
       },
       error => {

@@ -22,16 +22,19 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let result of categoryList">
+        <tr *ngFor="let result of categoryList;let index = index">
           <td scope="row">{{ result.id }}</td>
           <td scope="row">{{ getCategory(result.parent) }}</td>
           <td scope="row">{{ result.name }}</td>
           <td scope="row">
-            <button type="button" *ngIf="result.parent != '0'" (click)="categoryDetail(myModal, 'Editar', result)"
-              class="btn btn-warning">Detalle</button>
-            <button type="button" *ngIf="result.parent == '0'" (click)="parentDetail(parentModal, 'Editar', result)"
-              class="btn btn-warning">Detalle</button>
-            <button type="button" (click)="confirm(confirmModal, result.id)" class="btn btn-danger">Eliminar</button>
+              <div style="width:100%;display:flex;justify-content:space-between">
+                  <ui-switch [(ngModel)]="enable[index]" (change)="onChange($event,result)"></ui-switch>
+                  <button type="button" *ngIf="result.parent != '0'" (click)="categoryDetail(myModal, 'Editar', result)"
+                    class="btn btn-warning"><i class="fa fa-edit"></i></button>
+                  <button type="button" *ngIf="result.parent == '0'" (click)="parentDetail(parentModal, 'Editar', result)"
+                    class="btn btn-warning"><i class="fa fa-edit"></i></button>
+                  <button type="button" (click)="confirm(confirmModal, result.id)" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+              </div>
           </td>
         </tr>
       </tbody>

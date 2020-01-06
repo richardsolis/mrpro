@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { UserService } from '../../../services/user.service';
-
+import { ActivatedRoute,Router } from '@angular/router';
 @Component({
   selector: 'app-change-password',
   templateUrl: './change-password.component.html',
@@ -16,8 +16,9 @@ export class ChangePasswordComponent implements OnInit {
   flagRes = false;
 
   flagPsw = false;
+  mailBase64 = "";
 
-  constructor(private formBuilder: FormBuilder,	private spinner: NgxSpinnerService,
+  constructor(public Router:Router, private route: ActivatedRoute,private formBuilder: FormBuilder,	private spinner: NgxSpinnerService,
               private userService: UserService) { }
 
   ngOnInit() {
@@ -26,6 +27,13 @@ export class ChangePasswordComponent implements OnInit {
       'password': new FormControl('', [Validators.required,Validators.minLength(8)]),
       'password_confirmation': new FormControl('', [Validators.required,Validators.minLength(8)])
     });
+    this.route.paramMap.subscribe(params => {
+     this.mailBase64 = window.atob(params.get("id"));
+    })
+      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      if (!re.test(String(this.mailBase64).toLowerCase())) {
+        this.Router.navigateByUrl('/home');
+      }
   }
 
   onSubmit(myModal) {

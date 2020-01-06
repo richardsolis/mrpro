@@ -41,6 +41,37 @@ export class UserService {
   	return this.http.post(AppSettings.BASE_PATH + AppSettings.GUEST_SEND_INFO, body, options);
   }
 
+  confirm(params) {
+    const obj = {
+      token: params.token,
+    }
+    const body = new HttpParams({
+      fromObject: obj
+    });
+    const headers = new HttpHeaders({
+      "Content-Type": "application/x-www-form-urlencoded"
+    }); 
+    const options = { headers: headers };
+    
+  	return this.http.post(AppSettings.BASE_PATH + AppSettings.VALIDATION_CORREO, body, options);
+  }
+
+  confirmP(params) {
+    const obj = {
+      token: params.token,
+    }
+    const body = new HttpParams({
+      fromObject: obj
+    });
+    const headers = new HttpHeaders({
+      "Content-Type": "application/x-www-form-urlencoded"
+    }); 
+    const options = { headers: headers };
+    
+  	return this.http.post(AppSettings.BASE_PATH + AppSettings.VALIDATION_CORREO_P, body, options);
+  }
+
+
   createProvider(params) {
     const obj = {
       doc_number: params.dni,

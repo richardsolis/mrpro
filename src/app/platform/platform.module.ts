@@ -42,6 +42,7 @@ import { ProfileClientComponent } from './components/profile-client/profile-clie
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
 import { StarsComponent } from './components/stars/stars.component';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
+import { ConfirmarComponent } from './components/confirmar/confirmar.component';
 export function getAuthServiceConfigs() {
   let config = new AuthServiceConfig(
       [
@@ -109,7 +110,8 @@ export function getAuthServiceConfigs() {
     SafeHtml,
     ProfileClientComponent,
     ChangePasswordComponent,
-    StarsComponent
+    StarsComponent,
+    ConfirmarComponent
   ]
 })
 export class PlatformModule { }

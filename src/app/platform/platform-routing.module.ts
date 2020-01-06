@@ -15,6 +15,7 @@ import { ProfileProviderComponent } from './provider/components/profile-provider
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { ProfileClientComponent } from './components/profile-client/profile-client.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { ConfirmarComponent } from './components/confirmar/confirmar.component';
 
 
 const routes: Routes = [
@@ -58,6 +59,12 @@ const routes: Routes = [
 	},{
 		path: 'cambiar-contrasena',
 		component: ChangePasswordComponent
+	},{
+		path: 'confirm-email/:id',
+		component: ConfirmarComponent
+	},{
+		path: 'confirm-email-provider/:id',
+		component: ConfirmarComponent
 	},
 	{
 		path: 'registro',

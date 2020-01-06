@@ -45,6 +45,8 @@ export class AppSettings {
   public static GUEST_CHANGE_PASSWORD = "guest/set/password";
   public static GUEST_CREATE_USER = "guest/user/client";
   public static GUEST_SEND_INFO = "guest/send/info";
+  public static VALIDATION_CORREO = "guest/user/valid/client";
+  public static VALIDATION_CORREO_P = "provider/valid";
   public static CREATE_PROVIDER = "provider/create";
   public static UPDATE_PROVIDER = "provider/update";
   public static GUEST_GET_PROVIDERS = "guest/providers";

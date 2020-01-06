@@ -1,0 +1,9 @@
+.container-confrimado {
+    width: 100%;
+    height: 100vh;
+    background: #ffbd00;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+}

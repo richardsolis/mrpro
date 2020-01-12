@@ -38,6 +38,35 @@
     </div>
   </section>
 </div>
+<div class="popUP-confirm" *ngIf="confirmPopUp">
+  <div class="card-center">
+    <div style="text-align: center;font-size: 16px;padding: 54px;">
+        <i class="fa fa-exclamation-triangle" style="font-size: 53px;margin-bottom: 16px;"></i>
+        <p>Tu cuenta no esta confirmada , por favor revisa tu correo.</p>
+        <button (click)="ok()" style="margin-top: 60px;padding: 6px 32px;font-size: 22px;background: #607D8B;border: none;border-radius: 11px;color: white;">Aceptar</button>
+    </div>
+  </div>
+</div>
+
+<div class="popUP-confirm" *ngIf="userCancel">
+    <div class="card-center">
+      <div style="text-align: center;font-size: 16px;padding: 54px;">
+          <i class="fa fa-exclamation-triangle" style="font-size: 53px;margin-bottom: 16px;"></i>
+          <p>El administrador dio de baja su cuenta. Por favor, comuníquese al (+51) 980 855 373 o envíe un correo a info@mrpro.pe</p>
+          <button (click)="ok()" style="margin-top: 60px;padding: 6px 32px;font-size: 22px;background: #607D8B;border: none;border-radius: 11px;color: white;">Aceptar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="popUP-confirm" *ngIf="provedorCancel">
+      <div class="card-center">
+        <div style="text-align: center;font-size: 16px;padding: 54px;">
+            <i class="fa fa-exclamation-triangle" style="font-size: 53px;margin-bottom: 16px;"></i>
+            <p>Su cuenta está inhabilitada. Por favor, comuníquese al (+51) 980 855 373 o envíe un correo a info@mrpro.pe.</p>
+            <button (click)="ok()" style="margin-top: 60px;padding: 6px 32px;font-size: 22px;background: #607D8B;border: none;border-radius: 11px;color: white;">Aceptar</button>
+        </div>
+      </div>
+    </div>
 
 <modal #myModal>
   <modal-content>

@@ -21,7 +21,9 @@ export class LoginComponent implements OnInit {
   };
   message = "";
   data: any = {};
-
+  confirmPopUp = false;
+  userCancel = false;
+  provedorCancel = false;
   constructor(private socialAuthService: AuthService, private router: Router, private route: ActivatedRoute, private session: SessionService, private generalS: GeneralService, private userS: UserService, private spinner: NgxSpinnerService) {}
 
   ngOnInit() {
@@ -68,18 +70,48 @@ export class LoginComponent implements OnInit {
       response => {
         this.session.setObject("token", response);
         this.userS.getCurrentUser().subscribe((response: any) => {
-          console.log(response);
-          if (response.data.client) {
-            this.session.setObject("user", { ...response.data.client.user, type: response.data.type[0] });
-
-            if (this.session.getObject("providers")) {
-              this.router.navigate(["/pedir-propuesta"]);
-            } else {
-              this.router.navigate(["/home"]);
+          console.log(response.data.provider);
+          if (response.data.client != null) {
+            if (response.data.client.status == 1) {
+              if (!response.data.client.user.confirm) {
+                if (response.data.client) {
+                  this.session.setObject("user", { ...response.data.client.user, type: response.data.type[0] });
+      
+                  if (this.session.getObject("providers")) {
+                    this.router.navigate(["/pedir-propuesta"]);
+                  } else {
+                    this.router.navigate(["/home"]);
+                  }
+                } else {
+                  this.session.setObject("user", { ...response.data.provider.user, type: response.data.type[0] });
+                  this.router.navigate(["/proveedor/home"]);
+                }
+              }else {
+                this.confirmPopUp = true;
+              }
+            }else {
+              this.userCancel = true;
             }
-          } else {
-            this.session.setObject("user", { ...response.data.provider.user, type: response.data.type[0] });
-            this.router.navigate(["/proveedor/home"]);
+          }else {
+            if (response.data.provider.status == 1) {
+              if (!response.data.provider.user.confirm) {
+                if (response.data.client) {
+                  this.session.setObject("user", { ...response.data.client.user, type: response.data.type[0] });
+                  if (this.session.getObject("providers")) {
+                    this.router.navigate(["/pedir-propuesta"]);
+                  } else {
+                    this.router.navigate(["/home"]);
+                  }
+                } else {
+                  this.session.setObject("user", { ...response.data.provider.user, type: response.data.type[0] });
+                  this.router.navigate(["/proveedor/home"]);
+                }
+              }else {
+                this.confirmPopUp = true;
+              }
+            }else {
+              this.provedorCancel  = true;
+            }
           }
           this.spinner.hide();
         });
@@ -92,6 +124,8 @@ export class LoginComponent implements OnInit {
         this.spinner.hide();
       }
     );
+
+   
     // this.session.setObject('user', {
     // 	firstname: 'User 1',
     // 	lastname: 'Mc Pro',
@@ -100,4 +134,10 @@ export class LoginComponent implements OnInit {
     // })
     // this.router.navigate(['/reservado']);
   }
+  ok(){
+    this.confirmPopUp = false;
+    this.userCancel = false;
+    this.provedorCancel = false;
+  }
 }
+

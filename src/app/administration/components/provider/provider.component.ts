@@ -86,6 +86,10 @@ export class ProviderComponent implements OnInit {
       });
   }
 
+  closePopUp(){
+    this.popUpCertificate = false;
+  }
+
   certificadoPopUp(){
     this.popUpCertificate = true;
     this.ServiceService.getAllCertificate().subscribe((response:any) => {

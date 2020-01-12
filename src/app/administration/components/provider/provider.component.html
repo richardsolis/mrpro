@@ -491,6 +491,9 @@
 
 <div class="modal-certificate" *ngIf="popUpCertificate">
   <div class="box-white">
+    <div class="row-X" style="width:100%;justify-content:flex-end;display:flex;margin-bottom: 24px;">
+      <button  (click)="closePopUp()" style="background: #757575;color: white;padding: 8px 14px;border: none;border-radius: 37px;cursor: pointer;">X</button>
+    </div>
     <div style="display: flex;justify-content: space-between;">
         <h2>Certificados</h2>
         <button class="btn btn-secondary" style="background: #4caf50;" (click)="createCerti()">Crea Certificado</button>

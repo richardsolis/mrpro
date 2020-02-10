@@ -571,7 +571,7 @@ footer.primary {
 
 .app-mensajes {
   overflow-y: scroll;
-  height: 63vh;
+  height: calc(100vh - 92px - 145px - 91px);
   /*background:gray;*/
   padding: 5px;
   border: 1px solid #ced4da;
@@ -1661,10 +1661,6 @@ h5.color-blue.title-filter {
   margin-bottom: 20px;
 }
 
-.overlay {
-  z-index: 99999999999999 !important;
-}
-
 
 .selected-list .c-list .c-token {
   background: #135daa;
@@ -1702,4 +1698,10 @@ h5.color-blue.title-filter {
 
 .testimonials {
   display: none;
+}
+.overlay {
+  z-index: 99999999999999999999999!important;
+}
+.modal {
+  z-index: 99999 !important;
 }

@@ -4,3 +4,13 @@
 <div class='scrolltop'>
     <div class='scroll icon' (click)="top()"><i class="fa fa-angle-up"></i></div>
 </div>
+
+<div class="popUp-session-expiret" *ngIf="removePopUpIf" style="width: 100%;height: 100vh;background: #0000008f;position: fixed;top: 0;z-index: 9999999999;display: flex;align-items: center;justify-content: space-around;">
+    <div class="box-info">
+        <div>
+            <h2>Tu sesión expiró.</h2>
+            <p>Por favor, vuelva a ingresar</p>
+            <button (click)="removePopUp()" style="width: 150px;height: 40px;margin-top: 23px;border-radius: 10px;outline: none;">Aceptar</button>
+        </div>
+    </div>
+</div>

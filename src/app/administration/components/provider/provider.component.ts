@@ -10,6 +10,7 @@ import { CategoryService } from '../../../services/category.service';
 import { UserService } from '../../../services/user.service';
 import { ServiceService } from '../../../services/service.service';
 import * as XLSX from 'xlsx';
+import { error } from 'util';
 
 @Component({
   selector: 'app-provider',
@@ -44,7 +45,7 @@ export class ProviderComponent implements OnInit {
   base64Judiciales: string;
 
   urlImageLogo: string = "";
-
+  rowtextalert= false;
   providerImporList: any[] = [];
   flagImport: boolean = false;
   messageImport: string = "";
@@ -108,7 +109,7 @@ export class ProviderComponent implements OnInit {
   cancelCerti(){
     this.editC = false;
   }
-
+  
   setCerti(){
     this.ServiceService.changeCerti({company: this.campania,name: this.nombre, id: this.idCerti}).subscribe(response => {
       this.ServiceService.getAllCertificate().subscribe((response:any) => {
@@ -141,7 +142,13 @@ export class ProviderComponent implements OnInit {
       this.ServiceService.getAllCertificate().subscribe((response:any) => {
         this.certificatesAll = response.data
       })
+    }, error => {
+      this.rowtextalert = true;
+      setTimeout( ()=>{
+        this.rowtextalert = false;
+      },5000);
     })
+    
   }
 
   ngOnInit() {
@@ -572,7 +579,9 @@ export class ProviderComponent implements OnInit {
   }
 
   initOneProvider(provider:any){
+    console.log(provider,'hola')
     let temp:any = {};
+    
     if(!provider){
       temp = {
         id: '',
@@ -644,9 +653,9 @@ export class ProviderComponent implements OnInit {
         categories: provider.categories.map(item => item.category_service_id),
         contrasena: '',
         contrasena2: '',
-        eBancaria: provider.bank_id,
-        nCuenta: provider.bank_c,
-        interbancaria: provider.bank_ci
+        eBancaria:(provider.bank_id == null)? '' : provider.bank_id,
+        nCuenta: (provider.bank_c == null)? '' : provider.bank_c,
+        interbancaria: (provider.bank_ci == null)? '' : provider.bank_ci,
       }
     }else{
       this.tipoForm = false;
@@ -671,9 +680,9 @@ export class ProviderComponent implements OnInit {
         categories: provider.categories.map(item => item.category_service_id),
         contrasena: '',
         contrasena2: '',
-        eBancaria: provider.bank_id,
-        nCuenta: provider.bank_c,
-        interbancaria: provider.bank_ci
+        eBancaria: (provider.bank_id == null)? '' : provider.bank_id,
+        nCuenta: (provider.bank_c == null)? '' : provider.bank_c,
+        interbancaria: (provider.bank_ci == null)? '' : provider.bank_ci,
       };
     }
     return temp;
@@ -746,6 +755,7 @@ export class ProviderComponent implements OnInit {
           }
         })
     }else{
+      console.log(this.registerForm.value);
       this.providerService.putUpdateProvider(this.registerForm.value)
         .subscribe((response: any) => {
           this.flagPsw = false;

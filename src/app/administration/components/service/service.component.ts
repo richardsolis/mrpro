@@ -147,12 +147,12 @@ export class ServiceComponent implements OnInit {
       response => {
         console.log(response);
         let priceds: any = response;
-        // this.pricedsList.push(...priceds.data);
-        for (var i = 0; i < priceds.data.length; i++) {
-          if (priceds.data[i].parent != 0) {
-            this.pricedsList.push(priceds.data[i]);
-          }
-        }
+        this.pricedsList.push(...priceds.data);
+        // for (var i = 0; i < priceds.data.length; i++) {
+        //   if (priceds.data[i].parent != 0) {
+        //     this.pricedsList.push(priceds.data[i]);
+        //   }
+        // }
         this.dtTriggerP.next();
         this.filterInitP();
         for (var i = 0; i < this.pricedsList.length; i++) {

@@ -24,6 +24,8 @@ export class ProfileProviderComponent implements OnInit {
   pdfJudiciales:any;
   districts: any[];
   categories: any[];
+  categories2 = [];
+  categories3 = [];
   base64Policiales: string;
   base64Penales: string;
   base64Judiciales: string;
@@ -33,7 +35,12 @@ export class ProfileProviderComponent implements OnInit {
   dropdownList = [];
   selectedItems = [];
   dropdownSettings = {};
+  dropdownList3 = [];
+  selectedItems3 = [];
+  dropdownSettings3 = {};
   idsCategory = [];
+  idsCategory2 = [];
+  idsCategory3 = [];
   constructor(private formBuilder: FormBuilder,	private spinner: NgxSpinnerService,
               private userService: UserService, private districtService: DistrictService,
               private categoryService: CategoryService, private providerService: ProviderService) {
@@ -42,10 +49,15 @@ export class ProfileProviderComponent implements OnInit {
     this.userService.getCurrentUser()
         .subscribe((res: any) => {
           this.providerUser = {...res.data.provider};
-          this.tipo(this.providerUser.type_provider);
           for (let i = 0; i < this.providerUser.categories.length; i++) {
-            this.selectedItems.push({"id":i , "valueId":this.providerUser.categories[i].id ,"itemName":this.providerUser.categories[i].category_service.name},)
+            if (this.providerUser.categories[i].category_service !== null) {
+              this.selectedItems.push({"id":i , "valueId":this.providerUser.categories[i].category_service_id ,"itemName":this.providerUser.categories[i].category_service.name})
+            }
           }
+          for (let i = 0; i < this.providerUser.priceds.length; i++) {
+              this.selectedItems3.push({"id":i , "valueId":this.providerUser.priceds[i].service_priced_id ,"itemName":this.providerUser.priceds[i].service_priced.name})
+          }
+          this.tipo(this.providerUser.type_provider);
           this.spinner.hide();
         }, (error: any) => {
           console.log(error);
@@ -61,16 +73,24 @@ export class ProfileProviderComponent implements OnInit {
     this.categoryService.guestGetCategories()
       .subscribe((response: any) => {
         this.categories = response.data.filter(item => item.parent == 0);
-        this.categoryService.guestGetPrices().subscribe((res: any) => {
-          this.categories.push(...res.data.filter(item => item.parent == 0));
+        // this.categoryService.guestGetPrices().subscribe((res: any) => {
+        //   this.categories.push(...res.data.filter(item => item.parent == 0));
           console.log(this.categories)
           for (let i = 0; i < this.categories.length; i++) {
             this.dropdownList.push({"id":i,"valueId":this.categories[i].id,"itemName":this.categories[i].name},)
           }
           console.log(this.dropdownList)
-        });
       }, (error: any) => {
         console.log(error);
+      });
+
+      this.categoryService.guestGetPrices().subscribe((res: any) => {
+        console.log(res)
+          this.categories2.push(...res.data.filter(item => item.parent == 0));
+          console.log(this.categories2)
+          for (let i = 0; i < this.categories2.length; i++) {
+            this.dropdownList3.push({"id":i,"valueId":this.categories2[i].id,"itemName":this.categories2[i].name},)
+          }
       });
    }
 
@@ -83,7 +103,18 @@ export class ProfileProviderComponent implements OnInit {
               enableSearchFilter: true,
               enableCheckAll:false,
               classes:"myclass custom-class"
-            };            
+            }; 
+            
+    this.dropdownSettings3 = { 
+        singleSelection: false, 
+        text:"Seleccionar Categoria",
+        selectAllText:'Seleccionar todo',
+        unSelectAllText:'UnSelect All',
+        enableSearchFilter: true,
+        enableCheckAll:false,
+        classes:"myclass custom-class"
+    };         
+
     this.registerForm = this.formBuilder.group({
       id: [''],
       tipo: ['0', Validators.required],
@@ -114,6 +145,7 @@ export class ProfileProviderComponent implements OnInit {
       nCuenta:  [''],
       interbancaria:  [''],
       categories:  [[]],
+      priced: [[]],
       districts:  [[]]
     });
   }
@@ -136,6 +168,26 @@ export class ProfileProviderComponent implements OnInit {
     this.tipo(this.providerUser.type_provider)
       console.log(items);
   }
+
+  onItemSelect3(item:any){
+    this.tipo(this.providerUser.type_provider)
+    console.log(item);
+    console.log(this.selectedItems);
+  }
+  OnItemDeSelect3(item:any){
+    this.tipo(this.providerUser.type_provider)
+      console.log(item);
+      console.log(this.selectedItems);
+  }
+  onSelectAll3(items: any){
+    this.tipo(this.providerUser.type_provider)
+      console.log(this.providerUser.categories.map(item => item.category_service_id),"asdasd");
+  }
+  onDeSelectAll3(items: any){
+    this.tipo(this.providerUser.type_provider)
+      console.log(items);
+  }
+
   removeControls(){
     this.registerForm.removeControl('ruc');
     this.registerForm.removeControl('rSocial');
@@ -149,11 +201,16 @@ export class ProfileProviderComponent implements OnInit {
   }
 
   tipo(option:string){
+    console.log(this.selectedItems)
     this.idsCategory = []
     for (let i = 0; i < this.selectedItems.length; i++) {
       this.idsCategory.push(this.selectedItems[i].valueId)
     }
-    
+    this.idsCategory2 = [];
+    for (let i = 0; i < this.selectedItems3.length; i++) {
+      this.idsCategory2.push(this.selectedItems3[i].valueId)
+    }
+
     if(option == '0'){
       this.tipoForm = true;
       this.registerForm.setValue({
@@ -182,6 +239,7 @@ export class ProfileProviderComponent implements OnInit {
         experiencia: (this.providerUser.experience)? this.providerUser.experience.split(" ")[0] : "",
         districts: this.providerUser.districts.map(item => item.district_id),
         categories: this.idsCategory,
+        priced : this.idsCategory2,
         contrasena: '',
         contrasena2: '',
         eBancaria: this.providerUser.bank_id,
@@ -208,6 +266,7 @@ export class ProfileProviderComponent implements OnInit {
         experiencia: (this.providerUser.experience)? this.providerUser.experience.split(" ")[0] : "",
         districts: this.providerUser.districts.map(item => item.district_id),
         categories: this.idsCategory,
+        priced : this.idsCategory2,
         contrasena: '',
         contrasena2: '',
         eBancaria: this.providerUser.bank_id,

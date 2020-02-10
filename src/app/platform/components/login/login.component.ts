@@ -70,10 +70,11 @@ export class LoginComponent implements OnInit {
       response => {
         this.session.setObject("token", response);
         this.userS.getCurrentUser().subscribe((response: any) => {
-          console.log(response.data.provider);
+          console.log(response.data);
           if (response.data.client != null) {
+            console.log('entre aca')
             if (response.data.client.status == 1) {
-              if (!response.data.client.user.confirm) {
+              if (response.data.client.user.confirm) {
                 if (response.data.client) {
                   this.session.setObject("user", { ...response.data.client.user, type: response.data.type[0] });
       
@@ -94,7 +95,7 @@ export class LoginComponent implements OnInit {
             }
           }else {
             if (response.data.provider.status == 1) {
-              if (!response.data.provider.user.confirm) {
+              if (response.data.provider.user.confirm) {
                 if (response.data.client) {
                   this.session.setObject("user", { ...response.data.client.user, type: response.data.type[0] });
                   if (this.session.getObject("providers")) {

@@ -26,7 +26,7 @@ export class UserService {
     const obj = {
       name: params.name,
       email: params.email,
-      phone: params.phone,
+      phone: params.telephone,
       subject: params.subject,
       body: params.body
     }
@@ -69,6 +69,22 @@ export class UserService {
     const options = { headers: headers };
     
   	return this.http.post(AppSettings.BASE_PATH + AppSettings.VALIDATION_CORREO_P, body, options);
+  }
+
+  sendMoney(){
+    const obj = {
+      token: "tkn_test_aHjX8maTVFCeNV5b",
+    }
+    const body = new HttpParams({
+      fromObject: obj
+    });
+    const headers = new HttpHeaders({
+      "Content-Type": "application/x-www-form-urlencoded"
+    }); 
+    const options = { headers: headers };
+    
+  	return this.http.post("http://localhost:9999/culqi-php-develop/examples/02-create-charge.php", body, options);
+    
   }
 
 

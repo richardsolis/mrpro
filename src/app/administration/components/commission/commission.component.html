@@ -15,7 +15,7 @@
             Comision {{ item.id }}
           </div>
       <div class="card-body card-body-admin">
-        <label>Rango:</label><p class="card-text">De {{ item.to | number }} a {{ item.from | number }} soles</p>
+        <label>Rango:</label><p class="card-text">De {{ item.from | number }}  a {{ item.to | number }} soles</p>
         <label>Porcentaje:</label><p class="card-text">{{item.amount | number}}%</p>
         <label>Penalidad:</label><p class="card-text">{{item.penalty | number}}</p>
       </div>
@@ -55,7 +55,7 @@
           <div class="form-group row">
               <label for="inputEmail3" class="col-sm-3 col-form-label">Rango Inicial (S/.)</label>
               <div class="col-sm-9">
-                <input type="number" formControlName="to" class="form-control" placeholder="Monetario en soles">
+                <input type="number" formControlName="from" class="form-control" placeholder="Monetario en soles">
                 <div *ngIf="submitted && registerForm.controls.to.errors?.required">
                   <p class="text-danger"><strong>Rango Inicial requerido.</strong></p>
                 </div>
@@ -64,7 +64,7 @@
           <div class="form-group row">
               <label for="inputEmail3" class="col-sm-3 col-form-label">Rango Final (S/.)</label>
               <div class="col-sm-9">
-                <input type="number" formControlName="from" class="form-control" placeholder="Monetario en soles">
+                <input type="number"  formControlName="to" class="form-control" placeholder="Monetario en soles">
                 <div *ngIf="submitted && registerForm.controls.from.errors?.required">
                   <p class="text-danger"><strong>Rango Final requerido.</strong></p>
                 </div>

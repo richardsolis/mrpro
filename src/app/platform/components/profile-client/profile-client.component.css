@@ -7,3 +7,21 @@
     justify-content: space-between;
     align-items: center;
 }
+
+@media only screen and (max-width: 535px) {
+    .listCardRow {
+        font-size: 10px;
+        width: 165px !important;
+    }
+    .botonesSize {
+        width: 27px !important;
+        height: 27px !important;
+    }
+    .card-body {
+        padding: 6px !important;
+    }
+
+    .img-cards-credit {
+        display: none;
+    }
+}

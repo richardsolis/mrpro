@@ -4,9 +4,8 @@ import { SessionService } from 'src/app/services/session.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { UserService } from 'src/app/services/user.service';
 import { Router } from '@angular/router';
-
 import * as $ from 'jquery';
-
+declare var Culqi: any;
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -67,6 +66,11 @@ export class HomeComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit() {
+
+    Culqi.publicKey = 'pk_test_6s7MyT1Vx4bNcUmC';
+    Culqi.init();
+
+    // e.preventDefault();
     if(this.session.getObject('user')){
       this.resultFilter = [];
       this.spinner.show();
@@ -86,6 +90,14 @@ export class HomeComponent implements OnInit {
         }
       );
     }
+  }
+
+  send() {
+    Culqi.createToken();
+  }
+
+  confirm() {
+    console.log(Culqi.token.id);
   }
 
   addSlide() {

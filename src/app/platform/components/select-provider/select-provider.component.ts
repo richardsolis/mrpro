@@ -44,6 +44,9 @@ export class SelectProviderComponent implements OnInit {
   selectedItems2 = [];
   idsCategory2 = [];
   selection:any;
+  multiSelect2 = false;
+  limitPrice = false;
+  valueButtons = 'categorie';
   constructor(private router: Router, private spinner: NgxSpinnerService, private session: SessionService,
               private userS: UserService, private categoryS: CategoryService, private districtS: DistrictService,
               private providerS: ProviderService, private formBuilder: FormBuilder, private _route:ActivatedRoute) {
@@ -58,7 +61,7 @@ export class SelectProviderComponent implements OnInit {
         this.dropdownList.push({"id":i , "valueId":this.categories[i].id ,"itemName":this.categories[i].name})
       }
       console.log(this.dropdownList)
-      this.categoryChanged();
+      // this.categoryChanged();
     });
     this.categoryS.guestGetPrices().subscribe((response: any) => {
       this.allcategoriesP = response.data;
@@ -116,6 +119,7 @@ export class SelectProviderComponent implements OnInit {
     console.log(this.registerForm)
     this.categoryChanged();
     this.selectedItems2 = [];
+    this.multiSelect2 = true;
   }
   OnItemDeSelect(item:any){
       console.log(item);
@@ -124,6 +128,7 @@ export class SelectProviderComponent implements OnInit {
   }
   onDeSelectAll(items: any){
       console.log(items);
+      this.multiSelect2 = false;
   }
 
   onItemSelect2(item:any){
@@ -144,8 +149,12 @@ export class SelectProviderComponent implements OnInit {
   }
 
   buttonSelectType(type: string) {
+   
+    this.providers = []
+    this.dropdownList2 = [];
+    this.selectedItems2 = [];
     if(type === 'programmed' && this.registerForm.get('type').value !== 'programmed'){
-      
+      this.valueButtons = 'categorie';
       this.flagCatType = false;
       this.categories = this.allcategories.filter(item => item.parent == 0);
       console.log(this.categories)
@@ -157,11 +166,12 @@ export class SelectProviderComponent implements OnInit {
 
       this.registerForm.get('category').setValue('1');
       this.registerForm.get('type').setValue(type);
-      this.categoryChanged();
+      // this.categoryChanged();
       this.addControls();
       this.selectedProviders = [];
-      this.onItemSelect(this.selection)
+      // this.onItemSelect(this.selection)
     }else if(type === 'priced'){
+      this.valueButtons = 'priced';
       this.flagCatType = true;
       this.categories = this.allcategoriesP.filter(item => item.parent == 0);
       console.log(this.categories)
@@ -172,10 +182,10 @@ export class SelectProviderComponent implements OnInit {
       }
       this.registerForm.get('category').setValue('1');
       this.registerForm.get('type').setValue(type);
-      this.categoryChanged();
+      // this.categoryChanged();
       this.removeControls();
       this.selectedProviders = [];
-      this.onItemSelect(this.selection)
+      // this.onItemSelect(this.selection)
     }
   }
 
@@ -228,6 +238,7 @@ export class SelectProviderComponent implements OnInit {
   }
 
   categoryChanged() {
+    console.log("asd")
     this.registerForm.get('subcategory').setValue('');
     this.getProviders();
     this.getSubcategories();
@@ -237,7 +248,7 @@ export class SelectProviderComponent implements OnInit {
     this.spinner.show();
     this.providerS
       .guestGetProviders({
-        categorie: this.registerForm.get('category').value,
+        [this.valueButtons]: this.registerForm.get('category').value,
         district: this.registerForm.get('district').value
       })
       .subscribe((response: any) => {
@@ -296,6 +307,13 @@ export class SelectProviderComponent implements OnInit {
       let p = parseFloat(this.registerForm.get('price').value);
       let q =  parseInt(this.registerForm.get('quantity').value);
       this.totalPrice = p*q;
+      console.log("sdasd" ,this.totalPrice)
+      if (this.totalPrice > 999) {
+        this.limitPrice = true;
+      } else {
+        this.limitPrice = false;
+      }
+      console.log(this.limitPrice)
     }else{
       this.totalPrice = 0;
     }

@@ -94,6 +94,7 @@ getBudgetList(){
       console.log(response);
       let budgets:any = response;
       this.budgetList.push(...budgets.data);
+      console.log(this.budgetList);
       this.dtTrigger.next();
       this.filterInit();
       this.spinner.hide();

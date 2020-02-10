@@ -498,6 +498,9 @@
         <h2>Certificados</h2>
         <button class="btn btn-secondary" style="background: #4caf50;" (click)="createCerti()">Crea Certificado</button>
     </div>
+    <div *ngIf="rowtextalert" style="width: 100%;height: 38px;background: #FF5722;border-radius: 10px;margin-top: 12px;margin-bottom: 5px;color: white;display: flex;align-items: center;padding: 20px;">
+      <p style="color: white;padding: 0;font-size: 11px;">El certificado no puede ser eliminado, está siendo usado por un proveedor.</p>
+    </div>
     <div class="box-list-certificates">
       <ng-container *ngIf="!editC">
         <div class="row-certificates" *ngFor="let certi of certificatesAll" >

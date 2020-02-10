@@ -32,6 +32,7 @@ export class CategoryComponent implements OnInit {
   flagResP: boolean = false;
   flagCreateUpdateP: boolean = true;
   messageP: string = "";
+  categoryDataSolution:any;
 
   @ViewChild(DataTableDirective) dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
@@ -64,13 +65,15 @@ export class CategoryComponent implements OnInit {
     this.ParentForm = this.formBuilder.group({
       id: [''],
       parent: ['0'],
-      name: ['', Validators.required]
+      name: ['', Validators.required],
+      status:['0']
     });
 
     this.categoryForm = this.formBuilder.group({
       id: [''],
       parent: ['', Validators.required],
-      name: ['', Validators.required]
+      name: ['', Validators.required],
+      status:['0']
     });
 
     this.dtOptions = {
@@ -143,12 +146,13 @@ export class CategoryComponent implements OnInit {
       response => {
         console.log(response);
         let categories: any = response;
-        console.log(response,"este es primero")
-        for (var i = 0; i < categories.data.length; i++) {
-          if (categories.data[i].parent != 0) {
-            this.categoryList.push(categories.data[i]);
-          }
-        }
+        this.categoryList.push(...categories.data);
+        // console.log(response,"este es primero")
+        // for (var i = 0; i < categories.data.length; i++) {
+        //   if (categories.data[i].parent != 0) {
+        //     this.categoryList.push(categories.data[i]);
+        //   }
+        // }
         console.log(this.categoryList,"este es segundo")
         this.dtTrigger.next();
         this.filterInit();
@@ -216,7 +220,7 @@ export class CategoryComponent implements OnInit {
     if (category) {
       this.title =  (category.parent == '0')? `${tempTittle} Categoría-${category.id}` : `${tempTittle} Subcategoría-${category.id}`;
       this.flagCreateUpdate = false;
-      this.categoryForm.setValue({ id: category.id, parent: category.parent, name: category.name });
+      this.categoryForm.setValue({ id: category.id, parent: category.parent, name: category.name, status: category.status });
       modal.open();
       this.spinner.hide();
     } else {
@@ -230,12 +234,11 @@ export class CategoryComponent implements OnInit {
 
   parentDetail(modal, tempTittle: string, category: any = null) {
     this.flagResP = false;
-    console.log("OpenModal Parent - ", tempTittle);
     this.spinner.show();
     if (category) {
       this.flagCreateUpdateP = false;
       this.title = `${tempTittle} Categoría-${category.id}`;
-      this.ParentForm.setValue({ id: category.id, parent: category.parent, name: category.name });
+      this.ParentForm.setValue({ id: category.id, parent: category.parent, name: category.name, status: category.status });
       modal.open();
       this.spinner.hide();
     }
@@ -313,6 +316,7 @@ export class CategoryComponent implements OnInit {
     }else {
       this.serviceService.putUpdateCategory(this.ParentForm.value)
         .subscribe((response: any) => {
+          console.log(this.ParentForm.value)
           console.log('Update', response);
           this.flagResP = true;
           this.messageP = 'Actualizado con éxito.';

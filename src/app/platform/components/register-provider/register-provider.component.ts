@@ -41,8 +41,12 @@ export class RegisterProviderComponent implements OnInit {
   selectedItems2 = [];
   dropdownSettings = {};
   dropdownSettings2 = {};
+  dropdownList3 = [];
+  selectedItems3 = [];
+  dropdownSettings3 = {};
   idsCategory = [];
   certificatesAll = [];
+  categories3 = [];
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
@@ -66,20 +70,26 @@ export class RegisterProviderComponent implements OnInit {
     this.categoryService.guestGetCategories().subscribe(
       (response: any) => {
         this.categories = response.data.filter(item => item.parent == 0);
-        this.categoryService.guestGetPrices().subscribe((res: any) => {
-          this.categories.push(...res.data.filter(item => item.parent == 0));
+          console.log(this.categories)
           for (let i = 0; i < this.categories.length; i++) {
             this.dropdownList.push({"id":i,"valueId":this.categories[i].id,"itemName":this.categories[i].name},)
           }
-        });
       },
       (error: any) => {
         console.log(error);
+    });
+
+    this.categoryService.guestGetPrices().subscribe((res: any) => {
+      this.categories3.push(...res.data.filter(item => item.parent == 0));
+      for (let i = 0; i < this.categories3.length; i++) {
+        this.dropdownList3.push({"id":i,"valueId":this.categories3[i].id,"itemName":this.categories3[i].name},)
       }
-    );
+      console.log(this.categories3)
+    });
   }
 
   ngOnInit() {
+    console.log("asdasd")
     this.ServiceService.getAllCertificateAll().subscribe((response:any) => {
       console.log(response.data)
       for (let i = 0; i < response.data.length; i++) {
@@ -87,6 +97,15 @@ export class RegisterProviderComponent implements OnInit {
       }
       console.log(this.certificatesAll,"hola")
     })
+    this.dropdownSettings3 = { 
+      singleSelection: false, 
+      text:"Seleccionar Certificado tarifado",
+      selectAllText:'Seleccionar todo',
+      unSelectAllText:'UnSelect All',
+      enableSearchFilter: true,
+      enableCheckAll:false,
+      classes:"myclass custom-class"
+    };
     this.dropdownSettings2 = { 
       singleSelection: false, 
       text:"Seleccionar Certificado",
@@ -121,10 +140,10 @@ export class RegisterProviderComponent implements OnInit {
       nombre: ["", Validators.required],
       apellidos: ["", Validators.required],
       ptelefono: ["", Validators.required],
-      direccion:  [''],
+      direccion:  ['', Validators.required],
       foto: [""],
       psWeb: [""],
-      pcorreo: [""],
+      pcorreo: ["", Validators.required],
       policiales: [""],
       penales: [""],
       judiciales: [""],
@@ -136,6 +155,7 @@ export class RegisterProviderComponent implements OnInit {
       interbancaria: [""],
       certificates: [],
       categories: [[]],
+      priced: [[]],
       districts: [[]]
     });
     this.tipo("Particular");
@@ -165,6 +185,20 @@ export class RegisterProviderComponent implements OnInit {
   onSelectAll2(items: any){
   }
   onDeSelectAll2(items: any){
+      console.log(items);
+  }
+
+  onItemSelect3(item:any){
+    console.log(item);
+    console.log(this.selectedItems2);
+  }
+  OnItemDeSelect3(item:any){
+      console.log(item);
+      console.log(this.selectedItems2);
+  }
+  onSelectAll3(items: any){
+  }
+  onDeSelectAll3(items: any){
       console.log(items);
   }
 
@@ -324,7 +358,7 @@ export class RegisterProviderComponent implements OnInit {
   onSubmit(myModal) {
     this.idCertificate = [];
     for (let i = 0; i < this.selectedItems2.length; i++) {
-      this.idCertificate.push(this.selectedItems2[i].id)
+      this.idCertificate.push(this.selectedItems2[i].valueId)
     }
     this.idsCategory = []
     for (let i = 0; i < this.selectedItems.length; i++) {
@@ -359,7 +393,7 @@ export class RegisterProviderComponent implements OnInit {
       (response: any) => {
         this.flagPsw = false;
         this.flagRes = true;
-        this.message = "Registro con éxito, inicie sesión.";
+        this.message = "Se ha registrado correctamente, ingrese a su bandeja de correo para verificar su cuenta.";
         myModal.open();
         this.submitted = false;
         this.spinner.hide();

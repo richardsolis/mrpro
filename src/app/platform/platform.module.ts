@@ -43,16 +43,17 @@ import { ChangePasswordComponent } from './components/change-password/change-pas
 import { StarsComponent } from './components/stars/stars.component';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { ConfirmarComponent } from './components/confirmar/confirmar.component';
+import { CreditCardDirectivesModule } from 'angular-cc-library';
 export function getAuthServiceConfigs() {
   let config = new AuthServiceConfig(
       [
         {
           id: FacebookLoginProvider.PROVIDER_ID,
-        provider: new FacebookLoginProvider("434656830360605")
+          provider: new FacebookLoginProvider("177355466658728")
         },
         {
           id: GoogleLoginProvider.PROVIDER_ID,
-        provider: new GoogleLoginProvider("781876192100-k5dji7joqdu7vbsmgpmrrh9pvboqg8kr.apps.googleusercontent.com")
+          provider: new GoogleLoginProvider("494212167900-b4oftbu7vot06fvgri3ekt2gkpgmh2le.apps.googleusercontent.com")
         },
           {
             id: LinkedinLoginProvider.PROVIDER_ID,
@@ -78,7 +79,8 @@ export function getAuthServiceConfigs() {
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule,  // imports firebase/auth, only needed for auth features,
     DataTablesModule,
-    AngularMultiSelectModule
+    AngularMultiSelectModule,
+    CreditCardDirectivesModule
   ],
   providers: [
     {

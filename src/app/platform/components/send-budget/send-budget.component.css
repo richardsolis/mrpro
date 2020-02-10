@@ -1,0 +1,39 @@
+.popUp-alert {
+    width: 100%;
+    height: 100vh;
+    background: #0000008c;
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    z-index: 9999999;
+    top: 0;
+}
+
+.content-center {
+    width: 350px;
+    height: 250px;
+    background: white;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.popUp-alert .center h3 {
+    font-size: 23px
+}
+
+.row-buttons {
+    width: 160px;
+    justify-content: space-around;
+    display: flex;
+    margin: auto;
+}
+
+.row-buttons .bprimary {
+    margin-top: 30px;
+    margin-right: 20px;
+    margin-left: 20px;
+    padding: 10px 25px;
+}

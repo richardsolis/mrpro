@@ -7,6 +7,7 @@ import { GeneralService } from "../../../services/general.service";
 import { NgxSpinnerService } from "ngx-spinner";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ServiceService } from '../../../services/service.service';
+import { CreditCardValidator } from 'angular-cc-library';
 
 @Component({
   selector: "app-send-budget",
@@ -24,7 +25,7 @@ export class SendBudgetComponent implements OnInit {
   nFlag: boolean = false;
   dFlag: boolean = false;
   cvvFlag: boolean = false;
- 
+  modalAlert = false;
   providers = [];
   services = [];
   LocalProvider = this.session.getObject("provider");
@@ -49,16 +50,22 @@ export class SendBudgetComponent implements OnInit {
   file: File;
   imgaa: FileList;
   listCard;
+  form1: FormGroup;
 
   flagTypePay: boolean = true;
   constructor(public ServiceService:ServiceService ,private router: Router, private session: SessionService, private districtS: DistrictService, 
               private userS: UserService, private generalS: GeneralService, private spinner: NgxSpinnerService,
-              private formBuilder: FormBuilder) 
+              private formBuilder: FormBuilder, private _fb: FormBuilder) 
   {
     this.cardBankID = null;
   }
 
   ngOnInit() {
+    this.form1 = this._fb.group({
+      creditCard: ['', [<any>CreditCardValidator.validateCCNumber]],
+      expirationDate: ['', [<any>CreditCardValidator.validateExpDate]],
+      cvc: ['', [<any>Validators.required, <any>Validators.minLength(3), <any>Validators.maxLength(4)]] 
+    });
     this.registerForm = this.formBuilder.group({
       address: ['', Validators.required],
       category_service_id: [this.session.getObject("budget").category, Validators.required],
@@ -83,9 +90,12 @@ export class SendBudgetComponent implements OnInit {
     console.log(this.providers);
     this.getDistricts();
     this.allCard();
+
   }
   setCardCredite(id){
     console.log(id)
+    this.cardBankID = id;
+    this.flagTypePay = false;
     this.ServiceService.setCardCredit(id).subscribe((response: any) => {
       console.log(response);
       this.listCard = [];
@@ -137,7 +147,12 @@ export class SendBudgetComponent implements OnInit {
   allCard() {
     this.userS.getCardBank().subscribe((response: any) => {
       this.listCard = response.data;
-      console.log(this.listCard);
+      for (let i = 0; i < this.listCard.length; i++) {
+        if (this.listCard[i].default == 1) {
+          this.cardBankID = this.listCard[i].id
+        }
+      }
+      console.log(this.listCard,this.cardBankID,"ELmaki");
     });
   }
 
@@ -172,37 +187,30 @@ export class SendBudgetComponent implements OnInit {
   }
 
   saveCard() {
-    if(this.cardCreit.number.length != 16){
-      this.nFlag = true;
-      return;
-    }else{
-      this.nFlag = false;
-    }
+    this.cardCreit = {
+      number: this.form1.value.creditCard.replace(/\s/g,''),
+      date: this.form1.value.expirationDate,
+      cvv: this.form1.value.cvc
+    };
 
-    if(!this.dateExpiration(this.cardCreit.date)){
-      this.dFlag = true;
-      return;
-    }else{
-      this.dFlag = false;
-    }
 
-    if(this.cardCreit.cvv.length != 3){
-      this.cvvFlag = true;
-      return;
-    }else{
-      this.cvvFlag = false;
+    if (this.form1.valid) {
+      this.nFlag =false;
+      this.userS.createCardBank(this.cardCreit).subscribe((response: any) => {
+        console.log(response);
+        this.allCard();
+        this.addMetod = false;
+        this.form1.reset();
+        this.cardCreit = {
+          number: "",
+          date: "",
+          cvv: ""
+        };
+      });
     }
-
-    this.userS.createCardBank(this.cardCreit).subscribe((response: any) => {
-      console.log(response);
-      this.allCard();
-      this.addMetod = false;
-      this.cardCreit = {
-        number: "",
-        date: "",
-        cvv: ""
-      };
-    });
+    else {
+      this.nFlag =true;
+    }
   }
 
   deleteCard(cardID: string){
@@ -242,6 +250,7 @@ export class SendBudgetComponent implements OnInit {
     this.flagTypePay = false;
   }
 
+
   changePay(){
     this.flagTypePay = true;
   }
@@ -269,37 +278,72 @@ export class SendBudgetComponent implements OnInit {
     let title = '';
     for (let i = 0; i < this.LocalProvider.length; i++) {
       if(this.session.getObject("budget").quantity === undefined){
-        dataSend.push({
-          address: this.registerForm.get('address').value,
-          category_service_id: this.session.getObject("budget").category,
-          parent_category_service: this.session.getObject("budget").subcategory,
-          contact_name: this.registerForm.get('contact_name').value,
-          date_service: `${this.registerForm.get('date_service').value} ${this.registerForm.get('hour').value}`,
-          description: this.registerForm.get('description').value,
-          district_id: this.registerForm.get('district_id').value,
-          phone_name: this.registerForm.get('phone_name').value,
-          card_bank_id: this.cardBankID,
-          user_provider_id: this.LocalProvider[i].id
-        });
+        if (this.session.getObject("budget").type == "priced") {
+          dataSend.push({
+            address: this.registerForm.get('address').value,
+            service_priced_id: this.session.getObject("budget").category,
+            parent_service_priced: this.session.getObject("budget").subcategory,
+            contact_name: this.registerForm.get('contact_name').value,
+            date_service: `${this.registerForm.get('date_service').value} ${this.registerForm.get('hour').value}`,
+            description: this.registerForm.get('description').value,
+            district_id: this.registerForm.get('district_id').value,
+            phone_name: this.registerForm.get('phone_name').value,
+            card_bank_id: this.cardBankID,
+            user_provider_id: this.LocalProvider[i].id
+          });
+        } else {
+          dataSend.push({
+            address: this.registerForm.get('address').value,
+            category_service_id: this.session.getObject("budget").category,
+            parent_category_service: this.session.getObject("budget").subcategory,
+            contact_name: this.registerForm.get('contact_name').value,
+            date_service: `${this.registerForm.get('date_service').value} ${this.registerForm.get('hour').value}`,
+            description: this.registerForm.get('description').value,
+            district_id: this.registerForm.get('district_id').value,
+            phone_name: this.registerForm.get('phone_name').value,
+            card_bank_id: this.cardBankID,
+            user_provider_id: this.LocalProvider[i].id
+          });
+        }
+        
         notification.push(this.LocalProvider[i].user.id);
         title = 'Nueva Solicitud Cotizacion';
       }else{
-        dataSend.push({
-          address: this.registerForm.get('address').value,
-          category_service_id: this.session.getObject("budget").category,
-          parent_category_service: this.session.getObject("budget").subcategory,
-          contact_name: this.registerForm.get('contact_name').value,
-          date_service: `${this.registerForm.get('date_service').value} ${this.registerForm.get('hour').value}`,
-          description: this.registerForm.get('description').value,
-          district_id: this.registerForm.get('district_id').value,
-          phone_name: this.registerForm.get('phone_name').value,
-          card_bank_id: this.cardBankID,
-          user_provider_id: this.LocalProvider[i].id,
-          price: this.getTotalPrice(this.session.getObject("budget").price,this.session.getObject("budget").quantity),
-          quantity: this.session.getObject("budget").quantity
-        });
-        notification.push(this.LocalProvider[i].user.id);
-        title = 'Nueva Solicitud Tarifado';
+        if (this.session.getObject("budget").type == "priced") {
+          dataSend.push({
+            address: this.registerForm.get('address').value,
+            service_priced_id: this.session.getObject("budget").category,
+            parent_service_priced: this.session.getObject("budget").subcategory,
+            contact_name: this.registerForm.get('contact_name').value,
+            date_service: `${this.registerForm.get('date_service').value} ${this.registerForm.get('hour').value}`,
+            description: this.registerForm.get('description').value,
+            district_id: this.registerForm.get('district_id').value,
+            phone_name: this.registerForm.get('phone_name').value,
+            card_bank_id: this.cardBankID,
+            user_provider_id: this.LocalProvider[i].id,
+            price: this.getTotalPrice(this.session.getObject("budget").price,this.session.getObject("budget").quantity),
+            quantity: this.session.getObject("budget").quantity
+          });
+          notification.push(this.LocalProvider[i].user.id);
+          title = 'Nueva Solicitud Tarifado';
+        } else {
+          dataSend.push({
+            address: this.registerForm.get('address').value,
+            category_service_id: this.session.getObject("budget").category,
+            parent_category_service: this.session.getObject("budget").subcategory,
+            contact_name: this.registerForm.get('contact_name').value,
+            date_service: `${this.registerForm.get('date_service').value} ${this.registerForm.get('hour').value}`,
+            description: this.registerForm.get('description').value,
+            district_id: this.registerForm.get('district_id').value,
+            phone_name: this.registerForm.get('phone_name').value,
+            card_bank_id: this.cardBankID,
+            user_provider_id: this.LocalProvider[i].id,
+            price: this.getTotalPrice(this.session.getObject("budget").price,this.session.getObject("budget").quantity),
+            quantity: this.session.getObject("budget").quantity
+          });
+          notification.push(this.LocalProvider[i].user.id);
+          title = 'Nueva Solicitud Tarifado';
+        }
       }
     }
     this.userS.sendBudget({ services: JSON.stringify(dataSend), image: JSON.stringify(this.imgArray) }).subscribe(
@@ -343,7 +387,15 @@ export class SendBudgetComponent implements OnInit {
     this.router.navigate(["/reservado"]);
   }
 
-  goback() {
+  goback(number) {
+    if (number == 0) {
+      this.modalAlert = true;
+    }else {
+      this.modalAlert = false;
+    }
+  }
+
+  gobackYes(){
     this.router.navigate(["/reserva"]);
   }
 }

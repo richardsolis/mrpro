@@ -131,17 +131,18 @@
         <h5 class="card-header" style="color:white;background: #135daa;"><b class="text-danger">(*)</b> Seleccione su metodo de pago</h5>
         <div class="card-body" style="padding: 20px;">
           <div style="display: flex;flex-direction: column-reverse;">
+            <p *ngIf="mesajeErrorCard" style="padding: 0px 20px;margin-top: 10px;margin-bottom: 10px;color: #dc3545;font-weight: 500;background: #ff000021;">La tarjeta no puede ser eliminada porque está relacionada a un servicio</p>
               <div style="display: flex;align-items: center; margin-top: 10px;padding: 10px;border-radius: 10px;" *ngFor="let list of listCard" [ngStyle]="{'background': list.default == 1 ? '#ffc10785' : 'white'}">
-                  <div class="form-check" style="width: 400px;margin-right: 40px;display: flex;justify-content: space-between;">
+                  <div class="form-check listCardRow" style="width: 300px;margin-right: 40px;display: flex;justify-content: space-between;">
                     <input (click)="selectCardBank(list.id)" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" [attr.checked]=" list.default == 1 ? 'checked' : null" style="opacity:0;"/>
                     <label class="form-check-label" for="exampleRadios1" style="display: flex;">
                       {{ list.number_card }}
                       <p *ngIf="list.default == 1" style="margin-left:15px;">(Predeterminado)</p>
                     </label>
-                    <div class="radio-icon radio-icon-spreedly" style="width: 62px;background: url(https://assets-fix-me.cabify.com/97882ae02375c44ffb589354e157601d.svg) 50% no-repeat;height: 22px;"></div>
+                    <div class="radio-icon radio-icon-spreedly img-cards-credit" style="width: 62px;background: url(https://assets-fix-me.cabify.com/97882ae02375c44ffb589354e157601d.svg) 50% no-repeat;height: 22px;"></div>
                   </div>
-                  <button type="button" class="btn btn-info" style="width: 36px;height: 36px;padding: 0px;margin-right: 17px;" (click)="setCardCredite(list.id)"><i class="fa fa-check"></i></button>
-                  <button type="button" (click)="deleteCard(list.id)" class="btn btn-danger" style="width: 36px;height: 36px;padding: 0px;margin-right: 17px;"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                  <button type="button" class="botonesSize btn btn-info" style="width: 36px;height: 36px;padding: 0px;margin-right: 17px;" (click)="setCardCredite(list.id)"><i class="fa fa-check"></i></button>
+                  <button type="button" (click)="deleteCard(list.id)" class="botonesSize btn btn-danger" style="width: 36px;height: 36px;padding: 0px;margin-right: 17px;"><i class="fa fa-trash" aria-hidden="true"></i></button>
                 </div>
           </div>
           <div class="form-check" style="margin-top: 10px;">
@@ -161,21 +162,31 @@
       <div class="card" style="border:none;" *ngIf="addMetod">
         <h5 class="card-header" style="color:white;background: #135daa;">Añadir método de pago</h5>
         <div class="card-body" style="padding: 20px;">
-          <form class="form-add-metod">
+          <form class="form-add-metod" #demoForm="ngForm" (ngSubmit)="onSubmit1(demoForm)" novalidate [formGroup]="form">
+            <!-- <p *ngIf="nFlag" class="text-danger">Tarjeta invalida</p> -->
             <div class="row">
-              <div class="col">
-                <input type="text" (keypress)="onlydigit($event)" class="form-control" placeholder="Numero de tarjeta" [(ngModel)]="cardCreit.number" name="number" maxlength="16" />
-                <label *ngIf="nFlag" class="text-danger">debe ser 16 digitos</label>
+              <div class="col"> 
+                <div>
+                  <span style="color: #dc3545;" *ngIf="numeroField">Numero Incorrecto</span>
+                  <input type="text" class="form-control" placeholder="Numero de tarjeta" name="number"  id="cc-number" formControlName="creditCard" type="tel" autocomplete="cc-number" ccNumber />
+                </div>
+                <!-- <label *ngIf="nFlag" class="text-danger">debe ser 16 digitos</label> -->
               </div>
             </div>
             <div class="row">
               <div class="col">
-                <input type="text" class="form-control" placeholder="Expiración - 00/00" [(ngModel)]="cardCreit.date" name="date"  maxlength="5"/>
-                <label *ngIf="dFlag" class="text-danger">debe ser mm/yy</label>
+                <div>
+                  <span style="color: #dc3545;" *ngIf="fechaField">Fecha Incorrecta</span>
+                  <input type="text" class="form-control" placeholder="Vencimiento - MM/AAAA"id="cc-exp-date" formControlName="expirationDate" type="tel" autocomplete="cc-exp" ccExp/>
+                </div>
+                <!-- <label *ngIf="dFlag" class="text-danger">debe ser mm/yy</label> -->
               </div>
               <div class="col">
-                <input type="text" class="form-control" placeholder="CVV " [(ngModel)]="cardCreit.cvv" name="cvv" maxlength="3" />
-                <label *ngIf="cvvFlag" class="text-danger">debe ser 3 digitos</label>
+                <div>
+                  <span style="color: #dc3545;" *ngIf="cvvField">Fecha Incorrecta</span>
+                  <input type="text" class="form-control" placeholder="CVV " id="cc-cvc" formControlName="cvc" type="tel" autocomplete="off" ccCvc/>
+                </div>
+                <!-- <label *ngIf="cvvFlag" class="text-danger">debe ser 3 digitos</label> -->
               </div>
             </div>
             <div style="width: 240px;margin: auto;">
@@ -184,6 +195,12 @@
             </div>
           </form>
         </div>
+        <!-- <form #demoForm="ngForm" (ngSubmit)="onSubmit1(demoForm)" novalidate [formGroup]="form">
+          <input id="cc-number" formControlName="creditCard" type="tel" autocomplete="cc-number" ccNumber>
+          <input id="cc-exp-date" formControlName="expirationDate" type="tel" autocomplete="cc-exp" ccExp>
+          <input id="cc-cvc" formControlName="cvc" type="tel" autocomplete="off" ccCvc>
+          <input type="submit" value="button">
+        </form> -->
       </div>
     </div>
   </div>

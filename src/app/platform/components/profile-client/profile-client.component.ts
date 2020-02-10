@@ -5,7 +5,8 @@ import { UserService } from '../../../services/user.service';
 import { SessionService } from '../../../services/session.service';
 import { ClientService } from '../../../services/client.service';
 import { ServiceService } from '../../../services/service.service';
-
+import { CreditCardValidator } from 'angular-cc-library';
+import { error } from 'util';
 @Component({
   selector: 'app-profile-client',
   templateUrl: './profile-client.component.html',
@@ -32,18 +33,39 @@ export class ProfileClientComponent implements OnInit {
   cvvFlag: boolean = false;
   nFlag: boolean = false;
   option1 = true;
-  
+  form: FormGroup;
+  submitted1: boolean = false;
+  mesajeErrorCard = false;
+  numeroField = false;
+  fechaField = false;
+  cvvField = false;
   constructor(public ServiceService:ServiceService ,private formBuilder: FormBuilder,	private spinner: NgxSpinnerService,
               private userService: UserService, private session: SessionService,
-              private clientService: ClientService) { }
+              private clientService: ClientService,
+              private _fb: FormBuilder) { }
 
   ngOnInit() {
+    this.form = this._fb.group({
+      creditCard: ['', [<any>CreditCardValidator.validateCCNumber]],
+      expirationDate: ['', [<any>CreditCardValidator.validateExpDate]],
+      cvc: ['', [<any>Validators.required, <any>Validators.minLength(3), <any>Validators.maxLength(4)]] 
+    });
     this.initClient();
     this.allCard();
   }
 
   addMetodButon() {
     this.addMetod = true;
+  }
+
+  onSubmit1(form) {
+    this.submitted1 = true;
+    this.numeroField = form.directives[0].invalid;
+    this.fechaField = form.directives[1].invalid;
+    this.cvvField = form.directives[2].invalid;
+    console.log(form.directives[0].invalid);
+    console.log(form.directives[1].invalid);
+    console.log(form.directives[2].invalid);
   }
   
   editPago(){
@@ -93,44 +115,47 @@ export class ProfileClientComponent implements OnInit {
       console.log(response);
       this.listCard = [];
       this.allCard();
+    }, error => {
+      this.mesajeErrorCard = true;
+      setTimeout( ()=>{
+        this.mesajeErrorCard = false;
+      },5000);
     });
 }
 
 cancelSend() {
   this.pago = false;
 }
+
+cancelCard(){
+  this.addMetod = false;
+  this.form.reset();
+}
   saveCard() {
-    if(this.cardCreit.number.length != 16){
-      this.nFlag = true;
-      return;
-    }else{
-      this.nFlag = false;
-    }
+    this.cardCreit = {
+      number: this.form.value.creditCard.replace(/\s/g,''),
+      date: this.form.value.expirationDate,
+      cvv: this.form.value.cvc
+    };
 
-    if(!this.dateExpiration(this.cardCreit.date)){
-      this.dFlag = true;
-      return;
-    }else{
-      this.dFlag = false;
-    }
 
-    if(this.cardCreit.cvv.length != 3){
-      this.cvvFlag = true;
-      return;
-    }else{
-      this.cvvFlag = false;
+    if (this.form.valid) {
+      this.nFlag =false;
+      this.userService.createCardBank(this.cardCreit).subscribe((response: any) => {
+        console.log(response);
+        this.allCard();
+        this.addMetod = false;
+        this.form.reset();
+        this.cardCreit = {
+          number: "",
+          date: "",
+          cvv: ""
+        };
+      });
     }
-
-    this.userService.createCardBank(this.cardCreit).subscribe((response: any) => {
-      console.log(response);
-      this.allCard();
-      this.addMetod = false;
-      this.cardCreit = {
-        number: "",
-        date: "",
-        cvv: ""
-      };
-    });
+    else {
+      this.nFlag =true;
+    }
   }
 
   selectFile(event){

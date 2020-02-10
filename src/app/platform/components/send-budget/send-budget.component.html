@@ -3,7 +3,7 @@
   <section class="box-mh row row-center">
     <div class="col-md-7 card card-sesion" style="margin-top: 2rem;">
       <div class="mg-t-small card-title" style="display: flex;align-items: center;">
-        <button (click)="goback()" style="padding: 5px 11px;background: #125daa;border: none;color: white;border-radius: 10px;outline: none;height: 31px;margin-right: 15px;">
+        <button (click)="goback(0)" style="padding: 5px 11px;background: #125daa;border: none;color: white;border-radius: 10px;outline: none;height: 31px;margin-right: 15px;">
           <i class="fa fa-chevron-left"></i>
         </button>
         <h5><span *ngIf="typeServices.type == 'programmed'">Solicitar cotización</span><span *ngIf="typeServices.type == 'immediate'">Procesar Inmediato</span><span *ngIf="typeServices.type == 'priced'">Solicitar Servicio Tarifado</span></h5>
@@ -24,7 +24,7 @@
           </div>
           <div class="form-group" style="width: 49%;margin-top:0px;margin-bottom:0px;">
             <p><b class="text-danger">*</b>Numero de telefono:</p>
-            <input class="color-blue" formControlName="phone_name" (keypress)="onlydigit($event)" type="text" name="phone_name" />
+            <input class="color-blue" formControlName="phone_name" (keypress)="onlydigit($event)" type="text" name="phone_name" maxlength="9" />
           </div>
         </div>
         <div *ngIf="typeServices.type != 'immediate'" style="display: flex;justify-content: space-between;margin-top: 10px;">
@@ -126,20 +126,21 @@
     <div class="card" style="border:none;" *ngIf="addMetod">
       <h5 class="card-header" style="color:white;background: #135daa;">Añadir método de pago</h5>
       <div class="card-body" style="padding: 20px;">
-        <form class="form-add-metod">
+        <form class="form-add-metod" #demoForm="ngForm" (ngSubmit)="onSubmit1(demoForm)" novalidate [formGroup]="form1">
+          <p *ngIf="nFlag" class="text-danger">Tarjeta invalida</p>
           <div class="row">
             <div class="col">
-              <input type="text" (keypress)="onlydigit($event)" class="form-control" placeholder="Numero de tarjeta" [(ngModel)]="cardCreit.number" name="number" maxlength="16" />
-              <label *ngIf="nFlag" class="text-danger">debe ser 16 digitos</label>
+              <input type="text" class="form-control" placeholder="Numero de tarjeta" name="number"  id="cc-number" formControlName="creditCard" type="tel" autocomplete="cc-number" ccNumber />
+              <!-- <label *ngIf="nFlag" class="text-danger">debe ser 16 digitos</label> -->
             </div>
           </div>
           <div class="row">
             <div class="col">
-              <input type="text" class="form-control" placeholder="Expiración - 00/00" [(ngModel)]="cardCreit.date" name="date"  maxlength="5"/>
+              <input type="text" class="form-control" placeholder="Vencimiento - MM/AAAA"id="cc-exp-date" formControlName="expirationDate" type="tel" autocomplete="cc-exp" ccExp/>
               <label *ngIf="dFlag" class="text-danger">debe ser mm/yy</label>
             </div>
             <div class="col">
-              <input type="text" class="form-control" placeholder="CVV " [(ngModel)]="cardCreit.cvv" name="cvv" maxlength="3" />
+              <input type="text" class="form-control" placeholder="CVV " id="cc-cvc" formControlName="cvc" type="tel" autocomplete="off" ccCvc/>
               <label *ngIf="cvvFlag" class="text-danger">debe ser 3 digitos</label>
             </div>
           </div>
@@ -152,7 +153,17 @@
     </div>
   </div>
 </div>
-
+<div class="popUp-alert" *ngIf="modalAlert">
+  <div class="content-center">
+    <div class="center">
+      <h3>Si retrocede, perderá los cambios. <br> ¿Está seguro?</h3>
+      <div class="row-buttons">
+        <button class="btn bprimary" (click)="gobackYes()">Si</button>
+        <button class="btn bprimary" (click)="goback(1)">No</button>
+      </div>
+    </div>
+  </div>
+</div>
 <modal #myModal>
   <modal-content>
     <div class="error text-center">

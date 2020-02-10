@@ -42,7 +42,7 @@ export class ServiceService {
     return this.http.post(AppSettings.BASE_PATH + AppSettings.POST_CREATE_DASHBOARD_CATEGORY, body, header);
   }
 
-  putUpdateCategory(params){
+  putUpdateCategory(params){ 
     const obj = {
       parent: params.parent,
       name: params.name,
@@ -129,9 +129,9 @@ export class ServiceService {
 
   getAllCertificateAll(){
     
-    var header = this.generalS.getToken({}, "application/json");
+    // var header = this.generalS.getToken({}, "application/json");
 
-    return this.http.get(AppSettings.BASE_PATH + AppSettings.CERTIFICATEGET, header);
+    return this.http.get(AppSettings.BASE_PATH + AppSettings.CERTIFICATEGET);
   }
 
   setCardCredit(params) {

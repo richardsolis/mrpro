@@ -32,7 +32,7 @@ export class HomeProviderComponent implements OnInit, OnDestroy {
   BUDGET_ID: string;
   validFlag: boolean = false;
   confirmModel: any;
-
+  mesajeErrorService = '';
   @ViewChild(DataTableDirective) dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
@@ -163,6 +163,7 @@ export class HomeProviderComponent implements OnInit, OnDestroy {
   }
 
   confirm(cmodal, option: string, budgetID: string){
+    console.log(cmodal,option,budgetID)
     cmodal.open();
     if(option == 'A'){
       this.confirmModel.mensaje = "¿Está seguro de Aceptar el servicio? Ingrese al chat para definir el precio, la fecha y hora del servicio.";
@@ -186,6 +187,9 @@ export class HomeProviderComponent implements OnInit, OnDestroy {
           console.log("ChatCreado",chat.id);
           this.userService.updateBudgetChat(chat.id, budgetID)
           .subscribe((res: any) => {
+            if (cmodal == 'lifeHack') {
+              this._router.navigate(['/proveedor/chat',chat.id, budgetID]);
+            }
             console.log("ActualizaChatBudget",res);
             this.spinner.hide();
             cmodal.close();
@@ -213,8 +217,12 @@ export class HomeProviderComponent implements OnInit, OnDestroy {
   }
 
   startChat(chatId: string, BudgetID: string){
+    if (chatId == null) {
+      this.changeStatus('lifeHack', 'A', BudgetID);
+    }else {
     this.chatID = chatId;
     this._router.navigate(['/proveedor/chat',chatId, BudgetID]);
+    }
     
   }
 
@@ -242,7 +250,10 @@ export class HomeProviderComponent implements OnInit, OnDestroy {
                 this.spinner.hide();
                 location.reload();
               }, (error: any) => {
-                console.log(error);
+                this.mesajeErrorService = error.error.message;
+                setTimeout(() => {
+                  this.mesajeErrorService = '';
+                }, 2000);
                 this.spinner.hide();
               });
         }, (error: any) => {

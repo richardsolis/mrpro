@@ -1,0 +1,14 @@
+ngx-spinner .overlay {
+    z-index: 99999999999999999999999!important;
+  }
+
+  .box-info {
+    width: 350px;
+    height: 250px;
+    background: #ffbd00;;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    text-align: center;
+  }

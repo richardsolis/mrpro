@@ -234,7 +234,7 @@ export class ProvidersComponent implements OnInit, OnDestroy {
   }
 
   goChat(chatId: string, BudgetID: string){
-    
+    console.log(chatId,BudgetID)
     this.router.navigate(['/proveedor/chat',chatId, BudgetID]);
     
   }

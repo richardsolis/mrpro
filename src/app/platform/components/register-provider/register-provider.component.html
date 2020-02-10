@@ -183,6 +183,20 @@
                 </angular2-multiselect> 
               </div>
             </div>
+            <div class="form-group row">
+              <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Categoría tarifado(s):</label>
+              <div class="col-lg-8 col-md-6">
+                <angular2-multiselect [data]="dropdownList3"
+                  [settings]="dropdownSettings3" 
+                  (onSelect)="onItemSelect3($event)" 
+                  (onDeSelect)="OnItemDeSelect3($event)"
+                  (onSelectAll)="onSelectAll3($event)"
+                  [ngModel]="selectedItems3"
+                  (onDeSelectAll)="onDeSelectAll3($event)"
+                  [ngModelOptions]="{standalone: true}">
+                </angular2-multiselect> 
+              </div>
+            </div>  
         </div>
         <div class="col-lg-6" style="flex-direction:row;align-self: flex-start;">
           <div class="form-group row" *ngIf="tipoForm">

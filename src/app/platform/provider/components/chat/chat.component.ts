@@ -33,9 +33,11 @@ export class ChatComponent implements OnInit {
   arrayImgs:string[];
   flagItem: boolean = false;
   flagPrice: boolean = false;
-
+  minDate:any;
   PATH: string = "";
-
+  modalAlert = false;
+  flagPrice2 = false;
+  modalAlertRechazar = false;
   public slideConfig = {"slidesToShow": 1, "slidesToScroll": 1, "dots":true};
   constructor(public _cs: ChatService, private _route:ActivatedRoute, 
               private spinner: NgxSpinnerService, private _router:Router,
@@ -86,6 +88,7 @@ export class ChatComponent implements OnInit {
 
   ngOnInit() {
     this.elemento = document.getElementById('app-mensajes');
+    this.getActualDate();
   }
 
   getName(array: any[], value){
@@ -173,9 +176,19 @@ export class ChatComponent implements OnInit {
   }
 
   rechazarPropuesta(){
-    this.ServiceService.sendCancelProvider(this.currentBudgetID).subscribe((response:any) => {
-      console.log("richard",response)
-    })
+    this.spinner.show();
+    if(this.currentBudget.price){
+      this.flagPrice2 = false;
+      this.ServiceService.sendCancelProvider(this.currentBudgetID).subscribe((response:any) => {
+        this.modalAlertRechazar = true;
+        this.spinner.hide();
+        console.log("richard",response)
+      })
+    }else{
+      this.spinner.hide();
+      this.flagPrice2 = true;
+    }
+    
   }
 
   uploadFile(file){
@@ -268,8 +281,13 @@ export class ChatComponent implements OnInit {
     
   }
 
-  executeBudget(modal){
-    this.execute = false;
+  noCancel() {
+      this.modalAlert = false;
+  }
+
+  yesC(modal){
+     this.execute = false;
+     this.modalAlert = false;
     this.spinner.show();
     this.userService.executeBudget(this.currentBudgetID)
         .subscribe((res: any)=>{
@@ -281,7 +299,17 @@ export class ChatComponent implements OnInit {
           console.log(error);
           this.spinner.hide();
         });
+        
   }
+  
+  executeBudget(modal){
+    this.modalAlert = true;
+  }
+
+  OkDismiss() {
+    this.modalAlertRechazar = false;
+  }
+
 
   details(myImages, images){
     myImages.open();
@@ -297,6 +325,8 @@ export class ChatComponent implements OnInit {
     const day = ("0" + (tomorrow.getDate())).slice(-2);
     const month = ("0" + (tomorrow.getMonth() + 1)).slice(-2);
     const year = tomorrow.getFullYear();
+    this.minDate = year + '-' + month + '-' + day;
+    console.log(this.minDate)
     return `${year}-${month}-${day}`;
   }
 

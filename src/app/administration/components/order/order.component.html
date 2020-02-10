@@ -30,8 +30,11 @@
       <tbody>
         <tr *ngFor="let result of budgetList">
           <td scope="row">{{ result.code }}</td>
-          <td scope="row">{{ result.category_service.name }}</td>
-          <td scope="row">{{ result.parent_category.name }}</td>
+          <!-- <td scope="row" >{{ result.category_service.name }}</td> -->
+          <td scope="row" *ngIf="result.service_priced == null" >{{ result.category_service.name }}</td>
+          <td scope="row" *ngIf="result.service_priced != null" >{{ result.service_priced.name }}</td>
+          <td scope="row" *ngIf="result.service_priced == null" >{{ result.parent_category.name }}</td>
+          <td scope="row" *ngIf="result.service_priced != null" >{{ result.parent_priced.name }}</td>
           <td scope="row">{{ result.created_at | date: 'dd/MM/yyyy' }}</td>
           <td scope="row">{{ CountDays(result.created_at) }}</td>
           <td scope="row">{{ result.price }}</td>

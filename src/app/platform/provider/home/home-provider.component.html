@@ -30,7 +30,8 @@
         <tbody>
           <tr *ngFor="let budget of budgetsList">
             <td scope="row">{{ budget.code }}</td>
-            <td scope="row">{{ getName(categories, budget.category_service_id) }}</td>
+            <td scope="row" *ngIf="budget.service_priced == null">{{ getName(categories, budget.category_service_id) }}</td>
+            <td scope="row" *ngIf="budget.service_priced != null">{{ budget.service_priced.name }}</td>
             <td scope="row">{{ budget.description }}</td>
             <td scope="row">{{ getName(districts, budget.district_id) }}</td>
             <td scope="row">{{ budget.address }}</td>
@@ -102,6 +103,9 @@
             <div class="form-group">
                 <label *ngIf="validFlag"><b class="text-danger">Favor de completar todos los campos.</b></label>
                 <button class="btn bprimary">Finalizar</button>
+            </div>
+            <div class="error-mesaje" *ngIf="mesajeErrorService != ''" style="width: 100%;background: #f44336c7;padding: 5px;border-radius: 11px;text-align: center;font-size: 12px;color: white;">
+              <p>{{mesajeErrorService}}</p>
             </div>
           </form>
     </modal-content>

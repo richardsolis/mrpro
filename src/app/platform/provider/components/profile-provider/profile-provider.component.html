@@ -119,7 +119,7 @@
           <div class="form-group row">
             <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Contraseña:</label>
             <div class="col-lg-8 col-md-6">
-              <input type="password" formControlName="contrasena" class="form-control" id="contrasena"
+              <input type="password" autocomplete="new-password" formControlName="contrasena" class="form-control" id="contrasena"
                 placeholder="Ingrese Contraseña" minlength="8">
             </div>
           </div>
@@ -156,6 +156,20 @@
                 (onSelectAll)="onSelectAll($event)"
                 [ngModel]="selectedItems"
                 (onDeSelectAll)="onDeSelectAll($event)"
+                [ngModelOptions]="{standalone: true}">
+              </angular2-multiselect> 
+            </div>
+          </div> 
+          <div class="form-group row">
+            <label for="inputEmail3" class="col-lg-4 col-md-6 col-form-label">Categoría tarifado(s):</label>
+            <div class="col-lg-8 col-md-6">
+              <angular2-multiselect [data]="dropdownList3"
+                [settings]="dropdownSettings3" 
+                (onSelect)="onItemSelect3($event)" 
+                (onDeSelect)="OnItemDeSelect3($event)"
+                (onSelectAll)="onSelectAll3($event)"
+                [ngModel]="selectedItems3"
+                (onDeSelectAll)="onDeSelectAll3($event)"
                 [ngModelOptions]="{standalone: true}">
               </angular2-multiselect> 
             </div>

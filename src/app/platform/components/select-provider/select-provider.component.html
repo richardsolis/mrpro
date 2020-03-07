@@ -146,7 +146,9 @@
           style="text-align: center;display: flex;align-items: center;
         justify-content: space-around;"
         >
-          <img src="./assets/images/provider.png" class="card-img" alt="..." style="width:200px;" />
+        <img *ngIf="tprovider.user.image != 'null'" src="{{ tprovider.user.image ? 'http://admin-mrpro.mrpro.pe/img/' + tprovider.user.image : './assets/images/provider.png' }}" style="width:200px;" alt="..." />
+          <!-- <img src="./assets/images/provider.png" class="card-img" alt="..." style="width:200px;" /> -->
+          <img *ngIf="tprovider.user.image == 'null'" src="./assets/images/provider.png" style="width:200px;"/>
           <div>
             <div style="margin-top: 10px; text-align: left !important;">
               <h5 style="font-weight: 600;color: #134293;font-size: 17px;">

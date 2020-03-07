@@ -134,7 +134,7 @@ cancelCard(){
   saveCard() {
     this.cardCreit = {
       number: this.form.value.creditCard.replace(/\s/g,''),
-      date: this.form.value.expirationDate,
+      date: this.form.value.expirationDate.split(' ').join(''),
       cvv: this.form.value.cvc
     };
 

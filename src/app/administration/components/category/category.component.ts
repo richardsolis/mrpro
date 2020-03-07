@@ -175,7 +175,7 @@ export class CategoryComponent implements OnInit {
   openParent(parentModal, cmodal){
     this.flagCreateUpdateP = true;
     this.submittedP = false;
-    this.ParentForm.setValue({ id: '', parent: '0', name: '' });
+    this.ParentForm.setValue({ id: '', parent: '0', name: '', status: '' });
     cmodal.close();
     parentModal.open();
   }
@@ -226,7 +226,7 @@ export class CategoryComponent implements OnInit {
     } else {
       this.title = tempTittle;
       this.flagCreateUpdate = true;
-      this.categoryForm.setValue({ id: '', parent: '0', name: '' });
+      this.categoryForm.setValue({ id: '', parent: '0', name: '', status: '0' });
       modal.open();
       this.spinner.hide();
     }

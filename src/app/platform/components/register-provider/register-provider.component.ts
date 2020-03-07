@@ -38,13 +38,18 @@ export class RegisterProviderComponent implements OnInit {
   idCertificate = [];
   dropdownList = [];
   selectedItems = [];
+
   selectedItems2 = [];
   dropdownSettings = {};
   dropdownSettings2 = {};
+
   dropdownList3 = [];
   selectedItems3 = [];
   dropdownSettings3 = {};
+
   idsCategory = [];
+  idsCategory3 = [];
+
   certificatesAll = [];
   categories3 = [];
   constructor(
@@ -89,7 +94,6 @@ export class RegisterProviderComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log("asdasd")
     this.ServiceService.getAllCertificateAll().subscribe((response:any) => {
       console.log(response.data)
       for (let i = 0; i < response.data.length; i++) {
@@ -367,10 +371,19 @@ export class RegisterProviderComponent implements OnInit {
     this.registerForm.patchValue({
       categories: this.idsCategory
     });
-    console.log(this.idCertificate)
+
     this.registerForm.patchValue({
       certificates: this.idCertificate
     });
+    
+    this.idsCategory3 = [];
+    for (let i = 0; i < this.selectedItems3.length; i++) {
+      this.idsCategory3.push(this.selectedItems3[i].valueId)
+    }
+    this.registerForm.patchValue({
+      priced:  this.idsCategory3
+    });
+    
     if (
       this.registerForm.get("contrasena").value !==
       this.registerForm.get("contrasena2").value

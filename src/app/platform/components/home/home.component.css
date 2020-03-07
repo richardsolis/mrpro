@@ -1,0 +1,5 @@
+@media only screen and (max-width: 570px) {
+    section.banner h1 {
+        font-size: 20px;        
+    }
+  }

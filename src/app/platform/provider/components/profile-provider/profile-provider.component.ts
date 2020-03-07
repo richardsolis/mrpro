@@ -169,6 +169,7 @@ export class ProfileProviderComponent implements OnInit {
       console.log(items);
   }
 
+
   onItemSelect3(item:any){
     this.tipo(this.providerUser.type_provider)
     console.log(item);
@@ -188,6 +189,8 @@ export class ProfileProviderComponent implements OnInit {
       console.log(items);
   }
 
+
+  
   removeControls(){
     this.registerForm.removeControl('ruc');
     this.registerForm.removeControl('rSocial');

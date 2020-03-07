@@ -32,6 +32,7 @@ export class ProviderComponent implements OnInit {
   pdfJudiciales:any;
   districts: any[];
   categories: any[];
+  categories2 = [];
   flagSize: boolean = false;
   flagImg: boolean = false;
   flagPsw: boolean = false;
@@ -53,6 +54,16 @@ export class ProviderComponent implements OnInit {
   certificatesAll = [];
   editC = false;
   idCerti:number;
+
+  dropdownList = [];
+  selectedItems = [];
+  dropdownSettings = {};
+  listIdsCategories = [];
+
+  dropdownList2 = [];
+  selectedItems2 = [];
+  dropdownSettings2 = {};
+  listIdsCategories2 = [];
 
   @ViewChild(DataTableDirective) dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
@@ -79,12 +90,67 @@ export class ProviderComponent implements OnInit {
     this.categoryService.guestGetCategories()
       .subscribe((response: any) => {
         this.categories = response.data.filter(item => item.parent == 0);
+        for (let i = 0; i < this.categories.length; i++) {
+          this.dropdownList.push({"id":i,"valueId":this.categories[i].id,"itemName":this.categories[i].name},)
+        }
+        
         this.categoryService.guestGetPrices().subscribe((res: any) => {
-          this.categories.push(...res.data.filter(item => item.parent == 0));
+          this.categories2.push(...res.data.filter(item => item.parent == 0));
+          for (let i = 0; i < this.categories2.length; i++) {
+            this.dropdownList2.push({"id":i,"valueId":this.categories2[i].id,"itemName":this.categories2[i].name},)
+          }
         });
       }, (error: any) => {
         console.log(error);
       });
+
+      
+  }
+
+  onItemSelect(item:any){
+    console.log( this.selectedItems)
+    this.listIdsCategories = [];
+    for (var i = 0; i < this.selectedItems.length; i++) {
+      this.listIdsCategories.push(this.selectedItems[i].valueId)
+    }
+    console.log( this.listIdsCategories,"adad2");
+  }
+  OnItemDeSelect(item:any){
+    console.log( this.selectedItems)
+    this.listIdsCategories = [];
+    for (var i = 0; i < this.selectedItems.length; i++) {
+      this.listIdsCategories.push(this.selectedItems[i].valueId)
+    }
+    console.log( this.listIdsCategories,"adad2");
+  }
+  onSelectAll(items: any){
+      console.log(items);
+  }
+  onDeSelectAll(items: any){
+      console.log(items);
+  }
+
+  onItemSelect2(item:any){
+    console.log( this.selectedItems2)
+    this.listIdsCategories2 = [];
+    for (var i = 0; i < this.selectedItems2.length; i++) {
+      this.listIdsCategories2.push(this.selectedItems2[i].valueId)
+    }
+    console.log( this.listIdsCategories2,"adad");
+  }
+  OnItemDeSelect2(item:any){
+    console.log( this.selectedItems2)
+    this.listIdsCategories2 = [];
+    for (var i = 0; i < this.selectedItems2.length; i++) {
+      this.listIdsCategories2.push(this.selectedItems2[i].valueId)
+    }
+    console.log( this.listIdsCategories2,"adad2");
+  }
+  onSelectAll2(items: any){
+      console.log(items);
+  }
+  onDeSelectAll2(items: any){
+      console.log(items);
   }
 
   closePopUp(){
@@ -152,7 +218,27 @@ export class ProviderComponent implements OnInit {
   }
 
   ngOnInit() {
+
     this.tipoForm = true;
+    this.dropdownSettings = { 
+      singleSelection: false, 
+      text:"Seleccionar Categoria",
+      selectAllText:'Seleccionar todo',
+      unSelectAllText:'UnSelect All',
+      enableSearchFilter: true,
+      enableCheckAll:false,
+      classes:"myclass custom-class"
+    }; 
+
+    this.dropdownSettings2 = { 
+      singleSelection: false, 
+      text:"Seleccionar Categoria",
+      selectAllText:'Seleccionar todo',
+      unSelectAllText:'UnSelect All',
+      enableSearchFilter: true,
+      enableCheckAll:false,
+      classes:"myclass custom-class"
+    }; 
 
     this.registerForm = this.formBuilder.group({
       id: [''],
@@ -185,6 +271,7 @@ export class ProviderComponent implements OnInit {
       nCuenta:  [''],
       interbancaria:  [''],
       categories:  [[], Validators.required],
+      priced: [[]],
       districts:  [[]],
     });
     
@@ -512,6 +599,8 @@ export class ProviderComponent implements OnInit {
   }
 
   newProvider(modal, tempTittle:string, provider:any = null) {
+    this.listIdsCategories = [];
+    this.listIdsCategories2 = [];
     this.flagRes = false;
     if(provider){
       this.urlImageLogo = "";
@@ -525,6 +614,25 @@ export class ProviderComponent implements OnInit {
       //this.registerForm.setValue({score: '0',comment:'',user_provider_id:''});
       this.registerForm.setValue(this.initOneProvider(provider));
       this.title = tempTittle;
+      this.selectedItems = [];
+      for (let i = 0; i < provider.categories.length; i++) {
+          if (provider.categories[i].category_service !== null) {
+            this.selectedItems.push({"id":i , "valueId":provider.categories[i].category_service_id ,"itemName":provider.categories[i].category_service.name})
+          }
+      }
+      for (var i = 0; i < this.selectedItems.length; i++) {
+        this.listIdsCategories.push(this.selectedItems[i].valueId)
+      }
+      
+      this.selectedItems2 = [];
+      for (let i = 0; i < provider.priceds.length; i++) {
+        this.selectedItems2.push({"id":i , "valueId": provider.priceds[i].service_priced_id ,"itemName":provider.priceds[i].service_priced.name})
+      }
+      for (var i = 0; i < this.selectedItems2.length; i++) {
+        this.listIdsCategories2.push(this.selectedItems2[i].valueId)
+      }
+      console.log(this.listIdsCategories)
+      console.log(this.listIdsCategories2)
       this.spinner.hide();
       modal.open();
       
@@ -610,6 +718,7 @@ export class ProviderComponent implements OnInit {
         experiencia: '',
         districts: [],
         categories: [],
+        priced: [],
         contrasena: '',
         contrasena2: '',
         eBancaria: '',
@@ -650,7 +759,9 @@ export class ProviderComponent implements OnInit {
         judiciales: provider.a_judicial,
         experiencia: (provider.experience)? provider.experience.split(" ")[0] : "",
         districts: provider.districts.map(item => item.district_id),
-        categories: provider.categories.map(item => item.category_service_id),
+        // categories: provider.categories.map(item => item.category_service_id),
+        categories:  this.listIdsCategories,
+        priced:  this.listIdsCategories2,
         contrasena: '',
         contrasena2: '',
         eBancaria:(provider.bank_id == null)? '' : provider.bank_id,
@@ -677,7 +788,8 @@ export class ProviderComponent implements OnInit {
         judiciales: provider.a_judicial,
         experiencia: (provider.experience)? provider.experience.split(" ")[0] : "",
         districts: provider.districts.map(item => item.district_id),
-        categories: provider.categories.map(item => item.category_service_id),
+        categories:  this.listIdsCategories,
+        priced:  this.listIdsCategories2,
         contrasena: '',
         contrasena2: '',
         eBancaria: (provider.bank_id == null)? '' : provider.bank_id,
@@ -755,6 +867,16 @@ export class ProviderComponent implements OnInit {
           }
         })
     }else{
+     
+     
+      this.registerForm.patchValue({
+        categories: this.listIdsCategories
+      });
+      this.registerForm.patchValue({
+        priced: this.listIdsCategories2
+      });
+      console.log(this.listIdsCategories)
+      console.log(this.listIdsCategories2)
       console.log(this.registerForm.value);
       this.providerService.putUpdateProvider(this.registerForm.value)
         .subscribe((response: any) => {

@@ -1,7 +1,7 @@
 export class AppSettings {
-  public static BASE_PATH = "https://admin-mrpro.mrpro.pe/api/";
-  public static BASE_IMAGE = "https://admin-mrpro.mrpro.pe/api/guest/update/image";
-  public static BASE_PATH_IMAGE = "https://admin-mrpro.mrpro.pe/img/";
+  public static BASE_PATH = "http://admin-mrpro-labs.mrpro.pe/api/"; //  https://admin-mrpro.mrpro.pe/api/
+  public static BASE_IMAGE = "http://admin-mrpro-labs.mrpro.pe/api/guest/update/image" //https://admin-mrpro.mrpro.pe/api/guest/update/image
+  public static BASE_PATH_IMAGE = "http://admin-mrpro-labs.mrpro.pe/img/"; //https://admin-mrpro.mrpro.pe/img/
   public static SEND_NOTIFICATION = "oauth/user/phone/send";
   // public static BASE_PATH = 'http://localhost:4028/';
   public static GET_DASHBOARD_PROVIDERS = "crud/provider";

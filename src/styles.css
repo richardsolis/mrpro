@@ -479,7 +479,7 @@ footer.primary {
   background: #fff;
   transition: all 0.4s ease;
   box-shadow: rgba(41, 98, 182, 0.12) 0px 10px 10px;
-  z-index: 999;
+  /* z-index: 999; */
 }
 
 .yellow {

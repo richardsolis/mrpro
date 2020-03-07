@@ -24,6 +24,7 @@ import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { SafeHtml2 } from '../pipes/safeHtml2Pipe';
 import { AdministratorComponent } from './components/administrator/administrator.component';
 import { UiSwitchModule } from 'ngx-ui-switch';
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 
 @NgModule({
   imports: [
@@ -36,7 +37,8 @@ import { UiSwitchModule } from 'ngx-ui-switch';
     NgxSpinnerModule,
     DataTablesModule,
     SlickCarouselModule,
-    UiSwitchModule
+    UiSwitchModule,
+    AngularMultiSelectModule
   ],
   declarations: [ 
   	LoginComponent,  

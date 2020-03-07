@@ -58,6 +58,7 @@ export class HomeComponent implements OnInit {
   ]
 
   resultFilter: any[];
+  myVar;
 
   public slideConfig = {"slidesToShow": 1, "slidesToScroll": 1, "dots":true};
 
@@ -91,9 +92,22 @@ export class HomeComponent implements OnInit {
       );
     }
   }
+  
+  terminar() {
+    if(Culqi.token){
+      clearInterval(this.myVar);
+      console.log(Culqi.token.id);
+      this.spinner.hide();
+    }
+  }
 
   send() {
     Culqi.createToken();
+    this.myVar = setInterval(() => {
+      this.terminar();
+    }, 1000);
+    this.spinner.show();
+    // console.log(Culqi.token.id)
   }
 
   confirm() {

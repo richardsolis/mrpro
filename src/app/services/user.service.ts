@@ -118,6 +118,7 @@ export class UserService {
       bank_c: params.nCuenta,
       bank_ci: params.interbancaria,
       categories: JSON.stringify(params.categories),
+      priced: JSON.stringify(params.priced),
       districts: JSON.stringify(params.districts),
       company_phone: (params.telefono == undefined)? "" : params.telefono,
       company_email: (params.correo == undefined)? "" : params.correo,

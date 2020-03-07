@@ -250,10 +250,11 @@ export class HomeProviderComponent implements OnInit, OnDestroy {
                 this.spinner.hide();
                 location.reload();
               }, (error: any) => {
-                this.mesajeErrorService = error.error.message;
+                console.log(JSON.parse(error.error.data))
+                this.mesajeErrorService = JSON.parse(error.error.data).user_message;
                 setTimeout(() => {
                   this.mesajeErrorService = '';
-                }, 2000);
+                }, 7000);
                 this.spinner.hide();
               });
         }, (error: any) => {

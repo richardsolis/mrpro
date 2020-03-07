@@ -15,12 +15,12 @@
           color: #135daa;" *ngIf="user.type == 'client'" type="button" class="btn blue" style="background:#56a6da;" (click)="goback('/reservado')">Regresar</button>
           <button *ngIf="user.type == 'provider'" type="button" class="btn blue" style="background:#56a6da;" (click)="goback('/proveedor/home')">Regresar</button>
       </div>
-      <div>
+      <div style="display: flex;align-items: center;width: 100%;justify-content: space-between;">
           <div class="form-inline" style="margin-top: 10px;">
-            <p><b>Descripción: </b>{{ currentBudget.description }}</p>
+            <p style="margin:0;padding:0;"><b>Descripción: </b>{{ currentBudget.description }}</p>
             </div>
             <div class="form-inline">
-              <button *ngIf="!flagItem" type="button" class="btn btn-primary btn-sm" (click)="details(myImages, currentBudget.image_url)">
+              <button *ngIf="!flagItem" type="button" class="btn btn-primary btn-sm" (click)="details(myImages, currentBudget.image_url)" style="background: white;color: black;">
                 Ver imagenes adjuntas
               </button>
             </div>

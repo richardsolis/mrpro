@@ -42,7 +42,7 @@ export class SendBudgetComponent implements OnInit {
   image2 = "";
   image3 = "";
   imgArray:string [] = [];
-
+  mesajeErrorCard = false;
   registerForm: FormGroup;
 
   selectedImage;
@@ -189,7 +189,7 @@ export class SendBudgetComponent implements OnInit {
   saveCard() {
     this.cardCreit = {
       number: this.form1.value.creditCard.replace(/\s/g,''),
-      date: this.form1.value.expirationDate,
+      date: this.form1.value.expirationDate.split(' ').join(''),
       cvv: this.form1.value.cvc
     };
 
@@ -218,6 +218,11 @@ export class SendBudgetComponent implements OnInit {
         console.log(response);
         this.listCard = [];
         this.allCard();
+      }, error => {
+        this.mesajeErrorCard = true;
+        setTimeout( ()=>{
+          this.mesajeErrorCard = false;
+        },5000);
       });
 
   }
@@ -252,6 +257,10 @@ export class SendBudgetComponent implements OnInit {
 
 
   changePay(){
+    for (var i = 0; i < this.listCard.length; i++) {
+      this.listCard[i].default = 0;
+    }
+    this.cardBankID = null
     this.flagTypePay = true;
   }
 
